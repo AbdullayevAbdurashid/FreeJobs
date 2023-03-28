@@ -14,7 +14,6 @@ class ServiceInformationCard extends StatelessWidget {
       return Center(
         child: Padding(padding: const EdgeInsets.symmetric(horizontal:Dimensions.PADDING_SIZE_DEFAULT ,vertical:Dimensions.PADDING_SIZE_DEFAULT),
           child: Container(
-            height: 150,
             width: Dimensions.WEB_MAX_WIDTH,
             padding: EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
             decoration: BoxDecoration(
@@ -41,7 +40,7 @@ class ServiceInformationCard extends StatelessWidget {
                           ),
                         ),
                         DiscountTag(fromTop: 0,
-                            color: Theme.of(context).errorColor,
+                            color: Theme.of(context).colorScheme.error,
                             discount: discount!.discountAmount!,
                             discountType: discount!.discountAmountType)
                       ],
@@ -56,16 +55,22 @@ class ServiceInformationCard extends StatelessWidget {
                               Gaps.horizontalGapOf(3),
                               Image(image: AssetImage(Images.starIcon)),
                               Gaps.horizontalGapOf(5),
-                              Text(
-                                  service.avgRating!.toStringAsFixed(2),
-                                  style: ubuntuBold.copyWith(color: Theme.of(context).colorScheme.secondary)),
+                              Directionality(
+                                textDirection: TextDirection.ltr,
+                                child: Text(
+                                    service.avgRating!.toStringAsFixed(2),
+                                    style: ubuntuBold.copyWith(color: Theme.of(context).colorScheme.secondary)),
+                              ),
                             ],
                           ),
                         ),
                         Gaps.horizontalGapOf(5),
-                        Text(
-                            "(${service.ratingCount})",
-                            style: ubuntuBold.copyWith(color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6)))
+                        Directionality(
+                          textDirection: TextDirection.ltr,
+                          child: Text(
+                              "(${service.ratingCount})",
+                              style: ubuntuBold.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6))),
+                        )
                       ],
                     ),
                   ],
@@ -89,16 +94,21 @@ class ServiceInformationCard extends StatelessWidget {
                                       Gaps.horizontalGapOf(3),
                                       Image(image: AssetImage(Images.starIcon)),
                                       Gaps.horizontalGapOf(5),
-                                      Text(
-                                          service.avgRating!.toStringAsFixed(2),
-                                          style: ubuntuBold.copyWith(color: Theme.of(context).colorScheme.secondary)),
+                                      Directionality(textDirection: TextDirection.ltr,
+                                        child: Text(
+                                            service.avgRating!.toStringAsFixed(2),
+                                            style: ubuntuBold.copyWith(color: Theme.of(context).colorScheme.secondary)),
+                                      ),
                                     ],
                                   ),
                                 ),
                                 Gaps.horizontalGapOf(5),
-                                Text(
-                                    "(${service.ratingCount})",
-                                    style: ubuntuBold.copyWith(color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6)))
+                                Directionality(
+                                  textDirection: TextDirection.ltr,
+                                  child: Text(
+                                      "(${service.ratingCount})",
+                                      style: ubuntuBold.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6))),
+                                )
                               ],
                             ):SizedBox(),
 
@@ -110,28 +120,37 @@ class ServiceInformationCard extends StatelessWidget {
                               if(discount!.discountAmount! > 0)
                                 Padding(
                                   padding:  EdgeInsets.only(left: Get.find<LocalizationController>().isLtr ?  0.0 : Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                                  child: Text(PriceConverter.convertPrice(lowestPrice,isShowLongPrice: true),
-                                    style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall,
-                                        decoration: TextDecoration.lineThrough,
-                                        color: Theme.of(context).errorColor.withOpacity(.8)),
+                                  child: Directionality(
+                                    textDirection: TextDirection.ltr,
+                                    child: Text(PriceConverter.convertPrice(lowestPrice,isShowLongPrice: true),
+                                      style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall,
+                                          decoration: TextDecoration.lineThrough,
+                                          color: Theme.of(context).colorScheme.error.withOpacity(.8)),
+                                    ),
                                   ),
                                 ),
                               discount!.discountAmount! > 0 ?
                               Padding(
                                 padding:  EdgeInsets.only(left: Get.find<LocalizationController>().isLtr ? Dimensions.PADDING_SIZE_EXTRA_SMALL : 0.0),
-                                child: Text(PriceConverter.convertPrice(
-                                  lowestPrice,
-                                  discount: discount!.discountAmount!.toDouble(),
-                                  discountType: discount!.discountAmountType,
-                                  isShowLongPrice:true,
+                                child: Directionality(
+                                  textDirection: TextDirection.ltr,
+                                  child: Text(PriceConverter.convertPrice(
+                                    lowestPrice,
+                                    discount: discount!.discountAmount!.toDouble(),
+                                    discountType: discount!.discountAmountType,
+                                    isShowLongPrice:true,
+                                  ),
+                                    style: ubuntuRegular.copyWith(fontSize: Dimensions.PADDING_SIZE_DEFAULT, color:Get.isDarkMode ? Theme.of(context).primaryColorLight: Theme.of(context).primaryColor),
+                                  ),
                                 ),
-                                  style: ubuntuRegular.copyWith(fontSize: Dimensions.PADDING_SIZE_DEFAULT, color:Get.isDarkMode ? Theme.of(context).primaryColorLight: Theme.of(context).primaryColor),
-                                ),
-                              ): Text(
-                                PriceConverter.convertPrice(double.parse(lowestPrice.toString())),
-                                style: ubuntuRegular.copyWith(
-                                    fontSize: Dimensions.PADDING_SIZE_DEFAULT,
-                                    color: Get.isDarkMode? Theme.of(context).primaryColorLight: Theme.of(context).primaryColor
+                              ): Directionality(
+                                textDirection: TextDirection.ltr,
+                                child: Text(
+                                  PriceConverter.convertPrice(double.parse(lowestPrice.toString())),
+                                  style: ubuntuRegular.copyWith(
+                                      fontSize: Dimensions.PADDING_SIZE_DEFAULT,
+                                      color: Get.isDarkMode? Theme.of(context).primaryColorLight: Theme.of(context).primaryColor
+                                  ),
                                 ),
                               ),
                             ],
@@ -150,8 +169,8 @@ class ServiceInformationCard extends StatelessWidget {
                               textAlign: TextAlign.start, maxLines: 3,
                               overflow: TextOverflow.ellipsis,
                               style: ubuntuRegular.copyWith(
-                                  fontSize: 14.0,
-                                  color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.6)
+                                  fontSize: 14,
+                                  color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.6)
                               ),),
                           ),
                         ],
@@ -161,6 +180,7 @@ class ServiceInformationCard extends StatelessWidget {
                         children: [
                           ElevatedButton(
                             onPressed: () {
+                              Get.find<CartController>().resetPreselectedProviderInfo();
                               showModalBottomSheet(
                                   context: context,
                                   useRootNavigator: true,

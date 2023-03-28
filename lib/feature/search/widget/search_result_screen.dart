@@ -51,7 +51,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                     itemCount: 15,
                     padding: EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
                     itemBuilder: (context, index) {
-                      return ServiceShimmer(isEnabled: true, hasDivider: true);
+                      return ServiceShimmer(isEnabled: true, hasDivider: true,);
                     },
                   ),
                 ),

@@ -14,7 +14,7 @@ class ServiceManInfo extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT),
           child: Text("service_man_info".tr, style: ubuntuMedium.copyWith(
               fontSize: Dimensions.fontSizeDefault,
-              color:Get.isDarkMode ? Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6):Theme.of(context).primaryColor))),
+              color:Get.isDarkMode ? Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6):Theme.of(context).primaryColor))),
         Gaps.verticalGapOf(Dimensions.PADDING_SIZE_DEFAULT),
         CustomerInfoCard(
           name: user.firstName! + " " +user.lastName!,

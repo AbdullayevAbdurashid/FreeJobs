@@ -25,6 +25,10 @@ class MenuScreen extends StatelessWidget {
       if(Get.find<SplashController>().configModel.content!.refundPolicy != "")
         MenuModel(icon: Images.refundPolicy, title: 'refund_policy'.tr, route: RouteHelper.getHtmlRoute('refund_policy')),
       MenuModel(icon: Images.helpIcon, title: 'help_&_support'.tr, route: RouteHelper.getSupportRoute()),
+      if(Get.find<SplashController>().configModel.content!.walletStatus != 0 && Get.find<AuthController>().isLoggedIn())
+      MenuModel(icon: Images.walletMenu, title: 'my_wallet'.tr, route: RouteHelper.getMyWalletScreen()),
+      if(Get.find<SplashController>().configModel.content!.loyaltyPointStatus != 0 && Get.find<AuthController>().isLoggedIn())
+      MenuModel(icon: Images.myPoint, title: 'loyalty_point'.tr, route: RouteHelper.getLoyaltyPointScreen()),
     ];
     _menuList.add(MenuModel(icon: Images.logout, title: _isLoggedIn ? 'logout'.tr : 'sign_in'.tr, route: ''));
 
@@ -56,7 +60,7 @@ class MenuScreen extends StatelessWidget {
               return MenuButton(menu: _menuList[index], isLogout: index == _menuList.length-1);
             },
           ),
-          Text("${'app_version'.tr} ${AppConstants.APP_VERSION}",style: ubuntuMedium.copyWith(color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.5)),),
+          Text("${'app_version'.tr} ${AppConstants.APP_VERSION}",style: ubuntuMedium.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.5)),),
           SizedBox(height: ResponsiveHelper.isMobile(context) ? Dimensions.PADDING_SIZE_DEFAULT : 0),
 
         ]),

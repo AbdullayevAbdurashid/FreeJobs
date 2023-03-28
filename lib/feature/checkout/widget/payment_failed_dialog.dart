@@ -32,7 +32,7 @@ class PaymentFailedDialog extends StatelessWidget {
           backgroundColor: Theme.of(context).disabledColor.withOpacity(0.3), minimumSize: Size(Dimensions.WEB_MAX_WIDTH, 45), padding: EdgeInsets.zero,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL)),
         ),
-        child: Text('continue_with_order_fail'.tr, textAlign: TextAlign.center, style: ubuntuBold.copyWith(color: Theme.of(context).textTheme.bodyText1!.color)),
+        child: Text('continue_with_order_fail'.tr, textAlign: TextAlign.center, style: ubuntuBold.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color)),
       ),
 
     ]);

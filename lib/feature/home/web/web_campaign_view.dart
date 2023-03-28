@@ -10,7 +10,7 @@ class WebCampaignView extends GetView<BannerController> {
     final PageController _pageController = PageController();
     return GetBuilder<CampaignController>(
       initState: (state){
-        Get.find<CampaignController>().getCampaignList(false);
+        Get.find<CampaignController>().getCampaignList(true);
       },
       builder: (campaignController){
         if(campaignController.campaignList != null && campaignController.campaignList!.length == 0){
@@ -39,8 +39,7 @@ class WebCampaignView extends GetView<BannerController> {
                   fit: BoxFit.fill,
                   height: 220,
                 ),
-              ),
-            ):
+              ),):
 
             Stack(
               clipBehavior: Clip.none,
@@ -163,8 +162,7 @@ class WebCampaignView extends GetView<BannerController> {
                 SizedBox(width: 0.0,),
 
               ],
-            ) :
-            WebBannerShimmer()),
+            ) : WebBannerShimmer()),
           );
         }
 
@@ -198,7 +196,7 @@ class WebCampaignShimmer extends StatelessWidget {
           ListView.builder(
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
-            itemCount: 5,
+            itemCount: 3,
             itemBuilder: (context, index){
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_SMALL),

@@ -112,14 +112,14 @@ class _ProductBottomSheetState extends State<CreateChannelDialog> {
                                           String name = "${bookingDetailsContent.provider!.companyName!}";
                                           String image = "$imageBaseUrl/provider/logo/${bookingDetailsContent.provider!.logo!}";
                                           String phone =bookingDetailsContent.provider?.companyPhone??"";
-                                          Get.find<ConversationController>().createChannel(widget.providerId!, widget.referenceId!,name: name,image: image,fromBookingDetailsPage: true,phone: phone);
+                                          Get.find<ConversationController>().createChannel(widget.providerId!, widget.referenceId!,name: name,image: image,fromBookingDetailsPage: true,phone: phone,userType: "provider");
                                         },
                                         style: TextButton.styleFrom(
                                           backgroundColor: Theme.of(context).disabledColor.withOpacity(0.3), minimumSize:  Size(Dimensions.PADDING_SIZE_LARGE, 40),
                                           padding:  EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_SMALL,horizontal: Dimensions.PADDING_SIZE_LARGE ),
                                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimensions.RADIUS_LARGE)),
                                         ),
-                                        child: Text('provider'.tr, textAlign: TextAlign.center, style: ubuntuBold.copyWith(color: Theme.of(context).textTheme.bodyText1!.color),),
+                                        child: Text('provider'.tr, textAlign: TextAlign.center, style: ubuntuBold.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color),),
                                       ),
                                     const SizedBox(width: Dimensions.PADDING_SIZE_LARGE),
                                     if(widget.serviceManId != null)
@@ -138,7 +138,7 @@ class _ProductBottomSheetState extends State<CreateChannelDialog> {
                                         ),
                                         child: Text(
                                           'service_man'.tr, textAlign: TextAlign.center,
-                                          style: ubuntuBold.copyWith(color: Theme.of(context).textTheme.bodyText1!.color),
+                                          style: ubuntuBold.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color),
                                         ),
                                       ),
                                   ]),

@@ -16,7 +16,7 @@ class NotAvailableWidget extends StatelessWidget {
         padding: EdgeInsets.all(2),
         decoration: BoxDecoration(
           borderRadius: borderRadius,
-          color: online! ? Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6) : Theme.of(context).disabledColor,
+          color: online! ? Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6) : Theme.of(context).disabledColor,
         ),
         child: Text(
           online! ? 'online'.tr : 'offline'.tr, textAlign: TextAlign.center,

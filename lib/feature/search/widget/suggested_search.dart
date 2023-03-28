@@ -44,7 +44,7 @@ class SuggestedSearchItem extends StatelessWidget {
           ),
           padding: EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_SMALL-3, horizontal: Dimensions.PADDING_SIZE_SMALL,),
           margin: EdgeInsets.only(right: Dimensions.PADDING_SIZE_SMALL, bottom:Dimensions.PADDING_SIZE_SMALL),
-          child: Text(title.tr, style: ubuntuRegular.copyWith(color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.5)),),
+          child: Text(title.tr, style: ubuntuRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.5)),),
         ),
         Positioned.fill(child: RippleButton(onTap: () {
 

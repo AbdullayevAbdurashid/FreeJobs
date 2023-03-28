@@ -209,7 +209,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             if(controller.currentPage == PageState.complete || widget.pageState == 'complete'){
                               return GestureDetector(
                                 onTap: (){
-                                  Get.offAllNamed(RouteHelper.getInitialRoute());
+                                  Get.offAllNamed(RouteHelper.getMainRoute('home'));
                                 },
                                 child: Container(
                                   height: 50,
@@ -236,26 +236,25 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                       height: 50,
                                       decoration: BoxDecoration(color: Theme.of(context).scaffoldBackgroundColor,),
                                       child: Center(
-                                        child: RichText(
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          text: TextSpan(
-                                            text: 'total_price'.tr,
+                                        child:Row(mainAxisAlignment: MainAxisAlignment.center,children:[
+
+                                          Text('${"total_price".tr} ',
                                             style: ubuntuRegular.copyWith(
                                               fontSize: Dimensions.fontSizeLarge,
-                                              color: Theme.of(context).textTheme.bodyText1!.color,
+                                              color: Theme.of(context).textTheme.bodyLarge!.color,
                                             ),
-                                            children: [
-                                              TextSpan(
-                                                text: ' ${PriceConverter.convertPrice(Get.find<CartController>().totalPrice)}',
+                                          ),
+                                          GetBuilder<CartController>(builder: (cartController){
+                                            return Directionality(
+                                              textDirection: TextDirection.ltr,
+                                              child: Text('${PriceConverter.convertPrice(Get.find<CartController>().totalPrice)}',
                                                 style: ubuntuBold.copyWith(
-                                                  color: Theme.of(context).errorColor,
+                                                  color: Theme.of(context).colorScheme.error,
                                                   fontSize: Dimensions.fontSizeLarge,
                                                 ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
+                                              ),
+                                            );
+                                          })])
                                       ),
                                     ),
                                     GestureDetector(
@@ -282,21 +281,37 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                               }else if(controller.currentPage == PageState.payment || PageState.payment.name == widget.pageState ){
 
                                                 if(Get.find<CartController>().cartList.length > 0){
-                                                  print("inside_length:${Get.find<CartController>().cartList.length}");
+
                                                   String schedule = DateConverter.dateToDateAndTime(Get.find<ScheduleController>().selectedData);
                                                   String userId = Get.find<UserController>().userInfoModel.id!;
-                                                  if(Get.find<CheckOutController>().selectedPaymentMethod == PaymentMethodName.COS){
-                                                    String paymentMethod = "cash_after_service";
+                                                  if(controller.selectedPaymentMethod == PaymentMethodName.COS || controller.selectedPaymentMethod == PaymentMethodName.walletMoney){
 
-                                                    Get.find<ServiceBookingController>().placeBookingRequest(
-                                                      paymentMethod: paymentMethod,
-                                                      userID: userId,
-                                                      serviceAddressId: widget.pageState == 'payment' ? widget.addressId : addressModel!.id.toString(),
-                                                      schedule: schedule,
-                                                    );
+                                                    String paymentMethod;
+                                                    if(controller.selectedPaymentMethod == PaymentMethodName.COS){
+                                                      paymentMethod = "cash_after_service";
+                                                      Get.find<ServiceBookingController>().placeBookingRequest(
+                                                        paymentMethod: paymentMethod,
+                                                        userID: userId,
+                                                        serviceAddressId: widget.pageState == 'payment' ? widget.addressId : addressModel!.id.toString(),
+                                                        schedule: schedule,
+                                                      );
+                                                    }else{
+                                                      paymentMethod = "wallet_payment";
+
+                                                      if(Get.find<CartController>().walletBalance>= Get.find<CartController>().totalPrice){
+                                                        Get.find<ServiceBookingController>().placeBookingRequest(
+                                                          paymentMethod: paymentMethod,
+                                                          userID: userId,
+                                                          serviceAddressId: widget.pageState == 'payment' ? widget.addressId : addressModel!.id.toString(),
+                                                          schedule: schedule,
+                                                        );
+                                                      }else{
+                                                        customSnackBar("insufficient_wallet_balance".tr);
+                                                      }
+                                                    }
                                                   }
                                                 }else{
-                                                  Get.offAllNamed(RouteHelper.getInitialRoute());
+                                                  Get.offAllNamed(RouteHelper.getMainRoute('home'));
                                                 }
                                               }
                                             }
@@ -309,7 +324,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                         }
                                       },
                                       child: Container(
-                                        height: 50,
+                                        height:  ResponsiveHelper.isDesktop(context)? 50 : 45,
                                         width: Get.width,
                                         decoration: BoxDecoration(color: Theme.of(context).colorScheme.primary),
                                         child: Center(
@@ -341,7 +356,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   if(controller.currentPage == PageState.complete || widget.pageState == 'complete'){
                     return GestureDetector(
                       onTap: (){
-                        Get.offAllNamed(RouteHelper.getInitialRoute());
+                        Get.offAllNamed(RouteHelper.getMainRoute('home'));
                       },
                       child: Container(
                         height: 50,
@@ -386,14 +401,30 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                           ///call booking api after select payment method
                                           ///now only cash on service implemented
                                           print("address_model_id:${addressModel.id.toString()}");
-                                          if(Get.find<CheckOutController>().selectedPaymentMethod == PaymentMethodName.COS){
-                                            String paymentMethod = "cash_after_service";
-                                            Get.find<ServiceBookingController>().placeBookingRequest(
-                                              paymentMethod: paymentMethod,
-                                              userID: userId,
-                                              serviceAddressId: addressModel.id.toString(),
-                                              schedule: schedule,
-                                            );
+                                          if(controller.selectedPaymentMethod == PaymentMethodName.COS || controller.selectedPaymentMethod == PaymentMethodName.walletMoney){
+                                            String paymentMethod;
+                                            if(controller.selectedPaymentMethod == PaymentMethodName.COS){
+                                              paymentMethod = "cash_after_service";
+                                              Get.find<ServiceBookingController>().placeBookingRequest(
+                                                paymentMethod: paymentMethod,
+                                                userID: userId,
+                                                serviceAddressId: addressModel.id.toString(),
+                                                schedule: schedule,
+                                              );
+                                            }else{
+                                              paymentMethod = "wallet_payment";
+
+                                              if(Get.find<CartController>().walletBalance>= Get.find<CartController>().totalPrice){
+                                                Get.find<ServiceBookingController>().placeBookingRequest(
+                                                  paymentMethod: paymentMethod,
+                                                  userID: userId,
+                                                  serviceAddressId: widget.pageState == 'payment' ? widget.addressId : addressModel.id.toString(),
+                                                  schedule: schedule,
+                                                );
+                                              }else{
+                                                customSnackBar("insufficient_wallet_balance".tr);
+                                              }
+                                            }
                                           }
                                         }
                                       }
@@ -403,7 +434,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                     }
                                   }:null,
                                   child: Container(
-                                    height: 50,
+                                    height:  ResponsiveHelper.isDesktop(context)? 50 : 45,
                                     width: Get.width,
                                     decoration: BoxDecoration(color:authController.acceptTerms ? Theme.of(context).colorScheme.primary:Theme.of(context).disabledColor),
                                     child: Center(

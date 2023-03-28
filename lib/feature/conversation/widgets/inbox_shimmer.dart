@@ -14,7 +14,7 @@ class InboxShimmer extends StatelessWidget {
         return Shimmer(
           duration: Duration(seconds: 3),
           interval: Duration(seconds: 5),
-          color: Theme.of(context).backgroundColor,
+          color: Theme.of(context).colorScheme.background,
           colorOpacity: 0,
           enabled: true,
           child: Padding(

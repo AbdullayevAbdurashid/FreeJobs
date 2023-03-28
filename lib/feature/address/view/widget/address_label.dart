@@ -40,7 +40,7 @@ class AddressLabelWidget extends StatelessWidget {
                         SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
                         Text(
                           label.name.tr,
-                          style: ubuntuRegular.copyWith(color: label == locationController.selectedAddressLabel ? Theme.of(context).textTheme.bodyText1!.color : Theme.of(context).disabledColor),
+                          style: ubuntuRegular.copyWith(color: label == locationController.selectedAddressLabel ? Theme.of(context).textTheme.bodyLarge!.color : Theme.of(context).disabledColor),
                         ),
                       ]),
                     ),

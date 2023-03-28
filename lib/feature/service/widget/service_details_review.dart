@@ -76,7 +76,7 @@ class _ServiceDetailsReviewState extends State<ServiceDetailsReview> {
                         ),
                         child: Column(
                           children: [
-                            Align(alignment: Alignment.centerLeft, child: Text("reviews".tr, style: ubuntuMedium.copyWith(color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6),fontSize: Dimensions.fontSizeDefault))),
+                            Align(alignment: Alignment.centerLeft, child: Text("reviews".tr, style: ubuntuMedium.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6),fontSize: Dimensions.fontSizeDefault))),
                             Divider(),
                             Text(rating.averageRating.toString(), style: ubuntuMedium.copyWith(color:Theme.of(context).colorScheme.primary, fontSize: Dimensions.fontSizeForReview )),
                             Gaps.verticalGapOf(3.0),
@@ -87,12 +87,12 @@ class _ServiceDetailsReviewState extends State<ServiceDetailsReview> {
                               children: [
                                 Text(
                                   "${rating.ratingCount.toString()} ${'ratings'.tr}",
-                                  style: ubuntuRegular.copyWith(color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6)),
+                                  style: ubuntuRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6)),
                                 ),
                                 SizedBox(width: Dimensions.PADDING_SIZE_SMALL,),
                                 Text(
                                   "$reviewCount ${'reviews'.tr}",
-                                  style: ubuntuRegular.copyWith(color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6)),
+                                  style: ubuntuRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6)),
                                 ),
                               ],
                             ),

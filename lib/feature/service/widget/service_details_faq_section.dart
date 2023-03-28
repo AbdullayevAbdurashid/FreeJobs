@@ -28,7 +28,7 @@ class ServiceDetailsFaqSection extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_SMALL),
                       child: Text(
                         faqs.elementAt(index).question!,
-                        style: ubuntuRegular.copyWith(color:Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6)),
+                        style: ubuntuRegular.copyWith(color:Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6)),
                       ),
                     ),
 
@@ -41,7 +41,7 @@ class ServiceDetailsFaqSection extends StatelessWidget {
                           faqs.elementAt(index).answer!,
                               style: ubuntuRegular.copyWith(
                                   fontSize: Dimensions.fontSizeSmall,
-                                  color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6))),
+                                  color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6))),
                         ),
                       )
                     ],

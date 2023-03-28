@@ -13,6 +13,7 @@ class UserController extends GetxController implements GetxService {
    String lName='';
    String email='';
    String phone='';
+   String referCode='';
    XFile? _pickedFile ;
    FilePickerResult? _selectedFile;
    bool _isLoading = false;
@@ -45,6 +46,7 @@ class UserController extends GetxController implements GetxService {
       lName = _userInfoModel.lName??'';
       email = _userInfoModel.email??'';
       phone = _userInfoModel.phone??'';
+      referCode = _userInfoModel.referCode??'';
        final difference= now.difference(DateConverter.isoUtcStringToLocalDate(response.body['content']['created_at']));
        print(_createdAccountAgo);
       _createdAccountAgo =  timeago.format(now.subtract(difference));

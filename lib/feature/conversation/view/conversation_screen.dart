@@ -12,13 +12,15 @@ class ConversationScreen extends StatefulWidget {
   final String image;
   final String phone;
   final String bookingID;
+  final String userType;
 
   ConversationScreen({
     required this.name,
     required this.image,
     required this.channelID,
     required this.phone,
-    required this.bookingID});
+    required this.bookingID,
+    required this.userType});
   @override
   State<ConversationScreen> createState() => _ConversationScreenState();
 }
@@ -31,11 +33,13 @@ class _ConversationScreenState extends State<ConversationScreen> {
       appBar:ResponsiveHelper.isWeb() ? CustomAppBar(title:"${widget.name}\n+${widget.phone}",): AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios,color:Theme.of(context).primaryColorLight),
-          color: Theme.of(context).textTheme.bodyText1!.color,
+          color: Theme.of(context).textTheme.bodyLarge!.color,
           onPressed: () => Navigator.pop(context),
         ) ,
         title: Text(
-            "${widget.name}\n+${widget.phone}",
+            "${widget.name}\n"
+                "${widget.userType=="provider"
+                && Get.find<SplashController>().configModel.content?.phoneNumberVisibility==0?"": "+${widget.phone}"}",
             style: ubuntuBold.copyWith(fontSize: Dimensions.fontSizeLarge, color: Colors.white)),
         actions: [
           Padding(
@@ -72,7 +76,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                   String customerID = Get.find<UserController>().userInfoModel.id?? '';
                   return Container(
                     height:(!ResponsiveHelper.isTab(context) && !ResponsiveHelper.isMobile(context) && ResponsiveHelper.isWeb()) ? 500 : null,
-                    padding: EdgeInsets.all(Dimensions.PADDING_SIZE_RADIUS),
+                    padding: EdgeInsets.all(Dimensions.PADDING_SIZE_EIGHT),
                     decoration: BoxDecoration(
                       color: Theme.of(context).cardColor,
                     ),
@@ -83,16 +87,17 @@ class _ConversationScreenState extends State<ConversationScreen> {
                         Text(widget.name,
                           style: ubuntuMedium.copyWith(
                               fontSize: Dimensions.fontSizeSmall,
-                              color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.5)),
+                              color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.5)),
                           textDirection: TextDirection.ltr,
                         ),
                         if(ResponsiveHelper.isWeb() && !ResponsiveHelper.isMobile(context) && !ResponsiveHelper.isTab(context))
                           SizedBox(height: Dimensions.PADDING_SIZE_SMALL,),
                         if(ResponsiveHelper.isWeb() && !ResponsiveHelper.isMobile(context) && !ResponsiveHelper.isTab(context))
-                          Text("+${widget.phone}",
+                          Text("${widget.userType=="provider"
+                              && Get.find<SplashController>().configModel.content?.phoneNumberVisibility==0?"":"+${widget.phone}"}",
                           style: ubuntuMedium.copyWith(
                               fontSize: Dimensions.fontSizeSmall,
-                              color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.5)),
+                              color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.5)),
                           textDirection: TextDirection.ltr,
                         ),
                         Expanded(
@@ -189,13 +194,13 @@ class _ConversationScreenState extends State<ConversationScreen> {
                                       controller: conversationController.conversationController,
                                       textCapitalization: TextCapitalization.sentences,
                                       cursorColor: Theme.of(context).hintColor,
-                                      style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeLarge, color:Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.8)),
+                                      style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeLarge, color:Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.8)),
                                       keyboardType: TextInputType.multiline,
                                       maxLines: null,
                                       decoration: InputDecoration(
                                         border: InputBorder.none,
                                         hintText: "type_here".tr,
-                                        hintStyle: ubuntuRegular.copyWith(color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.8), fontSize: 16),),
+                                        hintStyle: ubuntuRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.8), fontSize: 16),),
                                     ),
                                   ),
                                   Row(
@@ -207,7 +212,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                                             Images.image,
                                             width: 20.0,
                                             height: 20.0,
-                                            color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6),
+                                            color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6),
                                           ),
                                           onTap: () => conversationController.pickMultipleImage(false),
                                         ),
@@ -217,7 +222,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                                           Images.file,
                                           width: 20.0,
                                           height: 20.0,
-                                          color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6),
+                                          color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6),
                                         ),
                                         onTap: () => conversationController.pickOtherFile(false),
                                       ),

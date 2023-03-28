@@ -32,7 +32,7 @@ class WebPopularServiceView extends StatelessWidget {
                           onTap: () => Get.toNamed(RouteHelper.allServiceScreenRoute("popular_services")),
                           child: Text('see_all'.tr, style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeDefault,
                             decoration: TextDecoration.underline,
-                            color:Get.isDarkMode ?Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6) : Theme.of(context).colorScheme.primary,
+                            color:Get.isDarkMode ?Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6) : Theme.of(context).colorScheme.primary,
                           )),
                         ),
                       ],
@@ -87,15 +87,18 @@ class WebPopularServiceView extends StatelessWidget {
                                         child: Container(
                                           padding: EdgeInsets.all(Dimensions.PADDING_SIZE_EXTRA_SMALL),
                                           decoration: BoxDecoration(
-                                            color: Theme.of(context).errorColor,
+                                            color: Theme.of(context).colorScheme.error,
                                             borderRadius: BorderRadius.only(
                                               bottomLeft: Radius.circular(Dimensions.RADIUS_DEFAULT),
                                               topRight: Radius.circular(Dimensions.RADIUS_SMALL),
                                             ),
                                           ),
-                                          child: Text(
-                                            PriceConverter.percentageOrAmount('${_discount.discountAmount}', _discount.discountAmountType!),
-                                            style: ubuntuMedium.copyWith(color: Theme.of(context).primaryColorLight),
+                                          child: Directionality(
+                                            textDirection: TextDirection.ltr,
+                                            child: Text(
+                                              PriceConverter.percentageOrAmount('${_discount.discountAmount}', _discount.discountAmountType!),
+                                              style: ubuntuMedium.copyWith(color: Theme.of(context).primaryColorLight),
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -133,9 +136,11 @@ class WebPopularServiceView extends StatelessWidget {
 
 
                                 Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     if(_serviceList[index].variationsAppFormat!.defaultPrice != null )
-                                      Expanded(flex: 3,
+                                      Directionality(
+                                        textDirection: TextDirection.ltr,
                                         child: Text(
                                           PriceConverter.convertPrice(
                                             double.parse(_serviceList[index].variationsAppFormat!.defaultPrice.toString()),
@@ -146,23 +151,21 @@ class WebPopularServiceView extends StatelessWidget {
                                         ),
                                       ),
 
-                                    Expanded(
-                                      flex: 1,
-                                      child: InkWell(
-                                        onTap: () {
-                                          showModalBottomSheet(
-                                              useRootNavigator: true,
-                                              isScrollControlled: true,
-                                              backgroundColor: Colors.transparent,
-                                              context: context,
-                                              builder: (context) => ServiceCenterDialog(service: _serviceList[index])
-                                          );
-                                        },
-                                        child: Icon
-                                          (Icons.add,
-                                            color: Get.isDarkMode?light.cardColor: Theme.of(context).primaryColor,
-                                            size: Dimensions.PADDING_SIZE_LARGE
-                                        ),
+                                    InkWell(
+                                      onTap: () {
+                                        Get.find<CartController>().resetPreselectedProviderInfo();
+                                        showModalBottomSheet(
+                                            useRootNavigator: true,
+                                            isScrollControlled: true,
+                                            backgroundColor: Colors.transparent,
+                                            context: context,
+                                            builder: (context) => ServiceCenterDialog(service: _serviceList[index])
+                                        );
+                                      },
+                                      child: Icon
+                                        (Icons.add,
+                                          color: Get.isDarkMode?light.cardColor: Theme.of(context).primaryColor,
+                                          size: Dimensions.PADDING_SIZE_LARGE
                                       ),
                                     ),
                                   ],

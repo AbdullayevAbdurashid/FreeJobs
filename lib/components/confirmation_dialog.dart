@@ -57,7 +57,7 @@ class ConfirmationDialog extends StatelessWidget {
               description!,
               style: ubuntuMedium.copyWith(
                 fontSize: Dimensions.fontSizeDefault,
-                color: descriptionTextColor != null? descriptionTextColor:  Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.8),
+                color: descriptionTextColor != null? descriptionTextColor:  Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.8),
               ),
               textAlign: TextAlign.center,
               maxLines: 4,
@@ -80,7 +80,7 @@ class ConfirmationDialog extends StatelessWidget {
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL)),),
                       child: Text(
                         isLogOut! ? noText!.tr : yesText!.tr, textAlign: TextAlign.center,
-                        style: ubuntuMedium.copyWith(color: Theme.of(context).textTheme.bodyText1!.color),),
+                        style: ubuntuMedium.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color),),
               )),
               SizedBox(width: Dimensions.PADDING_SIZE_LARGE),
               Expanded(child: CustomButton(

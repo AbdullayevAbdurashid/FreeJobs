@@ -10,9 +10,9 @@ class WebBannerView extends GetView<BannerController> {
     bool isLtr = Get.find<LocalizationController>().isLtr;
     String? _baseUrl =  Get.find<SplashController>().configModel.content!.imageBaseUrl;
     return GetBuilder<BannerController>(
-      initState: (state){
-        Get.find<BannerController>().getBannerList(false);
-      },
+      // initState: (state){
+      //   Get.find<BannerController>().getBannerList(false);
+      // },
       builder: (bannerController){
         if(bannerController.banners != null && bannerController.banners!.length == 0){
           return SizedBox();
@@ -22,33 +22,31 @@ class WebBannerView extends GetView<BannerController> {
             child: SizedBox(
                 width: Dimensions.WEB_MAX_WIDTH,
                 height: 220,
-                child: bannerController.banners != null ?
-                    bannerController.banners!.length == 1 ?
-                    InkWell(
-                      onTap: () {
-                        BannerModel bannerModel = bannerController.banners![0];
-                        String link = bannerModel.redirectLink != null ? bannerModel.redirectLink! : '';
-                        String id = bannerModel.category != null ? bannerModel.category!.id! : '';
-                        String name = bannerModel.category != null ? bannerModel.category!.name! : "";
-                        bannerController.navigateFromBanner(
-                            bannerModel.resourceType!,
-                            id,
-                            link,
-                            bannerModel.resourceId != null ? bannerModel.resourceId! : '',
-                            categoryName: name
-                        );
-                      },
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(Dimensions.RADIUS_DEFAULT),
-                        child: CustomImage(
-                          image: '$_baseUrl/banner/${bannerController.banners![0].bannerImage}',
-                          fit: BoxFit.fill,
-                           height: 220,
-                        ),
-                      ),
-                    ) :
+                child: bannerController.banners != null ? bannerController.banners!.length == 1 ?
+                InkWell(
+                  onTap: () {
+                    BannerModel bannerModel = bannerController.banners![0];
+                    String link = bannerModel.redirectLink != null ? bannerModel.redirectLink! : '';
+                    String id = bannerModel.category != null ? bannerModel.category!.id! : '';
+                    String name = bannerModel.category != null ? bannerModel.category!.name! : "";
+                    bannerController.navigateFromBanner(
+                        bannerModel.resourceType!,
+                        id,
+                        link,
+                        bannerModel.resourceId != null ? bannerModel.resourceId! : '',
+                        categoryName: name
+                    );
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(Dimensions.RADIUS_DEFAULT),
+                    child: CustomImage(
+                      image: '$_baseUrl/banner/${bannerController.banners![0].bannerImage}',
+                      fit: BoxFit.fill,
+                       height: 220,
+                    ),
+                  ),
 
-                Stack(
+                ) : Stack(
                   clipBehavior: Clip.none,
                   fit: StackFit.expand,
                   children: [
@@ -83,9 +81,11 @@ class WebBannerView extends GetView<BannerController> {
                                         image: '$_baseUrl/banner/${bannerController.banners![index1].bannerImage}',
                                         fit: BoxFit.cover,
                                         height: 220,
-                          ),
-                        ),
-                      ),),
+                                      ),
+
+                                    ),
+                                  ),
+                              ),
                               SizedBox(width: Dimensions.PADDING_SIZE_LARGE),
                               Expanded(child: _hasSecond ?
                               InkWell(

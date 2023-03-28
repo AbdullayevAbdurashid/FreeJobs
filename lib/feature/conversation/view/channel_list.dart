@@ -13,7 +13,7 @@ class ChannelList extends GetView<ConversationController> {
       appBar: CustomAppBar(title: 'inbox'.tr, isBackButtonExist: true,),
       body: GetBuilder<ConversationController>(
         initState:(state) async  {
-          await Get.find<ConversationController>().createChannel(Get.find<SplashController>().configModel.content!.adminDetails!.id??"", "",shouldUpdate: false);
+          await Get.find<ConversationController>().createChannel(Get.find<SplashController>().configModel.content!.adminDetails!.id??"", "",shouldUpdate: false,);
           print(Get.find<SplashController>().configModel.content!.adminDetails!.id);
           Get.find<ConversationController>().getChannelList(1);
           Get.find<UserController>().getUserInfo();

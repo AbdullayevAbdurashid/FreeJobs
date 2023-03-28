@@ -27,11 +27,11 @@ class RowText extends StatelessWidget {
               ],
             ),
           ),
-          Container(
-              width:ResponsiveHelper.isWeb() ? null: Get.width / 3.5,
-              child: Text(
-                '${title.contains('Discount') || title.contains('خصم') ? '(-)':title == 'VAT' || title == 'برميل'? '(+)':''} ${PriceConverter.convertPrice(double.parse(price.toString()),isShowLongPrice:true)}',
-              textAlign: TextAlign.right,))
+          Directionality(
+            textDirection: TextDirection.ltr,
+            child: Text('${title.contains('Discount') || title.contains('خصم') ? '(-)':title == 'VAT' || title == 'برميل'? '(+)':''} ${PriceConverter.convertPrice(double.parse(price.toString()),isShowLongPrice:true)}',
+              textAlign: TextAlign.right,),
+          )
         ],
       ),
     );

@@ -9,11 +9,11 @@ class ChattingShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: Shimmer(
           duration: Duration(seconds: 3),
           interval: Duration(seconds: 5),
-          color: Theme.of(context).backgroundColor,
+          color: Theme.of(context).colorScheme.background,
           colorOpacity: 0,
           enabled: true,
           direction: ShimmerDirection.fromLTRB(),

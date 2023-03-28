@@ -1,3 +1,4 @@
+import 'package:demandium/feature/service/model/feathered_service_model.dart';
 import 'package:demandium/feature/service/model/recommendation_search_model.dart';
 import 'package:get/get.dart';
 import 'package:demandium/core/core_export.dart';
@@ -8,14 +9,30 @@ class ServiceController extends GetxController implements GetxService {
   ServiceController({required this.serviceRepo});
 
 
+  bool _isLoading = false;
+  List<int>? _variationIndex;
+  int? _quantity = 1;
+  List<bool>? _addOnActiveList = [];
+  List<int>? _addOnQtyList = [];
+  int _cartIndex = -1;
+
+
   ServiceContent? _serviceContent;
   ServiceContent? _offerBasedServiceContent;
   ServiceContent? _popularBasedServiceContent;
   ServiceContent? _recommendedServiceContent;
   ServiceContent? _trendingServiceContent;
   ServiceContent? _recentlyViewServiceContent;
-  
-  
+  FeatheredCategoryContent? _featheredCategoryContent;
+
+  ServiceContent? get serviceContent => _serviceContent;
+  ServiceContent? get offerBasedServiceContent => _offerBasedServiceContent;
+  ServiceContent? get popularBasedServiceContent => _popularBasedServiceContent;
+  ServiceContent? get recommendedBasedServiceContent => _recommendedServiceContent;
+  ServiceContent? get trendingServiceContent => _trendingServiceContent;
+  ServiceContent? get recentlyViewServiceContent => _recentlyViewServiceContent;
+  FeatheredCategoryContent? get featheredCategoryContent => _featheredCategoryContent;
+
   List<Service>? _popularServiceList;
   List<Service>? _trendingServiceList;
   List<Service>? _recentlyViewServiceList;
@@ -25,24 +42,10 @@ class ServiceController extends GetxController implements GetxService {
   List<Service>? _campaignBasedServiceList;
   List<Service>? _offerBasedServiceList;
   List<Service>? _allService;
+  List<CategoryData> _categoryList =[];
+
+
   List<Service>? get allService => _allService ;
-
-
-  bool _isLoading = false;
-  List<int>? _variationIndex;
-  int? _quantity = 1;
-  List<bool>? _addOnActiveList = [];
-  List<int>? _addOnQtyList = [];
-  int _cartIndex = -1;
-
-  ServiceContent? get serviceContent => _serviceContent;
-  ServiceContent? get offerBasedServiceContent => _offerBasedServiceContent;
-  ServiceContent? get popularBasedServiceContent => _popularBasedServiceContent;
-  ServiceContent? get recommendedBasedServiceContent => _recommendedServiceContent;
-  ServiceContent? get trendingServiceContent => _trendingServiceContent;
-  ServiceContent? get recentlyViewServiceContent => _recentlyViewServiceContent;
-
-
   List<Service>? get popularServiceList => _popularServiceList;
   List<Service>? get trendingServiceList => _trendingServiceList;
   List<Service>? get recentlyViewServiceList => _recentlyViewServiceList;
@@ -51,6 +54,7 @@ class ServiceController extends GetxController implements GetxService {
   List<Service>? get campaignBasedServiceList => _campaignBasedServiceList;
   List<Service>? get offerBasedServiceList => _offerBasedServiceList;
   List<RecommendedSearch> get recommendedSearchList => _recommendedSearchList;
+  List<CategoryData> get categoryList => _categoryList ;
 
 
   bool get isLoading => _isLoading;
@@ -189,6 +193,34 @@ class ServiceController extends GetxController implements GetxService {
     }
   }
 
+
+
+  Future<void> getFeatherCategoryList( bool reload) async {
+
+    if(_featheredCategoryContent == null || reload){
+      if(reload){
+        _categoryList =[];
+        _featheredCategoryContent = null;
+      }
+      Response response = await serviceRepo.getFeatheredCategoryServiceList();
+      if (response.statusCode == 200) {
+        _featheredCategoryContent = FeatheredCategoryModel.fromJson(response.body).content;
+
+        if(_featheredCategoryContent!.categoryList!=null || _featheredCategoryContent!.categoryList!.isNotEmpty){
+          _categoryList =[];
+          _featheredCategoryContent?.categoryList?.forEach((element) {
+            if(element.servicesByCategory!=null && element.servicesByCategory!.isNotEmpty){
+              _categoryList.add(element);
+            }
+          });
+        }
+      } else {
+        ApiChecker.checkApi(response);
+      }
+      update();
+    }
+  }
+
   Future<void> getRecommendedServiceList(int offset, bool reload ) async {
    if(offset != 1 || _recommendedServiceList == null || reload){
      Response response = await serviceRepo.getRecommendedServiceList(offset);
@@ -211,25 +243,29 @@ class ServiceController extends GetxController implements GetxService {
   }
 
   Future<void> getRecommendedSearchList({bool reload = true}) async {
-      if(reload){
+
+
+      if(reload || _recommendedSearchList.isEmpty){
         _recommendedSearchList = [];
         _isLoading = true;
         update();
-      }
-      Response response = await serviceRepo.getRecommendedSearchList();
-      if (response.statusCode == 200) {
-        if(response.body['content']!=null){
+
+        Response response = await serviceRepo.getRecommendedSearchList();
+        if (response.statusCode == 200) {
+          if(response.body['content']!=null){
             List<dynamic> _list = response.body['content'];
             _recommendedSearchList = [];
             _list.forEach((element) =>_recommendedSearchList.add(RecommendedSearch.fromJson(element)));
+          }
+        } else {
+          ApiChecker.checkApi(response);
         }
-      } else {
-        ApiChecker.checkApi(response);
+
       }
-      if(reload){
-        _isLoading = false;
-        update();
-      }
+      _isLoading = false;
+      update();
+
+
 
 
   }

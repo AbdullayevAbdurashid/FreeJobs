@@ -27,7 +27,7 @@ class BookingInfo extends StatelessWidget {
                   children: [
                     Text('${'booking'.tr} #${bookingDetailsContent.readableId}',
                       style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeLarge,
-                          color: Theme.of(context).textTheme.bodyText1!.color,decoration: TextDecoration.none),),
+                          color: Theme.of(context).textTheme.bodyLarge!.color,decoration: TextDecoration.none),),
 
                     Padding(
                       padding: const EdgeInsets.only(top: Dimensions.PADDING_SIZE_DEFAULT),
@@ -100,7 +100,7 @@ class BookingInfo extends StatelessWidget {
             Gaps.verticalGapOf(Dimensions.PADDING_SIZE_DEFAULT),
             Text(
                 "payment_method".tr,
-                style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).textTheme.bodyText1!.color)),
+                style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).textTheme.bodyLarge!.color)),
             Gaps.verticalGapOf(Dimensions.PADDING_SIZE_EXTRA_SMALL),
 
 
@@ -108,14 +108,14 @@ class BookingInfo extends StatelessWidget {
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('${bookingDetailsContent.paymentMethod!}'.tr,
-                    style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.5))),
+                    style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.5))),
                 RichText(text: TextSpan(
                       text: "${'payment_status'.tr} : ",
-                      style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall,color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.5)),
+                      style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall,color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.5)),
                       children: <TextSpan>[
                         TextSpan(
                           text: bookingDetailsContent.isPaid == 1 ? "paid".tr : "unpaid".tr,
-                          style: ubuntuBold.copyWith(fontSize: Dimensions.fontSizeSmall,color:bookingDetailsContent.isPaid == 1 ? Colors.green: Theme.of(context).errorColor),
+                          style: ubuntuBold.copyWith(fontSize: Dimensions.fontSizeSmall,color:bookingDetailsContent.isPaid == 1 ? Colors.green: Theme.of(context).colorScheme.error),
                         )
                       ]
                   ),
@@ -133,11 +133,14 @@ class BookingInfo extends StatelessWidget {
               children: [
                 Text("${'amount'.tr}:",
                   style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault,
-                      color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.8)),),
+                      color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.8)),),
                 SizedBox(width: Dimensions.PADDING_SIZE_SMALL,),
-                Text("${PriceConverter.convertPrice(bookingDetailsContent.totalBookingAmount!.toDouble())}",
-                  style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault,
-                      color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.8)),),
+                Directionality(
+                  textDirection: TextDirection.ltr,
+                  child: Text("${PriceConverter.convertPrice(bookingDetailsContent.totalBookingAmount!.toDouble())}",
+                    style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault,
+                        color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.8)),),
+                ),
               ],
             ),
 

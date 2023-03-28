@@ -186,7 +186,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             Text('${'do_not_have_an_account'.tr} ',
                               style: ubuntuRegular.copyWith(
                                 fontSize: Dimensions.fontSizeSmall,
-                                color: Theme.of(context).textTheme.bodyText1!.color,
+                                color: Theme.of(context).textTheme.bodyLarge!.color,
                               ),
                             ),
 
@@ -217,7 +217,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           children: [
                             Text(
                               'continue_as'.tr,
-                              style: ubuntuMedium.copyWith(color:Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.6)),
+                              style: ubuntuMedium.copyWith(color:Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.6)),
                             ),
                             TextButton(
                               style: TextButton.styleFrom(
@@ -227,7 +227,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               ),
                               onPressed: (){
                               Get.find<CartController>().getCartData();
-                              Get.offNamed(RouteHelper.getInitialRoute());
+                              Get.offNamed(RouteHelper.getMainRoute('home'));
                             }, child:  Text(
                               'guest'.tr,
                               style: ubuntuMedium.copyWith(color: Theme.of(context).colorScheme.primary),

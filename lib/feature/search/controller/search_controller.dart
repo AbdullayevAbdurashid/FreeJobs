@@ -189,9 +189,12 @@ class SearchController extends GetxController implements GetxService {
     }
   }
 
-  void removeHistory(int index) {
-    _historyList!.removeAt(index);
-    print(_historyList);
+  void removeHistory({int? index}) {
+    if(index!=null){
+      _historyList!.removeAt(index);
+    }else{
+      _historyList!.clear();
+    }
     searchRepo.saveSearchHistory(_historyList!);
     update();
   }

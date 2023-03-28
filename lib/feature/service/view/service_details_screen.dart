@@ -9,7 +9,8 @@ import 'package:demandium/core/helper/decorated_tab_bar.dart';
 
 class ServiceDetailsScreen extends StatefulWidget {
   final String serviceID;
-  const ServiceDetailsScreen({Key? key, required this.serviceID}) : super(key: key);
+  final String fromPage;
+  const ServiceDetailsScreen({Key? key, required this.serviceID,this.fromPage="others"}) : super(key: key);
 
   @override
   State<ServiceDetailsScreen> createState() => _ServiceDetailsScreenState();
@@ -40,7 +41,15 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
       appBar: CustomAppBar(centerTitle: false, title: 'service_details'.tr,showCart: true,),
       body: GetBuilder<ServiceDetailsController>(
           initState: (state) {
-            Get.find<ServiceDetailsController>().getServiceDetails(widget.serviceID);},
+            if (widget.fromPage == "search_page") {
+              Get.find<ServiceDetailsController>().getServiceDetails(
+                  widget.serviceID,fromPage: "search_page");
+            } else {
+              Get.find<ServiceDetailsController>().getServiceDetails(
+                  widget.serviceID);
+            }
+          },
+
           builder: (serviceController) {
             if(serviceController.service != null){
               if(serviceController.service!.id != null){
@@ -94,7 +103,10 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                                         Container(
                                           width: Dimensions.WEB_MAX_WIDTH,
                                           height: ResponsiveHelper.isDesktop(context) ? 280:150,
+                                          padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_LARGE),
                                           child: Center(child: Text(service.name ?? '',
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
                                               style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeExtraLarge, color: Colors.white))),
                                         ),
                                       ],
@@ -132,7 +144,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                                       ),
                                       tabBar: TabBar(
                                           padding: EdgeInsets.only(top: Dimensions.PADDING_SIZE_MINI),
-                                          unselectedLabelColor: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.4),
+                                          unselectedLabelColor: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.4),
                                           controller: serviceTabController.controller!,
                                           labelColor:Get.isDarkMode? Colors.white : Theme.of(context).primaryColor,
                                           labelStyle: ubuntuBold.copyWith(

@@ -15,7 +15,7 @@ class DateConverter {
   }
 
   static String dateToDateOnly(DateTime dateTime) {
-    return DateFormat('yyyy-MM-dd').format(dateTime);
+    return DateFormat('yyyy-MM-ddTHH:mm:ss').format(dateTime);
   }
 
   static String dateTimeStringToDateTime(String dateTime) {

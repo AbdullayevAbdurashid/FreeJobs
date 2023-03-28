@@ -180,14 +180,16 @@ class MyInAppBrowser extends InAppBrowser {
       bool _isSuccess = url.contains('success') && url.contains(AppConstants.BASE_URL);
       bool _isFailed = url.contains('fail') && url.contains(AppConstants.BASE_URL);
       bool _isCancel = url.contains('cancel') && url.contains(AppConstants.BASE_URL);
+
+      print('This_called_1::::$url');
       if (_isSuccess || _isFailed || _isCancel) {
         _canRedirect = false;
         close();
       }
 
       if (_isSuccess) {
+        Get.find<CartController>().getCartListFromServer();
         Get.back();
-        await Get.find<CartController>().getCartListFromServer();
         Get.offNamed(RouteHelper.getCheckoutRoute(RouteHelper.checkout,'complete','null'));
       } else if (_isFailed || _isCancel) {
         Get.offNamed(RouteHelper.getOrderSuccessRoute('fail'));

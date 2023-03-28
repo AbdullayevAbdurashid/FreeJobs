@@ -22,13 +22,13 @@ class BookingSummeryWidget extends StatelessWidget{
                 padding: EdgeInsets.symmetric(horizontal:Dimensions.PADDING_SIZE_DEFAULT),
                 child: Text(
                     'booking_summery'.tr,
-                    style:ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).textTheme.bodyText1!.color))
+                    style:ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).textTheme.bodyLarge!.color))
               ),
               Gaps.verticalGapOf(Dimensions.PADDING_SIZE_DEFAULT),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal:Dimensions.PADDING_SIZE_RADIUS),
+                padding: EdgeInsets.symmetric(horizontal:Dimensions.PADDING_SIZE_EIGHT),
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal:Dimensions.PADDING_SIZE_RADIUS),
+                  padding: EdgeInsets.symmetric(horizontal:Dimensions.PADDING_SIZE_EIGHT),
                   color: Theme.of(context).primaryColor.withOpacity(0.1),
                   height: 40,
                   child:  Row(
@@ -36,10 +36,10 @@ class BookingSummeryWidget extends StatelessWidget{
                     children: [
                       Text('service_info'.tr, style:ubuntuBold.copyWith(
                           fontSize: Dimensions.fontSizeLarge,
-                          color: Theme.of(context).textTheme.bodyText1!.color!,decoration: TextDecoration.none)),
+                          color: Theme.of(context).textTheme.bodyLarge!.color!,decoration: TextDecoration.none)),
                       Text('service_cost'.tr,style:ubuntuBold.copyWith(
                           fontSize: Dimensions.fontSizeLarge,
-                          color: Theme.of(context).textTheme.bodyText1!.color!,decoration: TextDecoration.none)),
+                          color: Theme.of(context).textTheme.bodyLarge!.color!,decoration: TextDecoration.none)),
                     ],
                   ),
                 ),
@@ -70,13 +70,16 @@ class BookingSummeryWidget extends StatelessWidget{
                   children: [
                     Container(
                       child: Text('sub_total'.tr,
-                        style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyText1!.color,),
+                        style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyLarge!.color,),
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    Text(
-                      '${PriceConverter.convertPrice(bookingDetailsController.allTotalCost,isShowLongPrice: true)}',
-                      style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyText1!.color),
+                    Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: Text(
+                        '${PriceConverter.convertPrice(bookingDetailsController.allTotalCost,isShowLongPrice: true)}',
+                        style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyLarge!.color),
+                      ),
                     ),
                   ],
                 ),
@@ -91,12 +94,15 @@ class BookingSummeryWidget extends StatelessWidget{
                     Container(
                       child: Text(
                         'service_discount'.tr,
-                        style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color:Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.6)),
+                        style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color:Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.6)),
                           overflow: TextOverflow.ellipsis
                       )),
-                    Text(
-                      "(-) ${PriceConverter.convertPrice(_serviceDiscount)}",
-                      style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color:Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.6)),),
+                    Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: Text(
+                        "(-) ${PriceConverter.convertPrice(_serviceDiscount)}",
+                        style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color:Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.6)),),
+                    ),
                   ],
                 ),
               ),
@@ -109,10 +115,13 @@ class BookingSummeryWidget extends StatelessWidget{
                     Container(
                       child: Text(
                         'coupon_discount'.tr,
-                        style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.6)),
+                        style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.6)),
                         overflow: TextOverflow.ellipsis,),),
-                    Text('(-) ${PriceConverter.convertPrice(bookingDetailsController.bookingDetailsContent!.totalCouponDiscountAmount!.toDouble())}',
-                      style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.6)),),
+                    Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: Text('(-) ${PriceConverter.convertPrice(bookingDetailsController.bookingDetailsContent!.totalCouponDiscountAmount!.toDouble())}',
+                        style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.6)),),
+                    ),
                   ],
                 ),
               ),
@@ -125,10 +134,13 @@ class BookingSummeryWidget extends StatelessWidget{
                   children: [
                     Container(child: Text(
                       'campaign_discount'.tr,
-                      style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.6)),
+                      style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.6)),
                       overflow: TextOverflow.ellipsis,),),
-                    Text('(-) ${PriceConverter.convertPrice(bookingDetailsController.bookingDetailsContent!.totalCampaignDiscountAmount!.toDouble())}',
-                      style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.6)),),
+                    Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: Text('(-) ${PriceConverter.convertPrice(bookingDetailsController.bookingDetailsContent!.totalCampaignDiscountAmount!.toDouble())}',
+                        style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.6)),),
+                    ),
                   ],
                 ),
               ),
@@ -142,11 +154,14 @@ class BookingSummeryWidget extends StatelessWidget{
                     Container(
                       child: Text(
                         'service_vat'.tr,
-                        style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.6)),
+                        style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.6)),
                         overflow: TextOverflow.ellipsis,)),
-                    Text('(+) ${PriceConverter.convertPrice(bookingDetailsController.bookingDetailsContent!.totalTaxAmount!.toDouble(),isShowLongPrice: true)}',
-                      style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall,
-                          color: Theme.of(context).textTheme.bodyText1!.color),),
+                    Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: Text('(+) ${PriceConverter.convertPrice(bookingDetailsController.bookingDetailsContent!.totalTaxAmount!.toDouble(),isShowLongPrice: true)}',
+                        style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall,
+                            color: Theme.of(context).textTheme.bodyLarge!.color),),
+                    ),
                   ],
                 ),
               ),
@@ -164,11 +179,14 @@ class BookingSummeryWidget extends StatelessWidget{
                     Container(
                       child: Text(
                         'grand_total'.tr,
-                        style: ubuntuBold.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyText1!.color),
+                        style: ubuntuBold.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyLarge!.color),
                         overflow: TextOverflow.ellipsis,),),
-                    Text(
-                      '${PriceConverter.convertPrice(bookingDetailsController.bookingDetailsContent!.totalBookingAmount!.toDouble(),isShowLongPrice: true)}',
-                      style: ubuntuBold.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).textTheme.bodyText1!.color),),
+                    Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: Text(
+                        '${PriceConverter.convertPrice(bookingDetailsController.bookingDetailsContent!.totalBookingAmount!.toDouble(),isShowLongPrice: true)}',
+                        style: ubuntuBold.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).textTheme.bodyLarge!.color),),
+                    ),
                   ],
                 ),
               ),
@@ -210,15 +228,15 @@ class ServiceInfoItem extends StatelessWidget {
                       child: Text(bookingService.serviceName != null ?bookingService.serviceName!:'',
                         style: ubuntuRegular.copyWith(
                             fontSize: Dimensions.fontSizeSmall,
-                            color: Theme.of(context).textTheme.bodyText1!.color),
+                            color: Theme.of(context).textTheme.bodyLarge!.color),
                         overflow: TextOverflow.ellipsis,),
                     ),
-                    Expanded(
+                    Directionality(
+                      textDirection: TextDirection.ltr,
                       child: Text(
                         '${PriceConverter.convertPrice(_unitTotalCost,isShowLongPrice: true)}',
                         style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall,
-                            color: Theme.of(context).textTheme.bodyText1!.color),
-                        textAlign: TextAlign.end,
+                            color: Theme.of(context).textTheme.bodyLarge!.color),
                       ),
                     ),
                   ],
@@ -229,7 +247,7 @@ class ServiceInfoItem extends StatelessWidget {
                   child: Text('${bookingService.variantKey!}',
                     style: ubuntuRegular.copyWith(
                         fontSize: Dimensions.fontSizeExtraSmall,
-                        color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.6)
+                        color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.6)
                     ),),
                 ),
                 Gaps.verticalGapOf(Dimensions.PADDING_SIZE_EXTRA_SMALL),
@@ -239,9 +257,9 @@ class ServiceInfoItem extends StatelessWidget {
                     Text('quantity'.tr,
                       style: ubuntuRegular.copyWith(
                           fontSize: Dimensions.fontSizeExtraSmall,
-                          color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.5)),),
+                          color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.5)),),
                     Text(" :  ${bookingService.quantity}",style: ubuntuRegular.copyWith(
-                        color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.6),
+                        color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.6),
                         fontSize: Dimensions.fontSizeExtraSmall),)
                   ],
                 ),
@@ -272,13 +290,16 @@ Widget priceText(String title,double amount,context, {bool mainAxisAlignmentStar
             title+' :   ',
             style: ubuntuRegular.copyWith(
                 fontSize: Dimensions.fontSizeExtraSmall,
-                color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.6)
+                color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.6)
             ),
           ),
-          Text('${PriceConverter.convertPrice(amount,isShowLongPrice: true)}',style: ubuntuRegular.copyWith(
-            color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.6),
-            fontSize: Dimensions.fontSizeExtraSmall
-          ),)
+          Directionality(
+            textDirection: TextDirection.ltr,
+            child: Text('${PriceConverter.convertPrice(amount,isShowLongPrice: true)}',style: ubuntuRegular.copyWith(
+              color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.6),
+              fontSize: Dimensions.fontSizeExtraSmall
+            ),),
+          )
         ],
       ),
       Gaps.verticalGapOf(Dimensions.PADDING_SIZE_MINI),

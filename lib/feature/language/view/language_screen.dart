@@ -67,7 +67,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
                         SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
 
                         GridView.builder(
-                          padding: EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_RADIUS),
+                          padding: EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_EIGHT),
                           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: ResponsiveHelper.isDesktop(context) ? 4 : ResponsiveHelper.isTab(context) ? 4 : 2,
                             childAspectRatio: (1/1),
@@ -83,7 +83,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
                         SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
                         Align(
                             alignment:Get.find<LocalizationController>().isLtr ?  Alignment.centerLeft : Alignment.centerRight,
-                            child: Text('you_can_change_language'.tr,style: ubuntuRegular.copyWith(color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.5)),)),
+                            child: Text('you_can_change_language'.tr,style: ubuntuRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.5)),)),
                       ],
                     ),
                   ),

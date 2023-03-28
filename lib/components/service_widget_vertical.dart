@@ -7,12 +7,14 @@ class ServiceWidgetVertical extends StatelessWidget {
   final Service service;
   final bool isAvailable;
   final String fromType;
+  final String fromPage;
 
   ServiceWidgetVertical(
       {Key? key,
       required this.service,
       required this.isAvailable,
       required this.fromType,
+        this.fromPage =""
       }) : super(key: key);
 
   @override
@@ -79,7 +81,7 @@ class ServiceWidgetVertical extends StatelessWidget {
                               child: Container(
                                 padding: EdgeInsets.all(Dimensions.PADDING_SIZE_EXTRA_SMALL),
                                 decoration: BoxDecoration(
-                                  color: Theme.of(context).errorColor,
+                                  color: Theme.of(context).colorScheme.error,
                                   borderRadius: BorderRadius.only(
                                     bottomLeft: Radius.circular(Dimensions.RADIUS_DEFAULT),
                                     topRight: Radius.circular(Dimensions.RADIUS_SMALL),
@@ -94,7 +96,7 @@ class ServiceWidgetVertical extends StatelessWidget {
                             SizedBox(),
                           ],
                         ),
-                        SizedBox(height: Dimensions.PADDING_SIZE_RADIUS,),
+                        SizedBox(height: Dimensions.PADDING_SIZE_EIGHT,),
                         Padding(
                           padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_EXTRA_SMALL),
                           child: Text(
@@ -112,34 +114,43 @@ class ServiceWidgetVertical extends StatelessWidget {
                           children: [
                             Text(
                               'starts_from'.tr,
-                              style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6)),
+                              style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6)),
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 if(_discountModel.discountAmount! > 0)
-                                  Text(
-                                    PriceConverter.convertPrice(_lowestPrice.toDouble()),
-                                    maxLines: 2,
-                                    style: ubuntuRegular.copyWith(
-                                        fontSize: Dimensions.fontSizeSmall,
-                                        decoration: TextDecoration.lineThrough,
-                                        color: Theme.of(context).errorColor.withOpacity(.8)),),
+                                  Directionality(
+                                    textDirection: TextDirection.ltr,
+                                    child: Text(
+                                      PriceConverter.convertPrice(_lowestPrice.toDouble()),
+                                      maxLines: 2,
+                                      style: ubuntuRegular.copyWith(
+                                          fontSize: Dimensions.fontSizeSmall,
+                                          decoration: TextDecoration.lineThrough,
+                                          color: Theme.of(context).colorScheme.error.withOpacity(.8)),),
+                                  ),
                                 _discountModel.discountAmount! > 0?
-                                Text(
-                                  PriceConverter.convertPrice(
-                                      _lowestPrice.toDouble(),
-                                      discount: _discountModel.discountAmount!.toDouble(),
-                                      discountType: _discountModel.discountAmountType),
-                                  style: ubuntuMedium.copyWith(
-                                      fontSize: Dimensions.PADDING_SIZE_DEFAULT,
-                                      color:  Get.isDarkMode? Theme.of(context).primaryColorLight: Theme.of(context).primaryColor),
+                                Directionality(
+                                  textDirection: TextDirection.ltr,
+                                  child: Text(
+                                    PriceConverter.convertPrice(
+                                        _lowestPrice.toDouble(),
+                                        discount: _discountModel.discountAmount!.toDouble(),
+                                        discountType: _discountModel.discountAmountType),
+                                    style: ubuntuMedium.copyWith(
+                                        fontSize: Dimensions.PADDING_SIZE_DEFAULT,
+                                        color:  Get.isDarkMode? Theme.of(context).primaryColorLight: Theme.of(context).primaryColor),
+                                  ),
                                 ):
-                                Text(
-                                  PriceConverter.convertPrice(_lowestPrice.toDouble()),
-                                  style: ubuntuMedium.copyWith(
-                                      fontSize:Dimensions.fontSizeLarge,
-                                      color: Get.isDarkMode? Theme.of(context).primaryColorLight: Theme.of(context).primaryColor),
+                                Directionality(
+                                  textDirection: TextDirection.ltr,
+                                  child: Text(
+                                    PriceConverter.convertPrice(_lowestPrice.toDouble()),
+                                    style: ubuntuMedium.copyWith(
+                                        fontSize:Dimensions.fontSizeLarge,
+                                        color: Get.isDarkMode? Theme.of(context).primaryColorLight: Theme.of(context).primaryColor),
+                                  ),
                                 ),
                               ],
                             ),
@@ -149,7 +160,12 @@ class ServiceWidgetVertical extends StatelessWidget {
               ),
             ),
             Positioned.fill(child: RippleButton(onTap: () {
-              Get.toNamed(RouteHelper.getServiceRoute(service.id!),);
+
+              if(fromPage=="search_page"){
+                Get.toNamed(RouteHelper.getServiceRoute(service.id!,fromPage:"search_page"),);
+              }else{
+                Get.toNamed(RouteHelper.getServiceRoute(service.id!),);
+              }
             }))
           ],
         ),
@@ -164,6 +180,9 @@ class ServiceWidgetVertical extends StatelessWidget {
                   child: Icon(Icons.add, color: Get.isDarkMode? Theme.of(context).primaryColorLight: Theme.of(context).primaryColor, size: Dimensions.PADDING_SIZE_LARGE),
                 ),
                 Positioned.fill(child: RippleButton(onTap: () {
+                  if(fromType!="provider_details"){
+                    Get.find<CartController>().resetPreselectedProviderInfo();
+                  }
                   showModalBottomSheet(
                       useRootNavigator: true,
                       isScrollControlled: true,

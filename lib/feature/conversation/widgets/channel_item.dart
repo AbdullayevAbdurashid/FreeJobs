@@ -18,6 +18,7 @@ class ChannelItem extends StatelessWidget {
     String image = '';
     String userTypeImage = '';
     String phone = '';
+    String userType = '';
 
     if(conversationUserModel.user!.provider != null){
       name =  conversationUserModel.user!.provider!.companyName!;
@@ -25,12 +26,14 @@ class ChannelItem extends StatelessWidget {
       image = '${Get.find<SplashController>().configModel.content!.imageBaseUrl}''$imagePath${conversationUserModel.user!.provider!.logo!}';
       userTypeImage =  'provider'.tr;
       phone = conversationUserModel.user!.phone!;
+      userType ="provider";
 
     }else{
       name = conversationUserModel.user!.firstName!+ " " +conversationUserModel.user!.lastName!;
       phone = conversationUserModel.user!.phone!;
       image = '${Get.find<SplashController>().configModel.content!.imageBaseUrl}''$imagePath${conversationUserModel.user!.profileImage!}';
       userTypeImage = conversationUserModel.user!.userType! == 'provider-serviceman'?"provider-serviceman".tr:"super-admin".tr;
+      userType = conversationUserModel.user!.userType! == 'provider-serviceman'?"serviceman".tr:"admin".tr;
     }
 
 
@@ -38,7 +41,7 @@ class ChannelItem extends StatelessWidget {
       onTap:(){
         Get.find<ConversationController>().setChannelId(conversationUserModel.channelId!);
         Get.find<ConversationController>().setUserImageType(userTypeImage);
-        Get.toNamed(RouteHelper.getChatScreenRoute(conversationUserModel.channelId!,name,image,phone,bookingID));
+        Get.toNamed(RouteHelper.getChatScreenRoute(conversationUserModel.channelId!,name,image,phone,bookingID,userType));
       },
       child: Stack(
         children: [
@@ -67,7 +70,7 @@ class ChannelItem extends StatelessWidget {
                           name,
                           style: ubuntuMedium.copyWith(
                               fontSize: Dimensions.fontSizeDefault,
-                              color:Get.isDarkMode ? Theme.of(context).primaryColorLight:Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.8)
+                              color:Get.isDarkMode ? Theme.of(context).primaryColorLight:Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.8)
                           )
                         ),
                         SizedBox(height: Dimensions.PADDING_SIZE_SMALL,),
@@ -78,11 +81,11 @@ class ChannelItem extends StatelessWidget {
                               userTypeImage,
                               style: ubuntuRegular.copyWith(
                                   fontSize: Dimensions.fontSizeSmall,
-                                  color:Get.isDarkMode ? Theme.of(context).primaryColorLight : Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.6) ),),
+                                  color:Get.isDarkMode ? Theme.of(context).primaryColorLight : Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.6) ),),
                             Text( "${DateConverter.dateMonthYearTimeTwentyFourFormat(DateConverter.isoUtcStringToLocalDate(channelupdatedAt))}",
                                 textDirection: TextDirection.ltr,
                                 style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall,
-                                  color:Get.isDarkMode ? Theme.of(context).primaryColorLight : Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.6),)),
+                                  color:Get.isDarkMode ? Theme.of(context).primaryColorLight : Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.6),)),
                           ],
                         ),
                       ],
@@ -106,7 +109,7 @@ class ChannelItem extends StatelessWidget {
                     borderRadius: BorderRadius.all(Radius.circular(12.0))
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_RADIUS,vertical: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                  padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_EIGHT,vertical: Dimensions.PADDING_SIZE_EXTRA_SMALL),
                   child: Text('support'.tr,style: ubuntuMedium.copyWith(
                       color: Theme.of(context).colorScheme.primary,
                       fontSize: Dimensions.fontSizeDefault),),

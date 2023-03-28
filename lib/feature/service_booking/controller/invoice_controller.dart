@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:demandium/utils/app_constants.dart';
 import 'package:get/get.dart';
 import 'package:demandium/core/helper/date_converter.dart';
 import 'package:demandium/feature/service_booking/controller/booking_details_tabs_controller.dart';
@@ -321,7 +322,7 @@ class InvoiceController {
       Container(
         color: PdfColors.grey100,
         width: double.infinity,
-        padding: EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_DEFAULT),
+        padding: EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
         child: Column(
 
           children: [
@@ -334,10 +335,11 @@ class InvoiceController {
               ]
             ),
             SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-            bookingDetailsContent.serviceAddress != null ?
-            Text("https://demandium-web.6amtech.com"):SizedBox(),
+            Text(AppConstants.BASE_URL),
             SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-            buildSimpleText(title: '', value: "${Get.find<SplashController>().configModel.content!.footerText != null ? Get.find<SplashController>().configModel.content!.footerText! : null}"),
+            Text("${Get.find<SplashController>().configModel.content!.footerText != null ? Get.find<SplashController>().configModel.content!.footerText! : null}",
+             textAlign: TextAlign.center
+           ),
           ]
         )
       ),

@@ -45,6 +45,14 @@ class _MenuDrawerState  extends State<MenuDrawer> with SingleTickerProviderState
     Menu(icon: Images.voucherIcon, title: 'vouchers'.tr, onTap: () {
       Get.offNamed(RouteHelper.getVoucherRoute());
     }),
+    if(Get.find<SplashController>().configModel.content!.walletStatus != 0 && Get.find<AuthController>().isLoggedIn())
+    Menu(icon: Images.walletMenu, title: 'my_wallet'.tr, onTap: () {
+      Get.offNamed(RouteHelper.getMyWalletScreen());
+    }),
+    if(Get.find<SplashController>().configModel.content!.loyaltyPointStatus != 0 && Get.find<AuthController>().isLoggedIn())
+    Menu(icon: Images.myPoint, title: 'loyalty_point'.tr, onTap: () {
+      Get.offNamed(RouteHelper.getLoyaltyPointScreen());
+    }),
     Menu(icon: Images.aboutUs, title: 'about_us'.tr, onTap: () {
       Get.offNamed(RouteHelper.getHtmlRoute('about_us'));
     }),

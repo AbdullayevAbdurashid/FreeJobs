@@ -4,8 +4,9 @@ class CartModelBody {
   String? variantKey;
   String? quantity;
   String? subCategoryId;
+  String? providerId;
 
-  CartModelBody({this.serviceId, this.categoryId, this.variantKey, this.quantity, this.subCategoryId});
+  CartModelBody({this.serviceId, this.categoryId, this.variantKey, this.quantity, this.subCategoryId, this.providerId});
 
   CartModelBody.fromJson(Map<String, dynamic> json) {
     serviceId = json['service_id'];
@@ -13,6 +14,7 @@ class CartModelBody {
     variantKey = json['variant_key'];
     quantity = json['quantity'];
     subCategoryId = json['sub_category_id'];
+    providerId = json['provider_id'];
   }
 
   Map<String, dynamic> toJson() {
@@ -22,6 +24,9 @@ class CartModelBody {
     data['variant_key'] = this.variantKey;
     data['quantity'] = this.quantity;
     data['sub_category_id'] = this.subCategoryId;
+    if(providerId!=null){
+      data['provider_id'] = this.providerId;
+    }
     return data;
   }
 }

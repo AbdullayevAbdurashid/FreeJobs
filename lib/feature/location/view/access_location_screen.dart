@@ -32,7 +32,7 @@ class AccessLocationScreen extends StatelessWidget {
       appBar: CustomAppBar(title: 'set_location'.tr, isBackButtonExist: fromHome),
       body: SafeArea(child: Center(
         child: GetBuilder<LocationController>(builder: (locationController) {
-          return (ResponsiveHelper.isDesktop(context) && locationController.getUserAddress() == null) ? WebLandingPage(fromSignUp: fromSignUp, fromHome: fromHome, route: route) :
+          return (ResponsiveHelper.isDesktop(context)) ? WebLandingPage(fromSignUp: fromSignUp, fromHome: fromHome, route: route) :
           Column(
             children: [
               Expanded(
@@ -118,7 +118,7 @@ class AccessLocationScreen extends StatelessWidget {
         }
         ),
       ),
-      )
+      ),
     );
   }
 }

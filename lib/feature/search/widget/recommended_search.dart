@@ -11,18 +11,16 @@ class RecommendedSearch extends StatefulWidget {
 }
 
 class _RecommendedSearchState extends State<RecommendedSearch> {
+
   @override
   void initState() {
-    // TODO: implement initState
+   Get.find<ServiceController>().getRecommendedSearchList(reload: false);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ServiceController>(
-      initState: (_){
-        Get.find<ServiceController>().getRecommendedSearchList(reload: false);
-      },
         builder: (serviceController){
         return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,7 +39,7 @@ class _RecommendedSearchState extends State<RecommendedSearch> {
                       children: [
                         Text('change'.tr,style: ubuntuMedium.copyWith(
                           fontSize: Dimensions.fontSizeLarge,
-                          color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.5),
+                          color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.5),
                         ),),
                         SizedBox(width: Dimensions.PADDING_SIZE_SMALL,),
                         Icon(Icons.cached,size: 16,)
@@ -65,6 +63,7 @@ class _RecommendedSearchState extends State<RecommendedSearch> {
                        padding: EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_SMALL),
                        child: SizedBox(
                          child: InkWell(
+                           hoverColor: Colors.transparent,
                            onTap: (){
                              Get.find<SearchController>().searchData(
                                  serviceController.recommendedSearchList[index].name??''
@@ -75,13 +74,9 @@ class _RecommendedSearchState extends State<RecommendedSearch> {
                              );
                              Get.find<SearchController>().getSuggestedServicesFromServer();
                            },
-                           child: Row(
-                             children: [
-                               Text(
-                                 serviceController.recommendedSearchList[index].name??"",
-                                 style: ubuntuRegular.copyWith(color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8)),
-                               ),
-                             ],
+                           child: Text(
+                             serviceController.recommendedSearchList[index].name??"",
+                             style: ubuntuRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.8)),
                            ),
                          ),
                        ),
@@ -105,13 +100,13 @@ class RecommendedSearchShimmer extends StatelessWidget {
         return Shimmer(
           duration: Duration(seconds: 3),
           interval: Duration(seconds: 5),
-          color: Theme.of(context).backgroundColor,
+          color: Theme.of(context).colorScheme.background,
           colorOpacity: 0,
           enabled: true,
           child: Padding(
             padding: EdgeInsets.only(bottom: Dimensions.PADDING_SIZE_DEFAULT),
             child: Padding(
-              padding:  EdgeInsets.only(right: Random().nextDouble() * 200),
+              padding:  EdgeInsets.only(right: Random().nextDouble() * Get.width*0.4),
               child: Container(
                 height: 20,
                 width: double.maxFinite,

@@ -37,7 +37,7 @@ class RatingBar extends StatelessWidget {
     }
     ratingCount != null ? _starList.add(Padding(
       padding: EdgeInsets.only(left: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-      child: Text('($ratingCount)', style: ubuntuRegular.copyWith(fontSize: size!*0.8, color: Theme.of(context).disabledColor)),
+      child: Directionality(textDirection: TextDirection.ltr, child: Text('($ratingCount)', style: ubuntuRegular.copyWith(fontSize: size!*0.8, color: Theme.of(context).disabledColor))),
     )) : SizedBox();
 
     return Row(

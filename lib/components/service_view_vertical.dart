@@ -10,9 +10,10 @@ class ServiceViewVertical extends GetView<ServiceController> {
   final String? noDataText;
   final String? type;
   final NoDataType? noDataType;
+  final String? fromPage;
 
   final Function(String type)? onVegFilterTap;
-  ServiceViewVertical({required this.service, this.isScrollable = false, this.shimmerLength = 20,
+  ServiceViewVertical({this.fromPage="", required this.service, this.isScrollable = false, this.shimmerLength = 20,
     this.padding = const EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL), this.noDataText, this.type, this.onVegFilterTap, this.noDataType});
 
   @override
@@ -44,7 +45,7 @@ class ServiceViewVertical extends GetView<ServiceController> {
             itemBuilder: (context, index) {
               bool _isAvailable = service![index].isActive == 0 ? false:true;
               controller.getServiceDiscount(service![index]);
-              return ServiceWidgetVertical(service: service![index],  isAvailable: _isAvailable,fromType: '',);
+              return ServiceWidgetVertical(service: service![index],  isAvailable: _isAvailable,fromType: '',fromPage: fromPage??"");
               },
           ):
           SizedBox(

@@ -13,7 +13,7 @@ class ShowVoucher extends StatelessWidget {
         Container(
           width: MediaQuery.of(context).size.width,
           padding: EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_SMALL,horizontal: Dimensions.PADDING_SIZE_DEFAULT),
-          decoration: BoxDecoration(border: Border.all(color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6).withOpacity(.3), width: 1)),
+          decoration: BoxDecoration(border: Border.all(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6).withOpacity(.3), width: 1)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -27,7 +27,7 @@ class ShowVoucher extends StatelessWidget {
                     SizedBox(width: Dimensions.PADDING_SIZE_DEFAULT,),
                     Text("${couponController.coupon!.couponCode! }",
                       style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault),),
-                    Text("applied".tr,style: ubuntuMedium.copyWith(color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6),),),
+                    Text("applied".tr,style: ubuntuMedium.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6),),),
                   ],
                 ),
               ),
@@ -40,7 +40,7 @@ class ShowVoucher extends StatelessWidget {
                   //Get.back();
                 },
                 child: Text('remove'.tr,
-                style: ubuntuMedium.copyWith(color: Theme.of(context).errorColor),),
+                style: ubuntuMedium.copyWith(color: Theme.of(context).colorScheme.error),),
               )
             ],
           ),

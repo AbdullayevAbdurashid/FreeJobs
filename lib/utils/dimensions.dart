@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 
 class Dimensions {
   static double fontSizeExtraSmall = Get.context!.width >= 1300 ? 14 : 10;
-  static double fontSizeSmall = Get.context!.width >= 1300 ? 15 : 12;
+  static double fontSizeSmall = Get.context!.width >= 1300 ? 14 : 12;
   static double fontSizeDefault = Get.context!.width >= 1300 ? 16 : 14;
   static double fontSizeLarge = Get.context!.width >= 1300 ? 18 : 16;
   static double fontSizeExtraLarge = Get.context!.width >= 1300 ? 20 : 18;
@@ -10,8 +10,9 @@ class Dimensions {
   static double fontSizeForReview = Get.context!.width >= 1300 ? 36 : 36;
 
   static const double PADDING_SIZE_MINI = 2.0;
+  static const double PADDING_SIZE_TINE = 3.0;
   static const double PADDING_SIZE_EXTRA_SMALL = 5.0;
-  static const double PADDING_SIZE_RADIUS = 8.0;
+  static const double PADDING_SIZE_EIGHT = 8.0;
   static const double PADDING_SIZE_SMALL = 10.0;
   static const double PADDING_SIZE_DEFAULT = 15.0;
   static const double PADDING_SIZE_LARGE = 20.0;
@@ -67,5 +68,9 @@ class Dimensions {
   static const double FEATURE_SECTION_IMAGE_SIZE = 512;
   static const double WEB_ARROW_SIZE = 20;
   static const double PUSH_NOTIFICATION_DIALOG_WIDTH = 500;
+
+  ///wallet
+  static const double WALLET_TOP_CARD_HEIGHT = 170;
+  static const double CURRENCY_CONVERT_BUTTON_HEIGHT = 220;
 
 }

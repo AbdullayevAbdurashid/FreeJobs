@@ -53,7 +53,7 @@ class ServiceWidget extends StatelessWidget {
                   SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
                   Text(
                     service!.description ?? '', maxLines: 2, overflow: TextOverflow.ellipsis,
-                    style: ubuntuRegular.copyWith( color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6)),
+                    style: ubuntuRegular.copyWith( color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6)),
                   ),
 
                   SizedBox(height: Dimensions.PADDING_SIZE_SMALL,),

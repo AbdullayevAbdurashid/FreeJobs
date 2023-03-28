@@ -10,8 +10,9 @@ class CustomButton extends StatelessWidget {
   final double? fontSize;
   final double? radius;
   final IconData? icon;
+  final String? assetIcon;
   CustomButton({this.onPressed, @required this.buttonText, this.transparent = false, this.margin, this.width, this.height,
-    this.fontSize, this.radius = 5, this.icon});
+    this.fontSize, this.radius = 5, this.icon, this.assetIcon});
 
   @override
   Widget build(BuildContext context) {
@@ -36,11 +37,13 @@ class CustomButton extends StatelessWidget {
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      icon != null ?
-                      Padding(
+                      icon != null ? Padding(
                         padding: EdgeInsets.only(right: Dimensions.PADDING_SIZE_EXTRA_SMALL, left: Dimensions.PADDING_SIZE_EXTRA_SMALL,),
-                        child: Icon(icon, color: transparent! ? Theme.of(context).primaryColor : Colors.white,size: 18,),):
-                      SizedBox(),
+                        child: Icon(icon, color: transparent! ? Theme.of(context).primaryColor : Colors.white,size: 18,),)
+                          : assetIcon!=null?Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL),
+                            child: Image.asset(assetIcon!,height: 16,width: 16,),
+                          )
+                          :SizedBox(),
                       Text(
                           buttonText ??'',
                           textAlign: TextAlign.center,

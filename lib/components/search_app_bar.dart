@@ -10,7 +10,7 @@ class SearchAppBar extends StatelessWidget implements PreferredSizeWidget {
     return ResponsiveHelper.isDesktop(context) ? WebMenuBar() :  AppBar(
       title: Container(
         decoration: BoxDecoration(
-          color: Get.isDarkMode ? Theme.of(context).cardColor.withOpacity(.2):Theme.of(context).primaryColor,
+          color: Get.isDarkMode ? Theme.of(context).cardColor.withOpacity(0.0):Theme.of(context).primaryColor,
           border: Border(
               bottom: BorderSide(
                   width: .4,

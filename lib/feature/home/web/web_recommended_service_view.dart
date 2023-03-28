@@ -112,7 +112,7 @@ class ServiceModelView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
                   child: CustomImage(
                     image: '${Get.find<SplashController>().configModel.content!.imageBaseUrl!}/service/${serviceList[index].thumbnail}',
-                    height: 111, width: 90, fit: BoxFit.cover,
+                    height: 100, width: 90, fit: BoxFit.cover,
                   ),
                 ),
 
@@ -121,15 +121,18 @@ class ServiceModelView extends StatelessWidget {
                     child: Container(
                       padding: EdgeInsets.all(Dimensions.PADDING_SIZE_EXTRA_SMALL),
                       decoration: BoxDecoration(
-                        color: Theme.of(context).errorColor,
+                        color: Theme.of(context).colorScheme.error,
                         borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(Dimensions.RADIUS_DEFAULT),
                           topRight: Radius.circular(Dimensions.RADIUS_SMALL),
                         ),
                       ),
-                      child: Text(
-                        PriceConverter.percentageOrAmount('$discountAmount', discountAmountType!),
-                        style: ubuntuMedium.copyWith(color: Theme.of(context).primaryColorLight),
+                      child: Directionality(
+                        textDirection: TextDirection.ltr,
+                        child: Text(
+                          PriceConverter.percentageOrAmount('$discountAmount', discountAmountType!),
+                          style: ubuntuMedium.copyWith(color: Theme.of(context).primaryColorLight),
+                        ),
                       ),
                     ),
                   ),
@@ -163,23 +166,32 @@ class ServiceModelView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   if(discountAmount! > 0)
-                    Text(PriceConverter.convertPrice(_lowestPrice),
-                      style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall,
-                          decoration: TextDecoration.lineThrough,
-                          color: Theme.of(context).errorColor.withOpacity(.8)),
+                    Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: Text(PriceConverter.convertPrice(_lowestPrice)+" ",
+                        style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall,
+                            decoration: TextDecoration.lineThrough,
+                            color: Theme.of(context).colorScheme.error.withOpacity(.8)),
+                      ),
                     ),
 
                   discountAmount! > 0?
-                  Text(PriceConverter.convertPrice(_lowestPrice,
-                      discount: discountAmount!.toDouble(),
-                      discountType: discountAmountType
-                  ),
-                    style: ubuntuRegular.copyWith(fontSize: Dimensions.PADDING_SIZE_DEFAULT,
-                        color: Get.isDarkMode? Theme.of(context).primaryColorLight: Theme.of(context).primaryColor),
-                  ): Text(PriceConverter.convertPrice(_lowestPrice),
-                    style: ubuntuRegular.copyWith(
-                        fontSize: Dimensions.PADDING_SIZE_DEFAULT,
-                        color: Get.isDarkMode? Theme.of(context).primaryColorLight: Theme.of(context).primaryColor),
+                  Directionality(
+                    textDirection: TextDirection.ltr,
+                    child: Text(PriceConverter.convertPrice(_lowestPrice,
+                        discount: discountAmount!.toDouble(),
+                        discountType: discountAmountType
+                    ),
+                      style: ubuntuMedium.copyWith(fontSize: Dimensions.PADDING_SIZE_DEFAULT,
+                          color: Get.isDarkMode? Theme.of(context).primaryColorLight: Theme.of(context).primaryColor),
+                    ),
+                  ): Directionality(
+                    textDirection: TextDirection.ltr,
+                    child: Text(PriceConverter.convertPrice(_lowestPrice),
+                      style: ubuntuRegular.copyWith(
+                          fontSize: Dimensions.PADDING_SIZE_DEFAULT,
+                          color: Get.isDarkMode? Theme.of(context).primaryColorLight: Theme.of(context).primaryColor),
+                    ),
                   ),
 
                 ],

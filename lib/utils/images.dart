@@ -137,6 +137,25 @@ class Images {
   static String get webHomeIcon => 'web_home_icon'.png;
   static String get webCartIcon => 'web_cart_icon'.png;
   static String get footerAddress => 'footer_address'.png;
+  static String get suggestServiceIcon => 'suggest_service_icon'.png;
+  static String get homeProviderBackground => 'home_provider_background'.png;
+  static String get myWallet => 'my_wallet'.png;
+  static String get walletBackground => 'wallet_background'.png;
+  static String get myPoint => 'my_point'.png;
+  static String get convertPoint => 'convert_point'.png;
+  static String get info => 'info'.png;
+  static String get loyaltyPointBackground => 'loyalty_point_background'.png;
+  static String get emptyTransaction => 'empty_transaction'.png;
+  static String get referAndEarn => 'refer_and_earn'.png;
+  static String get iMark => 'i_mark'.png;
+  static String get filter => 'filter'.png;
+  static String get hot => 'hot'.png;
+  static String get reviewIcon => 'review_icon'.png;
+  static String get approvedStatusIcon => 'approved_status_icon'.png;
+  static String get providerImage => 'provider_image'.png;
+  static String get walletMenu => 'wallet_menu'.png;
+  static String get shareIcon => 'share_icon'.png;
+
 
   static String get all => 'bookings_all'.png;
   static String get accepted => 'accepted'.png;
@@ -144,6 +163,15 @@ class Images {
   static String get canceled => 'canceled'.png;
   static String get completed => 'completed'.png;
   static String get adminChat => 'admin_chat'.png;
+
+
+  ///Share icon
+  static String get messenger => 'messenger'.png;
+  static String get share => 'share'.png;
+  static String get whatsapp => 'whatsapp'.png;
+  static String get viber => 'viber'.png;
+  static String get gmail => 'gmail'.png;
+
 
   ///web social icon
   static get facebookIcon => 'facebook_icon'.png;

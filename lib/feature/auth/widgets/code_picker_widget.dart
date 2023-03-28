@@ -191,7 +191,7 @@ class CodePickerWidgetState extends State<CodePickerWidget> {
                       ? selectedItem!.toCountryStringOnly()
                       : selectedItem.toString(),
                   style:
-                  widget.textStyle ?? Theme.of(context).textTheme.button,
+                  widget.textStyle ?? Theme.of(context).textTheme.labelLarge,
                   overflow: widget.textOverflow,
                 ),
               ),

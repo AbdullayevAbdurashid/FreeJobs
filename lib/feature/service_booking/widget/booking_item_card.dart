@@ -13,14 +13,14 @@ class BookingItemCard extends StatelessWidget {
         Get.toNamed(RouteHelper.getBookingDetailsScreen(bookingModel.id!,'others'));
       },
       child: Padding(
-        padding: const EdgeInsets.only(bottom: Dimensions.PADDING_SIZE_RADIUS),
+        padding: const EdgeInsets.only(bottom: Dimensions.PADDING_SIZE_EIGHT),
         child: Container(
           width: double.infinity,
           decoration: BoxDecoration(
             color: Theme.of(context).cardColor,
             boxShadow:Get.isDarkMode ? null: cardShadow,
           ), //boxShadow: shadow),
-          padding:  EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_RADIUS,horizontal: Dimensions.PADDING_SIZE_DEFAULT),
+          padding:  EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_EIGHT,horizontal: Dimensions.PADDING_SIZE_DEFAULT),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -36,8 +36,8 @@ class BookingItemCard extends StatelessWidget {
                         bookingStatus=="pending" ? Theme.of(context).colorScheme.primary.withOpacity(.2):
                         bookingStatus=="accepted" ? Theme.of(context).colorScheme.primary.withOpacity(.2):
                         bookingStatus=="completed" ? Colors.green.withOpacity(.2) :
-                        Theme.of(context).errorColor.withOpacity(.2)),
-                      child: Padding(padding:  EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT, vertical: Dimensions.PADDING_SIZE_RADIUS),
+                        Theme.of(context).colorScheme.error.withOpacity(.2)),
+                      child: Padding(padding:  EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT, vertical: Dimensions.PADDING_SIZE_EIGHT),
                         child: Center(
                           child: Text(bookingStatus.tr,
                             style:ubuntuMedium.copyWith(
@@ -46,7 +46,7 @@ class BookingItemCard extends StatelessWidget {
                               bookingStatus=="pending" ? Get.isDarkMode ? Theme.of(context).secondaryHeaderColor :
                               Theme.of(context).colorScheme.primary :
                               bookingStatus=="accepted" ? Theme.of(context).colorScheme.primary:
-                              bookingStatus=="completed" ? Colors.green: Theme.of(context).errorColor,
+                              bookingStatus=="completed" ? Colors.green: Theme.of(context).colorScheme.error,
                         ),
                       ),
                     ),
@@ -55,17 +55,17 @@ class BookingItemCard extends StatelessWidget {
               ]),
               Row(
                 children: [
-                  Text('${'booking_date'.tr} : ', style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall,  color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6))),
+                  Text('${'booking_date'.tr} : ', style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall,  color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6))),
                   Text("${DateConverter.dateMonthYearTimeTwentyFourFormat(DateConverter.isoUtcStringToLocalDate(bookingModel.createdAt.toString()))}",textDirection: TextDirection.ltr,
-                      style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall,  color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6))),
+                      style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall,  color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6))),
                 ],
               ),
               SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL,),
               Row(
                 children: [
-                  Text('${'service_date'.tr} : ', style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall,  color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6))),
+                  Text('${'service_date'.tr} : ', style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall,  color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6))),
                   Text("${DateConverter.dateMonthYearTimeTwentyFourFormat(DateTime.tryParse(bookingModel.serviceSchedule!)!)}",
-                    style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall,  color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6)),
+                    style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall,  color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6)),
                     textDirection: TextDirection.ltr,
                   ),
                 ],
@@ -73,8 +73,19 @@ class BookingItemCard extends StatelessWidget {
               SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL,),
               Row(
                 children: [
-                  Text('${'total_amount'.tr} : ${PriceConverter.convertPrice(bookingModel.totalBookingAmount!.toDouble())}',
-                    style: ubuntuMedium.copyWith(color: Theme.of(context).colorScheme.primary),
+                  Row(
+                    children: [
+                      Text('${'total_amount'.tr} : ',
+                        style: ubuntuMedium.copyWith(color: Theme.of(context).colorScheme.primary),
+                      ),
+
+                      Directionality(
+                        textDirection: TextDirection.ltr,
+                        child: Text('${PriceConverter.convertPrice(bookingModel.totalBookingAmount!.toDouble())}',
+                          style: ubuntuMedium.copyWith(color: Theme.of(context).colorScheme.primary),
+                        ),
+                      ),
+                    ],
                   ),
                   Spacer(),
                   Text('view_details'.tr,

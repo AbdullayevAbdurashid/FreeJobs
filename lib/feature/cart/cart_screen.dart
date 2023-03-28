@@ -1,4 +1,7 @@
 import 'package:demandium/components/menu_drawer.dart';
+import 'package:demandium/feature/cart/widget/available_provider_widgets.dart';
+import 'package:demandium/feature/cart/widget/selected_provider_widget.dart';
+import 'package:demandium/feature/cart/widget/unselected_provider_widget.dart';
 import 'package:get/get.dart';
 import 'package:demandium/components/footer_base_view.dart';
 import 'package:demandium/core/core_export.dart';
@@ -96,47 +99,73 @@ class CartScreen extends StatelessWidget {
                                         Container(
                                           height: 50,
                                           child: Center(
-                                            child: RichText(
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                              text: TextSpan(
-                                                text: 'total_price'.tr,
+                                            child: Row(mainAxisAlignment: MainAxisAlignment.center,children:[
+
+                                              Text('${"total_price".tr} ',
                                                 style: ubuntuRegular.copyWith(
                                                   fontSize: Dimensions.fontSizeLarge,
-                                                  color: Theme.of(context).textTheme.bodyText1!.color,
+                                                  color: Theme.of(context).textTheme.bodyLarge!.color,
                                                 ),
-                                                children: [
-                                                  TextSpan(
-                                                    text: ' ${PriceConverter.convertPrice(cartController.totalPrice)}',
-                                                    style: ubuntuBold.copyWith(
-                                                      color: Theme.of(context).errorColor,
-                                                      fontSize: Dimensions.fontSizeLarge,
-                                                    ),
-                                                  )
-                                                ],
                                               ),
-                                            ),
+                                              Directionality(
+                                                textDirection: TextDirection.ltr,
+                                                child: Text('${PriceConverter.convertPrice(Get.find<CartController>().totalPrice)}',
+                                                  style: ubuntuBold.copyWith(
+                                                    color: Theme.of(context).colorScheme.error,
+                                                    fontSize: Dimensions.fontSizeLarge,
+                                                  ),
+                                                ),
+                                              )]),
                                           ),
                                         ),
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                            vertical: Dimensions.PADDING_SIZE_SMALL,
-                                          ),
-                                          child: CustomButton(
-                                            height: 50,
-                                            width: Get.width,
-                                            radius: Dimensions.RADIUS_DEFAULT,
-                                            buttonText: 'proceed_to_checkout'.tr,
-                                            onPressed: () {
-                                              if (Get.find<AuthController>().isLoggedIn()) {
-                                                Get.find<CheckOutController>().updateState(PageState.orderDetails);
-                                                Get.toNamed(RouteHelper.getCheckoutRoute(RouteHelper.checkout,'orderDetails','null'));
+                                        Row(
+                                          children: [
+                                            cartController.preSelectedProvider?
+                                            GestureDetector(
+                                              onTap: (){
+                                                showModalBottomSheet(
+                                                    useRootNavigator: true,
+                                                    isScrollControlled: true,
+                                                    backgroundColor: Colors.transparent,
+                                                    context: context, builder: (context) => AvailableProviderWidget()
+                                                );
+                                              },
+                                              child: SelectedProductWidget(),
+                                            ): GestureDetector(
+                                              onTap: (){
+                                                showModalBottomSheet(
+                                                    useRootNavigator: true,
+                                                    isScrollControlled: true,
+                                                    backgroundColor: Colors.transparent,
+                                                    context: context, builder: (context) => AvailableProviderWidget()
+                                                );
+                                              },
+                                              child: UnselectedProductWidget(),
+                                            ),
+                                            SizedBox(width: Dimensions.PADDING_SIZE_SMALL,),
+                                            Expanded(
+                                              child: Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                  vertical: Dimensions.PADDING_SIZE_SMALL,
+                                                ),
+                                                child: CustomButton(
+                                                  height: 50,
+                                                  width: Get.width,
+                                                  radius: Dimensions.RADIUS_DEFAULT,
+                                                  buttonText: 'proceed_to_checkout'.tr,
+                                                  onPressed: () {
+                                                    if (Get.find<AuthController>().isLoggedIn()) {
+                                                      Get.find<CheckOutController>().updateState(PageState.orderDetails);
+                                                      Get.toNamed(RouteHelper.getCheckoutRoute(RouteHelper.checkout,'orderDetails','null'));
 
-                                              } else {
-                                                Get.toNamed(RouteHelper.getSignInRoute(RouteHelper.main));
-                                              }
-                                            },
-                                          ),
+                                                    } else {
+                                                      Get.toNamed(RouteHelper.getSignInRoute(RouteHelper.main));
+                                                    }
+                                                  },
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ],
                                       ),
@@ -171,37 +200,69 @@ class CartScreen extends StatelessWidget {
                             style: ubuntuRegular.copyWith(
                               fontSize: Dimensions.fontSizeLarge,
                               fontWeight: FontWeight.w400,
-                              color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6),
+                              color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6),
                             ),
                           ),
-                          Text(' ${PriceConverter.convertPrice(cartController.totalPrice,isShowLongPrice: true)} ',
-                            style: ubuntuBold.copyWith(
-                              color: Theme.of(context).errorColor,
-                              fontSize: Dimensions.fontSizeLarge,
+                          Directionality(
+                            textDirection: TextDirection.ltr,
+                            child: Text(' ${PriceConverter.convertPrice(cartController.totalPrice,isShowLongPrice: true)} ',
+                              style: ubuntuBold.copyWith(
+                                color: Theme.of(context).colorScheme.error,
+                                fontSize: Dimensions.fontSizeLarge,
+                              ),
                             ),
                           )
                         ],
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(
+                  Padding(padding: EdgeInsets.only(
                       left: Dimensions.PADDING_SIZE_DEFAULT,
                       right: Dimensions.PADDING_SIZE_DEFAULT,
                       bottom: Dimensions.PADDING_SIZE_SMALL,
                     ),
-                    child: CustomButton(
-                      width: Get.width,
-                      radius: Dimensions.RADIUS_DEFAULT,
-                      buttonText: 'proceed_to_checkout'.tr,
-                      onPressed: () {
-                        if (Get.find<AuthController>().isLoggedIn()) {
-                          Get.find<CheckOutController>().updateState(PageState.orderDetails);
-                          Get.toNamed(RouteHelper.getCheckoutRoute('cart','orderDetails','null'));
-                        } else {
-                          Get.toNamed(RouteHelper.getSignInRoute(RouteHelper.main));
-                        }
-                      },
+                    child: Row(
+                      children: [
+                        cartController.preSelectedProvider?
+                        GestureDetector(
+                          onTap: (){
+                            showModalBottomSheet(
+                                useRootNavigator: true,
+                                isScrollControlled: true,
+                                backgroundColor: Colors.transparent,
+                                context: context, builder: (context) => AvailableProviderWidget()
+                            );
+                          },
+                          child: SelectedProductWidget(),
+                        ): GestureDetector(
+                          onTap: (){
+                            showModalBottomSheet(
+                                useRootNavigator: true,
+                                isScrollControlled: true,
+                                backgroundColor: Colors.transparent,
+                                context: context, builder: (context) => AvailableProviderWidget()
+                            );
+                          },
+                          child: UnselectedProductWidget(),
+                        ),
+                        SizedBox(width: Dimensions.PADDING_SIZE_EIGHT,),
+                        Expanded(
+                          child: CustomButton(
+                            width: Get.width,
+                            height:  ResponsiveHelper.isDesktop(context)? 50 : 45,
+                            radius: Dimensions.RADIUS_DEFAULT,
+                            buttonText: 'proceed_to_checkout'.tr,
+                            onPressed: () {
+                              if (Get.find<AuthController>().isLoggedIn()) {
+                                Get.find<CheckOutController>().updateState(PageState.orderDetails);
+                                Get.toNamed(RouteHelper.getCheckoutRoute('cart','orderDetails','null'));
+                              } else {
+                                Get.toNamed(RouteHelper.getSignInRoute(RouteHelper.main));
+                              }
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],

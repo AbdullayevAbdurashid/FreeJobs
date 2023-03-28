@@ -131,7 +131,7 @@ class EditProfileTabController extends GetxController with GetSingleTickerProvid
 
 
   void pickProfileImage() async {
-    _pickedProfileImageFile = await ImagePicker().pickImage(source: ImageSource.gallery,imageQuality: 50);
+    _pickedProfileImageFile = await ImagePicker().pickImage(source: ImageSource.gallery,imageQuality: 100);
     double _imageSize = await ImageSize.getImageSize(_pickedProfileImageFile!);
     if(_imageSize >AppConstants.limitOfPickedImageSizeInMB){
       customSnackBar("image_size_greater_than".tr);

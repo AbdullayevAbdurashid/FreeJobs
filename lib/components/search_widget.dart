@@ -16,8 +16,8 @@ class SearchWidget extends StatelessWidget {
 
                 child: TextField(
                   controller: searchController.searchController,
-                  style: Theme.of(context).textTheme.headline2!.copyWith(
-                    color: Theme.of(context).textTheme.bodyText1!.color, fontSize: Dimensions.fontSizeLarge,
+                  style: Theme.of(context).textTheme.displayMedium!.copyWith(
+                    color: Theme.of(context).textTheme.bodyLarge!.color, fontSize: Dimensions.fontSizeLarge,
                   ),
                   cursorColor: Theme.of(context).hintColor,
                   autofocus: false,
@@ -32,7 +32,7 @@ class SearchWidget extends StatelessWidget {
                     fillColor: Get.isDarkMode? Theme.of(context).primaryColorDark:Color(0xffFEFEFE),
                     isDense: true,
                     hintText: 'search_services'.tr,
-                    hintStyle: Theme.of(context).textTheme.headline2!.copyWith(
+                    hintStyle: Theme.of(context).textTheme.displayMedium!.copyWith(
                         fontSize: Dimensions.fontSizeSmall,
                         color: Theme.of(context).hintColor),
                     filled: true,

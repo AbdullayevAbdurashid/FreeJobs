@@ -81,13 +81,13 @@ class _CouponScreenState extends State<CouponScreen> with TickerProviderStateMix
                         indicator: BoxDecoration(
                           border: Border(
                             bottom: BorderSide(
-                              color: Get.isDarkMode?Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.5):Theme.of(context).primaryColor,
+                              color: Get.isDarkMode?Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.5):Theme.of(context).primaryColor,
                               width: 2,
                             ),
                           ),
                         ),
-                        labelColor: Get.isDarkMode?Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8):Theme.of(context).primaryColor,
-                        unselectedLabelColor: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.5),
+                        labelColor: Get.isDarkMode?Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.8):Theme.of(context).primaryColor,
+                        unselectedLabelColor: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.5),
                         unselectedLabelStyle: ubuntuMedium.copyWith(
                           color: Theme.of(context).hintColor, fontSize: Dimensions.fontSizeLarge,
                         ),
@@ -151,7 +151,7 @@ class _CouponScreenState extends State<CouponScreen> with TickerProviderStateMix
             Dimensions.PADDING_SIZE_LARGE : Dimensions.PADDING_SIZE_SMALL,
             childAspectRatio: ResponsiveHelper.isMobile(context) ? 3.2 : 4,
             crossAxisCount: ResponsiveHelper.isMobile(context) ? 1 : 2,
-            mainAxisExtent:Get.find<LocalizationController>().isLtr ?  130 : 140,
+            mainAxisExtent:Get.find<LocalizationController>().isLtr ?  130 : 162,
           ),
           itemBuilder: (context, index) {
             return Voucher(

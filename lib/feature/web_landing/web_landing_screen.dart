@@ -122,7 +122,7 @@ class _WebLandingPageState extends State<WebLandingPage> {
                                 Text(
                                  textContent['download_section_description'],
                                   textAlign: TextAlign.center,
-                                  style: ubuntuRegular.copyWith(color: Theme.of(context).textTheme.bodyText1!.color,
+                                  style: ubuntuRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color,
                                       fontSize: Dimensions.fontSizeDefault),
                                 ),
                                 SizedBox(height: Dimensions.PADDING_SIZE_LARGE),

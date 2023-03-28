@@ -22,6 +22,11 @@ class ServiceRepo extends GetxService {
     return await apiClient.getData('${AppConstants.RECENTLY_VIEWED_SERVICE_URI}?offset=$offset&limit=10');
   }
 
+
+  Future<Response> getFeatheredCategoryServiceList() async {
+    return await apiClient.getData('${AppConstants.GET_FEATHERED_SERVICE_CATEGORY}');
+  }
+
   Future<Response> getRecommendedServiceList(int offset) async {
     return await apiClient.getData('${AppConstants.RECOMMENDED_SERVICE_URI}?limit=10&offset=$offset');
   }
@@ -39,10 +44,6 @@ class ServiceRepo extends GetxService {
   }
   Future<Response> getItemsBasedOnCampaignId({required String campaignID}) async {
     return await apiClient.getData('${AppConstants.ITEMS_BASED_ON_CAMPAIGN_ID}$campaignID&limit=100&offset=1');
-  }
-
-  Future<Response> getServiceDetails(String serviceID) async {
-    return await apiClient.getData('${AppConstants.SERVICE_DETAILS_URI}/$serviceID');
   }
 
   Future<Response> submitReview(ReviewBody reviewBody) async {

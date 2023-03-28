@@ -101,7 +101,7 @@ class HorizontalScrollServiceView extends GetView<ServiceController> {
                                                       child: Container(
                                                         padding: EdgeInsets.all(Dimensions.PADDING_SIZE_EXTRA_SMALL),
                                                         decoration: BoxDecoration(
-                                                          color: Theme.of(context).errorColor,
+                                                          color: Theme.of(context).colorScheme.error,
                                                           borderRadius: BorderRadius.only(
                                                             bottomRight: Radius.circular(Dimensions.RADIUS_DEFAULT),
                                                             topLeft: Radius.circular(Dimensions.RADIUS_SMALL),
@@ -120,7 +120,7 @@ class HorizontalScrollServiceView extends GetView<ServiceController> {
                                                   ],
                                                 ),
                                                 Padding(
-                                                  padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_RADIUS),
+                                                  padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_EIGHT),
                                                   child: Text(
                                                       service.name!,
                                                       style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault),
@@ -135,7 +135,7 @@ class HorizontalScrollServiceView extends GetView<ServiceController> {
                                                 mainAxisAlignment: MainAxisAlignment.center,
 
                                                 children: [
-                                                  SizedBox(height:ResponsiveHelper.isMobile(context) ? Dimensions.PADDING_SIZE_MINI: Dimensions.PADDING_SIZE_RADIUS,),
+                                                  SizedBox(height:ResponsiveHelper.isMobile(context) ? Dimensions.PADDING_SIZE_MINI: Dimensions.PADDING_SIZE_EIGHT,),
                                                   Text(
                                                     'starts_from'.tr,
                                                     style:  ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor),),
@@ -144,27 +144,36 @@ class HorizontalScrollServiceView extends GetView<ServiceController> {
                                                     children: [
                                                       SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
                                                       if(_discountModel.discountAmount! > 0)
-                                                        Text(
-                                                          PriceConverter.convertPrice(_lowestPrice),
-                                                          style: ubuntuRegular.copyWith(
-                                                              fontSize: Dimensions.fontSizeSmall,
-                                                              decoration: TextDecoration.lineThrough,
-                                                              color: Theme.of(context).errorColor.withOpacity(.8)),
+                                                        Directionality(
+                                                          textDirection: TextDirection.ltr,
+                                                          child: Text(
+                                                            PriceConverter.convertPrice(_lowestPrice),
+                                                            style: ubuntuRegular.copyWith(
+                                                                fontSize: Dimensions.fontSizeSmall,
+                                                                decoration: TextDecoration.lineThrough,
+                                                                color: Theme.of(context).colorScheme.error.withOpacity(.8)),
+                                                          ),
                                                         ),
                                                       SizedBox(height: Dimensions.PADDING_SIZE_MINI,),
                                                       _discountModel.discountAmount! > 0?
-                                                      Text(PriceConverter.convertPrice(
-                                                          _lowestPrice,
-                                                          discount: _discountModel.discountAmount!.toDouble(),
-                                                          discountType: _discountModel.discountAmountType
-                                                      ),
-                                                        style: ubuntuRegular.copyWith(
-                                                            fontSize: Dimensions.PADDING_SIZE_DEFAULT,
-                                                            color: Get.isDarkMode? Theme.of(context).primaryColorLight: Theme.of(context).primaryColor),
+                                                      Directionality(
+                                                        textDirection: TextDirection.ltr,
+                                                        child: Text(PriceConverter.convertPrice(
+                                                            _lowestPrice,
+                                                            discount: _discountModel.discountAmount!.toDouble(),
+                                                            discountType: _discountModel.discountAmountType
+                                                        ),
+                                                          style: ubuntuRegular.copyWith(
+                                                              fontSize: Dimensions.PADDING_SIZE_DEFAULT,
+                                                              color: Get.isDarkMode? Theme.of(context).primaryColorLight: Theme.of(context).primaryColor),
+                                                        ),
                                                       ):
-                                                      Text(
-                                                        PriceConverter.convertPrice(_lowestPrice),
-                                                        style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeLarge, color: Get.isDarkMode? Theme.of(context).primaryColorLight: Theme.of(context).primaryColor),
+                                                      Directionality(
+                                                        textDirection: TextDirection.ltr,
+                                                        child: Text(
+                                                          PriceConverter.convertPrice(_lowestPrice),
+                                                          style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeLarge, color: Get.isDarkMode? Theme.of(context).primaryColorLight: Theme.of(context).primaryColor),
+                                                        ),
                                                       ),
                                                     ],
                                                   )
@@ -190,14 +199,16 @@ class HorizontalScrollServiceView extends GetView<ServiceController> {
                                   ),
                                   Positioned.fill(
                                     child: RippleButton(
-                                      onTap: () => showModalBottomSheet(
+                                      onTap: () {
+                                        Get.find<CartController>().resetPreselectedProviderInfo();
+                                        showModalBottomSheet(
                                           context: context,
                                           useRootNavigator: true,
                                           isScrollControlled: true,
                                           builder: (context) => ServiceCenterDialog(service: service,),
                                           backgroundColor: Colors.transparent
 
-                                      ),
+                                      );},
                                     ),
                                   )
                                 ],
@@ -254,22 +265,22 @@ class PopularServiceShimmer extends StatelessWidget {
         itemCount: 10,
         itemBuilder: (context, index){
           return Container(
-            height: 80, width: 200,
-            margin: EdgeInsets.only(right: Dimensions.PADDING_SIZE_SMALL,),
+            height: 80, width: Get.width / 2.3,
+            margin: EdgeInsets.only(right: Dimensions.PADDING_SIZE_SMALL,bottom: 10,top: 10),
             padding: EdgeInsets.all(Dimensions.PADDING_SIZE_EXTRA_SMALL),
             decoration: BoxDecoration(
-              color: Colors.grey[Get.find<ThemeController>().darkTheme ? 700 : 300],
+              color: Get.isDarkMode? Colors.grey[700]:Colors.white,
               borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
-              boxShadow: cardShadow,
+              boxShadow: Get.isDarkMode?null:[BoxShadow(color: Colors.grey[300]!, blurRadius: 10, spreadRadius: 1)],
             ),
             child: Shimmer(
               duration: Duration(seconds: 1),
               interval: Duration(seconds: 1),
               enabled: enabled,
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
 
                 Container(
-                  height: 70, width: 100,
+                  height: 70,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
                       color: Colors.grey[Get.find<ThemeController>().darkTheme ? 600 : 300]

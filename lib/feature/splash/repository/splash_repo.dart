@@ -36,6 +36,10 @@ class SplashRepo {
       sharedPreferences.setInt(AppConstants.NOTIFICATION_COUNT, 0);
     }
 
+    if(!sharedPreferences.containsKey(AppConstants.ACCEPT_COOKIES)) {
+      sharedPreferences.setBool(AppConstants.ACCEPT_COOKIES, false);
+    }
+
 
     return Future.value(true);
   }

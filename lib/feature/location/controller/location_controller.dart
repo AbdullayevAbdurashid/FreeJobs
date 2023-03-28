@@ -112,7 +112,7 @@ class LocationController extends GetxController implements GetxService {
       _responseModel = ZoneResponseModel(true, '',_zoneID);
     }else {
       _inZone = false;
-      _responseModel = ZoneResponseModel(false, response.statusText, '');
+      _responseModel = ZoneResponseModel(false, response.statusText.toString().tr, '');
     }
     _isLoading = false;
     print("from_get_zone:$_isLoading");
@@ -174,7 +174,7 @@ class LocationController extends GetxController implements GetxService {
       _addressList!.removeAt(_addressList!.indexOf(address));
       _responseModel = ResponseModel(true, response.body['response_code']);
     } else {
-      _responseModel = ResponseModel(false, response.statusText);
+      _responseModel = ResponseModel(false, response.statusText.toString().tr);
     }
     update();
     return _responseModel;
@@ -240,7 +240,7 @@ class LocationController extends GetxController implements GetxService {
           await saveUserAddress(AddressModel.fromJson(response.body["content"]));
         }
     } else {
-      customSnackBar(response.statusText == 'out_of_coverage'.tr ? 'service_not_available_in_this_area'.tr : response.statusText, isError: false);
+      customSnackBar(response.statusText == 'out_of_coverage'.tr ? 'service_not_available_in_this_area'.tr : response.statusText.toString().tr, isError: false);
     }
     _isLoading = true;
     update();
@@ -255,7 +255,8 @@ class LocationController extends GetxController implements GetxService {
       getAddressList();
       responseModel = ResponseModel(true, response.body["response_code"]);
     } else {
-      responseModel = ResponseModel(false, response.statusText);
+      responseModel = ResponseModel(false, response.statusText.toString().tr);
+
     }
     _isLoading = false;
     update();
@@ -324,9 +325,9 @@ class LocationController extends GetxController implements GetxService {
     HomeScreen.loadData(true);
     print("Route:============================>$route");
     if(canRoute) {
-      Get.offAllNamed(route!);
+      Get.offAllNamed(RouteHelper.getMainRoute('home'));
     }else {
-      Get.offAllNamed(RouteHelper.getInitialRoute());
+      Get.offAllNamed(RouteHelper.getMainRoute('home'));
     }
     await Get.find<CartController>().removeAllCartItem();
   }
@@ -452,7 +453,7 @@ class LocationController extends GetxController implements GetxService {
     if(response.statusCode == 200 && response.body['content']['status'] == 'OK') {
       _address = response.body['content']['results'][0]['formatted_address'].toString();
     }else {
-      customSnackBar(response.body['errors'][0]['message'] ?? response.bodyString);
+      customSnackBar(response.body['errors'][0]['message'] ?? response.bodyString.toString().tr);
     }
     print("getAddressFromGeocode_address:$_address");
     return _address;
@@ -465,7 +466,7 @@ class LocationController extends GetxController implements GetxService {
         _predictionList = [];
         response.body['content']['predictions'].forEach((prediction) => _predictionList.add(PredictionModel.fromJson(prediction)));
       } else {
-        customSnackBar(response.body['message'] ?? response.bodyString,isError:false);
+       // customSnackBar(response.body['message'] ?? response.bodyString.toString().tr,isError:false);
       }
     }
     return _predictionList;

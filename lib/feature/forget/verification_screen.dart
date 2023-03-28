@@ -77,13 +77,13 @@ class _VerificationScreenState extends State<VerificationScreen> {
                           text: "${'enter_the_verification_code'.tr }",
                           style: ubuntuMedium.copyWith(
                               height: 1.5,
-                              color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6),
+                              color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6),
                               fontSize: Dimensions.fontSizeDefault),
                           children: [
                             TextSpan(text: "  ",),
                             TextSpan(
                               text: "${_number!.substring(1,_number!.length-1)}",
-                              style: ubuntuRegular.copyWith(color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8))
+                              style: ubuntuRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.8))
                             ),
                           ],
                         ),
@@ -114,7 +114,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                           enableActiveFill: true,
                           onChanged: authController.updateVerificationCode,
                           beforeTextPaste: (text) => true,
-                          pastedTextStyle: ubuntuRegular.copyWith(color: Theme.of(context).textTheme.bodyText1!.color),
+                          pastedTextStyle: ubuntuRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color),
                         ),
                       ),
                       authController.verificationCode.length == 4 ? !authController.isLoading! ? Padding(
@@ -136,13 +136,13 @@ class _VerificationScreenState extends State<VerificationScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Text('did_not_receive_the_code'.tr,style: ubuntuMedium.copyWith(color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6)),),
+                              Text('did_not_receive_the_code'.tr,style: ubuntuMedium.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6)),),
                               TextButton(
                                 onPressed: (){
                                   Get.find<AuthController>().forgetPassword();
                                 },
                                 child: Text(
-                                  'resend_it'.tr,style: ubuntuMedium.copyWith(color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6)),
+                                  'resend_it'.tr,style: ubuntuMedium.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6)),
                                 textAlign: TextAlign.end,),),
                             ]),
                       ) ,

@@ -23,18 +23,31 @@ class ProfileScreen extends GetView<UserController> {
       ProfileCardItemModel(
         'sign_in'.tr, Images.logout, RouteHelper.getSignInRoute('profileScreen'),
       ),
+
+      if(Get.find<AuthController>().isLoggedIn() && Get.find<UserController>().referCode!="" && Get.find<SplashController>().configModel.content?.referEarnStatus==1)
+        ProfileCardItemModel(
+          'refer_and_earn'.tr, Images.shareIcon, RouteHelper.getReferAndEarnScreen(),
+        ),
+
+      if(Get.find<AuthController>().isLoggedIn() )
+        ProfileCardItemModel(
+          'suggest_new_service'.tr, Images.suggestServiceIcon,RouteHelper.getNewSuggestedServiceScreen() ,
+        ),
+
+      if(Get.find<AuthController>().isLoggedIn() )
+        ProfileCardItemModel(
+          'delete_account'.tr, Images.accountDelete, 'delete_account',
+        ),
+
       if(Get.find<AuthController>().isLoggedIn() )
         ProfileCardItemModel(
         'logout'.tr, Images.logout, 'sign_out',
       ),
-      if(Get.find<AuthController>().isLoggedIn() )
-        ProfileCardItemModel(
-        'delete_account'.tr, Images.accountDelete, 'delete_account',
-      ),
+
     ];
 
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Theme.of(context).colorScheme.background,
       endDrawer:ResponsiveHelper.isDesktop(context) ? MenuDrawer():null,
       appBar: CustomAppBar(
         title: 'profile'.tr,
@@ -101,7 +114,7 @@ class ProfileScreen extends GetView<UserController> {
                                     isLogOut: true,
                                     yesText: 'delete',
                                     noText: 'cancel',
-                                    descriptionTextColor: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.5),
+                                    descriptionTextColor: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.5),
                                     onYesPressed: () => userController.removeUser()),
                                 useSafeArea: false);
                           }

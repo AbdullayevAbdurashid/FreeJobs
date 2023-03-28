@@ -2,6 +2,8 @@ import 'package:demandium/feature/home/web/web_campaign_view.dart';
 import 'package:demandium/feature/home/web/web_recently_service_view.dart';
 import 'package:demandium/feature/home/web/web_recommended_service_view.dart';
 import 'package:demandium/feature/home/web/web_trending_service_view.dart';
+import 'package:demandium/feature/home/web/web_feathered_category_view.dart';
+import 'package:demandium/feature/home/widget/recommended_provider.dart';
 import 'package:get/get.dart';
 import 'package:demandium/components/footer_view.dart';
 import 'package:demandium/components/paginated_list_view.dart';
@@ -41,6 +43,15 @@ class WebHomeScreen extends StatelessWidget {
             ),
           ),
         ),
+        if(Get.find<AuthController>().isLoggedIn())
+        SliverToBoxAdapter(
+          child: Center(
+            child: SizedBox(
+              width: Dimensions.WEB_MAX_WIDTH,
+              child: HomeRecommendProvider(),
+            ),
+          ),
+        ),
         SliverToBoxAdapter(child: SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,),),
         SliverToBoxAdapter(
           child: Center(
@@ -51,13 +62,12 @@ class WebHomeScreen extends StatelessWidget {
         ),
         SliverToBoxAdapter(child: SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,),),
 
-        SliverToBoxAdapter(
-          child: Center(
-            child: SizedBox(width: Dimensions.WEB_MAX_WIDTH,
-                child: WebRecentlyServiceView()
-            ),
+        if(Get.find<AuthController>().isLoggedIn())
+        SliverToBoxAdapter(child: Center(
+          child: SizedBox(width: Dimensions.WEB_MAX_WIDTH,
+            child: WebRecentlyServiceView(),
           ),
-        ),
+        )),
         SliverToBoxAdapter(child: SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,),),
 
         SliverToBoxAdapter(
@@ -74,6 +84,15 @@ class WebHomeScreen extends StatelessWidget {
             ),
           ),
         ),
+        SliverToBoxAdapter(
+          child: Center(
+            child: SizedBox(
+              width: Dimensions.WEB_MAX_WIDTH,
+              child: WebFeatheredCategoryView(),
+            ),
+          ),
+        ),
+
         SliverToBoxAdapter(child: Center(
           child: SizedBox(
             width: Dimensions.WEB_MAX_WIDTH,

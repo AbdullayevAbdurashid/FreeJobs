@@ -49,7 +49,7 @@ class SubCategoryWidget extends GetView<ServiceController> {
                   categoryModel!.description ?? '', maxLines: 2, overflow: TextOverflow.ellipsis,
                   style: ubuntuRegular.copyWith(
                       fontSize: Dimensions.fontSizeSmall,
-                      color: Theme.of(context).textTheme.bodyText1!.color),
+                      color: Theme.of(context).textTheme.bodyLarge!.color),
                 ),
                 SizedBox(height: Dimensions.PADDING_SIZE_SMALL,),
                 Text(

@@ -19,7 +19,7 @@ class MenuButton extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(Dimensions.PADDING_SIZE_EXTRA_SMALL)),
-              color: Theme.of(context).primaryColor.withOpacity(0.2),
+              color: Theme.of(context).primaryColor.withOpacity(0.1),
             ),
             height: _size-(_size*0.3),
             padding: EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
@@ -27,7 +27,7 @@ class MenuButton extends StatelessWidget {
             alignment: Alignment.center,
             child: Image.asset(menu!.icon!, width: _size, height: _size),
           ),
-          SizedBox(height: Dimensions.PADDING_SIZE_RADIUS),
+          SizedBox(height: Dimensions.PADDING_SIZE_EIGHT),
           Text(menu!.title!, style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeSmall), textAlign: TextAlign.center),
         ]),
         Positioned.fill(child: RippleButton(onTap: () async {

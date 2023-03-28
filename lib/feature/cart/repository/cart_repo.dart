@@ -45,7 +45,19 @@ class CartRepo{
   }
 
   Future<Response> updateCartQuantity(String cartID, int quantity)async{
+    print("cart_id: $cartID");
     return await apiClient.putData(AppConstants.UPDATE_CART_QUANTITY+ "$cartID", { 'quantity': quantity});
+  }
+
+  Future<Response> updateProvider(String providerId)async{
+    return await apiClient.postData(AppConstants.UPDATE_CART_PROVIDER,
+      { 'provider_id': providerId,
+        "_method":"put"
+      });
+  }
+
+  Future<Response> getProviderBasedOnSubcategory(String subcategoryId) async {
+    return await apiClient.getData(AppConstants.GET_PROVIDER_BASED_ON_SUBCATEGORY+"?sub_category_id=$subcategoryId");
   }
 
 }

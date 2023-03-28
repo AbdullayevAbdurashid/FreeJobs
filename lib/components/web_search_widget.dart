@@ -16,8 +16,8 @@ class SearchWidgetWeb extends GetView<SearchController> {
                 child: TextField(
                   onTap: () => Get.offNamed(RouteHelper.getSearchResultRoute()),
                   controller: controller.searchController,
-                  style: Theme.of(context).textTheme.headline2!.copyWith(
-                    color: Theme.of(context).textTheme.bodyText1!.color, fontSize: Dimensions.fontSizeSmall,
+                  style: Theme.of(context).textTheme.displayMedium!.copyWith(
+                    color: Theme.of(context).textTheme.bodyLarge!.color, fontSize: Dimensions.fontSizeSmall,
                   ),
 
                   cursorColor: Theme.of(context).hintColor,
@@ -42,7 +42,7 @@ class SearchWidgetWeb extends GetView<SearchController> {
                         : Theme.of(context).primaryColorDark.withOpacity(0.06),
                     isDense: true,
                     hintText: 'search_services_near_you'.tr,
-                    hintStyle: Theme.of(context).textTheme.headline2!.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).hintColor),
+                    hintStyle: Theme.of(context).textTheme.displayMedium!.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).hintColor),
                     filled: true,
                     prefixIconConstraints: BoxConstraints(minWidth: 23, maxHeight: 20),
                     prefixIcon: Padding(

@@ -27,7 +27,7 @@ class WebTrendingServiceView extends StatelessWidget {
                         onTap: () => Get.toNamed(RouteHelper.allServiceScreenRoute("trending_services")),
                         child: Text('see_all'.tr, style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeDefault,
                           decoration: TextDecoration.underline,
-                          color:Get.isDarkMode ?Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6) : Theme.of(context).colorScheme.primary,
+                          color:Get.isDarkMode ?Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6) : Theme.of(context).colorScheme.primary,
                         )),
                       ),
                     ],
@@ -38,7 +38,7 @@ class WebTrendingServiceView extends StatelessWidget {
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisSpacing: Dimensions.PADDING_SIZE_DEFAULT,
                       mainAxisSpacing:  Dimensions.PADDING_SIZE_DEFAULT,
-                      childAspectRatio: ResponsiveHelper.isDesktop(context) || ResponsiveHelper.isTab(context)  ? 1 : .70,
+                      childAspectRatio: ResponsiveHelper.isDesktop(context) || ResponsiveHelper.isTab(context)  ? 0.92 : .70,
                       crossAxisCount: ResponsiveHelper.isMobile(context) ? 2 : ResponsiveHelper.isTab(context) ? 3 : 5,
                     ),
                     physics:NeverScrollableScrollPhysics(),

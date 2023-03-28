@@ -46,12 +46,33 @@ class Voucher extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                   ),
-                  Text(
-                    "${'use_code'.tr} ${couponModel.couponCode!} ${'to_save_upto'.tr} ${PriceConverter.convertPrice(couponModel.discount!.discountAmountType == 'amount'?
-                    couponModel.discount!.discountAmount!.toDouble() : couponModel.discount!.maxDiscountAmount!.toDouble())} ${'on_your_next_purchase'.tr}",
-                    maxLines: 2,
-                    style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall,color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.5)),
-                  ),
+
+                  Wrap(runAlignment: WrapAlignment.start,children: [
+                    Text(
+                      "${'use_code'.tr} ${couponModel.couponCode!} ${'to_save_upto'.tr}",
+                      style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall,color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.5)),
+                    ),
+
+                    Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: Text(
+                        " ${PriceConverter.convertPrice(couponModel.discount!.discountAmountType == 'amount'?
+                        couponModel.discount!.discountAmount!.toDouble() : couponModel.discount!.maxDiscountAmount!.toDouble())} ",
+                        style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall,color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.5)),
+                      ),
+                    ),
+
+                    Text("${'on_your_next_purchase'.tr}",
+                      style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall,color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.5)),
+                    ),
+                  ],),
+
+                  // Text(
+                  //   "${'use_code'.tr} ${couponModel.couponCode!} ${'to_save_upto'.tr} ${PriceConverter.convertPrice(couponModel.discount!.discountAmountType == 'amount'?
+                  //   couponModel.discount!.discountAmount!.toDouble() : couponModel.discount!.maxDiscountAmount!.toDouble())} ${'on_your_next_purchase'.tr}",
+                  //   maxLines: 2,
+                  //   style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall,color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.5)),
+                  // ),
                   Divider(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -61,11 +82,11 @@ class Voucher extends StatelessWidget {
                         children: [
                           Text("valid_till".tr,
                             style: ubuntuRegular.copyWith(
-                              color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6),
+                              color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6),
                               fontSize: Dimensions.fontSizeSmall),),
                           SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL,),
                           Text(couponModel.discount!.endDate.toString(),
-                              style: ubuntuBold.copyWith(color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6), fontSize: 12))
+                              style: ubuntuBold.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6), fontSize: 12))
                         ],
                       ),
                       InkWell(

@@ -170,7 +170,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
               height: 18,
               color: Get.find<BottomNavController>().currentPage.value == bnbItem
                   ? Colors.white
-                  : Theme.of(context).secondaryHeaderColor,
+                  : Colors.white60,
             ),
             SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
             Text(bnbItem != BnbItem.cart ? bnbItem.name.tr : '',
@@ -178,7 +178,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
                   fontSize: Dimensions.fontSizeSmall,
                   color: Get.find<BottomNavController>().currentPage.value == bnbItem
                       ? Colors.white
-                      : Theme.of(context).secondaryHeaderColor,
+                      : Colors.white60,
                 )),
           ]),
         )));

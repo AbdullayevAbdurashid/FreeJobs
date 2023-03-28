@@ -131,11 +131,11 @@ class ContactUsPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(subTitle,style: ubuntuRegular.copyWith(color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6)),),
+              Text(subTitle,style: ubuntuRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6)),),
               SizedBox(height: Dimensions.PADDING_SIZE_MINI,),
-              Text(emailOrPhone,style: ubuntuMedium.copyWith(color: Theme.of(context).textTheme.bodyText1!.color!),),
+              Text(emailOrPhone,style: ubuntuMedium.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color!),),
               SizedBox(height: Dimensions.PADDING_SIZE_SMALL,),
-              Text(message,style: ubuntuRegular.copyWith(color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6)),),
+              Text(message,style: ubuntuRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6)),),
             ],
           ),
         ),

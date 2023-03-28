@@ -36,7 +36,7 @@ class CategoryView extends StatelessWidget {
                             hoverColor: Theme.of(context).primaryColor.withOpacity(0.05),
                             child: Text('see_all'.tr, style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeDefault,
                               decoration: TextDecoration.underline,
-                              color:Get.isDarkMode ?Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6) : Theme.of(context).colorScheme.primary,
+                              color:Get.isDarkMode ?Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6) : Theme.of(context).colorScheme.primary,
                             )),
                           ),
                         ],
@@ -120,28 +120,40 @@ class WebCategoryShimmer extends StatelessWidget {
         width: Dimensions.WEB_MAX_WIDTH,
         child: Column(
           children: [
-            if(fromHomeScreen!)SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,),
+            if(fromHomeScreen!)SizedBox(height: Dimensions.PADDING_SIZE_LARGE,),
             if(fromHomeScreen!)Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
               Container(
                 height: 30,
                 width: 100,
-                decoration: BoxDecoration(
-                  color: Colors.grey[Get.find<ThemeController>().darkTheme ? 700 : 300],
-                  borderRadius: BorderRadius.all(Radius.circular(Dimensions.RADIUS_DEFAULT,)),
-                ),
+                  decoration: BoxDecoration(
+                    color: Get.isDarkMode? Colors.grey[700]:Colors.white,
+                    borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                    boxShadow: Get.isDarkMode?null:[BoxShadow(color: Colors.grey[300]!, blurRadius: 10, spreadRadius: 1)],
+                  ),
+                child: Center(child: Container(
+                  height: ResponsiveHelper.isMobile(context)?10:ResponsiveHelper.isTab(context)?15:20,
+                  color: Colors.grey[Get.find<ThemeController>().darkTheme ? 600 : 300],
+                  margin: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL),
+                ),),
               ),
                 Container(
                   height: 30,
                   width: 80,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[Get.find<ThemeController>().darkTheme ? 700 : 300],
-                    borderRadius: BorderRadius.all(Radius.circular(Dimensions.RADIUS_DEFAULT,)),
-                  ),
+                    decoration: BoxDecoration(
+                      color: Get.isDarkMode? Colors.grey[700]:Colors.white,
+                      borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                      boxShadow: Get.isDarkMode?null:[BoxShadow(color: Colors.grey[300]!, blurRadius: 10, spreadRadius: 1)],
+                    ),
+                  child: Center(child: Container(
+                    height: ResponsiveHelper.isMobile(context)?10:ResponsiveHelper.isTab(context)?15:20,
+                    color: Colors.grey[Get.find<ThemeController>().darkTheme ? 600 : 300],
+                    margin: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL),
+                  ),),
                 )
             ],),
-            if(fromHomeScreen!)SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,),
+            if(fromHomeScreen! && !ResponsiveHelper.isMobile(context))SizedBox(height: Dimensions.PADDING_SIZE_SMALL,),
             GridView.builder(
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
@@ -149,22 +161,30 @@ class WebCategoryShimmer extends StatelessWidget {
               itemBuilder: (context, index) {
                 return Container(
                   padding: EdgeInsets.all(Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                  decoration: BoxDecoration(
-                      color: Colors.grey[Get.find<ThemeController>().darkTheme ? 700 : 300],
-                      borderRadius: BorderRadius.all(Radius.circular(Dimensions.RADIUS_DEFAULT))),
+                    decoration: BoxDecoration(
+                      color: Get.isDarkMode? Colors.grey[700]:Colors.white,
+                      borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                      boxShadow: Get.isDarkMode?null:[BoxShadow(color: Colors.grey[300]!, blurRadius: 10, spreadRadius: 1)],
+                    ),
                   margin: EdgeInsets.only(top: Dimensions.PADDING_SIZE_LARGE),
                   child: Shimmer(
                     duration: Duration(seconds: 2),
                     enabled: true,
-                    child: Row(children: [
+                    child: Column(mainAxisAlignment: MainAxisAlignment.center,children: [
                       Container(
+                        height: ResponsiveHelper.isMobile(context)?28:ResponsiveHelper.isTab(context)?40:60,
+                        width: ResponsiveHelper.isMobile(context)?28:ResponsiveHelper.isTab(context)?40:60,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
-                          color: Colors.grey[300],
+                            color: Colors.grey[Get.find<ThemeController>().darkTheme ? 600 : 300]
                         ),
                       ),
-                      SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
-                      Container( color: Colors.grey[Get.find<ThemeController>().darkTheme ? 600 : 300]),
+                      SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+                      Container(
+                        height: ResponsiveHelper.isMobile(context)?10:ResponsiveHelper.isTab(context)?15:20,
+                        color: Colors.grey[Get.find<ThemeController>().darkTheme ? 600 : 300],
+                        margin: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL),
+                      ),
                     ]),
                   ),
                 );

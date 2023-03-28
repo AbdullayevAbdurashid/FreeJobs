@@ -279,7 +279,7 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> with SingleTi
     _iconColor = _controller.drive(_iconColorTween.chain(_easeInTween));
     _backgroundColor = _controller.drive(_backgroundColorTween.chain(_easeOutTween));
 
-    _isExpanded = PageStorage.of(context)?.readState(context) as bool? ?? widget.initiallyExpanded;
+    _isExpanded = PageStorage.of(context).readState(context) as bool? ?? widget.initiallyExpanded;
     if (_isExpanded)
       _controller.value = 1.0;
   }
@@ -304,7 +304,7 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> with SingleTi
           });
         });
       }
-      PageStorage.of(context)?.writeState(context, _isExpanded);
+      PageStorage.of(context).writeState(context, _isExpanded);
     });
     widget.onExpansionChanged?.call(_isExpanded);
   }
@@ -344,7 +344,7 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> with SingleTi
                      Icon( _isExpanded == true ?
                         Icons.remove_circle:
                         Icons.add_circle_outlined,
-                        color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6),),
+                        color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6),),
                     Gaps.horizontalGapOf(10.0),
                     Expanded(
                       child: widget.title,
@@ -380,7 +380,7 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> with SingleTi
     _headerColorTween
       ..begin = widget.collapsedTextColor
           ?? expansionTileTheme.collapsedTextColor
-          ?? theme.textTheme.subtitle1!.color
+          ?? theme.textTheme.titleMedium!.color
       ..end = widget.textColor ?? expansionTileTheme.textColor ?? colorScheme.primary;
     _iconColorTween
       ..begin = widget.collapsedIconColor

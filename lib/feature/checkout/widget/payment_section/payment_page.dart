@@ -11,21 +11,40 @@ class PaymentPage extends StatefulWidget {
   State<PaymentPage> createState() => _PaymentPageState();
 }
 class _PaymentPageState extends State<PaymentPage> {
+  List<PaymentMethodButton> listOfButton =[
+    PaymentMethodButton(title: "digital_payment".tr,paymentMethodName: PaymentMethodName.digitalPayment, assetName: Images.pay,),
+    PaymentMethodButton(title: "cash_after_service".tr,paymentMethodName: PaymentMethodName.COS,assetName: Images.cod,),
+    PaymentMethodButton(title: "wallet_money".tr,paymentMethodName: PaymentMethodName.walletMoney,assetName: Images.walletMenu,),
+  ];
+
   @override
   Widget build(BuildContext context) {
+
     return SingleChildScrollView(
       child: Column(
         children: [
            Text('payment_method'.tr, style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeLarge)),
           Gaps.verticalGapOf(20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              PaymentMethodButton(title: "digital_payment".tr,paymentMethodName: PaymentMethodName.digitalPayment, assetName: Images.pay,),
-              Gaps.horizontalGapOf(Dimensions.PADDING_SIZE_DEFAULT),
-              PaymentMethodButton(title: "cash_after_service".tr,paymentMethodName: PaymentMethodName.COS,assetName: Images.cod,),
-            ],
+
+          Padding(padding: EdgeInsets.symmetric(horizontal: ResponsiveHelper.isDesktop(context)? Dimensions.WEB_MAX_WIDTH*0.2:0),
+            child: GridView.builder(
+              shrinkWrap: true,
+              key: UniqueKey(),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisSpacing: Dimensions.PADDING_SIZE_SMALL ,
+                mainAxisSpacing: ResponsiveHelper.isDesktop(context) ? Dimensions.PADDING_SIZE_SMALL : Dimensions.PADDING_SIZE_SMALL ,
+                mainAxisExtent: ResponsiveHelper.isMobile(context)? 100: 120,
+                crossAxisCount: ResponsiveHelper.isDesktop(context) ? 3 : ResponsiveHelper.isTab(context) ? 3 : 2,
+              ),
+              physics:  NeverScrollableScrollPhysics(),
+              itemCount: listOfButton.length,
+              padding: EdgeInsets.only(top: 50 ,right: Dimensions.PADDING_SIZE_DEFAULT,left: Dimensions.PADDING_SIZE_DEFAULT,bottom: Dimensions.PADDING_SIZE_DEFAULT),
+              itemBuilder: (context, index) {
+                return listOfButton.elementAt(index);
+              },
+            ),
           ),
+
           Gaps.verticalGapOf(26),
           GetBuilder<CheckOutController>(builder: (controller){
             if(controller.selectedPaymentMethod ==  PaymentMethodName.digitalPayment){
@@ -38,7 +57,7 @@ class _PaymentPageState extends State<PaymentPage> {
                   crossAxisSpacing: 0.0,
                   mainAxisSpacing: ResponsiveHelper.isDesktop(context) ? Dimensions.PADDING_SIZE_LARGE : Dimensions.PADDING_SIZE_DEFAULT,
                   childAspectRatio: ResponsiveHelper.isMobile(context) ? 2.5  : 4,
-                  crossAxisCount: 2,
+                  crossAxisCount:  ResponsiveHelper.isDesktop(context) ? 4 : ResponsiveHelper.isTab(context) ? 3 : 2,
                 ),
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
@@ -61,7 +80,7 @@ class _PaymentPageState extends State<PaymentPage> {
                   style: ubuntuMedium.copyWith(
                     fontSize: Dimensions.fontSizeLarge,
 
-                    color: Theme.of(context).errorColor),),
+                    color: Theme.of(context).colorScheme.error),),
               );
             }else{
               return SizedBox();

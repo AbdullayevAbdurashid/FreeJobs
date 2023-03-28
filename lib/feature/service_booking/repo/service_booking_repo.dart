@@ -13,11 +13,11 @@ class ServiceBookingRepo{
     required String serviceAddressID,required String schedule,required String zoneId
   }) async {
     return await apiClient.postData(AppConstants.PLACE_REQUEST, {
-          "payment_method": paymentMethod,
-          "user_id": userId,
-          "service_address_id": serviceAddressID,
-          "service_schedule": schedule,
-          "zone_id": zoneId,
+      "payment_method": paymentMethod,
+      "user_id": userId,
+      "service_address_id": serviceAddressID,
+      "service_schedule": schedule,
+      "zone_id": zoneId,
     });
   }
 

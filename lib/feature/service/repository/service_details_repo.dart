@@ -6,8 +6,15 @@ class ServiceDetailsRepo extends GetxService {
   final ApiClient apiClient;
   ServiceDetailsRepo({required this.apiClient});
 
-  Future<Response> getServiceDetails(String serviceID) async {
-    return await apiClient.getData('${AppConstants.SERVICE_DETAILS_URI}/$serviceID');
+  Future<Response> getServiceDetails(String serviceID,String fromPage) async {
+
+
+    if(fromPage=="search_page"){
+      return await apiClient.getData('${AppConstants.SERVICE_DETAILS_URI}/$serviceID?attribute=service');
+    }else{
+      return await apiClient.getData('${AppConstants.SERVICE_DETAILS_URI}/$serviceID');
+    }
+
   }
 
   Future<Response> getServiceReviewList(String serviceID,int offset) async {

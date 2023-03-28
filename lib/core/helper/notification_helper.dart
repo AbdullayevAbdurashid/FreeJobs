@@ -84,16 +84,18 @@ class NotificationHelper {
       String? _image;
       String playLoad = jsonEncode(message.data);
 
+
+
       if(data) {
 
         _title = message.data['title']?.replaceAll('_', ' ').toString().capitalize;
-        _body = message.data['body'];
+        _body = message.data['body'].replaceAll('_', ' ').toString();
         _orderID = message.data['booking_id'].toString();
         _image = (message.data['image'] != null && message.data['image'].isNotEmpty)
             ? message.data['image'].startsWith('http') ? message.data['image']
             : '${AppConstants.BASE_URL}/storage/app/public/notification/${message.data['image']}' : null;
       }else {
-        _title = message.notification!.title;
+        _title = message.notification!.title?.replaceAll('_', ' ').toString().capitalize;
         _body = message.notification!.body;
         _orderID = message.notification!.titleLocKey;
         if(GetPlatform.isAndroid) {
@@ -113,6 +115,7 @@ class NotificationHelper {
         }catch(e) {
           await showBigTextNotification(_title!, '',playLoad, _orderID!,fln);
         }
+
       }else {
         await showBigTextNotification(_title!, '',playLoad, _orderID!, fln);
       }

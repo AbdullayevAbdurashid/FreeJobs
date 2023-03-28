@@ -9,6 +9,8 @@ class AuthController extends GetxController implements GetxService {
   bool? _isLoading = false;
   bool _acceptTerms = false;
 
+  bool savedCookiesData = false;
+
   AuthController({required this.authRepo});
   bool? get isLoading => _isLoading;
   bool get acceptTerms => _acceptTerms;
@@ -19,6 +21,7 @@ class AuthController extends GetxController implements GetxService {
   var phoneController = TextEditingController();
   var passwordController = TextEditingController();
   var confirmPasswordController = TextEditingController();
+  var referCodeController = TextEditingController();
   var countryDialCodeForSignup;
 
   var signInPhoneController = TextEditingController();
@@ -65,6 +68,7 @@ class AuthController extends GetxController implements GetxService {
 
 
   Future<void> registration() async {
+
     String _numberWithCountryCode = countryDialCodeForSignup + phoneController.value.text;
 
     bool _isValid = GetPlatform.isWeb ? true : false;
@@ -75,17 +79,31 @@ class AuthController extends GetxController implements GetxService {
 
       }
     }
-
     if(_isValid){
-      SignUpBody signUpBody = SignUpBody(
+      _isLoading = true;
+      update();
+      SignUpBody signUpBody;
+      if(referCodeController.text!=""){
+        signUpBody = SignUpBody(
           fName: firstNameController.value.text,
           lName: lastNameController.value.text,
           email: emailController.value.text,
           phone: _numberWithCountryCode,
           password: passwordController.value.text,
-          confirmPassword: confirmPasswordController.value.text);
-      _isLoading = false;
-      update();
+          confirmPassword: confirmPasswordController.value.text,
+          referCode: referCodeController.value.text,
+        );
+      }else{
+        signUpBody = SignUpBody(
+          fName: firstNameController.value.text,
+          lName: lastNameController.value.text,
+          email: emailController.value.text,
+          phone: _numberWithCountryCode,
+          password: passwordController.value.text,
+          confirmPassword: confirmPasswordController.value.text,
+        );
+      }
+
       Response? response = await authRepo.registration(signUpBody);
       if (response!.statusCode == 200) {
         if(response.body['response_code'] == 'registration_200') {
@@ -95,19 +113,23 @@ class AuthController extends GetxController implements GetxService {
           phoneController.clear();
           passwordController.clear();
           confirmPasswordController.clear();
+          referCodeController.clear();
           Get.offAllNamed(RouteHelper.getSignInRoute(RouteHelper.main));
         }
         customSnackBar('registration_200'.tr,isError:false);
       }
       else {
         ErrorsModel _errorResponse = ErrorsModel.fromJson(response.body);
-        customSnackBar('${_errorResponse.responseCode}_${_errorResponse.errors!.elementAt(0).errorCode!}'.tr);
+        if(_errorResponse.responseCode=="referral_code_400"){
+          customSnackBar('invalid_refer_code'.tr);
+        }
       }
-      _isLoading = false;
-      update();
     }else{
       customSnackBar('phone_number_with_valid_country_code'.tr);
     }
+
+    _isLoading = false;
+    update();
   }
 
   Future<void> login() async {
@@ -134,7 +156,7 @@ class AuthController extends GetxController implements GetxService {
 
   }
   _navigateLogin(){
-    Get.offAllNamed(RouteHelper.getInitialRoute());
+    Get.offAllNamed(RouteHelper.getMainRoute(Get.currentRoute));
     if (_isActiveRememberMe) {
       saveUserNumberAndPassword(signInPhoneController.value.text, signInPasswordController.value.text);
     } else {
@@ -315,6 +337,17 @@ class AuthController extends GetxController implements GetxService {
 
   void saveUserNumberAndPassword(String number, String password) {
     authRepo.saveUserNumberAndPassword(number, password);
+  }
+
+  void saveCookiesData(bool data) {
+    authRepo.saveCookiesData(data);
+    savedCookiesData = true;
+    update();
+  }
+
+   getCookiesData(){
+     savedCookiesData = authRepo.getSavedCookiesData();
+     update();
   }
 
   String getUserNumber() {

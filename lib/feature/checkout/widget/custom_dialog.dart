@@ -51,7 +51,7 @@ class CustomDialog extends StatelessWidget {
               ),
               child: Text(
                 "No", textAlign: TextAlign.center,
-                style: ubuntuBold.copyWith(color: Theme.of(context).textTheme.bodyText1!.color),
+                style: ubuntuBold.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color),
               ),
             ),
 
@@ -66,7 +66,7 @@ class CustomDialog extends StatelessWidget {
               ),
               child: Text(
                 "Yes", textAlign: TextAlign.center,
-                style: ubuntuBold.copyWith(color: Theme.of(context).textTheme.bodyText1!.color),
+                style: ubuntuBold.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color),
               ),
             ),
           ]),

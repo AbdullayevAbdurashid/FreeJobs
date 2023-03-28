@@ -18,12 +18,12 @@ class SocialLoginWidget extends StatelessWidget {
     return Column(children: [
 
       Center(child: Text('or'.tr, style: ubuntuRegular.copyWith(
-          color:  Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.6),
+          color:  Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.6),
           fontSize: Dimensions.fontSizeSmall))),
       SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
 
       Center(child: Text('sign_in_with'.tr, style: ubuntuRegular.copyWith(
-          color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.6),
+          color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.6),
           fontSize: Dimensions.fontSizeSmall))),
       SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
 

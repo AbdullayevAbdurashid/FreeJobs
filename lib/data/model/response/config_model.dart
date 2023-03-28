@@ -61,7 +61,11 @@ class Content {
   String? footerText;
   int? googleSocialLogin;
   int? facebookSocialLogin;
-
+  int? phoneNumberVisibility;
+  int? walletStatus;
+  int? loyaltyPointStatus;
+  int? referEarnStatus;
+  String? cookiesText;
 
   Content(
       {this.businessName,
@@ -96,6 +100,11 @@ class Content {
         this.minimumVersion,
         this.footerText,
         this.googleSocialLogin,
+        this.phoneNumberVisibility,
+        this.walletStatus,
+        this.loyaltyPointStatus,
+        this.referEarnStatus,
+        this.cookiesText
       });
 
   Content.fromJson(Map<String, dynamic> json) {
@@ -152,6 +161,11 @@ class Content {
     footerText = json['footer_text'] != null ? json['footer_text'] : null;
     googleSocialLogin = json['google_social_login'] != null ? json['google_social_login'] : null;
     facebookSocialLogin = json['facebook_social_login'] != null ? json['facebook_social_login'] : null;
+    phoneNumberVisibility = json['phone_number_visibility_for_chatting'] != null ? json['phone_number_visibility_for_chatting'] : null;
+    walletStatus = json['wallet_status'] != null ? json['wallet_status'] : null;
+    loyaltyPointStatus = json['loyalty_point_status'] != null ? json['loyalty_point_status'] : null;
+    referEarnStatus = json['referral_earning_status'] != null ? json['referral_earning_status'] : null;
+    cookiesText = json['cookies_text'] != null ? json['cookies_text'] : null;
   }
 
 
@@ -207,6 +221,11 @@ class Content {
     data['footer_text'] = this.footerText;
     data['google_social_login'] = this.googleSocialLogin;
     data['facebook_social_login'] = this.facebookSocialLogin;
+    data['phone_number_visibility_for_chatting'] = this.phoneNumberVisibility;
+    data['wallet_status'] = this.walletStatus;
+    data['loyalty_point_status'] = this.loyaltyPointStatus;
+    data['referral_earning_status'] = this.referEarnStatus;
+    data['cookies_text'] = this.cookiesText;
 
     return data;
   }

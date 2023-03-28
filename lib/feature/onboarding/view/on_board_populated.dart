@@ -71,7 +71,7 @@ class OnBoardPopulated extends GetView<OnBoardController> {
                         "skip".tr,
                         style: ubuntuRegular.copyWith(
                           fontSize: Dimensions.fontSizeExtraLarge,
-                          color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6),
+                          color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6),
                         ),
                       ),
                     ),

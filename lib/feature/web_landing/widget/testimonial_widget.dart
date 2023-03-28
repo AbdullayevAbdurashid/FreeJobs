@@ -54,7 +54,7 @@ class TestimonialWidget extends StatelessWidget {
                       child: Icon(
                           Icons.arrow_back_ios,
                           size: Dimensions.WEB_ARROW_SIZE,
-                          color:webLandingController.currentPage! > 0? Theme.of(context).colorScheme.primary :Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.8)
+                          color:webLandingController.currentPage! > 0? Theme.of(context).colorScheme.primary :Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.8)
                       ),
                     ),
                   ),
@@ -133,7 +133,7 @@ class TestimonialWidget extends StatelessWidget {
                         Icons.arrow_forward_ios,
                         size: Dimensions.WEB_ARROW_SIZE,
                         color:webLandingController.currentPage!+1 < webLandingController.webLandingContent!.testimonial!.length
-                            ? Theme.of(context).colorScheme.primary :Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.8)
+                            ? Theme.of(context).colorScheme.primary :Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.8)
                     ),
                   ),
                 ),

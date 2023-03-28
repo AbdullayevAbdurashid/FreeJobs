@@ -43,13 +43,13 @@ class WebMenuBar extends StatelessWidget implements PreferredSizeWidget {
                       Icon(
                         locationController.getUserAddress()!.addressType == 'home' ?
                         Icons.home_filled : locationController.getUserAddress()!.addressType == 'office' ? Icons.work : Icons.location_on,
-                        size: 20, color: Theme.of(context).textTheme.bodyText1!.color,
+                        size: 20, color: Theme.of(context).textTheme.bodyLarge!.color,
                   ),
                   SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
                   Flexible(
                     child: Text(
                       locationController.getUserAddress()!.address!,
-                      style: ubuntuRegular.copyWith(color: Theme.of(context).textTheme.bodyText1!.color, fontSize: Dimensions.fontSizeExtraSmall,),
+                      style: ubuntuRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color, fontSize: Dimensions.fontSizeExtraSmall,),
                       maxLines: 1, overflow: TextOverflow.ellipsis,
                     ),
                   ),
@@ -65,7 +65,7 @@ class WebMenuBar extends StatelessWidget implements PreferredSizeWidget {
         Expanded(child: SizedBox()),
         MenuButtonWeb(
             title: 'home'.tr,
-            onTap: () => Get.toNamed(RouteHelper.getInitialRoute())),
+            onTap: () => Get.toNamed(RouteHelper.getMainRoute("home"))),
         SizedBox(width: 10),
         MenuButtonWeb(
             title: 'categories'.tr,
@@ -141,7 +141,7 @@ class MenuButtonWebIcon extends StatelessWidget {
             icon!,
             height: 16,
             width: 16,
-            color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.7),
+            color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.7),
           ),
 
           isCart ? GetBuilder<CartController>(builder: (cartController) {
@@ -189,7 +189,7 @@ class MenuButtonWeb extends StatelessWidget {
             hoverColor: Colors.transparent,
             onTap: onTap,
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical:Dimensions.PADDING_SIZE_RADIUS, horizontal: Dimensions.PADDING_SIZE_RADIUS),
+              padding: const EdgeInsets.symmetric(vertical:Dimensions.PADDING_SIZE_EIGHT, horizontal: Dimensions.PADDING_SIZE_EIGHT),
               child: Text(title!, style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeSmall)),
             ),
           ),

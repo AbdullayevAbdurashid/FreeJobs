@@ -19,6 +19,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final FocusNode _phoneFocus = FocusNode();
   final FocusNode _passwordFocus = FocusNode();
   final FocusNode _confirmPasswordFocus = FocusNode();
+  final FocusNode _referCodeFocus = FocusNode();
   final GlobalKey<FormState> customerSignUpKey = GlobalKey<FormState>();
 
   @override
@@ -29,6 +30,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     Get.find<AuthController>().phoneController.clear();
     Get.find<AuthController>().passwordController.clear();
     Get.find<AuthController>().confirmPasswordController.clear();
+    Get.find<AuthController>().referCodeController.clear();
     Get.find<AuthController>().initCountryCode();
     super.initState();
   }
@@ -41,9 +43,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       body: GetBuilder<AuthController>(
         init: Get.find<AuthController>(),
         builder: (authController){
-          return authController.isLoading! ?
-          Center(child: CircularProgressIndicator(),) :
-          FooterBaseView(
+          return FooterBaseView(
             child: WebShadowWrap(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_EXTRA_LARGE),
@@ -65,7 +65,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           if(ResponsiveHelper.isMobile(context))
                             _secondList(authController),
                          if(!ResponsiveHelper.isMobile(context))
-                         Row(children: [
+                         Row(crossAxisAlignment: CrossAxisAlignment.start,children: [
                             Expanded(child: _firstList(authController),),
                             SizedBox(width: Dimensions.PADDING_SIZE_LARGE,),
                             Expanded(
@@ -94,7 +94,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         Text('${'already_have_an_account'.tr} ',
                           style: ubuntuRegular.copyWith(
                             fontSize: Dimensions.fontSizeDefault,
-                            color: Theme.of(context).textTheme.bodyText1!.color,
+                            color: Theme.of(context).textTheme.bodyLarge!.color,
                           ),
                         ),
                         InkWell(
@@ -116,10 +116,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       children: [
                         Text('continue_as'.tr, style: ubuntuMedium.copyWith(
                             fontSize: Dimensions.fontSizeDefault,
-                            color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6)),),
+                            color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6)),),
                         InkWell(
                           onTap: () {
-                            Get.offNamed(RouteHelper.getInitialRoute());
+                            Get.offNamed(RouteHelper.getMainRoute('home'));
                           },
                           child: Text('guest'.tr, style: ubuntuMedium.copyWith(
                               fontSize: Dimensions.fontSizeDefault,
@@ -186,11 +186,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
         },
       ),
       SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
-    ],);
-  }
-
-  Widget _secondList(AuthController authController) {
-    return Column(children: [
       Row(
         children: [
           CodePickerWidget(
@@ -205,7 +200,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             dialogBackgroundColor: Theme.of(context).cardColor,
             barrierColor: Get.isDarkMode?Colors.black.withOpacity(0.4):null,
             textStyle: ubuntuRegular.copyWith(
-              fontSize: Dimensions.fontSizeLarge, color: Theme.of(context).textTheme.bodyText1!.color,
+              fontSize: Dimensions.fontSizeLarge, color: Theme.of(context).textTheme.bodyLarge!.color,
             ),
           ),
           Expanded(
@@ -220,6 +215,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ],
       ),
       SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+    ],);
+  }
+
+  Widget _secondList(AuthController authController) {
+    return Column(children: [
 
       CustomTextField(
         title: 'password'.tr,
@@ -240,12 +240,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
         hintText: '****************'.tr,
         controller: authController.confirmPasswordController,
         focusNode: _confirmPasswordFocus,
-        inputAction: TextInputAction.done,
+        nextFocus: _referCodeFocus,
         inputType: TextInputType.visiblePassword,
         isPassword: true,
         onValidate: (String? value) {
           return FormValidation().isValidPassword(value!);
         },
+      ),
+      SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+      CustomTextField(
+        title: 'referral_code'.tr,
+        hintText: 'optional'.tr,
+        controller: authController.referCodeController,
+        focusNode: _referCodeFocus,
+        inputType: TextInputType.text,
+        inputAction: TextInputAction.done,
       ),
       SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
     ],);

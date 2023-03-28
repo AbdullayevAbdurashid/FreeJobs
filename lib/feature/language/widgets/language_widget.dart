@@ -35,12 +35,12 @@ class LanguageWidget extends StatelessWidget {
                   height: 65, width: 65,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
-                    border: Border.all(color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.2), width: 1),
+                    border: Border.all(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.2), width: 1),
                   ),
                   alignment: Alignment.center,
                   child: Image.asset(
                     languageModel.imageUrl!, width: 36, height: 36,
-                    color: Theme.of(context).textTheme.bodyText1!.color,
+                    color: Theme.of(context).textTheme.bodyLarge!.color,
                   ),
                 ),
                 SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
@@ -49,7 +49,7 @@ class LanguageWidget extends StatelessWidget {
             ),
             localizationController.selectedIndex == index ? Positioned(
               top: 0, right: 0,
-              child: Icon(Icons.check_circle, color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6), size: 25),
+              child: Icon(Icons.check_circle, color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6), size: 25),
             ) : SizedBox(),
           ]),
         ),

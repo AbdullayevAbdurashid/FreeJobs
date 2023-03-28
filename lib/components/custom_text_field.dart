@@ -59,7 +59,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       maxLines: widget.maxLines,
       controller: widget.controller,
       focusNode: widget.focusNode,
-      style: ubuntuRegular.copyWith(fontSize:Dimensions.fontSizeDefault,color: widget.isEnabled==false?Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.6):Theme.of(context).textTheme.bodyText1!.color),
+      style: ubuntuRegular.copyWith(fontSize:Dimensions.fontSizeDefault,color: widget.isEnabled==false?Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.6):Theme.of(context).textTheme.bodyLarge!.color),
       textInputAction: widget.inputAction,
       keyboardType: widget.inputType,
       cursorColor: Theme.of(context).hintColor,
@@ -91,7 +91,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   textAlign: TextAlign.start,
                   style: ubuntuRegular.copyWith(
                     fontSize:  Dimensions.fontSizeDefault,
-                    color: widget.isEnabled==false?Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.6):Theme.of(context).textTheme.bodyText1!.color,)),
+                    color: widget.isEnabled==false?Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.6):Theme.of(context).textTheme.bodyLarge!.color,)),
             )) : null,
         suffixIcon: widget.isPassword! ?
         IconButton(

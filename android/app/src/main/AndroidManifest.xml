@@ -11,8 +11,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
-
-
+y
 
     <uses-sdk android:minSdkVersion="19" android:targetSdkVersion="31" />
 
@@ -40,7 +39,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyC9Ry7RGYOoAnS7iu8GsQlUmqppzJFqzHY"/>
+            android:value="YOUR_MAP_KEY"/>
 
         <activity
             android:name=".MainActivity"

@@ -11,7 +11,7 @@ class CustomText extends StatelessWidget {
     return SizedBox(
       child: Center(
         child: Text(text,style: ubuntuMedium.copyWith(
-            color: isActive ?Theme.of(context).textTheme.bodyText1!.color:Theme.of(context).hintColor),),
+            color: isActive ?Theme.of(context).textTheme.bodyLarge!.color:Theme.of(context).hintColor),),
       ),
     );
   }

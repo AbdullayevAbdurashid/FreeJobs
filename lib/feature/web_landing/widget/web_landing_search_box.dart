@@ -211,7 +211,7 @@ class _WebLandingSearchSectionState extends State<WebLandingSearchSection> {
                                               // borderRadius: BorderRadius.circular(10),
                                               borderRadius: BorderRadius.only(topLeft: Radius.circular(10),bottomLeft: Radius.circular(10)),
                                               borderSide: BorderSide(
-                                                  strokeAlign: StrokeAlign.inside,
+                                                  strokeAlign: 10,
                                                   color: Theme.of(context).primaryColor.withOpacity(0.3), width: 1),
 
                                             ),
@@ -264,8 +264,8 @@ class _WebLandingSearchSectionState extends State<WebLandingSearchSection> {
                                                   SizedBox(width: Dimensions.PADDING_SIZE_SMALL,),
                                                   Expanded(child: Text(
                                                     suggestion.description!, maxLines: 1, overflow: TextOverflow.ellipsis,
-                                                    style: Theme.of(context).textTheme.headline2!.copyWith(
-                                                      color: Theme.of(context).textTheme.bodyText1!.color, fontSize: Dimensions.fontSizeDefault,
+                                                    style: Theme.of(context).textTheme.displayMedium!.copyWith(
+                                                      color: Theme.of(context).textTheme.bodyLarge!.color, fontSize: Dimensions.fontSizeDefault,
                                                     ),
                                                   ),),
                                                 ],

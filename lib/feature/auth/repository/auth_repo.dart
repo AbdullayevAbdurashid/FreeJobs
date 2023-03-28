@@ -169,4 +169,19 @@ class AuthRepo {
     sharedPreferences.remove(AppConstants.USER_ADDRESS);
     return true;
   }
+
+
+  Future<void> saveCookiesData(bool data) async {
+    try {
+      await sharedPreferences.setBool(AppConstants.ACCEPT_COOKIES, data);
+
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  bool getSavedCookiesData() {
+    return sharedPreferences.getBool(AppConstants.ACCEPT_COOKIES)!;
+  }
+
 }

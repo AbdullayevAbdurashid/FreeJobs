@@ -19,11 +19,11 @@ class BookingServiceInfoItem extends StatelessWidget {
               Container(
                 width: 215,
                 child: Text("${bookingContentDetailsItem.service!.name!}",
-                  style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall,color: Theme.of(context).textTheme.bodyText1!.color),
+                  style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall,color: Theme.of(context).textTheme.bodyLarge!.color),
                   overflow: TextOverflow.ellipsis,),),
               Text("\$${bookingContentDetailsItem.totalCost}",
                 style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall,
-                    color: Theme.of(context).textTheme.bodyText1!.color),),
+                    color: Theme.of(context).textTheme.bodyLarge!.color),),
             ],
           ),
           Gaps.verticalGapOf(Dimensions.PADDING_SIZE_EXTRA_SMALL),

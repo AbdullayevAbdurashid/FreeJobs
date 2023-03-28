@@ -22,7 +22,7 @@ class BookingDetailsSection extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(height: Dimensions.PADDING_SIZE_RADIUS,),
+                  SizedBox(height: Dimensions.PADDING_SIZE_EIGHT,),
                   BookingInfo(bookingDetailsContent: bookingDetailsContent!, bookingDetailsTabController: bookingDetailsTabController),
                   //Booking Summary
 
@@ -50,7 +50,7 @@ class BookingDetailsSection extends StatelessWidget {
                                 icon: Images.deleteProfile,
                                 title: 'are_you_sure_to_cancel_your_order'.tr,
                                 description: 'your_order_will_be_cancel'.tr,
-                                descriptionTextColor: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.5),
+                                descriptionTextColor: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.5),
                                 onYesPressed: () {
                                   bookingDetailsTabController.bookingCancel(bookingId: bookingDetailsContent.id!);
                                   Get.back();
@@ -61,14 +61,14 @@ class BookingDetailsSection extends StatelessWidget {
                       },
                       child: Container(
                           decoration: BoxDecoration(
-                              color: Theme.of(context).errorColor.withOpacity(.2),
+                              color: Theme.of(context).colorScheme.error.withOpacity(.2),
                               borderRadius: BorderRadius.all(Radius.circular(Dimensions.RADIUS_LARGE))),
                           padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 15),
                             child: Text('cancel'.tr,style: ubuntuRegular.copyWith(
                                 fontSize: Dimensions.fontSizeLarge,
-                                color: Theme.of(context).errorColor),),
+                                color: Theme.of(context).colorScheme.error),),
                           )
                       ),
                     ),

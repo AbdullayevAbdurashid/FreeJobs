@@ -190,7 +190,7 @@ class _FooterViewState extends State<FooterView> {
                       const SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
                       FooterButton(title: 'current_offers'.tr, route: RouteHelper.getOffersRoute('')),
                       const SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
-                      FooterButton(title: 'popular_services'.tr, route: RouteHelper.allServiceScreenRoute("fromPopularServiceView")),
+                      FooterButton(title: 'popular_services'.tr, route: RouteHelper.allServiceScreenRoute("popular_services")),
                       const SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
                       FooterButton(title: 'categories'.tr, route: RouteHelper.getCategoryRoute('fromPage', '123')),
                       const SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
@@ -324,7 +324,7 @@ class FooterButton extends StatelessWidget {
           }
         } : null,
         child: Text(title, style: hovered ? ubuntuMedium.copyWith(
-            color: Theme.of(context).errorColor,
+            color: Theme.of(context).colorScheme.error,
             fontSize: Dimensions.fontSizeSmall)
             : ubuntuRegular.copyWith(
             color: Colors.white,

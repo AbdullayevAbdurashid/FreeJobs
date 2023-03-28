@@ -136,12 +136,15 @@ class ReviewBookingDetailsCard extends StatelessWidget {
                 style: ubuntuBold.copyWith(
                     fontSize: Dimensions.fontSizeLarge,
                     color: Theme.of(context).colorScheme.primary),),
-              Text(
-                  "${PriceConverter.convertPrice(bookingDetailsContent.totalBookingAmount!.toDouble())}",
-                  style: ubuntuBold.copyWith(
-                      fontSize: Dimensions.fontSizeLarge,
-                      color: Theme.of(context).textTheme.bodyText1!.color
-                  )
+              Directionality(
+                textDirection: TextDirection.ltr,
+                child: Text(
+                    "${PriceConverter.convertPrice(bookingDetailsContent.totalBookingAmount!.toDouble())}",
+                    style: ubuntuBold.copyWith(
+                        fontSize: Dimensions.fontSizeLarge,
+                        color: Theme.of(context).textTheme.bodyLarge!.color
+                    )
+                ),
               ),
             ],
           ),
@@ -154,7 +157,7 @@ class ReviewBookingDetailsCard extends StatelessWidget {
                   '${DateConverter.formatDate(DateConverter.isoUtcStringToLocalDate(bookingDetailsContent.createdAt!))}',
                   style: ubuntuRegular.copyWith(
                       fontSize: Dimensions.fontSizeDefault,
-                      color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.6)
+                      color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.6)
                   ),
               ),
               Text("${bookingDetailsContent.bookingStatus}".tr, style: ubuntuMedium.copyWith(color: Colors.green),),
@@ -195,7 +198,7 @@ class EditableReview extends StatelessWidget {
           variations,
           style: ubuntuRegular.copyWith(
             fontSize: Dimensions.fontSizeSmall,
-            color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.6),
+            color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.6),
           ),
         ),
         Row(
@@ -297,7 +300,7 @@ class NonEditableReview extends StatelessWidget {
                   variations,
                   style: ubuntuRegular.copyWith(
                     fontSize: Dimensions.fontSizeSmall,
-                    color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.6),
+                    color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.6),
                   ),
                 ),
               ),

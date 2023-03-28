@@ -53,7 +53,7 @@ class _ReviewRecommendationDialogState extends State<ReviewRecommendationDialog>
                             padding: EdgeInsets.only(
                                 top: Dimensions.PADDING_SIZE_DEFAULT,
                                 right: Dimensions.PADDING_SIZE_DEFAULT),
-                            child: Icon(Icons.close,color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6),),
+                            child: Icon(Icons.close,color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6),),
                           )),
                     ),
                     Text(
@@ -86,7 +86,7 @@ class _ReviewRecommendationDialogState extends State<ReviewRecommendationDialog>
                                 child: Center(
                                   child: Text(
                                     'skip'.tr,
-                                    style: ubuntuMedium.copyWith(color:Get.isDarkMode ?  Colors.white:Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6),
+                                    style: ubuntuMedium.copyWith(color:Get.isDarkMode ?  Colors.white:Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6),
                                         fontSize: Dimensions.fontSizeSmall),),
                                 )
                             )

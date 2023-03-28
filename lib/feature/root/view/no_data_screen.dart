@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:demandium/core/core_export.dart';
 
 enum NoDataType {
-  CART, NOTIFICATION, ORDER, COUPON, OTHERS, HOME, OFFERS, ADDRESS, BOOKING,SEARCH, SERVICE,INBOX, CATEGORY_SUBCATEGORY
+  CART, NOTIFICATION, ORDER, COUPON, OTHERS, HOME, OFFERS, ADDRESS, BOOKING,SEARCH, SERVICE,INBOX, CATEGORY_SUBCATEGORY,TRANSACTION
 }
 
 class NoDataScreen extends StatelessWidget {
@@ -31,6 +31,7 @@ class NoDataScreen extends StatelessWidget {
               type == NoDataType.SERVICE ? Images.emptyService:
               type == NoDataType.SEARCH ? Images.emptySearchService:
               type == NoDataType.INBOX ? Images.chatImage:
+              type == NoDataType.TRANSACTION ? Images.emptyTransaction:
               type == NoDataType.OFFERS ? Images.emptyOffer:Images.emptyService,
                 width: type == NoDataType.COUPON ? 50.0:MediaQuery.of(context).size.height*0.12 ,
                 height:type == NoDataType.COUPON ? 50.0: MediaQuery.of(context).size.height*0.12,
@@ -50,7 +51,7 @@ class NoDataScreen extends StatelessWidget {
           type == NoDataType.NOTIFICATION ? 'empty_notifications'.tr : text!,
           style: ubuntuMedium.copyWith(
             fontSize: Dimensions.fontSizeDefault,
-            color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.4),),
+            color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.4),),
           textAlign: TextAlign.center,
         ),
 
@@ -59,7 +60,7 @@ class NoDataScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_DEFAULT),
           child: Text('there_are_no_services_related_to_your_search'.tr,style: ubuntuRegular.copyWith(
             fontSize: Dimensions.fontSizeDefault,
-            color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.4),
+            color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.4),
           ),
             textAlign: TextAlign.center,),
         ),

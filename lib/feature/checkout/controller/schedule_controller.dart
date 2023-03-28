@@ -43,6 +43,8 @@ class ScheduleController extends GetxController{
 
     if (pickedTime != null) {
       _selectedDate = DateTime(_selectedDate.year, _selectedDate.month, _selectedDate.day, pickedTime.hour, pickedTime.minute);
+      print("inside_date_picker");
+      print(_selectedDate);
       update();
       ///after receive date and time we should call buildSchedule to get time and date together
      // _buildSchedule();

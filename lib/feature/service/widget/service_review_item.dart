@@ -22,7 +22,9 @@ class ServiceReviewItem extends StatelessWidget {
               child: Container(
                 width: Dimensions.IMAGE_SIZE,
                 height: Dimensions.IMAGE_SIZE,
-                child: CustomImage(image:"${Get.find<SplashController>().configModel.content!.imageBaseUrl}/user/profile_image/${reviewData.customer!.profileImage}" ,),
+                child: CustomImage(image:
+                "${Get.find<SplashController>().configModel.content!.imageBaseUrl}/user/profile_image/${reviewData.customer!.profileImage}"
+                  ,),
               ),
             ),
             Gaps.horizontalGapOf(10),
@@ -32,11 +34,11 @@ class ServiceReviewItem extends StatelessWidget {
                     children: [
                       if(reviewData.customer != null)
                       Text(reviewData.customer!.firstName! + " " + reviewData.customer!.lastName!,
-                        style: ubuntuBold.copyWith(fontSize: 12,color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6)),
+                        style: ubuntuBold.copyWith(fontSize: 12,color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6)),
                       ),
                       if(reviewData.customer == null)
                         Text("customer_not_available".tr,
-                        style: ubuntuBold.copyWith(fontSize: 12,color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6)),),
+                        style: ubuntuBold.copyWith(fontSize: 12,color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6)),),
                       Container(
                         height: 20,
                         child: Row(
@@ -54,7 +56,7 @@ class ServiceReviewItem extends StatelessWidget {
                         ),
                       ),
                     ])),
-            Text("${day>1? day.toString() + "days_ago".tr :"today".tr}", style: TextStyle(fontSize: 10, color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6)),),
+            Text("${day>1? day.toString() + "days_ago".tr :"today".tr}", style: TextStyle(fontSize: 10, color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6)),),
           ],
         ),
         Gaps.verticalGapOf(8),

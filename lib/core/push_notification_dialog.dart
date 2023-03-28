@@ -61,7 +61,7 @@ class _NewRequestDialogState extends State<PushNotificationDialog> {
                       child: Text(
                         'cancel'.tr,
                         textAlign: TextAlign.center,
-                        style: ubuntuBold.copyWith(color: Theme.of(context).textTheme.bodyText1!.color),
+                        style: ubuntuBold.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color),
               ),
             )),
             SizedBox(width: Dimensions.PADDING_SIZE_LARGE),

@@ -21,9 +21,9 @@ class ServiceDetailsController extends GetxController{
   String get discountType => _discountType!;
 
   ///call service details data based on service id
-  Future<void> getServiceDetails(String serviceID) async {
+  Future<void> getServiceDetails(String serviceID,{String fromPage=""}) async {
     _service = null;
-    Response response = await serviceDetailsRepo.getServiceDetails(serviceID);
+    Response response = await serviceDetailsRepo.getServiceDetails(serviceID,fromPage);
     if (response.body['response_code'] == 'default_200' ) {
       _service = Service.fromJson(response.body['content']);
     } else {

@@ -33,7 +33,9 @@ class ItemView extends GetView<SearchController> {
                     ServiceViewVertical(
                       service: searchController.searchServiceList!,
                       noDataText: 'no_service_found'.tr,
-                      noDataType: NoDataType.SEARCH,),
+                      noDataType: NoDataType.SEARCH,
+                      fromPage:"search_page"
+                    ),
                   ],
                 ));
           }else{

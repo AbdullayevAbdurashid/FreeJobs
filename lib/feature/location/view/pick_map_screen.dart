@@ -90,7 +90,7 @@ class _PickMapScreenState extends State<PickMapScreen> {
                     decoration: BoxDecoration(
                         color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL)),
                     child: Row(children: [
-                      Icon(Icons.location_on, size: 25, color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6)),
+                      Icon(Icons.location_on, size: 25, color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6)),
                       SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
                       Expanded(
                         child: Text(
@@ -99,7 +99,7 @@ class _PickMapScreenState extends State<PickMapScreen> {
                         ),
                       ),
                       SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
-                      Icon(Icons.search, size: 25, color: Theme.of(context).textTheme.bodyText1!.color),
+                      Icon(Icons.search, size: 25, color: Theme.of(context).textTheme.bodyLarge!.color),
                     ]),
                   ),
                 ),

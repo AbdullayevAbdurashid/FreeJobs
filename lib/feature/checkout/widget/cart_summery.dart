@@ -64,7 +64,7 @@ class CartSummery extends GetView<CartController> {
                                 child: Text(
                                   cartList.elementAt(index).variantKey,
                                   style: ubuntuMedium.copyWith(
-                                      color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.4),
+                                      color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.4),
                                       fontSize: Dimensions.fontSizeSmall),
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
@@ -77,7 +77,7 @@ class CartSummery extends GetView<CartController> {
                         ),
                         Divider(
                           height: 1,
-                          color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6),
+                          color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6),
                         ),
                         SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
                         RowText(title: 'sub_total'.tr, price: _subTotalPrice),
@@ -88,7 +88,7 @@ class CartSummery extends GetView<CartController> {
                         SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
                         Divider(
                           height: 1,
-                          color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6),
+                          color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6),
                         ),
                         SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
                         RowText(title:'grand_total'.tr , price: grandTotal),

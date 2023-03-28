@@ -8,7 +8,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool? showCart;
   final bool? centerTitle;
   final Color? bgColor;
-  CustomAppBar({required this.title, this.isBackButtonExist = true, this.onBackPressed, this.showCart = false,this.centerTitle = true,this.bgColor});
+  final Widget? actionWidget;
+  CustomAppBar({required this.title, this.isBackButtonExist = true, this.onBackPressed, this.showCart = false,this.centerTitle = true,this.bgColor, this.actionWidget});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
         hoverColor:Colors.transparent,
         icon: Icon(Icons.arrow_back_ios,color:Theme.of(context).primaryColorLight),
-        color: Theme.of(context).textTheme.bodyText1!.color,
+        color: Theme.of(context).textTheme.bodyLarge!.color,
         onPressed: () => onBackPressed != null ? onBackPressed!() : Navigator.pop(context),
       ) : SizedBox(),
       backgroundColor:Get.isDarkMode ? Theme.of(context).cardColor.withOpacity(.2):Theme.of(context).primaryColor,
@@ -34,7 +35,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   ? Theme.of(context).primaryColorLight
                   : Colors.white,
               size: Dimensions.CART_WIDGET_SIZE),
-        )] : null,
+        )]:actionWidget!=null?[actionWidget!]: null,
     );
   }
   @override

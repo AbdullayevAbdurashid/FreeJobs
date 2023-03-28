@@ -1,4 +1,5 @@
 import 'package:demandium/data/model/notification_body.dart';
+import 'package:demandium/feature/home/widget/cookies_view.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
@@ -10,12 +11,14 @@ import 'core/initial_binding/initial_binding.dart';
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   if(ResponsiveHelper.isMobilePhone()) {
     HttpOverrides.global = new MyHttpOverrides();
+
     await FlutterDownloader.initialize();
+
   }
   setPathUrlStrategy();
-  WidgetsFlutterBinding.ensureInitialized();
   if(GetPlatform.isWeb){
     await Firebase.initializeApp( 
         options: FirebaseOptions(
@@ -70,6 +73,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     if(GetPlatform.isWeb)  {
       Get.find<SplashController>().initSharedData();
+      Get.find<AuthController>().getCookiesData();
 
       if (Get.find<AuthController>().isLoggedIn()) {
         Get.find<UserController>().getUserInfo();
@@ -99,6 +103,19 @@ class MyApp extends StatelessWidget {
             getPages: RouteHelper.routes,
             defaultTransition: Transition.topLevel,
             transitionDuration: Duration(milliseconds: 500),
+            builder: (context, widget) => Material(
+              child: Stack(children: [
+                widget!,
+
+                GetBuilder<AuthController>(builder: (authController){
+                  if(!authController.savedCookiesData){
+                    return ResponsiveHelper.isWeb() ? Align(alignment: Alignment.bottomCenter,child: CookiesView()) :SizedBox();
+                  }else{
+                    return SizedBox();
+                  }
+                })
+              ],),
+            ),
           );
         });
       });

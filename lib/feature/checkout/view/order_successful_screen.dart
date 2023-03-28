@@ -30,8 +30,7 @@ class OrderSuccessfulScreen extends StatelessWidget {
         Padding(
           padding: EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
           child: CustomButton(buttonText: 'back_to_home'.tr, onPressed: () {
-            Get.offAllNamed(RouteHelper.getInitialRoute());
-            // Navigator.of(context).pushNamedAndRemoveUntil(RouteHelper.getInitialRoute(), (Route<dynamic> route) => false);
+            Get.offAllNamed(RouteHelper.getMainRoute("home"));
           }),
         ),
       ]))),

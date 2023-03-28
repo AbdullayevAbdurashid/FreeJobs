@@ -13,6 +13,7 @@ class BannerController extends GetxController implements GetxService {
   int? get currentIndex => _currentIndex;
 
   Future<void> getBannerList(bool reload) async {
+    print('banner_length: ${_banners?.length}');
     if(_banners == null || reload){
       Response response = await bannerRepo.getBannerList();
       if (response.statusCode == 200) {
@@ -23,8 +24,11 @@ class BannerController extends GetxController implements GetxService {
       } else {
         ApiChecker.checkApi(response);
       }
+      print('banner_length: ${_banners?.length}');
       update();
     }
+
+
   }
 
   void setCurrentIndex(int index, bool notify) {

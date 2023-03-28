@@ -1,8 +1,10 @@
 import 'package:demandium/components/menu_drawer.dart';
+import 'package:demandium/feature/home/widget/feathered_category_view.dart';
+import 'package:demandium/feature/home/widget/recommended_provider.dart';
+import 'package:demandium/feature/provider/controller/provider_booking_controller.dart';
 import 'package:get/get.dart';
 import 'package:demandium/components/paginated_list_view.dart';
 import 'package:demandium/components/service_view_vertical.dart';
-import 'package:demandium/feature/home/widget/campaign_view.dart';
 import 'package:demandium/core/core_export.dart';
 import 'package:demandium/feature/home/widget/category_view.dart';
 import 'package:demandium/feature/home/widget/random_campaign_view.dart';
@@ -10,18 +12,20 @@ import 'web_home_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   static Future<void> loadData(bool reload) async {
-    await Get.find<BannerController>().getBannerList(reload);
+    await Get.find<BannerController>().getBannerList(true);
     await Get.find<CategoryController>().getCategoryList(1,reload);
     Get.find<ServiceController>().getPopularServiceList(1,reload);
     Get.find<ServiceController>().getTrendingServiceList(1,reload);
+    Get.find<ProviderBookingController>().getProviderList(1,reload);
     Get.find<ServiceController>().getRecentlyViewedServiceList(1,reload);
     Get.find<CampaignController>().getCampaignList(reload);
     Get.find<ServiceController>().getRecommendedServiceList(1, reload);
     Get.find<ServiceController>().getAllServiceList(1,reload);
     Get.find<SearchController>().getSuggestedServicesFromServer();
-    Get.find<ServiceController>().getRecommendedSearchList(reload: false);
-  }
+    Get.find<ServiceController>().getRecommendedSearchList(reload: reload);
+    Get.find<ServiceController>().getFeatherCategoryList(reload);
 
+  }
 
   const HomeScreen({Key? key}) : super(key: key);
   @override
@@ -57,15 +61,19 @@ class _HomeScreenState extends State<HomeScreen> {
         body: ResponsiveHelper.isDesktop(context) ? WebHomeScreen(scrollController: _scrollController) : SafeArea(
           child: RefreshIndicator(
             onRefresh: () async {
+              Get.find<ProviderBookingController>().resetProviderFilterData();
               await Get.find<BannerController>().getBannerList(true);
               await Get.find<CategoryController>().getCategoryList(1,true);
-              await Get.find<ServiceController>().getPopularServiceList(1,true,);
-              await Get.find<ServiceController>().getTrendingServiceList(1,true,);
-              await Get.find<ServiceController>().getRecentlyViewedServiceList(1,true,);
-              await Get.find<CampaignController>().getCampaignList(true);
               await Get.find<ServiceController>().getRecommendedServiceList(1,true);
+              await Get.find<ProviderBookingController>().getProviderList(1, true);
+              await Get.find<ServiceController>().getPopularServiceList(1,true,);
+              await Get.find<ServiceController>().getRecentlyViewedServiceList(1,true,);
+              await Get.find<ServiceController>().getTrendingServiceList(1,true,);
+              await Get.find<CampaignController>().getCampaignList(true);
+              await Get.find<ServiceController>().getFeatherCategoryList(true);
               await Get.find<ServiceController>().getAllServiceList(1,true);
               await Get.find<CartController>().getCartListFromServer();
+
             },
             child: GestureDetector(
               onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
@@ -101,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: Row(mainAxisAlignment : MainAxisAlignment.spaceBetween, children: [
                                   Text('search_services'.tr, style: ubuntuRegular.copyWith(color: Theme.of(context).hintColor)),
                                   Padding(
-                                    padding: EdgeInsets.only(right: Dimensions.PADDING_SIZE_RADIUS),
+                                    padding: EdgeInsets.only(right: Dimensions.PADDING_SIZE_EIGHT),
                                     child: Container(
                                       height: 35,
                                       width: 35,
@@ -128,12 +136,18 @@ class _HomeScreenState extends State<HomeScreen> {
                           SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
                           RandomCampaignView(),
                           SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
-                          HorizontalScrollServiceView(fromPage: 'recently_view_services',serviceList: serviceController.recentlyViewServiceList),
-                          HorizontalScrollServiceView(fromPage: 'popular_services',serviceList: serviceController.popularServiceList),
-                          HorizontalScrollServiceView(fromPage: 'trending_services',serviceList: serviceController.trendingServiceList),
-                          CampaignView(),
                           RecommendedServiceView(),
+                          if(Get.find<AuthController>().isLoggedIn())
+                          HomeRecommendProvider(),
+                          HorizontalScrollServiceView(fromPage: 'popular_services',serviceList: serviceController.popularServiceList),
+                          if(Get.find<AuthController>().isLoggedIn())
+                          HorizontalScrollServiceView(fromPage: 'recently_view_services',serviceList: serviceController.recentlyViewServiceList),
+                          //CampaignView(),
+                          HorizontalScrollServiceView(fromPage: 'trending_services',serviceList: serviceController.trendingServiceList),
+
                           SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,),
+
+                          FeatheredCategoryView(),
 
                           (ResponsiveHelper.isMobile(context) || ResponsiveHelper.isTab(context))?  Padding(
                             padding: EdgeInsets.fromLTRB(Dimensions.PADDING_SIZE_DEFAULT, 15, Dimensions.PADDING_SIZE_DEFAULT,  Dimensions.PADDING_SIZE_SMALL,),

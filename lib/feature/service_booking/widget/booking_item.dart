@@ -21,7 +21,7 @@ class BookingItem extends StatelessWidget {
                 child: Text("$title".tr,
                   style: ubuntuRegular.copyWith(
                       fontSize: Dimensions.fontSizeSmall,
-                      color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.6)),
+                      color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.6)),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -29,7 +29,7 @@ class BookingItem extends StatelessWidget {
               Text("$date",
                 style: ubuntuRegular.copyWith(
                     fontSize: Dimensions.fontSizeSmall,
-                    color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.6)),
+                    color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.6)),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 textDirection: TextDirection.ltr,

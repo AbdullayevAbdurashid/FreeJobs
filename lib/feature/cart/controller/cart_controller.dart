@@ -1,3 +1,4 @@
+import 'package:demandium/feature/provider/model/provider_model.dart';
 import 'package:get/get.dart';
 import 'package:demandium/core/core_export.dart';
 import 'package:demandium/feature/voucher/controller/coupon_controller.dart';
@@ -21,6 +22,22 @@ class CartController extends GetxController implements GetxService {
   bool get isOthersInfoValid => _isOthersInfoValid;
   double get totalPrice => _totalPrice;
   bool get isButton => _isButton;
+
+
+  List<ProviderData>? _providerList;
+  List<ProviderData>? get  providerList=> _providerList;
+
+  double _walletBalance = 0.0;
+  double get walletBalance => _walletBalance;
+
+  bool preSelectedProvider = false;
+  String selectedProviderRating ='';
+  String selectedProviderProfileImages ='';
+  String selectedProviderName ='';
+  String selectedProviderId ='';
+  String subcategoryId ='';
+
+  int selectedProviderIndex = -1;
 
   @override
   void onInit() {
@@ -62,11 +79,30 @@ class CartController extends GetxController implements GetxService {
     Response response = await cartRepo.getCartListFromServer();
     if(response.statusCode == 200){
       _cartList = [];
-      response.body['content']['data'].forEach((cart){
+      response.body['content']['cart']['data'].forEach((cart){
         _cartList.add(CartModel.fromJson(cart));
+
       });
-    } else{
-      ApiChecker.checkApi(response);
+
+      if(response.body['content']['wallet_balance']!=null){
+        _walletBalance = double.tryParse(response.body['content']['wallet_balance'].toString())!;
+      }
+
+      if(_cartList.length>0){
+        if(_cartList[0].provider!=null){
+          preSelectedProvider = true;
+          selectedProviderName =  _cartList[0].provider?.companyName??"";
+          selectedProviderId =  _cartList[0].provider?.id??"";
+          selectedProviderProfileImages =  _cartList[0].provider?.logo??"";
+          selectedProviderRating =  _cartList[0].provider?.avgRating.toString()??"";
+          subcategoryId = _cartList[0].subCategoryId;
+        }
+      }
+
+
+    }
+    else{
+     // ApiChecker.checkApi(response);
     }
 
     _totalPrice = 0.0;
@@ -75,6 +111,7 @@ class CartController extends GetxController implements GetxService {
       _totalPrice = _totalPrice + cartModel.totalCost;
       _couponDiscount = _couponDiscount + cartModel.couponDiscountPrice;
     });
+
     if(_couponDiscount == 0) {
       Get.find<CouponController>().removeCouponData(false);
     }
@@ -106,6 +143,13 @@ class CartController extends GetxController implements GetxService {
 
   Future<void> updateCartQuantityToApi(String cartID, int quantity)async{
     Response response = await cartRepo.updateCartQuantity(cartID, quantity);
+    if(response.statusCode == 200){
+      getCartListFromServer();
+    }
+  }
+
+  Future<void> updateProvider()async{
+    Response response = await cartRepo.updateProvider(selectedProviderId);
     if(response.statusCode == 200){
       getCartListFromServer();
     }
@@ -252,13 +296,26 @@ class CartController extends GetxController implements GetxService {
   }
 
   Future<void> addToCartApi(CartModel cartModel)async{
-     await cartRepo.addToCartListToServer(CartModelBody(
-      serviceId:cartModel.service!.id,
-      categoryId: cartModel.categoryId,
-      variantKey: cartModel.variantKey,
-      quantity: cartModel.quantity.toString(),
-      subCategoryId: cartModel.subCategoryId,
-    ));
+
+    if(selectedProviderId!=""){
+      await cartRepo.addToCartListToServer(CartModelBody(
+        serviceId:cartModel.service!.id,
+        categoryId: cartModel.categoryId,
+        variantKey: cartModel.variantKey,
+        quantity: cartModel.quantity.toString(),
+        subCategoryId: cartModel.subCategoryId,
+        providerId: selectedProviderId,
+      ));
+    }else{
+      await cartRepo.addToCartListToServer(CartModelBody(
+        serviceId:cartModel.service!.id,
+        categoryId: cartModel.categoryId,
+        variantKey: cartModel.variantKey,
+        quantity: cartModel.quantity.toString(),
+        subCategoryId: cartModel.subCategoryId,
+      ));
+    }
+
   }
 
 
@@ -327,4 +384,61 @@ class CartController extends GetxController implements GetxService {
     return _cartList;
   }
 
+  Future<void> getProviderBasedOnSubcategory(String subcategoryId,bool reload) async {
+
+      Response response = await cartRepo.getProviderBasedOnSubcategory(subcategoryId);
+      if (response.statusCode == 200) {
+        if(reload){
+          _providerList = [];
+        }
+        List<dynamic> _list =  response.body['content'];
+        _list.forEach((element) {
+          providerList!.add(ProviderData.fromJson(element));
+        });
+
+        if(selectedProviderId!="" && _providerList!=null && _providerList!.isNotEmpty){
+          print('inside');
+
+          for(int i=0;i<_providerList!.length;i++){
+            if(selectedProviderId==_providerList![i].id){
+              print("$selectedProviderId::::${providerList![i].id}");
+              selectedProviderIndex =i;
+            }
+          }
+        }else{
+          selectedProviderIndex = -1;
+        }
+      } else {
+        //ApiChecker.checkApi(response);
+      }
+    update();
+  }
+
+  void updateProviderSelectedIndex(int index){
+    selectedProviderIndex = index;
+    update();
+  }
+
+  void updatePreselectedProvider(String rating, String id,String profileImage,String name){
+    preSelectedProvider = true;
+    selectedProviderId = id;
+    selectedProviderProfileImages = profileImage;
+    selectedProviderRating = rating;
+    selectedProviderName= name;
+    update();
+  }
+
+
+  void resetPreselectedProviderInfo(){
+    preSelectedProvider = false;
+    selectedProviderId = "";
+    selectedProviderProfileImages = "";
+    selectedProviderRating = "";
+    update();
+  }
+
+  void setSubCategoryId(String _subcategoryId){
+    subcategoryId = _subcategoryId;
+    update();
+  }
 }

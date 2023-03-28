@@ -11,7 +11,8 @@ class RecommendedServiceView extends StatelessWidget {
       builder: (serviceController){
         if(serviceController.recommendedServiceList != null && serviceController.recommendedServiceList!.length == 0){
           return SizedBox();
-        }else{
+        }
+        else{
           if(serviceController.recommendedServiceList != null){
             return Column(
               children: [
@@ -55,12 +56,53 @@ class RecommendedServiceView extends StatelessWidget {
                       },
                     )
                 ),
+                SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,)
               ],
             );
           }else{
-            return SizedBox(
-                height: 110,
-                child: RecommendedServiceShimmer(enabled: true));
+            return Column(
+              children: [
+                Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        height: 30,
+                        width: 100,
+                        decoration: BoxDecoration(
+                          color: Get.isDarkMode? Colors.grey[700]:Colors.white,
+                          borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                          boxShadow: Get.isDarkMode?null:[BoxShadow(color: Colors.grey[300]!, blurRadius: 10, spreadRadius: 1)],
+                        ),
+                        child: Center(child: Container(
+                          height: ResponsiveHelper.isMobile(context)?10:ResponsiveHelper.isTab(context)?15:20,
+                          color: Colors.grey[Get.find<ThemeController>().darkTheme ? 600 : 300],
+                          margin: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL),
+                        ),),
+                      ),
+                      Container(
+                        height: 30,
+                        width: 80,
+                        decoration: BoxDecoration(
+                          color: Get.isDarkMode? Colors.grey[700]:Colors.white,
+                          borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                          boxShadow: Get.isDarkMode?null:[BoxShadow(color: Colors.grey[300]!, blurRadius: 10, spreadRadius: 1)],
+                        ),
+                        child: Center(child: Container(
+                          height: ResponsiveHelper.isMobile(context)?10:ResponsiveHelper.isTab(context)?15:20,
+                          color: Colors.grey[Get.find<ThemeController>().darkTheme ? 600 : 300],
+                          margin: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL),
+                        ),),
+                      )
+                    ],),
+                ),
+                SizedBox(height: Dimensions.PADDING_SIZE_SMALL,),
+                SizedBox(
+                    height: 115,
+                    child: RecommendedServiceShimmer(enabled: true)),
+                SizedBox(height: Dimensions.PADDING_SIZE_SMALL,),
+              ],
+            );
           }
         }
       },
@@ -82,13 +124,13 @@ class RecommendedServiceShimmer extends StatelessWidget {
       itemCount: 10,
       itemBuilder: (context, index){
         return Container(
-          height: 90, width: 200,
-          margin: EdgeInsets.only(right: Dimensions.PADDING_SIZE_SMALL),
+          width: MediaQuery.of(context).size.width/1.20,
+          margin: EdgeInsets.only(right: Dimensions.PADDING_SIZE_SMALL,bottom: 5),
           padding: EdgeInsets.all(Dimensions.PADDING_SIZE_EXTRA_SMALL),
           decoration: BoxDecoration(
-            color: Colors.grey[Get.find<ThemeController>().darkTheme ? 700 : 300],
+            color: Get.isDarkMode? Colors.grey[700]:Colors.white,
             borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
-            boxShadow: cardShadow,
+            boxShadow: Get.isDarkMode?null:[BoxShadow(color: Colors.grey[300]!, blurRadius: 10, spreadRadius: 1)],
           ),
           child: Shimmer(
             duration: Duration(seconds: 1),
@@ -96,7 +138,7 @@ class RecommendedServiceShimmer extends StatelessWidget {
             enabled: enabled,
             child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Container(
-                height: 70, width: 70,
+                height: 90, width: 90,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
                     color: Colors.grey[Get.find<ThemeController>().darkTheme ? 600 : 300]
@@ -111,10 +153,7 @@ class RecommendedServiceShimmer extends StatelessWidget {
                     SizedBox(height: 5),
                     Container(height: 10, width: 130, color: Colors.grey[Get.find<ThemeController>().darkTheme ? 700 : 300]),
                     SizedBox(height: 5),
-                    Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                      Container(height: 10, width: 30, color: Colors.grey[Get.find<ThemeController>().darkTheme ? 600 : 300]),
-                      RatingBar(rating: 0.0, size: 12, ratingCount: 0),
-                    ]),
+                    RatingBar(rating: 0.0, size: 12, ratingCount: 0),
                   ]),
                 ),
               ),

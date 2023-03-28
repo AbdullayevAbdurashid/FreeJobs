@@ -9,6 +9,8 @@ class UserInfoModel {
   String? confirmPassword;
   String? createdAt;
   num? bookingsCount;
+  String? referCode;
+  String? referredBy;
 
   UserInfoModel(
       {this.id,
@@ -21,6 +23,8 @@ class UserInfoModel {
         this.confirmPassword,
         this.createdAt,
         this.bookingsCount,
+        this.referCode,
+        this.referredBy
       });
 
   UserInfoModel.fromJson(Map<String, dynamic> json) {
@@ -31,6 +35,8 @@ class UserInfoModel {
     image = json['profile_image'];
     phone = json['phone'];
     createdAt = json['created_at'];
+    referCode = json['ref_code'];
+    referredBy = json['referred_by'];
     bookingsCount = json['bookings_count'] != null ? int.parse(json['bookings_count'].toString()) : null;
   }
 
@@ -44,6 +50,8 @@ class UserInfoModel {
     data['phone'] = this.phone;
     data['password'] = this.password;
     data['confirm_password'] = this.confirmPassword;
+    data['ref_code'] = this.referCode;
+    data['referred_by'] = this.referredBy;
     return data;
   }
 }

@@ -3,7 +3,7 @@ import 'package:demandium/feature/profile/controller/user_controller.dart';
 
 enum PageState {orderDetails, payment, complete}
 
-enum PaymentMethodName  {digitalPayment, COS}
+enum PaymentMethodName  {digitalPayment, COS,walletMoney}
 class CheckOutController extends GetxController implements GetxService{
   PageState currentPage = PageState.orderDetails;
 
@@ -32,6 +32,7 @@ class CheckOutController extends GetxController implements GetxService{
 
   void updateDigitalPaymentOption(PaymentMethodName paymentMethodName,{bool shouldUpdate = true}){
     selectedPaymentMethod = paymentMethodName;
+    print(selectedPaymentMethod);
     if(shouldUpdate){
       update();
     }

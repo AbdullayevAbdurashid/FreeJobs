@@ -1,3 +1,6 @@
+import 'package:demandium/feature/cart/widget/available_provider_widgets.dart';
+import 'package:demandium/feature/cart/widget/selected_provider_widget.dart';
+import 'package:demandium/feature/cart/widget/unselected_provider_widget.dart';
 import 'package:get/get.dart';
 import 'package:demandium/core/core_export.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
@@ -21,6 +24,7 @@ class ServiceCenterDialog extends StatefulWidget {
 class _ProductBottomSheetState extends State<ServiceCenterDialog> {
   @override
   void initState() {
+    Get.find<CartController>().getProviderBasedOnSubcategory(widget.service!.subCategoryId!, true);
     Get.find<CartController>().setInitialCartList(widget.service!);
     super.initState();
   }
@@ -102,9 +106,12 @@ class _ProductBottomSheetState extends State<ServiceCenterDialog> {
                                                                 maxLines: 2, overflow: TextOverflow.ellipsis,
                                                               ),
                                                               SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL,),
-                                                              Text(
-                                                                  PriceConverter.convertPrice(double.parse(cartControllerInit.initialCartList[index].price.toString()),isShowLongPrice:true),
-                                                                  style: ubuntuMedium.copyWith(color:  Get.isDarkMode? Theme.of(context).primaryColorLight: Theme.of(context).primaryColor, fontSize: Dimensions.fontSizeSmall)),
+                                                              Directionality(
+                                                                textDirection: TextDirection.ltr,
+                                                                child: Text(
+                                                                    PriceConverter.convertPrice(double.parse(cartControllerInit.initialCartList[index].price.toString()),isShowLongPrice:true),
+                                                                    style: ubuntuMedium.copyWith(color:  Get.isDarkMode? Theme.of(context).primaryColorLight: Theme.of(context).primaryColor, fontSize: Dimensions.fontSizeSmall)),
+                                                              ),
                                                             ],
                                                           ),
                                                         ),
@@ -204,7 +211,7 @@ class _ProductBottomSheetState extends State<ServiceCenterDialog> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  SizedBox(height: Dimensions.PADDING_SIZE_RADIUS,),
+                                  SizedBox(height: Dimensions.PADDING_SIZE_EIGHT,),
                                   Text(
                                     widget.service!.name!,
                                     style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault),
@@ -214,7 +221,7 @@ class _ProductBottomSheetState extends State<ServiceCenterDialog> {
                                   SizedBox(height: Dimensions.PADDING_SIZE_MINI,),
                                   Text(
                                     "${widget.service!.variationsAppFormat!.zoneWiseVariations!.length} ${'options_available'.tr}",
-                                    style: ubuntuRegular.copyWith(color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.5)),
+                                    style: ubuntuRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.5)),
                                   ),
                                 ]),
                           ],
@@ -233,24 +240,56 @@ class _ProductBottomSheetState extends State<ServiceCenterDialog> {
                         right: Dimensions.PADDING_SIZE_DEFAULT,
                         bottom:  Dimensions.PADDING_SIZE_DEFAULT,
                         child:  GetBuilder<CartController>(builder: (cartController) {
-                        bool _addToCart = true;
-                        return cartController.isLoading ? Center(child: CircularProgressIndicator()) : CustomButton(
-                          height: ResponsiveHelper.isDesktop(context)? 50 : 45,
-                            onPressed:cartControllerInit.isButton ? () async{
-                              if(_addToCart) {
-                                _addToCart = false;
-                                if(Get.find<AuthController>().isLoggedIn()){
-                                  await cartController.addMultipleCartToServer();
-                                  await cartController.getCartListFromServer();
-                                  // Get.back();
+                          bool _addToCart = true;
+                          return cartController.isLoading ? Center(child: CircularProgressIndicator()) :
 
-                                }else{
-                                  cartController.addDataToCart();
-                                }
-                              }
-                            }: null,
-                            buttonText:(cartController.cartList.length > 0 && cartController.cartList.elementAt(0).serviceId == widget.service!.id) ? 'update_cart'.tr : 'add_to_cart'.tr);
-                      }),)
+                          Row(children: [
+                            cartControllerInit.preSelectedProvider?
+                            GestureDetector(
+                              onTap: (){
+                                cartControllerInit.setSubCategoryId(widget.service?.subCategoryId??"");
+                                showModalBottomSheet(
+                                    useRootNavigator: true,
+                                    isScrollControlled: true,
+                                    backgroundColor: Colors.transparent,
+                                    context: context, builder: (context) => AvailableProviderWidget()
+                                );
+                              },
+                              child: SelectedProductWidget(),
+                            ): GestureDetector(
+                              onTap: (){
+                                cartControllerInit.setSubCategoryId(widget.service?.subCategoryId??"");
+                                showModalBottomSheet(
+                                useRootNavigator: true,
+                                isScrollControlled: true,
+                                backgroundColor: Colors.transparent,
+                                context: context, builder: (context) => AvailableProviderWidget()
+                                );
+                              },
+                              child: UnselectedProductWidget(),
+                            ),
+                            SizedBox(width: Dimensions.PADDING_SIZE_SMALL,),
+                            Expanded(child: CustomButton(
+                                height: ResponsiveHelper.isDesktop(context)? 50 : 45,
+                                onPressed:cartControllerInit.isButton ? () async{
+                                  if(_addToCart) {
+                                    _addToCart = false;
+                                    if(Get.find<AuthController>().isLoggedIn()){
+                                      await cartController.addMultipleCartToServer();
+                                      await cartController.getCartListFromServer();
+                                      // Get.back();
+
+                                    }else{
+                                      cartController.addDataToCart();
+                                    }
+                                  }
+                                }: null,
+                                buttonText:(cartController.cartList.length > 0 && cartController.cartList.elementAt(0).serviceId == widget.service!.id)
+                                    ? 'update_cart'.tr : 'add_to_cart'.tr,
+                              ),
+                            )
+                          ]);
+                      }))
                     ],
                   );
                 return Stack(

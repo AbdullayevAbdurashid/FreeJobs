@@ -1,3 +1,4 @@
+import 'package:demandium/feature/provider/model/provider_model.dart';
 import 'package:demandium/feature/service/model/service_model.dart';
 
 class CartModel {
@@ -14,6 +15,7 @@ class CartModel {
   num? _taxAmount;
   num? _totalCost;
   Service? _service;
+  ProviderData? _provider;
 
   CartModel(
       String id,
@@ -29,7 +31,9 @@ class CartModel {
       num taxAmount,
       num totalCost,
       Service service,
-      )
+      {
+        ProviderData? provider
+      })
   {
   this._id = id;
   this._serviceId = serviceId;
@@ -44,10 +48,12 @@ class CartModel {
   this._taxAmount = taxAmount;
   this._totalCost = totalCost;
   this._service = service;
+  this._provider = provider;
   }
 
   String get id => _id!;
   Service? get service => _service;
+  ProviderData? get provider => _provider;
 
   String get serviceId => _serviceId!;
   String get categoryId => _categoryId!;
@@ -63,6 +69,7 @@ class CartModel {
   num get serviceCost => _serviceCost!;
   // ignore: unnecessary_getters_setters
   int get quantity => _quantity!;
+
   // ignore: unnecessary_getters_setters
   set quantity(int qty) => _quantity = qty;
 
@@ -91,6 +98,8 @@ class CartModel {
     _taxAmount = json['tax_amount'];
     _totalCost = json['total_cost'];
     _service = json['service'] != null ? new Service.fromJson(json['service']) : null;
+    _provider = (json['provider'] != null ? new ProviderData.fromJson(json['provider']) : null);
+
   }
 
   Map<String, dynamic> toJson() {
@@ -109,6 +118,7 @@ class CartModel {
     data['total_cost'] = this._totalCost;
     data['service'] = this._service;
     data['service'] = this.service?.toJson();
+    data['provider'] = this.provider?.toJson();
     return data;
   }
 }

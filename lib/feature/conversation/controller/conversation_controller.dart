@@ -170,7 +170,8 @@ class ConversationController extends GetxController implements GetxService{
     update();
   }
 
-  Future<void> createChannel(String userID,String referenceID,{String name='Chatting Page', String image='',bool fromBookingDetailsPage = false,String phone='',bool shouldUpdate = true}) async{
+  Future<void> createChannel(String userID,String referenceID,{String name='Chatting Page',
+    String image='',bool fromBookingDetailsPage = false,String phone='',bool shouldUpdate = true, String userType=""}) async{
     _isLoading = true;
     if(shouldUpdate){
       update();
@@ -181,7 +182,7 @@ class ConversationController extends GetxController implements GetxService{
       if(fromBookingDetailsPage){
         _isLoading = false;
         Get.back();
-        Get.toNamed(RouteHelper.getChatScreenRoute(response.body['content']['id'],name,image,phone,referenceID));
+        Get.toNamed(RouteHelper.getChatScreenRoute(response.body['content']['id'],name,image,phone,referenceID,userType));
       }
     }else{
       ApiChecker.checkApi(response);

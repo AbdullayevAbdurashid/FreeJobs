@@ -30,7 +30,7 @@ class NotificationDialog extends StatelessWidget {
                 child: Column(
                   children: [
                     notificationModel!.title!=null?Text(notificationModel!.title!,style: ubuntuMedium.copyWith(color: Theme.of(context).
-                    textTheme.bodyText1!.color!.withOpacity(0.7) ,
+                    textTheme.bodyLarge!.color!.withOpacity(0.7) ,
                         fontSize: Dimensions.fontSizeDefault
                     )): SizedBox.shrink(),
 
@@ -56,7 +56,7 @@ class NotificationDialog extends StatelessWidget {
 
                     SizedBox(height: notificationModel!.description!=null? Dimensions.PADDING_SIZE_DEFAULT:0,),
                     notificationModel!.description!=null?Text(notificationModel!.description!,style: ubuntuRegular.copyWith(color: Theme.of(context).
-                    textTheme.bodyText1!.color!.withOpacity(0.5) ,
+                    textTheme.bodyLarge!.color!.withOpacity(0.5) ,
                       fontSize: Dimensions.fontSizeDefault,
                     ),textAlign: TextAlign.justify,):SizedBox.shrink(),
 

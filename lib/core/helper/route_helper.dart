@@ -1,5 +1,18 @@
 import 'dart:convert';
 import 'package:demandium/data/model/notification_body.dart';
+import 'package:demandium/feature/loyalty_point/binding/loyalty_point_binding.dart';
+import 'package:demandium/feature/loyalty_point/loyality_point_screen.dart';
+import 'package:demandium/feature/provider/view/all_provider_view.dart';
+import 'package:demandium/feature/provider/view/provider_details_screen.dart';
+import 'package:demandium/feature/provider/view/provider_review_screen.dart';
+import 'package:demandium/feature/refer_and_earn/refer_and_earn_screen.dart';
+import 'package:demandium/feature/service/model/feathered_service_model.dart';
+import 'package:demandium/feature/service/view/all_feathered_category_services.dart';
+import 'package:demandium/feature/suggest_new_service/binding/suggest_service_binding.dart';
+import 'package:demandium/feature/suggest_new_service/view/suggest_service_screen.dart';
+import 'package:demandium/feature/suggest_new_service/view/suggested_service_list_screen.dart';
+import 'package:demandium/feature/wallet/binding/wallet_binding.dart';
+import 'package:demandium/feature/wallet/wallet_screen.dart';
 import 'package:get/get.dart';
 import 'package:demandium/core/initial_binding/initial_binding.dart';
 import 'package:demandium/feature/category/bindings/category_bindings.dart';
@@ -56,12 +69,21 @@ class RouteHelper {
   static const String bookingDetailsScreen = '/bookingDetailsScreen';
   static const String rateReviewScreen = '/rateReviewScreen';
   static const String allServiceScreen = '/allServiceScreen';
+  static const String featheredServiceScreen = '/featheredServiceScreen';
   static const String subCategoryScreen = '/subCategoryScreen';
   static const String paymentPage = '/paymentPage';
   static const String invoice = '/invoice';
   static const String completeBooking = '/completeBooking';
   static const String bookingScreen = '/bookingScreen';
   static const String notLoggedScreen = '/notLoggedScreen';
+  static const String suggestService = '/suggest-service';
+  static const String suggestServiceList = '/suggest-service-list';
+  static const String myWallet = '/my-wallet';
+  static const String loyaltyPoint = '/my-point';
+  static const String referAndEarn = '/refer-and-earn';
+  static const String allProviderList = '/all-provider';
+  static const String providerDetailsScreen = '/provider-details';
+  static const String providerReviewScreen = '/provider-review-screen';
 
 
   static String getInitialRoute() => '$initial';
@@ -92,7 +114,7 @@ class RouteHelper {
     return '$resetPassword?phoneOrEmail=$data&otp=$otp';
   }
   static String getSearchResultRoute({String? queryText}) => '$searchScreen?query=${queryText ?? ''}';
-  static String getServiceRoute(String id) => '$service?id=$id';
+  static String getServiceRoute(String id, {String fromPage="others"}) => '$service?id=$id&fromPage=$fromPage';
   static String getProfileRoute() => '$profile';
   static String getEditProfileRoute() => '$profileEdit';
   static String getNotificationRoute() => '$notification';
@@ -141,8 +163,10 @@ class RouteHelper {
       String name,
       String image,
       String phone,
-      String bookingID){
-    return '$chatScreen?channelID=$channelId&name=$name&image=$image&phone=$phone&bookingID=$bookingID';
+      String bookingID,
+      String userType
+      ){
+    return '$chatScreen?channelID=$channelId&name=$name&image=$image&phone=$phone&bookingID=$bookingID&userType=$userType';
   }
 
 
@@ -165,6 +189,10 @@ class RouteHelper {
   }
   static String getForgotPassRoute() => '$forgotPassword';
   static String allServiceScreenRoute(String fromPage, {String campaignID = ''}) => '$allServiceScreen?fromPage=$fromPage&campaignID=$campaignID';
+  static String getFeatheredCategoryService(String fromPage, CategoryData categoryData) {
+    String _data = base64Url.encode(utf8.encode(jsonEncode(categoryData.toJson())));
+    return '$featheredServiceScreen?fromPage=$fromPage&categoryData=$_data';
+  }
   static String subCategoryScreenRoute(String categoryName,String categoryID,int subCategoryIndex) {
     return '$subCategoryScreen?categoryName=$categoryName&categoryId=$categoryID&subCategoryIndex=$subCategoryIndex';
   }
@@ -173,10 +201,23 @@ class RouteHelper {
   static String getCompletedBooking() => '$completeBooking';
   static String getLanguageScreen(String fromPage) => '$languageScreen?fromPage=$fromPage';
   static String getNotLoggedScreen(String fromPage) => '$notLoggedScreen?fromPage=$fromPage';
+  static String getMyWalletScreen() => '$myWallet';
+  static String getLoyaltyPointScreen() => '$loyaltyPoint';
+  static String getReferAndEarnScreen() => '$referAndEarn';
+  static String getNewSuggestedServiceScreen() => '$suggestService';
+  static String getNewSuggestedServiceList() => '$suggestServiceList';
+  static String getAllProviderRoute() => '$allProviderList';
+  static String getProviderDetails(String providerId,String subCategories) => '$providerDetailsScreen?provider_id=$providerId&sub_categories=$subCategories';
+  static String getProviderReviewScreen(String subcategories,String providerId) => '$providerReviewScreen?sub_categories=$subcategories&provider_id=$providerId';
 
 
   static List<GetPage> routes = [
-    GetPage(name: initial, binding: BottomNavBinding(), page: () => getRoute(BottomNavScreen(pageIndex: 0))),
+    GetPage(
+      name: initial, binding: BottomNavBinding(),
+      page: () => getRoute(ResponsiveHelper.isDesktop(Get.context)
+          ? AccessLocationScreen(fromSignUp: false, fromHome: true, route: RouteHelper.getMainRoute('home'))
+          : BottomNavScreen(pageIndex: 0)),
+    ),
     GetPage(name: splash, page: () {
       NotificationBody? _data;
       if(Get.parameters['data'] != 'null') {
@@ -236,6 +277,16 @@ class RouteHelper {
       );
     }),
 
+    GetPage(name: featheredServiceScreen, page: () {
+      List<int> _decode = base64Decode(Get.parameters['categoryData']!);
+      CategoryData _categoryData = CategoryData.fromJson(jsonDecode(utf8.decode(_decode)));
+
+      return AllFeatheredCategoryServiceView(
+        fromPage: Get.parameters['fromPage']!,
+        categoryData: _categoryData,
+      );
+    }),
+
     GetPage(
         name: searchScreen,
         page: () => getRoute(SearchResultScreen(queryText: Get.parameters['query']))),
@@ -243,7 +294,7 @@ class RouteHelper {
         name: service,
         binding: ServiceDetailsBinding(),
         page: () {
-          return getRoute(Get.arguments != null ? Get.arguments : ServiceDetailsScreen(serviceID: Get.parameters['id']!));}),
+          return getRoute(Get.arguments != null ? Get.arguments : ServiceDetailsScreen(serviceID: Get.parameters['id']!,fromPage: Get.parameters['fromPage']!,));}),
 
     GetPage(name: profile, page: () => getRoute(ProfileScreen())),
     GetPage(
@@ -269,7 +320,7 @@ class RouteHelper {
             return getRoute(OrderSuccessfulScreen(status: 0,));
             if(Get.parameters['payment_status'] == 'canceled')
             return getRoute(OrderSuccessfulScreen(status: 0,));
-            if(Get.parameters['payment_status'] == 'failed')
+            if(Get.parameters['payment_status'] == 'failed' || Get.parameters['payment_status'] == 'fail')
             return getRoute(OrderSuccessfulScreen(status: 0,));
 
             return getRoute(CheckoutScreen(
@@ -323,7 +374,8 @@ class RouteHelper {
           image: Get.parameters['image']!,
           name: Get.parameters['name']!,
           phone: Get.parameters['phone']!,
-          bookingID: Get.parameters['bookingID']!
+          bookingID: Get.parameters['bookingID']!,
+          userType: Get.parameters['userType']!,
         )),
         binding: ConversationBinding()),
 
@@ -354,6 +406,19 @@ class RouteHelper {
     GetPage(binding: CheckoutBinding(),name: paymentPage, page: ()=> PaymentScreen(url: Get.parameters['url']!,)),
     GetPage(name: bookingScreen, page: ()=> BookingScreen( isFromMenu: Get.parameters['isFromMenu'] == "true"? true: false)),
     GetPage(name: notLoggedScreen, page: ()=> NotLoggedInScreen( fromPage: Get.parameters['fromPage']!)),
+    GetPage(binding: SuggestServiceBinding(),name:suggestService, page:() => getRoute(SuggestServiceScreen(),)),
+    GetPage(binding: SuggestServiceBinding(),name:suggestServiceList, page:() => getRoute(SuggestedServiceListScreen(),)),
+    GetPage(binding: WalletBinding(), name:myWallet, page:() => getRoute(WalletScreen(),)),
+    GetPage(binding: LoyaltyPointBinding(),name:loyaltyPoint, page:() => getRoute(LoyaltyPointScreen(),)),
+    GetPage(name:referAndEarn, page:() => getRoute(ReferAndEarnScreen(),)),
+    GetPage(name:allProviderList, page:() => getRoute(AllProviderView(),)),
+    GetPage(name:providerDetailsScreen, page:() => getRoute(ProviderDetailsScreen(providerId: Get.parameters['provider_id']!,subCategories: Get.parameters['sub_categories']!,))),
+    GetPage(name:providerReviewScreen, page:() =>
+        getRoute(ProviderReviewScreen(
+          subCategories: Get.parameters['sub_categories']!,
+          providerId: Get.parameters['provider_id']!,
+        ))),
+
     ];
 
   static getRoute(Widget navigateTo) {

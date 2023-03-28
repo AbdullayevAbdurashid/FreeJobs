@@ -37,11 +37,11 @@ class ProfileHeader extends GetView<UserController> {
                     SizedBox(width: Dimensions.PADDING_SIZE_LARGE, height: Dimensions.PADDING_SIZE_EXTRA_LARGE,),
                     if(!_isLoggedIn)
                       Text('guest_user'.tr,
-                        style: ubuntuBold.copyWith(fontSize: Dimensions.fontSizeExtraLarge, color: Theme.of(context).textTheme.bodyText2!.color!.withOpacity(.5)),
+                        style: ubuntuBold.copyWith(fontSize: Dimensions.fontSizeExtraLarge, color: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(.5)),
                       ),
                     if( _isLoggedIn && userInfoModel.fName != null && userInfoModel.lName != null )
                       Text("${userInfoModel.fName! +" "+ userInfoModel.lName!}",
-                        style: ubuntuBold.copyWith(fontSize: Dimensions.fontSizeExtraLarge, color: Theme.of(context).textTheme.bodyText2!.color),
+                        style: ubuntuBold.copyWith(fontSize: Dimensions.fontSizeExtraLarge, color: Theme.of(context).textTheme.bodyMedium!.color),
                       ),
 
                     SizedBox(width: Dimensions.PADDING_SIZE_LARGE, height: Dimensions.PADDING_SIZE_EXTRA_LARGE,),

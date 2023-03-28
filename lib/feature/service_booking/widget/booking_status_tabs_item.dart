@@ -25,7 +25,7 @@ class BookingStatusTabItem extends GetView<ServiceBookingController> {
             style:ubuntuMedium.copyWith(
                 fontSize: Dimensions.fontSizeSmall,
                 color: controller.selectedBookingStatus.name != title?
-                Theme.of(context).textTheme.bodyText1!.color: Colors.white),)
+                Theme.of(context).textTheme.bodyLarge!.color: Colors.white),)
         ],
       ),
     );

@@ -145,7 +145,7 @@ class _EditProfileGeneralInfoState extends State<EditProfileGeneralInfo> {
                   border: Border.all(
                       color: Theme.of(Get.context!)
                           .textTheme
-                          .bodyText1!
+                          .bodyLarge!
                           .color!
                           .withOpacity(.2),
                       width: 1),

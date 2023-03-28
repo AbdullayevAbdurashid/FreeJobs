@@ -90,15 +90,18 @@ class CartServiceWidget extends StatelessWidget {
                                             width: Get.width * 0.4,
                                             child: Text(
                                               cart.variantKey,
-                                              style: ubuntuMedium.copyWith(color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6), fontSize: Dimensions.fontSizeDefault),
+                                              style: ubuntuMedium.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6), fontSize: Dimensions.fontSizeDefault),
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                             ),
                                           ),
                                           SizedBox(height: 5),
-                                          Text(
-                                            '${PriceConverter.convertPrice(cart.totalCost.toDouble())}',
-                                            style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6)),
+                                          Directionality(
+                                            textDirection: TextDirection.ltr,
+                                            child: Text(
+                                              '${PriceConverter.convertPrice(cart.totalCost.toDouble())}',
+                                              style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6)),
+                                            ),
                                           ),
                                           SizedBox(height: 5),
                                         ]),

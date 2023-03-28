@@ -23,7 +23,7 @@ class BookingHistory extends StatelessWidget {
                    mainAxisAlignment: MainAxisAlignment.center,
                    children: [
                      Text('${'booking_place'.tr} : ',
-                       style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).textTheme.bodyText1!.color),
+                       style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).textTheme.bodyLarge!.color),
                      ),
                      Text("${DateConverter.dateMonthYearTimeTwentyFourFormat(DateConverter.isoUtcStringToLocalDate(bookingDetailsContent!.createdAt!.toString()))}",textDirection: TextDirection.ltr,
                        style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeDefault),),
@@ -37,7 +37,7 @@ class BookingHistory extends StatelessWidget {
                    mainAxisAlignment: MainAxisAlignment.center,
                    children: [
                      Text("${'service_scheduled_date'.tr} : ",
-                       style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).textTheme.bodyText1!.color),
+                       style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).textTheme.bodyLarge!.color),
                      ),
                      Text("${DateConverter.dateMonthYearTimeTwentyFourFormat(DateTime.tryParse(bookingDetailsContent.serviceSchedule!)!)}",
                        style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeDefault),
@@ -47,11 +47,11 @@ class BookingHistory extends StatelessWidget {
                  SizedBox(height: Dimensions.PADDING_SIZE_SMALL,),
                  RichText(
                    text:  TextSpan(text: '${'payment_status'.tr} : ',
-                     style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).textTheme.bodyText1!.color),
+                     style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).textTheme.bodyLarge!.color),
                      children: [
                        TextSpan(text: '${bookingDetailsContent.isPaid == 0 ? '${'unpaid'.tr}': 'paid'.tr} ',
                            style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault,
-                               color: bookingDetailsContent.isPaid == 0?Theme.of(context).errorColor : Colors.green,decoration: TextDecoration.none)),
+                               color: bookingDetailsContent.isPaid == 0?Theme.of(context).colorScheme.error : Colors.green,decoration: TextDecoration.none)),
                      ],
                    ),
                  ),
@@ -59,7 +59,7 @@ class BookingHistory extends StatelessWidget {
                  RichText(
                    text:  TextSpan(
                      text: '${'booking_status'.tr} : ',
-                     style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).textTheme.bodyText1!.color),
+                     style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).textTheme.bodyLarge!.color),
                      children: [
                        TextSpan(
                            text: "${bookingDetailsContent.bookingStatus!.tr}",

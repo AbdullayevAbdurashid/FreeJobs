@@ -59,7 +59,7 @@ class _ForgetPassScreenState extends State<ForgetPassScreen> {
                             dialogBackgroundColor: Theme.of(context).cardColor,
                             barrierColor: Get.isDarkMode?Colors.black.withOpacity(0.4):null,
                             textStyle: ubuntuRegular.copyWith(
-                              fontSize: Dimensions.fontSizeLarge, color: Theme.of(context).textTheme.bodyText1!.color,
+                              fontSize: Dimensions.fontSizeLarge, color: Theme.of(context).textTheme.bodyLarge!.color,
                             ),
                           ),
                           Expanded(

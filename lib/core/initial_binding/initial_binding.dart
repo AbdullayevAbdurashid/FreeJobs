@@ -1,4 +1,6 @@
 import 'package:demandium/feature/conversation/repo/conversation_repo.dart';
+import 'package:demandium/feature/provider/controller/provider_booking_controller.dart';
+import 'package:demandium/feature/provider/repository/provider_booking_repo.dart';
 import 'package:demandium/feature/web_landing/controller/web_landing_controller.dart';
 import 'package:demandium/feature/web_landing/repository/web_landing_repo.dart';
 import 'package:get/get.dart';
@@ -30,5 +32,6 @@ class InitialBinding extends Bindings {
     Get.lazyPut(() => HtmlViewController(htmlRepository: HtmlRepository(apiClient: Get.find())));
     Get.lazyPut(() => ConversationController(conversationRepo: ConversationRepo(apiClient: Get.find())));
     Get.lazyPut(() => CheckOutController());
+    Get.lazyPut(() => ProviderBookingController(providerBookingRepo: ProviderBookingRepo(apiClient: Get.find())));
   }
 }
