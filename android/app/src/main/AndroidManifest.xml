@@ -32,7 +32,7 @@ y
     </queries>
 
     <application
-        android:label="Demandium"
+        android:label="Top-usta"
         android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
