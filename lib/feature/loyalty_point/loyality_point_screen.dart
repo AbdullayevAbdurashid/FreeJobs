@@ -14,7 +14,7 @@ class LoyaltyPointScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      endDrawer:ResponsiveHelper.isDesktop(context) ? MenuDrawer():null,
+      endDrawer:ResponsiveHelper.isDesktop(context) ? const MenuDrawer():null,
       appBar: CustomAppBar(title: 'loyalty_point'.tr,actionWidget: InkWell(
         onTap: (){
           showGeneralDialog(
@@ -54,9 +54,9 @@ class LoyaltyPointScreen extends StatelessWidget {
           return FooterBaseView(
             isScrollView: true,
             child: SizedBox(
-              width: Dimensions.WEB_MAX_WIDTH,
+              width: Dimensions.webMaxWidth,
               child:loyaltyPointController.loyaltyPointModel!=null? Column(children: [
-                Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
+                const Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
 
                   LoyaltyPointTopCard(),
 
@@ -64,16 +64,16 @@ class LoyaltyPointScreen extends StatelessWidget {
                 ]),
                 if(ResponsiveHelper.isDesktop(context))
                 Padding(
-                  padding: const EdgeInsets.only(bottom:Dimensions.PADDING_SIZE_SMALL),
+                  padding: const EdgeInsets.only(bottom:Dimensions.paddingSizeSmall),
                   child: CustomButton(
-                    width: Dimensions.CURRENCY_CONVERT_BUTTON_HEIGHT,
+                    width: Dimensions.currencyConvertButtonHeight,
                     buttonText: "convert_to_currency".tr,
                     assetIcon: Images.convertPoint,
                     height: 45,
-                    radius: Dimensions.RADIUS_EXTRA_MORE_LARGE,
+                    radius: Dimensions.radiusExtraMoreLarge,
                     onPressed: (){
                       showDialog(context: context, builder: (_){
-                        return ConvertLoyaltyPointDialog();
+                        return const ConvertLoyaltyPointDialog();
                       });
                     },
                   ),
@@ -81,31 +81,31 @@ class LoyaltyPointScreen extends StatelessWidget {
               ]):Center(
                 child: SizedBox(
                   height: ResponsiveHelper.isDesktop(context)?100: Get.height*0.85,
-                    child: Center(child: CircularProgressIndicator(),)),
+                    child: const Center(child: CircularProgressIndicator(),)),
               ),
             ),
           );
       }),
       bottomSheet: GetBuilder<LoyaltyPointController>(builder: (loyaltyPointController){
         if(!ResponsiveHelper.isDesktop(context) && Get.find<LoyaltyPointController>().loyaltyPointModel!=null){
-          return Container(
+          return SizedBox(
             height: 60,
             width: Get.width,
             child: CustomButton(
-              width: Dimensions.CURRENCY_CONVERT_BUTTON_HEIGHT,
+              width: Dimensions.currencyConvertButtonHeight,
               buttonText: "convert_to_currency".tr,
               assetIcon: Images.convertPoint,
               height: 45,
-              radius: Dimensions.RADIUS_EXTRA_MORE_LARGE,
+              radius: Dimensions.radiusExtraMoreLarge,
               onPressed: (){
                 showDialog(context: context, builder: (_){
-                  return ConvertLoyaltyPointDialog();
+                  return const ConvertLoyaltyPointDialog();
                 });
               },
             ),
           );
         }else{
-          return SizedBox();
+          return const SizedBox();
         }
       }),
     );

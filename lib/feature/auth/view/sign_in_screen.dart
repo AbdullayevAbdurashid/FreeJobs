@@ -7,7 +7,8 @@ import 'package:demandium/feature/auth/widgets/social_login_widget.dart';
 
 class SignInScreen extends StatefulWidget {
   final bool exitFromApp;
-   SignInScreen({Key? key,required this.exitFromApp}) : super(key: key);
+  final String fromPage;
+   const SignInScreen({Key? key,required this.exitFromApp, required this.fromPage}) : super(key: key);
 
   @override
   State<SignInScreen> createState() => _SignInScreenState();
@@ -33,9 +34,10 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   requestFocus() async{
-    Timer(Duration(seconds: 1), () {
-      if(!ResponsiveHelper.isWeb())
-      _phoneFocus.requestFocus();
+    Timer(const Duration(seconds: 1), () {
+      if(!ResponsiveHelper.isWeb()) {
+        _phoneFocus.requestFocus();
+      }
     });
   }
 
@@ -55,14 +57,14 @@ class _SignInScreenState extends State<SignInScreen> {
             return Future.value(false);
           } else {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text('back_press_again_to_exit'.tr, style: TextStyle(color: Colors.white)),
+              content: Text('back_press_again_to_exit'.tr, style: const TextStyle(color: Colors.white)),
               behavior: SnackBarBehavior.floating,
               backgroundColor: Colors.green,
-              duration: Duration(seconds: 2),
-              margin: EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
+              duration: const Duration(seconds: 2),
+              margin: const EdgeInsets.all(Dimensions.paddingSizeSmall),
             ));
             _canExit = true;
-            Timer(Duration(seconds: 2), () {
+            Timer(const Duration(seconds: 2), () {
               _canExit = false;
             });
             return Future.value(false);
@@ -72,15 +74,15 @@ class _SignInScreenState extends State<SignInScreen> {
         }
       },
       child: Scaffold(
-        appBar: ResponsiveHelper.isDesktop(context) ? WebMenuBar() : !widget.exitFromApp ? AppBar( elevation: 0, backgroundColor: Colors.transparent) : null,
-        endDrawer:ResponsiveHelper.isDesktop(context) ? MenuDrawer():null,
+        appBar: ResponsiveHelper.isDesktop(context) ? const WebMenuBar() : !widget.exitFromApp ? AppBar( elevation: 0, backgroundColor: Colors.transparent) : null,
+        endDrawer:ResponsiveHelper.isDesktop(context) ? const MenuDrawer():null,
         body: SafeArea(child: FooterBaseView(
           isCenter: true,
           child: WebShadowWrap(
             child: Scrollbar(
               child: SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
-                padding: EdgeInsets.all(Dimensions.PADDING_SIZE_LARGE),
+                physics: const BouncingScrollPhysics(),
+                padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
                 child: GetBuilder<AuthController>(
                     builder: (authController) {
 
@@ -89,16 +91,16 @@ class _SignInScreenState extends State<SignInScreen> {
                     key: customerSignInKey,
                     child: Padding(
                       padding: EdgeInsets.symmetric(
-                          horizontal: ResponsiveHelper.isDesktop(context)?Dimensions.WEB_MAX_WIDTH/6:
-                          ResponsiveHelper.isTab(context)? Dimensions.WEB_MAX_WIDTH/8:0
+                          horizontal: ResponsiveHelper.isDesktop(context)?Dimensions.webMaxWidth/6:
+                          ResponsiveHelper.isTab(context)? Dimensions.webMaxWidth/8:0
                       ),
                       child: Column(
                           children: [
                         Image.asset(
                           Images.logo,
-                          width: Dimensions.LOGO_SIZE,
+                          width: Dimensions.logoSize,
                         ),
-                        SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_MORE_LARGE),
+                        const SizedBox(height: Dimensions.paddingSizeExtraMoreLarge),
 
                         CustomTextField(
                           title: 'email_phone'.tr,
@@ -107,14 +109,14 @@ class _SignInScreenState extends State<SignInScreen> {
                           focusNode: _phoneFocus,
                           nextFocus: _passwordFocus,
                           capitalization: TextCapitalization.words,
-                          onCountryChanged: (CountryCode countryCode) =>
+                          onCountryChanged: (countryCode) =>
                           authController.countryDialCodeForSignIn = countryCode.dialCode!,
                           onValidate: (String? value){
                             return (GetUtils.isPhoneNumber(value!.tr) || GetUtils.isEmail(value.tr)) ? null : 'enter_email_or_phone'.tr;
                           },
                         ),
 
-                        SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
+                        const SizedBox(height: Dimensions.paddingSizeLarge),
                         CustomTextField(
                           title: 'password'.tr,
                           hintText: '************'.tr,
@@ -142,7 +144,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                         onChanged: (bool? isChecked) => authController.toggleRememberMe(),
                                       ),
                                     ),
-                                    SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL,),
+                                    const SizedBox(width: Dimensions.paddingSizeExtraSmall,),
                                     Text(
                                       'remember_me'.tr,
                                       style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
@@ -157,15 +159,15 @@ class _SignInScreenState extends State<SignInScreen> {
                             Align(
                               alignment: Alignment.centerRight,
                               child: TextButton(
-                                onPressed: () => Get.toNamed(RouteHelper.getForgotPassRoute()),
-                                child: Text('${'forgot_password'.tr}', style: ubuntuRegular.copyWith(
+                                onPressed: () => Get.toNamed(RouteHelper.getSendOtpScreen("forget-password")),
+                                child: Text('forgot_password'.tr, style: ubuntuRegular.copyWith(
                                   fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).colorScheme.tertiary,
                                 )),
                               ),
                             ),
                           ],
                         ),
-                        SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
+                        const SizedBox(height: Dimensions.paddingSizeLarge),
                         !authController.isLoading! ? CustomButton(
                           buttonText: 'sign_in'.tr,
                           onPressed:  ()  {
@@ -174,12 +176,12 @@ class _SignInScreenState extends State<SignInScreen> {
                             }
                           },
                         ):
-                        CustomLoader(),
-                        SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
+                        const CustomLoader(),
+                        const SizedBox(height: Dimensions.paddingSizeDefault),
                         Get.find<SplashController>().configModel.content?.googleSocialLogin.toString() == '1' ||
                         Get.find<SplashController>().configModel.content?.facebookSocialLogin.toString() == '1' ?
-                        SocialLoginWidget(): SizedBox(),
-                        SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,),
+                        SocialLoginWidget(fromPage: widget.fromPage,): const SizedBox(),
+                        const SizedBox(height: Dimensions.paddingSizeDefault,),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -194,11 +196,13 @@ class _SignInScreenState extends State<SignInScreen> {
                               onPressed: (){
                                 authController.signInPhoneController.clear();
                                 authController.signInPasswordController.clear();
+
                                 Get.toNamed(RouteHelper.getSignUpRoute());
+
                               },
                               style: TextButton.styleFrom(
                                 padding: EdgeInsets.zero,
-                                minimumSize: Size(50,30),
+                                minimumSize: const Size(50,30),
                                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
 
                               ),
@@ -210,7 +214,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             )
                           ],
                         ),
-                        SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL,),
+                        const SizedBox(height: Dimensions.paddingSizeExtraSmall,),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -222,7 +226,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             TextButton(
                               style: TextButton.styleFrom(
                                 padding: EdgeInsets.zero,
-                                minimumSize: Size(50,30),
+                                minimumSize: const Size(50,30),
                                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                               ),
                               onPressed: (){
@@ -235,7 +239,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
                           ],
                         ),
-                        SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_MORE_LARGE,),
+                        const SizedBox(height: Dimensions.paddingSizeExtraMoreLarge,),
 
                       ]),
                     ),
@@ -250,6 +254,6 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   void _login(AuthController authController) async {
-    authController.login();
+    authController.login(widget.fromPage);
   }
 }

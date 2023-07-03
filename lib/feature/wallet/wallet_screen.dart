@@ -2,7 +2,7 @@ import 'package:demandium/components/footer_base_view.dart';
 import 'package:demandium/components/menu_drawer.dart';
 import 'package:demandium/core/core_export.dart';
 import 'package:demandium/feature/wallet/controller/wallet_controller.dart';
-import 'package:demandium/feature/wallet/widgets/walletTopCard.dart';
+import 'package:demandium/feature/wallet/widgets/wallet_top_card.dart';
 import 'package:demandium/feature/wallet/widgets/wallet_list_view.dart';
 import 'package:demandium/feature/wallet/widgets/wallet_uses_manual_dialog.dart';
 import 'package:get/get.dart';
@@ -13,7 +13,7 @@ class WalletScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      endDrawer:ResponsiveHelper.isDesktop(context) ? MenuDrawer():null,
+      endDrawer:ResponsiveHelper.isDesktop(context) ? const MenuDrawer():null,
       appBar: CustomAppBar(title: 'my_wallet'.tr,actionWidget: InkWell(
         onTap: (){
           showGeneralDialog(
@@ -51,8 +51,8 @@ class WalletScreen extends StatelessWidget {
         builder: (walletController){
           return FooterBaseView(
             isScrollView: true,
-            child:walletController.walletTransactionModel!=null ?SizedBox(
-              width: Dimensions.WEB_MAX_WIDTH,
+            child:walletController.walletTransactionModel!=null ?const SizedBox(
+              width: Dimensions.webMaxWidth,
               child: Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
 
                 WalletTopCard(),
@@ -62,7 +62,7 @@ class WalletScreen extends StatelessWidget {
               ]),
             ):Center(
               child: SizedBox(height: ResponsiveHelper.isDesktop(context)?100: Get.height*0.85,
-                  child: Center(child: CircularProgressIndicator())),
+                  child: const Center(child: CircularProgressIndicator())),
             ),
           );
       }),

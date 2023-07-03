@@ -14,7 +14,7 @@ class ServiceController extends GetxController implements GetxService {
   int? _quantity = 1;
   List<bool>? _addOnActiveList = [];
   List<int>? _addOnQtyList = [];
-  int _cartIndex = -1;
+  final int _cartIndex = -1;
 
 
   ServiceContent? _serviceContent;
@@ -37,7 +37,7 @@ class ServiceController extends GetxController implements GetxService {
   List<Service>? _trendingServiceList;
   List<Service>? _recentlyViewServiceList;
   List<Service>? _recommendedServiceList;
-  List<RecommendedSearch> _recommendedSearchList = [];
+  List<RecommendedSearch>? _recommendedSearchList;
   List<Service>? _subCategoryBasedServiceList;
   List<Service>? _campaignBasedServiceList;
   List<Service>? _offerBasedServiceList;
@@ -53,7 +53,7 @@ class ServiceController extends GetxController implements GetxService {
   List<Service>? get subCategoryBasedServiceList => _subCategoryBasedServiceList;
   List<Service>? get campaignBasedServiceList => _campaignBasedServiceList;
   List<Service>? get offerBasedServiceList => _offerBasedServiceList;
-  List<RecommendedSearch> get recommendedSearchList => _recommendedSearchList;
+  List<RecommendedSearch>? get recommendedSearchList => _recommendedSearchList;
   List<CategoryData> get categoryList => _categoryList ;
 
 
@@ -73,7 +73,7 @@ class ServiceController extends GetxController implements GetxService {
   String? _fromPage;
   String? get fromPage => _fromPage!;
 
-  List<double> _lowestPriceList = [];
+  final List<double> _lowestPriceList = [];
   List<double> get lowestPriceList => _lowestPriceList;
 
   bool _shuffleRecommendList = false;
@@ -94,7 +94,6 @@ class ServiceController extends GetxController implements GetxService {
 
 
   Future<void> getAllServiceList(int offset, bool reload) async {
-    print("getAllServiceList_offset:$offset");
     if(offset != 1 || _allService == null || reload){
       if(reload){
         _allService = null;
@@ -120,8 +119,6 @@ class ServiceController extends GetxController implements GetxService {
 
 
   Future<void> getPopularServiceList(int offset, bool reload) async {
-    print(offset);
-    print("offset");
     if(offset != 1 || _popularServiceList == null || reload ){
       Response response = await serviceRepo.getPopularServiceList(offset);
       if (response.statusCode == 200) {
@@ -145,8 +142,6 @@ class ServiceController extends GetxController implements GetxService {
 
 
   Future<void> getTrendingServiceList(int offset, bool reload) async {
-    print(offset);
-    print("offset");
     if(offset != 1 || _trendingServiceList == null || reload ){
       Response response = await serviceRepo.getTrendingServiceList(offset);
       if (response.statusCode == 200) {
@@ -170,8 +165,6 @@ class ServiceController extends GetxController implements GetxService {
 
 
   Future<void> getRecentlyViewedServiceList(int offset, bool reload) async {
-    print(offset);
-    print("offset");
     if(offset != 1 || _recentlyViewServiceList == null || reload ){
       Response response = await serviceRepo.getRecentlyViewedServiceList(offset);
       if (response.statusCode == 200) {
@@ -242,39 +235,37 @@ class ServiceController extends GetxController implements GetxService {
    }
   }
 
-  Future<void> getRecommendedSearchList({bool reload = true}) async {
-
-
-      if(reload || _recommendedSearchList.isEmpty){
-        _recommendedSearchList = [];
-        _isLoading = true;
-        update();
-
-        Response response = await serviceRepo.getRecommendedSearchList();
-        if (response.statusCode == 200) {
-          if(response.body['content']!=null){
-            List<dynamic> _list = response.body['content'];
-            _recommendedSearchList = [];
-            _list.forEach((element) =>_recommendedSearchList.add(RecommendedSearch.fromJson(element)));
-          }
-        } else {
-          ApiChecker.checkApi(response);
-        }
-
-      }
-      _isLoading = false;
+  Future<void> getRecommendedSearchList({bool reload = false}) async {
+    if(reload){
+      _recommendedSearchList = null;
       update();
-
-
-
-
+    }
+    Response response = await serviceRepo.getRecommendedSearchList();
+    if (response.statusCode == 200) {
+      if(response.body['content']!=null){
+        List<dynamic> list = response.body['content'];
+        _recommendedSearchList = [];
+        for (var element in list) {
+          _recommendedSearchList?.add(RecommendedSearch.fromJson(element));
+        }
+      }
+    } else {
+      ApiChecker.checkApi(response);
+    }
+    update();
   }
+
+
    cleanSubCategory(){
     _subCategoryBasedServiceList = null;
     update();
   }
 
-  Future<void> getSubCategoryBasedServiceList(String subCategoryID, bool isWithPagination, {bool isShouldUpdate = true}) async {
+  Future<void> getSubCategoryBasedServiceList(String subCategoryID, bool isWithPagination, {bool isShouldUpdate = true, bool showShimmerAlways = false}) async {
+    if(showShimmerAlways){
+      _subCategoryBasedServiceList = null;
+      update();
+    }
     Response response = await serviceRepo.getServiceListBasedOnSubCategory(subCategoryID: subCategoryID,offset: 1);
     if (response.statusCode == 200) {
       if(!isWithPagination){
@@ -297,7 +288,7 @@ class ServiceController extends GetxController implements GetxService {
       }
       response.body['content']['data'].forEach((serviceTypesModel) {
         if(ServiceTypesModel.fromJson(serviceTypesModel).service != null){
-          _campaignBasedServiceList!.add(ServiceTypesModel.fromJson(serviceTypesModel).service);
+          _campaignBasedServiceList!.add(ServiceTypesModel.fromJson(serviceTypesModel).service!);
         }
       });
       Get.toNamed(RouteHelper.allServiceScreenRoute("fromCampaign",campaignID: campaignID));
@@ -322,11 +313,11 @@ class ServiceController extends GetxController implements GetxService {
     if (response.body['response_code'] == 'default_200') {
       response.body['content']['data'].forEach((serviceTypesModel) {
         if(ServiceTypesModel.fromJson(serviceTypesModel).service != null){
-          _campaignBasedServiceList!.add(ServiceTypesModel.fromJson(serviceTypesModel).service);
+          _campaignBasedServiceList!.add(ServiceTypesModel.fromJson(serviceTypesModel).service!);
         }
       });
       _isLoading = false;
-      if(_campaignBasedServiceList!.length == 0){
+      if(_campaignBasedServiceList!.isEmpty){
         Get.find<CategoryController>().getCampaignBasedCategoryList(campaignID,false);
       }else{
         Get.toNamed(RouteHelper.allServiceScreenRoute("fromCampaign",campaignID: campaignID));
@@ -342,7 +333,6 @@ class ServiceController extends GetxController implements GetxService {
   }
 
   Future<void> getOffersList(int offset, bool reload) async {
-    print("offset_from_offer_list:$offset");
     Response response = await serviceRepo.getOffersList(offset);
     if (response.statusCode == 200) {
       if( reload){
@@ -368,20 +358,20 @@ class ServiceController extends GetxController implements GetxService {
   }
 
   int setExistInCart(Service service, {bool notify = true}) {
-    List<String> _variationList = [];
+    List<String> variationList = [];
     for (int index = 0; index < service.variationsAppFormat!.zoneWiseVariations!.length; index++) {
-      _variationList.add(service.variationsAppFormat!.zoneWiseVariations![index].variantName!);
+      variationList.add(service.variationsAppFormat!.zoneWiseVariations![index].variantName!);
     }
     String variationType = '';
     bool isFirst = true;
-    _variationList.forEach((variation) {
+    for (var variation in variationList) {
       if (isFirst) {
         variationType = '$variationType$variation';
         isFirst = false;
       } else {
         variationType = '$variationType-$variation';
       }
-    });
+    }
     if(_cartIndex != -1) {
       _quantity = Get.find<CartController>().cartList[_cartIndex].quantity;
       _addOnActiveList = [];
@@ -424,17 +414,17 @@ class ServiceController extends GetxController implements GetxService {
 
   Future<void> getServiceDiscount(Service service) async {
     if(service.campaignDiscount != null){
-      _serviceDiscount = service.campaignDiscount!.length > 0 ?  service.campaignDiscount!.elementAt(0).discount!.discountAmount!.toDouble(): 0.0;
-      _discountType = service.campaignDiscount!.length > 0 ?  service.campaignDiscount!.elementAt(0).discount!.discountType!:'amount';
+      _serviceDiscount = service.campaignDiscount!.isNotEmpty ?  service.campaignDiscount!.elementAt(0).discount!.discountAmount!.toDouble(): 0.0;
+      _discountType = service.campaignDiscount!.isNotEmpty ?  service.campaignDiscount!.elementAt(0).discount!.discountType!:'amount';
     }else if(service.category!.campaignDiscount != null){
-      _serviceDiscount = service.category!.campaignDiscount!.length > 0 ?  service.category!.campaignDiscount!.elementAt(0).discount!.discountAmount!.toDouble(): 0.0;
-      _discountType = service.category!.campaignDiscount!.length > 0 ?  service.category!.campaignDiscount!.elementAt(0).discount!.discountAmountType! :'amount';
+      _serviceDiscount = service.category!.campaignDiscount!.isNotEmpty ?  service.category!.campaignDiscount!.elementAt(0).discount!.discountAmount!.toDouble(): 0.0;
+      _discountType = service.category!.campaignDiscount!.isNotEmpty ?  service.category!.campaignDiscount!.elementAt(0).discount!.discountAmountType! :'amount';
     }else if(service.serviceDiscount != null){
-      _serviceDiscount = service.serviceDiscount!.length > 0 ?  service.serviceDiscount!.elementAt(0).discount!.discountAmount!.toDouble(): 0.0;
-      _discountType = service.serviceDiscount!.length > 0 ?  service.serviceDiscount!.elementAt(0).discount!.discountType!:'amount';
+      _serviceDiscount = service.serviceDiscount!.isNotEmpty ?  service.serviceDiscount!.elementAt(0).discount!.discountAmount!.toDouble(): 0.0;
+      _discountType = service.serviceDiscount!.isNotEmpty ?  service.serviceDiscount!.elementAt(0).discount!.discountType!:'amount';
     } else{
-      _serviceDiscount = service.category!.categoryDiscount!.length > 0 ?  service.category!.categoryDiscount!.elementAt(0).discount!.discountAmount!.toDouble(): 0.0;
-      _discountType = service.category!.categoryDiscount!.length > 0 ?  service.category!.categoryDiscount!.elementAt(0).discount!.discountAmountType! :'amount';
+      _serviceDiscount = service.category!.categoryDiscount!.isNotEmpty ?  service.category!.categoryDiscount!.elementAt(0).discount!.discountAmount!.toDouble(): 0.0;
+      _discountType = service.category!.categoryDiscount!.isNotEmpty ?  service.category!.categoryDiscount!.elementAt(0).discount!.discountAmountType! :'amount';
     }
   }
 

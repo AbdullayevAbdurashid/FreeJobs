@@ -11,15 +11,15 @@ class ReviewModel {
     responseCode = json['response_code'];
     message = json['message'];
     content =
-    json['content'] != null ? new ReviewContent.fromJson(json['content']) : null;
+    json['content'] != null ? ReviewContent.fromJson(json['content']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['response_code'] = this.responseCode;
-    data['message'] = this.message;
-    if (this.content != null) {
-      data['content'] = this.content!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['response_code'] = responseCode;
+    data['message'] = message;
+    if (content != null) {
+      data['content'] = content!.toJson();
     }
 
     return data;
@@ -34,18 +34,18 @@ class ReviewContent {
 
   ReviewContent.fromJson(Map<String, dynamic> json) {
     reviews =
-    json['reviews'] != null ? new Reviews.fromJson(json['reviews']) : null;
+    json['reviews'] != null ? Reviews.fromJson(json['reviews']) : null;
     rating =
-    json['rating'] != null ? new Rating.fromJson(json['rating']) : null;
+    json['rating'] != null ? Rating.fromJson(json['rating']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.reviews != null) {
-      data['reviews'] = this.reviews!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (reviews != null) {
+      data['reviews'] = reviews!.toJson();
     }
-    if (this.rating != null) {
-      data['rating'] = this.rating!.toJson();
+    if (rating != null) {
+      data['rating'] = rating!.toJson();
     }
     return data;
   }
@@ -62,7 +62,7 @@ class Reviews {
   String? nextPageUrl;
   String? path;
   String? perPage;
-  var prevPageUrl;
+  String? prevPageUrl;
   int? to;
   int? total;
 
@@ -86,7 +86,7 @@ class Reviews {
     if (json['data'] != null) {
       reviewList = <ReviewData>[];
       json['data'].forEach((v) {
-        reviewList!.add(new ReviewData.fromJson(v));
+        reviewList!.add(ReviewData.fromJson(v));
       });
     }
     firstPageUrl = json['first_page_url'];
@@ -96,7 +96,7 @@ class Reviews {
     if (json['links'] != null) {
       links = <Links>[];
       json['links'].forEach((v) {
-        links!.add(new Links.fromJson(v));
+        links!.add(Links.fromJson(v));
       });
     }
     nextPageUrl = json['next_page_url'];
@@ -108,24 +108,24 @@ class Reviews {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['current_page'] = this.currentPage;
-    if (this.reviewList != null) {
-      data['data'] = this.reviewList!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['current_page'] = currentPage;
+    if (reviewList != null) {
+      data['data'] = reviewList!.map((v) => v.toJson()).toList();
     }
-    data['first_page_url'] = this.firstPageUrl;
-    data['from'] = this.from;
-    data['last_page'] = this.lastPage;
-    data['last_page_url'] = this.lastPageUrl;
-    if (this.links != null) {
-      data['links'] = this.links!.map((v) => v.toJson()).toList();
+    data['first_page_url'] = firstPageUrl;
+    data['from'] = from;
+    data['last_page'] = lastPage;
+    data['last_page_url'] = lastPageUrl;
+    if (links != null) {
+      data['links'] = links!.map((v) => v.toJson()).toList();
     }
-    data['next_page_url'] = this.nextPageUrl;
-    data['path'] = this.path;
-    data['per_page'] = this.perPage;
-    data['prev_page_url'] = this.prevPageUrl;
-    data['to'] = this.to;
-    data['total'] = this.total;
+    data['next_page_url'] = nextPageUrl;
+    data['path'] = path;
+    data['per_page'] = perPage;
+    data['prev_page_url'] = prevPageUrl;
+    data['to'] = to;
+    data['total'] = total;
     return data;
   }
 }
@@ -169,24 +169,24 @@ class ReviewData {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     customer = json['customer'] != null
-        ? new Customer.fromJson(json['customer'])
+        ? Customer.fromJson(json['customer'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['booking_id'] = this.bookingId;
-    data['service_id'] = this.serviceId;
-    data['provider_id'] = this.providerId;
-    data['review_rating'] = this.reviewRating;
-    data['review_comment'] = this.reviewComment;
-    data['booking_date'] = this.bookingDate;
-    data['is_active'] = this.isActive;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    if (this.customer != null) {
-      data['customer'] = this.customer!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['booking_id'] = bookingId;
+    data['service_id'] = serviceId;
+    data['provider_id'] = providerId;
+    data['review_rating'] = reviewRating;
+    data['review_comment'] = reviewComment;
+    data['booking_date'] = bookingDate;
+    data['is_active'] = isActive;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    if (customer != null) {
+      data['customer'] = customer!.toJson();
     }
     return data;
   }
@@ -204,18 +204,18 @@ class Rating {
     if (json['rating_group_count'] != null) {
       ratingGroupCount = <RatingGroupCount>[];
       json['rating_group_count'].forEach((v) {
-        ratingGroupCount!.add(new RatingGroupCount.fromJson(v));
+        ratingGroupCount!.add(RatingGroupCount.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['rating_count'] = this.ratingCount;
-    data['average_rating'] = this.averageRating;
-    if (this.ratingGroupCount != null) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['rating_count'] = ratingCount;
+    data['average_rating'] = averageRating;
+    if (ratingGroupCount != null) {
       data['rating_group_count'] =
-          this.ratingGroupCount!.map((v) => v.toJson()).toList();
+          ratingGroupCount!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -233,9 +233,9 @@ class RatingGroupCount {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['review_rating'] = this.reviewRating;
-    data['total'] = this.total;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['review_rating'] = reviewRating;
+    data['total'] = total;
     return data;
   }
 }

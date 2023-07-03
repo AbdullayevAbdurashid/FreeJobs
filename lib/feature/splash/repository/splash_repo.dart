@@ -8,54 +8,64 @@ class SplashRepo {
   SplashRepo({ required this.apiClient, required this.sharedPreferences});
 
   Future<Response> getConfigData() async {
-    Response _response = await apiClient.getData(AppConstants.CONFIG_URI,headers: AppConstants.configHeader);
-    return _response;
+    Response response = await apiClient.getData(AppConstants.configUri,headers: AppConstants.configHeader);
+    return response;
   }
 
   Future<bool> initSharedData() async {
 
-    if(!sharedPreferences.containsKey(AppConstants.THEME)) {
-      sharedPreferences.setBool(AppConstants.THEME, false);
+    if(!sharedPreferences.containsKey(AppConstants.theme)) {
+      sharedPreferences.setBool(AppConstants.theme, false);
     }
-    if(!sharedPreferences.containsKey(AppConstants.COUNTRY_CODE)) {
-      sharedPreferences.setString(AppConstants.COUNTRY_CODE, AppConstants.languages[0].countryCode!);
+    if(!sharedPreferences.containsKey(AppConstants.countryCode)) {
+      sharedPreferences.setString(AppConstants.countryCode, AppConstants.languages[0].countryCode!);
     }
-    if(!sharedPreferences.containsKey(AppConstants.LANGUAGE_CODE)) {
-      sharedPreferences.setString(AppConstants.LANGUAGE_CODE, AppConstants.languages[0].languageCode!);
+    if(!sharedPreferences.containsKey(AppConstants.languageCode)) {
+      sharedPreferences.setString(AppConstants.languageCode, AppConstants.languages[0].languageCode!);
     }
-    if(!sharedPreferences.containsKey(AppConstants.CART_LIST)) {
-      sharedPreferences.setStringList(AppConstants.CART_LIST, []);
+    if(!sharedPreferences.containsKey(AppConstants.cartList)) {
+      sharedPreferences.setStringList(AppConstants.cartList, []);
     }
-    if(!sharedPreferences.containsKey(AppConstants.SEARCH_HISTORY)) {
-      sharedPreferences.setStringList(AppConstants.SEARCH_HISTORY, []);
+    if(!sharedPreferences.containsKey(AppConstants.searchHistory)) {
+      sharedPreferences.setStringList(AppConstants.searchHistory, []);
     }
-    if(!sharedPreferences.containsKey(AppConstants.NOTIFICATION)) {
-      sharedPreferences.setBool(AppConstants.NOTIFICATION, true);
+    if(!sharedPreferences.containsKey(AppConstants.notification)) {
+      sharedPreferences.setBool(AppConstants.notification, true);
     }
-    if(!sharedPreferences.containsKey(AppConstants.NOTIFICATION_COUNT)) {
-      sharedPreferences.setInt(AppConstants.NOTIFICATION_COUNT, 0);
+    if(!sharedPreferences.containsKey(AppConstants.notificationCount)) {
+      sharedPreferences.setInt(AppConstants.notificationCount, 0);
     }
 
-    if(!sharedPreferences.containsKey(AppConstants.ACCEPT_COOKIES)) {
-      sharedPreferences.setBool(AppConstants.ACCEPT_COOKIES, false);
+    if(!sharedPreferences.containsKey(AppConstants.acceptCookies)) {
+      sharedPreferences.setBool(AppConstants.acceptCookies, false);
     }
 
 
     return Future.value(true);
   }
 
-  String getZoneId() => sharedPreferences.getString(AppConstants.ZONE_ID)!;
+  String getZoneId() => sharedPreferences.getString(AppConstants.zoneId)!;
 
   Future<bool> setSplashSeen(bool isSplashSeen) async {
-    return await sharedPreferences.setBool(AppConstants.IS_SPLASH_SEEN, isSplashSeen);
+    return await sharedPreferences.setBool(AppConstants.isSplashScreen, isSplashSeen);
   }
 
   bool isSplashSeen() {
-    return sharedPreferences.getBool(AppConstants.IS_SPLASH_SEEN) != null ? sharedPreferences.getBool(AppConstants.IS_SPLASH_SEEN)! : false;
+    return sharedPreferences.getBool(AppConstants.isSplashScreen) != null ? sharedPreferences.getBool(AppConstants.isSplashScreen)! : false;
   }
 
-  Future<Response> subscribeEmail(String email) async {
-    return await apiClient.postData(AppConstants.SUBSCRIPTION_URI, {'email': email});
+
+  bool getSavedCookiesData() {
+    return sharedPreferences.getBool(AppConstants.acceptCookies)!;
+  }
+
+  Future<void> saveCookiesData(bool data) async {
+    try {
+      await sharedPreferences.setBool(AppConstants.acceptCookies, data);
+
+    } catch (e) {
+      rethrow;
+    }
   }
 
 }

@@ -1,13 +1,13 @@
 import 'package:demandium/core/core_export.dart';
 import 'package:demandium/feature/provider/controller/provider_booking_controller.dart';
-import 'package:demandium/feature/provider/widgets/customCheckBox.dart';
+import 'package:demandium/feature/provider/widgets/custom_checkbox.dart';
 import 'package:demandium/feature/provider/widgets/filter_rating_widgets.dart';
 import 'package:get/get.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
 
 class ProviderFilterView extends StatefulWidget {
 
-  ProviderFilterView();
+  const ProviderFilterView({super.key});
   @override
   State<ProviderFilterView> createState() => _ProductBottomSheetState();
 }
@@ -16,28 +16,29 @@ class _ProductBottomSheetState extends State<ProviderFilterView> {
 
   @override
   Widget build(BuildContext context) {
-    if(ResponsiveHelper.isDesktop(context))
+    if(ResponsiveHelper.isDesktop(context)) {
       return  Dialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimensions.RADIUS_EXTRA_LARGE)),
-        insetPadding: EdgeInsets.all(30),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge)),
+        insetPadding: const EdgeInsets.all(30),
         clipBehavior: Clip.antiAliasWithSaveLayer,
         child: pointerInterceptor(),
       );
+    }
     return pointerInterceptor();
   }
 
   pointerInterceptor(){
     return Padding(
-      padding: EdgeInsets.only(top: ResponsiveHelper.isWeb()? 0 :Dimensions.CART_DIALOG_PADDING),
+      padding: EdgeInsets.only(top: ResponsiveHelper.isWeb()? 0 :Dimensions.cartDialogPadding),
       child: GetBuilder<ProviderBookingController>(builder: (providerBookingController){
         return PointerInterceptor(
           child: Container(
-            width:ResponsiveHelper.isDesktop(context)? Dimensions.WEB_MAX_WIDTH/2:Dimensions.WEB_MAX_WIDTH,
+            width:ResponsiveHelper.isDesktop(context)? Dimensions.webMaxWidth/2:Dimensions.webMaxWidth,
             decoration: BoxDecoration(
               color: Theme.of(context).cardColor,
-              borderRadius: BorderRadius.vertical(top: Radius.circular(Dimensions.RADIUS_EXTRA_LARGE)),
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(Dimensions.radiusExtraLarge)),
             ),
-            child: Padding(padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
+            child: Padding(padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
               child: Stack(
                 children: [
                   Column(
@@ -46,7 +47,7 @@ class _ProductBottomSheetState extends State<ProviderFilterView> {
                     children: [
 
                       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,children: [
-                          SizedBox(),
+                          const SizedBox(),
                           Text('filter_data'.tr,style: ubuntuBold.copyWith(fontSize: Dimensions.fontSizeLarge),),
                           Container(
                             height: 40, width: 40, alignment: Alignment.center,
@@ -59,7 +60,7 @@ class _ProductBottomSheetState extends State<ProviderFilterView> {
                             ),
                             child: InkWell(
                                 onTap: () => Get.back(),
-                                child: Icon(
+                                child: const Icon(
                                   Icons.close,
                                   color: Colors.black54,
 
@@ -69,7 +70,7 @@ class _ProductBottomSheetState extends State<ProviderFilterView> {
                         ],
                       ),
 
-                      Padding(padding: const EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_SMALL),
+                      Padding(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall),
                         child: Text('sort_by'.tr,style: ubuntuBold.copyWith(fontSize: Dimensions.fontSizeDefault),),
                       ),
 
@@ -81,10 +82,10 @@ class _ProductBottomSheetState extends State<ProviderFilterView> {
                         return InkWell(
                           onTap: ()=>providerBookingController.updateSortByIndex(index),
                           child: Container(
-                            padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_LARGE),
-                            margin: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                            padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge),
+                            margin: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall),
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                              borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                               color: index == providerBookingController.selectedSortByIndex?
                               Theme.of(context).colorScheme.primary.withOpacity(0.2): null,
                               border: Border.all( color: index == providerBookingController.selectedSortByIndex?
@@ -94,9 +95,9 @@ class _ProductBottomSheetState extends State<ProviderFilterView> {
                           ),
                         );},
                       )),
-                      SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,),
-                      if(providerBookingController.categoryList.length>0)
-                      Padding(padding: const EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_SMALL),
+                      const SizedBox(height: Dimensions.paddingSizeDefault,),
+                      if(providerBookingController.categoryList.isNotEmpty)
+                      Padding(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall),
                         child: Text('categories'.tr,style: ubuntuBold.copyWith(fontSize: Dimensions.fontSizeDefault),),
                       ),
 
@@ -111,15 +112,15 @@ class _ProductBottomSheetState extends State<ProviderFilterView> {
                         ),
                       ),
 
-                      Center(child: Padding(padding: const EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_SMALL),
+                      Center(child: Padding(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall),
                         child: Text('ratings'.tr,style: ubuntuBold.copyWith(fontSize: Dimensions.fontSizeLarge),),
                       )),
 
-                      Center(child: FilterRatingWidgets()),
-                      SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,),
+                      const Center(child: FilterRatingWidgets()),
+                      const SizedBox(height: Dimensions.paddingSizeDefault,),
                       CustomButton(buttonText: 'search'.tr,onPressed: () async{
                         Get.back();
-                        Get.dialog(CustomLoader(), barrierDismissible: false,);
+                        Get.dialog(const CustomLoader(), barrierDismissible: false,);
                         await providerBookingController.getProviderList(1, true);
                         Get.back();
                       },),

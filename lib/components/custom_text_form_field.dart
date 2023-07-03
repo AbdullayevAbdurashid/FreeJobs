@@ -26,7 +26,7 @@ class CustomTextFormField extends StatefulWidget {
   final bool? enabled;
   final TextCapitalization? capitalization;
 
-  CustomTextFormField(
+  const CustomTextFormField(
       {Key? key,
         this.hintText = 'Write something...',
         this.controller,
@@ -53,10 +53,10 @@ class CustomTextFormField extends StatefulWidget {
       : super(key: key);
 
   @override
-  _CustomTextFormFieldState createState() => _CustomTextFormFieldState();
+  CustomTextFormFieldState createState() => CustomTextFormFieldState();
 }
 
-class _CustomTextFormFieldState extends State<CustomTextFormField> {
+class CustomTextFormFieldState extends State<CustomTextFormField> {
   bool _obscureText = true;
 
   @override
@@ -77,7 +77,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
 
       decoration: InputDecoration(
         hoverColor: Colors.transparent,
-        contentPadding: EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_DEFAULT, horizontal: Dimensions.PADDING_SIZE_DEFAULT),
+        contentPadding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault, horizontal: Dimensions.paddingSizeDefault),
         disabledBorder:  OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
           borderSide:  BorderSide(color: Get.isDarkMode?Theme.of(context).disabledColor.withOpacity(0.5):Theme.of(context).hintColor.withOpacity(0.5)),
@@ -85,17 +85,17 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
 
         errorBorder: OutlineInputBorder(
 
-          borderRadius: BorderRadius.circular(Dimensions.RADIUS_DEFAULT),
+          borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
           borderSide:  BorderSide(color: Theme.of(context).colorScheme.tertiary),
         ),
         focusedBorder: OutlineInputBorder(
 
-          borderRadius: BorderRadius.circular(Dimensions.RADIUS_DEFAULT),
+          borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
           borderSide:  BorderSide(color: Theme.of(context).hintColor),
         ),
         enabledBorder: OutlineInputBorder(
 
-          borderRadius: BorderRadius.circular(Dimensions.RADIUS_DEFAULT),
+          borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
           borderSide:  BorderSide(color: Get.isDarkMode?Theme.of(context).disabledColor:Theme.of(context).hintColor),
         ),
         isDense: true,
@@ -109,8 +109,8 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         prefixIcon: widget.isShowPrefixIcon
             ? Padding(
           padding: const EdgeInsets.only(
-              left: Dimensions.PADDING_SIZE_LARGE,
-              right: Dimensions.PADDING_SIZE_SMALL),
+              left: Dimensions.paddingSizeLarge,
+              right: Dimensions.paddingSizeSmall),
           child: Image.asset(widget.prefixIconUrl!),
         )
             : const SizedBox.shrink(),
@@ -126,8 +126,8 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             : widget.isIcon
             ? Padding(
           padding: const EdgeInsets.only(
-              left: Dimensions.PADDING_SIZE_LARGE,
-              right: Dimensions.PADDING_SIZE_SMALL),
+              left: Dimensions.paddingSizeLarge,
+              right: Dimensions.paddingSizeSmall),
           child: Image.asset(
             widget.suffixIconUrl!,
             width: 15,

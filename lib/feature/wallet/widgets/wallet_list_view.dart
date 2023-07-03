@@ -15,30 +15,28 @@ class WalletListView extends StatelessWidget {
     return GetBuilder<WalletController>(builder: (walletController){
       List<LoyaltyPointTransactionData> listOfTransaction = walletController.listOfTransaction;
       return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT,vertical: Dimensions.PADDING_SIZE_SMALL),
+        padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault,vertical: Dimensions.paddingSizeSmall),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
           Text('wallet_history'.tr,style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeExtraLarge,color: Theme.of(context).textTheme.bodyLarge!.color),),
-          SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,),
-          listOfTransaction.length>0?
+          const SizedBox(height: Dimensions.paddingSizeDefault,),
+          listOfTransaction.isNotEmpty?
           PaginatedListView(
             scrollController: scrollController,
             totalSize: walletController.walletTransactionModel!.content!.transactions!.total!,
             onPaginate: (int offset) async => await walletController.getWalletTransactionData(
               offset, reload: false,
             ),
-            offset: walletController.walletTransactionModel!.content!.transactions?.currentPage != null ?
-            walletController.walletTransactionModel!.content!.transactions?.currentPage  != null ?
-            walletController.walletTransactionModel!.content!.transactions?.currentPage:null:null,
+            offset: walletController.walletTransactionModel!.content!.transactions?.currentPage,
             itemView: GridView.builder(gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: ResponsiveHelper.isDesktop(context)?2:1,
-                mainAxisExtent: 120,crossAxisSpacing: Dimensions.PADDING_SIZE_DEFAULT),
+                mainAxisExtent: 120,crossAxisSpacing: Dimensions.paddingSizeDefault),
               itemCount: listOfTransaction.length,
               shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context,index){
                 return WalletListItem(transactionData: listOfTransaction[index],);
               },),
-          ):NoDataScreen(text: 'no_transaction_yet'.tr,type: NoDataType.TRANSACTION,),
+          ):NoDataScreen(text: 'no_transaction_yet'.tr,type: NoDataType.transaction,),
         ],),
       );
     });

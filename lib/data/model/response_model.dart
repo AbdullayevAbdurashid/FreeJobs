@@ -1,6 +1,6 @@
 class ResponseModel {
-  String _message;
-  bool _isSuccess;
+  final String _message;
+  final bool _isSuccess;
 
   ResponseModel(this._message, this._isSuccess);
 

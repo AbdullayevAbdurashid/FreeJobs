@@ -8,7 +8,7 @@ class CategorySubCategoryScreen extends StatefulWidget {
   final String categoryID;
   final String categoryName;
   final String subCategoryIndex;
-   CategorySubCategoryScreen({Key? key, required this.categoryID, required this.categoryName, required this.subCategoryIndex}) : super(key: key);
+   const CategorySubCategoryScreen({Key? key, required this.categoryID, required this.categoryName, required this.subCategoryIndex}) : super(key: key);
 
   @override
   State<CategorySubCategoryScreen> createState() => _CategorySubCategoryScreenState();
@@ -27,19 +27,24 @@ class _CategorySubCategoryScreenState extends State<CategorySubCategoryScreen> {
       int.parse(widget.subCategoryIndex),
       shouldUpdate: false
     );
-    if(!ResponsiveHelper.isWeb())
-    moved();
+    if(!ResponsiveHelper.isWeb()) {
+      moved();
+    }
     super.initState();
   }
 
   moved()async{
-    Future.delayed(Duration(seconds: 1), () {
+    Future.delayed(const Duration(seconds: 1), () {
       try{
         Scrollable.ensureVisible(
           Get.find<CategoryController>().categoryList!.elementAt(int.parse(subCategoryIndex!)).globalKey!.currentContext!,
-          duration: Duration(seconds: 1),
+          duration: const Duration(seconds: 1),
         );
-      }catch(e){}
+      }catch(e){
+        if (kDebugMode) {
+          print('');
+        }
+      }
     });
   }
 
@@ -48,37 +53,37 @@ class _CategorySubCategoryScreenState extends State<CategorySubCategoryScreen> {
     return GetBuilder<CategoryController>(
         builder: (categoryController) {
           return Scaffold(
-            endDrawer:ResponsiveHelper.isDesktop(context) ? MenuDrawer():null,
+            endDrawer:ResponsiveHelper.isDesktop(context) ? const MenuDrawer():null,
             appBar: CustomAppBar(title: 'available_service'.tr,),
             body: FooterBaseView(
               child: SizedBox(
-                width: Dimensions.WEB_MAX_WIDTH,
+                width: Dimensions.webMaxWidth,
                 child: CustomScrollView(
                   shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   slivers: [
-                    SliverToBoxAdapter(child: SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_LARGE,),),
+                    const SliverToBoxAdapter(child: SizedBox(height: Dimensions.paddingSizeExtraLarge,),),
                     SliverToBoxAdapter(
                       child: (categoryController.categoryList != null && !categoryController.isSearching!) ?
                       Center(
                         child: Container(
                           height:ResponsiveHelper.isDesktop(context) ? 150 : ResponsiveHelper.isTab(context)? 140 : 130,
                           margin: EdgeInsets.only(
-                              left: ResponsiveHelper.isDesktop(context)? 0 : Dimensions.PADDING_SIZE_DEFAULT,
+                              left: ResponsiveHelper.isDesktop(context)? 0 : Dimensions.paddingSizeDefault,
                           ),
-                          width: Dimensions.WEB_MAX_WIDTH,
-                          padding: EdgeInsets.only(
-                              bottom: Dimensions.PADDING_SIZE_EXTRA_SMALL,
-                              top: Dimensions.PADDING_SIZE_DEFAULT
+                          width: Dimensions.webMaxWidth,
+                          padding: const EdgeInsets.only(
+                              bottom: Dimensions.paddingSizeExtraSmall,
+                              top: Dimensions.paddingSizeDefault
                           ),
                           child: ListView.builder(
                             shrinkWrap: true,
                             scrollDirection: Axis.horizontal,
                             itemCount: categoryController.categoryList!.length,
-                            physics: BouncingScrollPhysics(),
+                            physics: const BouncingScrollPhysics(),
                             padding: EdgeInsets.only(
-                              left: ResponsiveHelper.isDesktop(context)?0: Dimensions.PADDING_SIZE_SMALL,
-                              right: ResponsiveHelper.isDesktop(context)?0: Dimensions.PADDING_SIZE_SMALL,
+                              left: ResponsiveHelper.isDesktop(context)?0: Dimensions.paddingSizeSmall,
+                              right: ResponsiveHelper.isDesktop(context)?0: Dimensions.paddingSizeSmall,
                             ),
                             itemBuilder: (context, index) {
                               CategoryModel categoryModel = categoryController.categoryList!.elementAt(index);
@@ -92,17 +97,17 @@ class _CategorySubCategoryScreenState extends State<CategorySubCategoryScreen> {
                                 child: Container(
                                   width: ResponsiveHelper.isDesktop(context) ? 150 : ResponsiveHelper.isTab(context)?140 :100,
 
-                                  margin: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                                  margin: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall),
                                   decoration: BoxDecoration(
                                     color: index != int.parse(subCategoryIndex!) ? Theme.of(context).primaryColorLight : Theme.of(context).colorScheme.primary,
-                                    borderRadius: BorderRadius.all(Radius.circular(Dimensions.RADIUS_DEFAULT), ),
+                                    borderRadius: const BorderRadius.all(Radius.circular(Dimensions.radiusDefault), ),
                                   ),
                                   child: Column(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
                                         ClipRRect(
-                                          borderRadius: BorderRadius.circular(Dimensions.RADIUS_DEFAULT),
+                                          borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
                                           child: CustomImage(
                                             fit: BoxFit.cover,
                                             height: ResponsiveHelper.isDesktop(context) ? 50 : ResponsiveHelper.isTab(context)?40 :30,
@@ -111,9 +116,9 @@ class _CategorySubCategoryScreenState extends State<CategorySubCategoryScreen> {
                                                 '/category/${categoryController.categoryList![index].image}',
                                           ),
                                         ),
-                                        SizedBox(height: Dimensions.PADDING_SIZE_SMALL,),
+                                        const SizedBox(height: Dimensions.paddingSizeSmall,),
                                         Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT),
+                                          padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
                                           child: Text(categoryController.categoryList![index].name!,
                                             style: ubuntuRegular.copyWith(
                                               fontSize: Dimensions.fontSizeSmall,
@@ -132,12 +137,12 @@ class _CategorySubCategoryScreenState extends State<CategorySubCategoryScreen> {
                       WebCategoryShimmer(
                         categoryController: categoryController,
                         fromHomeScreen: false,
-                      ):SizedBox(),
+                      ):const SizedBox(),
                     ),
                     SliverToBoxAdapter(
-                        child: Container(width: Dimensions.WEB_MAX_WIDTH,
+                        child: SizedBox(width: Dimensions.webMaxWidth,
                             child: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_LARGE),
+                                padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeLarge),
                                 child: Center(
                                   child: Text(
                                     'sub_categories'.tr, style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeDefault,

@@ -7,7 +7,7 @@ class ServiceTypesModel {
   String? typeWiseId;
   String? createdAt;
   String? updatedAt;
-  var service;
+  Service? service;
 
   ServiceTypesModel(
       {this.id,
@@ -26,19 +26,19 @@ class ServiceTypesModel {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     service =
-    json['service'] != null ? new Service.fromJson(json['service']) : null;
+    json['service'] != null ? Service.fromJson(json['service']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['discount_id'] = this.discountId;
-    data['discount_type'] = this.discountType;
-    data['type_wise_id'] = this.typeWiseId;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    if (this.service != null) {
-      data['service'] = this.service!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['discount_id'] = discountId;
+    data['discount_type'] = discountType;
+    data['type_wise_id'] = typeWiseId;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    if (service != null) {
+      data['service'] = service!.toJson();
     }
     return data;
   }

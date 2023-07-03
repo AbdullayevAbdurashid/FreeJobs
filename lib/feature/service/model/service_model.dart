@@ -12,24 +12,24 @@ class ServiceModel {
     responseCode = json['response_code'];
     message = json['message'];
     content =
-    json['content'] != null ? new ServiceContent.fromJson(json['content']) : null;
+    json['content'] != null ? ServiceContent.fromJson(json['content']) : null;
     if (json['errors'] != null) {
       errors = <Errors>[];
       json['errors'].forEach((v) {
-        errors!.add(new Errors.fromJson(v));
+        errors!.add(Errors.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['response_code'] = this.responseCode;
-    data['message'] = this.message;
-    if (this.content != null) {
-      data['content'] = this.content!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['response_code'] = responseCode;
+    data['message'] = message;
+    if (content != null) {
+      data['content'] = content!.toJson();
     }
-    if (this.errors != null) {
-      data['errors'] = this.errors!.map((v) => v.toJson()).toList();
+    if (errors != null) {
+      data['errors'] = errors!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -43,10 +43,10 @@ class ServiceContent {
   int? lastPage;
   String? lastPageUrl;
   List<Links>? links;
-  var nextPageUrl;
+  String? nextPageUrl;
   String? path;
   String? perPage;
-  var prevPageUrl;
+  String? prevPageUrl;
   int? to;
   int? total;
 
@@ -70,7 +70,7 @@ class ServiceContent {
     if (json['data'] != null) {
       serviceList = <Service>[];
       json['data'].forEach((v) {
-        serviceList!.add(new Service.fromJson(v));
+        serviceList!.add(Service.fromJson(v));
       });
     }
     firstPageUrl = json['first_page_url'];
@@ -80,7 +80,7 @@ class ServiceContent {
     if (json['links'] != null) {
       links = <Links>[];
       json['links'].forEach((v) {
-        links!.add(new Links.fromJson(v));
+        links!.add(Links.fromJson(v));
       });
     }
     nextPageUrl = json['next_page_url'];
@@ -92,24 +92,24 @@ class ServiceContent {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['current_page'] = this.currentPage;
-    if (this.serviceList != null) {
-      data['data'] = this.serviceList!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['current_page'] = currentPage;
+    if (serviceList != null) {
+      data['data'] = serviceList!.map((v) => v.toJson()).toList();
     }
-    data['first_page_url'] = this.firstPageUrl;
-    data['from'] = this.from;
-    data['last_page'] = this.lastPage;
-    data['last_page_url'] = this.lastPageUrl;
-    if (this.links != null) {
-      data['links'] = this.links!.map((v) => v.toJson()).toList();
+    data['first_page_url'] = firstPageUrl;
+    data['from'] = from;
+    data['last_page'] = lastPage;
+    data['last_page_url'] = lastPageUrl;
+    if (links != null) {
+      data['links'] = links!.map((v) => v.toJson()).toList();
     }
-    data['next_page_url'] = this.nextPageUrl;
-    data['path'] = this.path;
-    data['per_page'] = this.perPage;
-    data['prev_page_url'] = this.prevPageUrl;
-    data['to'] = this.to;
-    data['total'] = this.total;
+    data['next_page_url'] = nextPageUrl;
+    data['path'] = path;
+    data['per_page'] = perPage;
+    data['prev_page_url'] = prevPageUrl;
+    data['to'] = to;
+    data['total'] = total;
     return data;
   }
 }
@@ -123,7 +123,7 @@ class Service {
   String? thumbnail;
   String? categoryId;
   String? subCategoryId;
-  var tax;
+  double? tax;
   int? orderCount;
   int? isActive;
   int? ratingCount;
@@ -170,7 +170,7 @@ class Service {
     thumbnail = json['thumbnail'];
     categoryId = json['category_id'];
     subCategoryId = json['sub_category_id'];
-    tax = json['tax'];
+    tax = double.tryParse(json['tax'].toString());
     orderCount = json['order_count'];
     isActive = json['is_active'];
     ratingCount = json['rating_count'];
@@ -178,75 +178,75 @@ class Service {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     variationsAppFormat = json['variations_app_format'] != null
-        ? new VariationsAppFormat.fromJson(json['variations_app_format'])
+        ? VariationsAppFormat.fromJson(json['variations_app_format'])
         : null;
 
     if (json['variations'] != null) {
       variations = <Variations>[];
       json['variations'].forEach((v) {
-        variations!.add(new Variations.fromJson(v));
+        variations!.add(Variations.fromJson(v));
       });
     }
 
     category = json['category'] != null
-        ? new ServiceCategory.fromJson(json['category'])
+        ? ServiceCategory.fromJson(json['category'])
         : null;
     if (json['faqs'] != null) {
       faqs = <Faqs>[];
       json['faqs'].forEach((v) {
-        faqs!.add(new Faqs.fromJson(v));
+        faqs!.add(Faqs.fromJson(v));
       });
     }
     if (json['service_discount'] != null) {
       serviceDiscount = <ServiceDiscount>[];
       json['service_discount'].forEach((v) {
-        serviceDiscount!.add(new ServiceDiscount.fromJson(v));
+        serviceDiscount!.add(ServiceDiscount.fromJson(v));
       });
     }
     if (json['campaign_discount'] != null) {
       campaignDiscount = <ServiceDiscount>[];
       json['campaign_discount'].forEach((v) {
-        campaignDiscount!.add(new ServiceDiscount.fromJson(v));
+        campaignDiscount!.add(ServiceDiscount.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['short_description'] = this.shortDescription;
-    data['description'] = this.description;
-    data['cover_image'] = this.coverImage;
-    data['thumbnail'] = this.thumbnail;
-    data['category_id'] = this.categoryId;
-    data['sub_category_id'] = this.subCategoryId;
-    data['tax'] = this.tax;
-    data['order_count'] = this.orderCount;
-    data['is_active'] = this.isActive;
-    data['rating_count'] = this.ratingCount;
-    data['avg_rating'] = this.avgRating;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    if (this.variationsAppFormat != null) {
-      data['variations_app_format'] = this.variationsAppFormat!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['short_description'] = shortDescription;
+    data['description'] = description;
+    data['cover_image'] = coverImage;
+    data['thumbnail'] = thumbnail;
+    data['category_id'] = categoryId;
+    data['sub_category_id'] = subCategoryId;
+    data['tax'] = tax;
+    data['order_count'] = orderCount;
+    data['is_active'] = isActive;
+    data['rating_count'] = ratingCount;
+    data['avg_rating'] = avgRating;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    if (variationsAppFormat != null) {
+      data['variations_app_format'] = variationsAppFormat!.toJson();
     }
 
-    if (this.variations != null) {
-      data['variations'] = this.variations!.map((v) => v.toJson()).toList();
+    if (variations != null) {
+      data['variations'] = variations!.map((v) => v.toJson()).toList();
     }
 
-    if (this.category != null) {
-      data['category'] = this.category!.toJson();
+    if (category != null) {
+      data['category'] = category!.toJson();
     }
-    if (this.faqs != null) {
-      data['faqs'] = this.faqs!.map((v) => v.toJson()).toList();
+    if (faqs != null) {
+      data['faqs'] = faqs!.map((v) => v.toJson()).toList();
     }
-    if (this.serviceDiscount != null) {
-      data['service_discount'] = this.serviceDiscount!.map((v) => v.toJson()).toList();
+    if (serviceDiscount != null) {
+      data['service_discount'] = serviceDiscount!.map((v) => v.toJson()).toList();
     }
-    if (this.campaignDiscount != null) {
-      data['campaign_discount'] = this.campaignDiscount!.map((v) => v.toJson()).toList();
+    if (campaignDiscount != null) {
+      data['campaign_discount'] = campaignDiscount!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -266,18 +266,18 @@ class VariationsAppFormat {
     if (json['zone_wise_variations'] != null) {
       zoneWiseVariations = <ZoneWiseVariations>[];
       json['zone_wise_variations'].forEach((v) {
-        zoneWiseVariations!.add(new ZoneWiseVariations.fromJson(v));
+        zoneWiseVariations!.add(ZoneWiseVariations.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['zone_id'] = this.zoneId;
-    data['default_price'] = this.defaultPrice;
-    if (this.zoneWiseVariations != null) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['zone_id'] = zoneId;
+    data['default_price'] = defaultPrice;
+    if (zoneWiseVariations != null) {
       data['zone_wise_variations'] =
-          this.zoneWiseVariations!.map((v) => v.toJson()).toList();
+          zoneWiseVariations!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -317,15 +317,15 @@ class Variations {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['variant'] = this.variant;
-    data['variant_key'] = this.variantKey;
-    data['service_id'] = this.serviceId;
-    data['zone_id'] = this.zoneId;
-    data['price'] = this.price;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['variant'] = variant;
+    data['variant_key'] = variantKey;
+    data['service_id'] = serviceId;
+    data['zone_id'] = zoneId;
+    data['price'] = price;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }
@@ -344,10 +344,10 @@ class ZoneWiseVariations {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['variant_key'] = this.variantKey;
-    data['variant_name'] = this.variantName;
-    data['price'] = this.price;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['variant_key'] = variantKey;
+    data['variant_name'] = variantName;
+    data['price'] = price;
     return data;
   }
 }
@@ -357,7 +357,7 @@ class ServiceCategory {
   String? name;
   String? image;
   int? position;
-  var description;
+  String? description;
   int? isActive;
   String? createdAt;
   String? updatedAt;
@@ -394,42 +394,42 @@ class ServiceCategory {
     if (json['zones_basic_info'] != null) {
       zonesBasicInfo = <ZonesBasicInfo>[];
       json['zones_basic_info'].forEach((v) {
-        zonesBasicInfo!.add(new ZonesBasicInfo.fromJson(v));
+        zonesBasicInfo!.add(ZonesBasicInfo.fromJson(v));
       });
     }
     if (json['category_discount'] != null) {
       categoryDiscount = <ServiceDiscount>[];
       json['category_discount'].forEach((v) {
-        categoryDiscount!.add(new ServiceDiscount.fromJson(v));
+        categoryDiscount!.add(ServiceDiscount.fromJson(v));
       });
     }
     if (json['campaign_discount'] != null) {
       campaignDiscount = <ServiceDiscount>[];
       json['campaign_discount'].forEach((v) {
-        campaignDiscount!.add(new ServiceDiscount.fromJson(v));
+        campaignDiscount!.add(ServiceDiscount.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['parent_id'] = this.parentId;
-    data['name'] = this.name;
-    data['image'] = this.image;
-    data['position'] = this.position;
-    data['description'] = this.description;
-    data['is_active'] = this.isActive;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    if (this.zonesBasicInfo != null) {
-      data['zones_basic_info'] = this.zonesBasicInfo!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['parent_id'] = parentId;
+    data['name'] = name;
+    data['image'] = image;
+    data['position'] = position;
+    data['description'] = description;
+    data['is_active'] = isActive;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    if (zonesBasicInfo != null) {
+      data['zones_basic_info'] = zonesBasicInfo!.map((v) => v.toJson()).toList();
     }
-    if (this.categoryDiscount != null) {
-      data['category_discount'] = this.categoryDiscount!.map((v) => v.toJson()).toList();
+    if (categoryDiscount != null) {
+      data['category_discount'] = categoryDiscount!.map((v) => v.toJson()).toList();
     }
-    if (this.campaignDiscount != null) {
-      data['campaign_discount'] = this.campaignDiscount!.map((v) => v.toJson()).toList();
+    if (campaignDiscount != null) {
+      data['campaign_discount'] = campaignDiscount!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -458,27 +458,27 @@ class ZonesBasicInfo {
     if (json['coordinates'] != null) {
       coordinates = <Coordinates>[];
       json['coordinates'].forEach((v) {
-        coordinates!.add(new Coordinates.fromJson(v));
+        coordinates!.add(Coordinates.fromJson(v));
       });
     }
     isActive = json['is_active'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    pivot = json['pivot'] != null ? new Pivot.fromJson(json['pivot']) : null;
+    pivot = json['pivot'] != null ? Pivot.fromJson(json['pivot']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    if (this.coordinates != null) {
-      data['coordinates'] = this.coordinates!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    if (coordinates != null) {
+      data['coordinates'] = coordinates!.map((v) => v.toJson()).toList();
     }
-    data['is_active'] = this.isActive;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    if (this.pivot != null) {
-      data['pivot'] = this.pivot!.toJson();
+    data['is_active'] = isActive;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    if (pivot != null) {
+      data['pivot'] = pivot!.toJson();
     }
     return data;
   }
@@ -512,14 +512,14 @@ class Faqs {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['question'] = this.question;
-    data['answer'] = this.answer;
-    data['service_id'] = this.serviceId;
-    data['is_active'] = this.isActive;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['question'] = question;
+    data['answer'] = answer;
+    data['service_id'] = serviceId;
+    data['is_active'] = isActive;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }
@@ -549,20 +549,20 @@ class ServiceDiscount {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     discount = json['discount'] != null
-        ? new Discount.fromJson(json['discount'])
+        ? Discount.fromJson(json['discount'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['discount_id'] = this.discountId;
-    data['discount_type'] = this.discountType;
-    data['type_wise_id'] = this.typeWiseId;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    if (this.discount != null) {
-      data['discount'] = this.discount!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['discount_id'] = discountId;
+    data['discount_type'] = discountType;
+    data['type_wise_id'] = typeWiseId;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    if (discount != null) {
+      data['discount'] = discount!.toJson();
     }
     return data;
   }

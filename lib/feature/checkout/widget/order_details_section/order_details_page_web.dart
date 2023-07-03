@@ -9,11 +9,11 @@ class OrderDetailsPageWeb extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: SizedBox(
-        width: Dimensions.WEB_MAX_WIDTH,
+        width: Dimensions.webMaxWidth,
         child: GetBuilder<CartController>(builder: (cartController){
           return Column(
             children: [
-              SizedBox(height: Dimensions.PADDING_FOR_CHATTING_BUTTON,),
+              const SizedBox(height: Dimensions.paddingForChattingButton,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -23,22 +23,22 @@ class OrderDetailsPageWeb extends StatelessWidget {
                       decoration: BoxDecoration(
                         boxShadow: cardShadow,
                         color: Theme.of(context).cardColor,
-                        borderRadius: BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10)),
+                        borderRadius: const BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10)),
                       ),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          ServiceSchedule(),
-                          ServiceInformation(),
-                          ShowVoucher(),
+                          const ServiceSchedule(),
+                          const ServiceInformation(),
+                          const ShowVoucher(),
                           if( cartController.preSelectedProvider)
-                          ProviderDetailsCard()
+                          const ProviderDetailsCard()
 
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(width: 50,),
+                  const SizedBox(width: 50,),
                   Expanded(
                     flex: 2,
                     child: Container(
@@ -47,11 +47,11 @@ class OrderDetailsPageWeb extends StatelessWidget {
                           color: Theme.of(context).cardColor,
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: CartSummery()),
+                        child: const CartSummery()),
                   ),
                 ],
               ),
-              SizedBox(height: Dimensions.PADDING_FOR_CHATTING_BUTTON,),
+              const SizedBox(height: Dimensions.paddingForChattingButton,),
             ],
           );
         }),

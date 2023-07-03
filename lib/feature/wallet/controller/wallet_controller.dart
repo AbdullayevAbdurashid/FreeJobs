@@ -8,15 +8,11 @@ class WalletController extends GetxController{
   final WalletRepo walletRepo;
   WalletController({required this.walletRepo});
 
-  bool _isLoading= false;
+  final bool _isLoading= false;
   bool get isLoading => _isLoading;
   WalletTransactionModel? walletTransactionModel;
   List<LoyaltyPointTransactionData> listOfTransaction = [];
 
-  @override
-  void onInit(){
-    super.onInit();
-  }
 
   Future<void> getWalletTransactionData(int offset,{reload = false}) async {
 

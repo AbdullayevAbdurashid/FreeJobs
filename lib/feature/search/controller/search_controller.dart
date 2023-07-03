@@ -1,19 +1,18 @@
-import 'package:demandium/feature/search/suggested_service_moel.dart';
 import 'package:get/get.dart';
 import 'package:demandium/core/core_export.dart';
 
 
-class SearchController extends GetxController implements GetxService {
+class AllSearchController extends GetxController implements GetxService {
   final SearchRepo searchRepo;
-  SearchController({required this.searchRepo});
+  AllSearchController({required this.searchRepo});
 
   List<Service>? _searchServiceList;
   String? _searchText = '';
   List<String>? _historyList = [];
-  List<String>? _sortList = ['ascending'.tr, 'descending'.tr];
+  final List<String> _sortList = ['ascending'.tr, 'descending'.tr];
   bool? _isAvailableFoods = false;
   bool? _isDiscountedFoods = false;
-  bool? _isLoading = false;
+  final bool _isLoading = false;
   bool _isSearchComplete = false;
   bool _isActiveSuffixIcon = false;
 
@@ -27,23 +26,13 @@ class SearchController extends GetxController implements GetxService {
   bool get isSearchComplete => _isSearchComplete;
   bool get isActiveSuffixIcon => _isActiveSuffixIcon;
 
-  List<SuggestedService>? _searchHistoryListFromServer;
-  List<SuggestedService>? get historyListFromServer=> _searchHistoryListFromServer;
-
-  SuggestedServiceContent? _suggestedServiceContent;
-
-
-  bool? _isLoggedIn;
   var searchController = TextEditingController();
 
 
   @override
   void onInit() {
     super.onInit();
-    _isLoggedIn = Get.find<AuthController>().isLoggedIn();
-    if(_isLoggedIn!) {
-      getSuggestedServicesFromServer();
-    }
+
     getHistoryList();
     searchController.text = '';
   }
@@ -103,7 +92,6 @@ class SearchController extends GetxController implements GetxService {
         _searchServiceList = Get.find<ServiceController>().allService;
       }
 
-      print(_searchServiceList!.length);
       update();
   }
 
@@ -127,7 +115,6 @@ class SearchController extends GetxController implements GetxService {
           _searchServiceList = [];
           _searchServiceList!.addAll(ServiceModel.fromJson(response.body).content!.serviceList!);
         }
-        await getSuggestedServicesFromServer();
       } else {
         ApiChecker.checkApi(response);
       }
@@ -136,45 +123,11 @@ class SearchController extends GetxController implements GetxService {
     }
   }
 
-  Future<void> getSuggestedServicesFromServer() async {
-    Response response = await searchRepo.getSuggestedServicesFromServer();
-    if(response.statusCode==200  &&  response.body['response_code']=='default_200'){
-      if(response.body['content']!=null){
-
-        _searchHistoryListFromServer =[];
-        _suggestedServiceContent = SuggestedServiceModel.fromJson(response.body).content;
-        _searchHistoryListFromServer!.addAll(_suggestedServiceContent!.data!);
-
-      }else{
-        _searchHistoryListFromServer= [];
-      }
-    }else{
-      _searchHistoryListFromServer= [];
-    }
-    update();
-  }
-
-  Future<void> removeSuggestedServicesFromServer({String? id,int? index}) async {
-    Response response = await searchRepo.removeSuggestedServicesFromServer(id: id);
-    if(response.statusCode==200  &&  response.body['response_code']=='default_delete_200'){
-      if(index==null){
-        _searchHistoryListFromServer = [];
-      }else{
-        _searchHistoryListFromServer?.removeAt(index);
-      }
-    }else{
-
-    }
-    update();
-  }
-
-
-
 
   void showSuffixIcon(context,String text){
-    if(text.length > 0){
+    if(text.isNotEmpty){
       _isActiveSuffixIcon = true;
-    }else if(text.length == 0){
+    }else if(text.isEmpty){
       _isActiveSuffixIcon = false;
     }
     update();
@@ -200,15 +153,15 @@ class SearchController extends GetxController implements GetxService {
   }
 
   List<String>? filterHistory(String pattern, List<String>? value){
-    List<String>? _list = [];
+    List<String>? list = [];
 
     value?.forEach((history) {
       if(history.contains(pattern.toLowerCase())) {
-        _list.add(history);
+        list.add(history);
       }
     });
 
-    return _list;
+    return list;
   }
 
 

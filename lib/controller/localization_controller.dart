@@ -26,13 +26,17 @@ class LocalizationController extends GetxController implements GetxService {
     }else {
       _isLtr = true;
     }
-    AddressModel? _addressModel;
+    AddressModel? addressModel;
     try {
-      _addressModel = AddressModel.fromJson(jsonDecode(sharedPreferences.getString(AppConstants.USER_ADDRESS)!));
-    }catch(e) {}
+      addressModel = AddressModel.fromJson(jsonDecode(sharedPreferences.getString(AppConstants.userAddress)!));
+    }catch(e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
     ///pick zone id to update header
     apiClient.updateHeader(
-      sharedPreferences.getString(AppConstants.TOKEN), _addressModel == null ? null : _addressModel.zoneId,
+      sharedPreferences.getString(AppConstants.token), addressModel?.zoneId,
       locale.languageCode,
     );
     saveLanguage(_locale);
@@ -40,8 +44,8 @@ class LocalizationController extends GetxController implements GetxService {
   }
 
   void loadCurrentLanguage() async {
-    _locale = Locale(sharedPreferences.getString(AppConstants.LANGUAGE_CODE) ?? AppConstants.languages[0].languageCode!,
-        sharedPreferences.getString(AppConstants.COUNTRY_CODE) ?? AppConstants.languages[0].countryCode);
+    _locale = Locale(sharedPreferences.getString(AppConstants.languageCode) ?? AppConstants.languages[0].languageCode!,
+        sharedPreferences.getString(AppConstants.countryCode) ?? AppConstants.languages[0].countryCode);
     _isLtr = _locale.languageCode != 'ar';
     for(int index = 0; index<AppConstants.languages.length; index++) {
       if(AppConstants.languages[index].languageCode == _locale.languageCode) {
@@ -55,8 +59,8 @@ class LocalizationController extends GetxController implements GetxService {
   }
 
   void saveLanguage(Locale locale) async {
-    sharedPreferences.setString(AppConstants.LANGUAGE_CODE, locale.languageCode);
-    sharedPreferences.setString(AppConstants.COUNTRY_CODE, locale.countryCode!);
+    sharedPreferences.setString(AppConstants.languageCode, locale.languageCode);
+    sharedPreferences.setString(AppConstants.countryCode, locale.countryCode!);
     update();
   }
 
@@ -76,11 +80,11 @@ class LocalizationController extends GetxController implements GetxService {
     } else {
       _selectedIndex = -1;
       _languages = [];
-      AppConstants.languages.forEach((language) async {
+      for (var language in AppConstants.languages){
         if (language.languageName!.toLowerCase().contains(query.toLowerCase())) {
           _languages.add(language);
         }
-      });
+      }
     }
     update();
   }

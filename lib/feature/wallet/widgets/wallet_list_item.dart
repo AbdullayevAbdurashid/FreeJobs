@@ -44,22 +44,22 @@ class WalletListItem extends StatelessWidget {
             ],
           ),
         ),
-        Text("${DateConverter.dateMonthYearTimeTwentyFourFormat(DateConverter.isoUtcStringToLocalDate(transactionData.createdAt!))}",
+        Text(DateConverter.dateMonthYearTimeTwentyFourFormat(DateConverter.isoUtcStringToLocalDate(transactionData.createdAt!)),
           textDirection: TextDirection.ltr,
           style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault,color: Theme.of(context).secondaryHeaderColor),
         )
       ]),
       Row(children: [
         SizedBox(height:90 ,width: 13,child: CustomDivider(height: 5,dashWidth: 0.7,axis: Axis.vertical,color: Get.isDarkMode?Colors.grey:Theme.of(context).colorScheme.primary,)),
-        SizedBox(width: Dimensions.PADDING_SIZE_SMALL,),
+        const SizedBox(width: Dimensions.paddingSizeSmall,),
         Expanded(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(Dimensions.RADIUS_DEFAULT),
+                borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
                 border: Border.all(color: Theme.of(context).hintColor,width: 0.5)),
-                padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_LARGE,vertical: Dimensions.PADDING_SIZE_DEFAULT),
+                padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge,vertical: Dimensions.paddingSizeDefault),
                 child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,children: [
                   Text(transactionType.tr,style: ubuntuRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.5)),),
 
@@ -73,8 +73,8 @@ class WalletListItem extends StatelessWidget {
                   ),
                 ]),
               ),
-              SizedBox(height: Dimensions.PADDING_SIZE_SMALL,),
-              Divider()
+              const SizedBox(height: Dimensions.paddingSizeSmall,),
+              const Divider()
             ],
           ),
         ),

@@ -17,24 +17,24 @@ class _SuggestServiceScreenState extends State<SuggestServiceScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      endDrawer:ResponsiveHelper.isDesktop(context) ? MenuDrawer():null,
+      endDrawer:ResponsiveHelper.isDesktop(context) ? const MenuDrawer():null,
       appBar: CustomAppBar(title: "service_request".tr, actionWidget: IconButton(
         onPressed: (){
-          Get.to(()=> SuggestedServiceListScreen());
+          Get.to(()=> const SuggestedServiceListScreen());
         },
-        icon: Icon(Icons.notifications_active),
+        icon: const Icon(Icons.notifications_active),
       )),
       body: GetBuilder<SuggestServiceController>(builder: (suggestServiceController){
         return FooterBaseView(
           child: Center(
             child: SizedBox(
-              width: Dimensions.WEB_MAX_WIDTH,
-              child: Padding(padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
-                child: Container(height: Get.height-100,
+              width: Dimensions.webMaxWidth,
+              child: Padding(padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
+                child: SizedBox(height: Get.height-100,
                   child: Stack(alignment: Alignment.bottomCenter,
                     children: [
                       if(ResponsiveHelper.isDesktop(context))
-                      Padding(padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
+                      Padding(padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
                         child: Align(
                           alignment: Get.find<LocalizationController>().isLtr? Alignment.topRight: Alignment.topLeft,
                           child: GestureDetector(
@@ -44,8 +44,8 @@ class _SuggestServiceScreenState extends State<SuggestServiceScreen> {
                                 borderRadius: BorderRadius.circular(50),
                                 color: Theme.of(context).colorScheme.primary
                               ),
-                              padding: const EdgeInsets.symmetric(horizontal:Dimensions.PADDING_SIZE_DEFAULT,vertical:Dimensions.PADDING_SIZE_SMALL-2),
-                              child: Text('${'see_request'.tr}', style: ubuntuMedium.copyWith(
+                              padding: const EdgeInsets.symmetric(horizontal:Dimensions.paddingSizeDefault,vertical:Dimensions.paddingSizeSmall-2),
+                              child: Text('see_request'.tr, style: ubuntuMedium.copyWith(
                                 fontSize: Dimensions.fontSizeDefault, color: Colors.white
                               )),
                             ),
@@ -54,7 +54,7 @@ class _SuggestServiceScreenState extends State<SuggestServiceScreen> {
                       ),
                       Column(children: [
                         Padding(
-                          padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
+                          padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
                           child: Text('tell_us_more_about_your_service'.tr,
                               style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault,
                                 color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.9),
@@ -63,7 +63,7 @@ class _SuggestServiceScreenState extends State<SuggestServiceScreen> {
                         ),
 
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal:Dimensions.PADDING_SIZE_SMALL),
+                          padding: const EdgeInsets.symmetric(horizontal:Dimensions.paddingSizeSmall),
                           child: Text('suggest_more_service_that_you_willing'.tr,
                             style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall,
                               color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.7),
@@ -72,22 +72,22 @@ class _SuggestServiceScreenState extends State<SuggestServiceScreen> {
                         ),
 
                         AnimatedContainer(
-                          duration: Duration(milliseconds: 500),
+                          duration: const Duration(milliseconds: 500),
                           child: Padding(
-                            padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_EXTRA_LARGE,),
+                            padding: const EdgeInsets.all(Dimensions.paddingSizeExtraLarge,),
                             child: Image.asset(Images.suggestServiceIcon,width: suggestServiceController.initialImageSize,),
                           ),
                         ),
 
                         AnimatedOpacity(opacity: suggestServiceController.initialContainerOpacity,
-                          duration: Duration(milliseconds: 1500),
-                          child: SuggestServiceInputField(),
+                          duration: const Duration(milliseconds: 1500),
+                          child: const SuggestServiceInputField(),
                         )
                       ]),
 
                       AnimatedPositioned(
                         top: suggestServiceController.initialButtonPadding,
-                        duration: Duration(milliseconds: 500),
+                        duration: const Duration(milliseconds: 500),
                         child: suggestServiceController.isLoading==false?
                         CustomButton(width: 240, fontSize: Dimensions.fontSizeDefault,
                           buttonText: suggestServiceController.isShowInputField?"send_request".tr:'request_for_service'.tr,
@@ -106,7 +106,7 @@ class _SuggestServiceScreenState extends State<SuggestServiceScreen> {
                               }
                             }
                           },
-                        ): CircularProgressIndicator(),
+                        ): const CircularProgressIndicator(),
                       ),
                     ],
                   ),

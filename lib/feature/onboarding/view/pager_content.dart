@@ -13,18 +13,18 @@ class PagerContent extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Spacer(),
+        const Spacer(),
         SizedBox( child: Image.asset(image)),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Column(
             children: [
               Text(text,
                 textAlign: TextAlign.center,
                 style: ubuntuBold.copyWith(color: Theme.of(context).colorScheme.primary, fontSize: Dimensions.fontSizeLarge),),
-              SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,),
+              const SizedBox(height: Dimensions.paddingSizeDefault,),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_EXTRA_LARGE),
+                padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraLarge),
                 child: Text(subText,
                   textAlign: TextAlign.center,
                   style: ubuntuRegular.copyWith(

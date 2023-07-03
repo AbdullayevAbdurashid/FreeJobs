@@ -6,9 +6,10 @@ import 'package:demandium/core/core_export.dart';
 
 
 class NewPassScreen extends StatefulWidget {
-  final String phoneOrEmail;
+  final String identity;
+  final String identityType;
   final String otp;
-  const NewPassScreen({Key? key,required this.phoneOrEmail, required this.otp}) : super(key: key);
+  const NewPassScreen({super.key, required this.identity,required this.otp, required this.identityType});
 
   @override
   State<NewPassScreen> createState() => _NewPassScreenState();
@@ -16,13 +17,14 @@ class NewPassScreen extends StatefulWidget {
 
 class _NewPassScreenState extends State<NewPassScreen> {
   final GlobalKey<FormState> newPassKey = GlobalKey<FormState>();
-
+  String _identity='';
 
   @override
   void initState() {
     Get.find<AuthController>().newPasswordController.clear();
     Get.find<AuthController>().confirmNewPasswordController.clear();
     super.initState();
+    _identity = widget.identity;
   }
 
 
@@ -30,7 +32,7 @@ class _NewPassScreenState extends State<NewPassScreen> {
   Widget build(BuildContext context) {
     AuthController controller = Get.find<AuthController>();
     return Scaffold(
-      endDrawer:ResponsiveHelper.isDesktop(context) ? MenuDrawer():null,
+      endDrawer:ResponsiveHelper.isDesktop(context) ? const MenuDrawer():null,
       appBar: CustomAppBar(title:'change_password'.tr, onBackPressed: (){
         Get.find<AuthController>().updateVerificationCode('');
         Get.back();
@@ -44,8 +46,8 @@ class _NewPassScreenState extends State<NewPassScreen> {
             child: Column(children: [
               Padding(
                 padding: EdgeInsets.symmetric(
-                    horizontal: ResponsiveHelper.isDesktop(context)?Dimensions.WEB_MAX_WIDTH/6:
-                    ResponsiveHelper.isTab(context)? Dimensions.WEB_MAX_WIDTH/8:Dimensions.PADDING_SIZE_LARGE
+                    horizontal: ResponsiveHelper.isDesktop(context)?Dimensions.webMaxWidth/6:
+                    ResponsiveHelper.isTab(context)? Dimensions.webMaxWidth/8:Dimensions.paddingSizeLarge
                 ),
                 child: Column(children: [
                   CustomTextField(
@@ -58,7 +60,7 @@ class _NewPassScreenState extends State<NewPassScreen> {
                         return FormValidation().isValidPassword(value!);
                       }
                   ),
-                  SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,),
+                  const SizedBox(height: Dimensions.paddingSizeDefault,),
 
                   CustomTextField(
                     title: 'confirm_new_password'.tr,
@@ -72,12 +74,12 @@ class _NewPassScreenState extends State<NewPassScreen> {
                     },
                     onSubmit: (text) => GetPlatform.isWeb ? _resetPassword(controller.confirmNewPasswordController.text,controller.confirmNewPasswordController.text) : null,
                   ),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
 
                   GetBuilder<UserController>(builder: (userController) {
                     return GetBuilder<AuthController>(builder: (authBuilder) {
-                      if(authBuilder.isLoading! && userController.isLoading){
-                        return  Center(child: CircularProgressIndicator());
+                      if(authBuilder.isLoading!){
+                        return  const Center(child: CircularProgressIndicator());
                       }else{
                         return CustomButton(
                           buttonText: 'change_password'.tr,
@@ -109,11 +111,10 @@ class _NewPassScreenState extends State<NewPassScreen> {
 
   void _resetPassword(newPassword, confirmNewPassword) {
     if(newPassKey.currentState!.validate()){
-      print("$newPassword $confirmNewPassword");
       if(newPassword != confirmNewPassword){
         customSnackBar('confirm_password_not_matched'.tr);
       }else{
-        Get.find<AuthController>().resetPassword(widget.phoneOrEmail);
+        Get.find<AuthController>().resetPassword(_identity,widget.identityType,widget.otp,newPassword,confirmNewPassword);
       }
     }
   }

@@ -13,7 +13,7 @@ class ProviderModel {
   int? serviceManCount;
   int? serviceCapacityPerDay;
   int? ratingCount;
-  var avgRating;
+  double? avgRating;
   int? commissionStatus;
   int? commissionPercentage;
   int? isActive;
@@ -37,7 +37,7 @@ class ProviderModel {
         this.serviceManCount,
         this.serviceCapacityPerDay,
         this.ratingCount,
-        this.avgRating,
+        this.avgRating=0.0,
         this.commissionStatus,
         this.commissionPercentage,
         this.isActive,
@@ -61,7 +61,7 @@ class ProviderModel {
     serviceManCount = json['service_man_count'];
     serviceCapacityPerDay = json['service_capacity_per_day'];
     ratingCount = json['rating_count'];
-    avgRating = json['avg_rating'];
+    avgRating = double.tryParse(json['avg_rating'].toString());
     commissionStatus = json['commission_status'];
     commissionPercentage = json['commission_percentage'];
     isActive = json['is_active'];
@@ -72,29 +72,29 @@ class ProviderModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['user_id'] = this.userId;
-    data['company_name'] = this.companyName;
-    data['company_phone'] = this.companyPhone;
-    data['company_address'] = this.companyAddress;
-    data['company_email'] = this.companyEmail;
-    data['logo'] = this.logo;
-    data['contact_person_name'] = this.contactPersonName;
-    data['contact_person_phone'] = this.contactPersonPhone;
-    data['contact_person_email'] = this.contactPersonEmail;
-    data['order_count'] = this.orderCount;
-    data['service_man_count'] = this.serviceManCount;
-    data['service_capacity_per_day'] = this.serviceCapacityPerDay;
-    data['rating_count'] = this.ratingCount;
-    data['avg_rating'] = this.avgRating;
-    data['commission_status'] = this.commissionStatus;
-    data['commission_percentage'] = this.commissionPercentage;
-    data['is_active'] = this.isActive;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['is_approved'] = this.isApproved;
-    data['zone_id'] = this.zoneId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['user_id'] = userId;
+    data['company_name'] = companyName;
+    data['company_phone'] = companyPhone;
+    data['company_address'] = companyAddress;
+    data['company_email'] = companyEmail;
+    data['logo'] = logo;
+    data['contact_person_name'] = contactPersonName;
+    data['contact_person_phone'] = contactPersonPhone;
+    data['contact_person_email'] = contactPersonEmail;
+    data['order_count'] = orderCount;
+    data['service_man_count'] = serviceManCount;
+    data['service_capacity_per_day'] = serviceCapacityPerDay;
+    data['rating_count'] = ratingCount;
+    data['avg_rating'] = avgRating;
+    data['commission_status'] = commissionStatus;
+    data['commission_percentage'] = commissionPercentage;
+    data['is_active'] = isActive;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['is_approved'] = isApproved;
+    data['zone_id'] = zoneId;
     return data;
   }
 }

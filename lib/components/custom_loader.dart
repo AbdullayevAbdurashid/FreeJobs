@@ -1,6 +1,8 @@
 import 'package:demandium/core/core_export.dart';
 
 class CustomLoader extends StatelessWidget {
+  const CustomLoader({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Center(child: Container(
@@ -8,7 +10,7 @@ class CustomLoader extends StatelessWidget {
         width: 100,
         decoration: BoxDecoration(
             color: Theme.of(context).cardColor,
-            borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL)),
+            borderRadius: BorderRadius.circular(Dimensions.radiusSmall)),
         alignment: Alignment.center,
         child: CircularProgressIndicator(color: Theme.of(context).colorScheme.primary,)));
   }

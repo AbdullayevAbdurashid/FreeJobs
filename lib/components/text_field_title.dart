@@ -8,7 +8,7 @@ class TextFieldTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:  EdgeInsets.only(bottom: Dimensions.PADDING_SIZE_SMALL,top: Dimensions.PADDING_SIZE_DEFAULT),
+      padding:  const EdgeInsets.only(bottom: Dimensions.paddingSizeSmall,top: Dimensions.paddingSizeDefault),
       child: RichText(
           text:
           TextSpan(children: <TextSpan>[

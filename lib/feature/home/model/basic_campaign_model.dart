@@ -1,7 +1,7 @@
 class BasicCampaignModel {
   int? id;
   String? title;
-  var image;
+  String? image;
   String? description;
   String? availableDateStarts;
   String? availableDateEnds;
@@ -30,15 +30,15 @@ class BasicCampaignModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['title'] = this.title;
-    data['images'] = this.image;
-    data['description'] = this.description;
-    data['available_date_starts'] = this.availableDateStarts;
-    data['available_date_ends'] = this.availableDateEnds;
-    data['start_time'] = this.startTime;
-    data['end_time'] = this.endTime;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['title'] = title;
+    data['images'] = image;
+    data['description'] = description;
+    data['available_date_starts'] = availableDateStarts;
+    data['available_date_ends'] = availableDateEnds;
+    data['start_time'] = startTime;
+    data['end_time'] = endTime;
     return data;
   }
 }

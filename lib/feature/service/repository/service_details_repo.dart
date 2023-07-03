@@ -2,7 +2,7 @@ import 'package:demandium/data/provider/client_api.dart';
 import 'package:get/get.dart';
 import 'package:demandium/utils/app_constants.dart';
 
-class ServiceDetailsRepo extends GetxService {
+class ServiceDetailsRepo {
   final ApiClient apiClient;
   ServiceDetailsRepo({required this.apiClient});
 
@@ -10,15 +10,15 @@ class ServiceDetailsRepo extends GetxService {
 
 
     if(fromPage=="search_page"){
-      return await apiClient.getData('${AppConstants.SERVICE_DETAILS_URI}/$serviceID?attribute=service');
+      return await apiClient.getData('${AppConstants.serviceDetailsUri}/$serviceID?attribute=service');
     }else{
-      return await apiClient.getData('${AppConstants.SERVICE_DETAILS_URI}/$serviceID');
+      return await apiClient.getData('${AppConstants.serviceDetailsUri}/$serviceID');
     }
 
   }
 
   Future<Response> getServiceReviewList(String serviceID,int offset) async {
-    return await apiClient.getData('${AppConstants.GET_SERVICE_REVIEW_LIST}$serviceID?offset=$offset&limit=10');
+    return await apiClient.getData('${AppConstants.getServiceReviewList}$serviceID?offset=$offset&limit=10');
   }
 
 }

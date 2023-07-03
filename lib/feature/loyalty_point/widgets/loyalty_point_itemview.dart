@@ -43,7 +43,7 @@ class LoyaltyPointItemView extends StatelessWidget {
             ],
           ),
         ),
-        Text("${DateConverter.dateMonthYearTimeTwentyFourFormat(DateConverter.isoUtcStringToLocalDate(transactionData.createdAt!))}",
+        Text(DateConverter.dateMonthYearTimeTwentyFourFormat(DateConverter.isoUtcStringToLocalDate(transactionData.createdAt!)),
           textDirection: TextDirection.ltr,
           style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeDefault,color: Theme.of(context).secondaryHeaderColor),
         )
@@ -51,12 +51,12 @@ class LoyaltyPointItemView extends StatelessWidget {
 
       Row(children: [
         SizedBox(height:90 ,width: 13,child: CustomDivider(height: 5,dashWidth: 0.5,axis: Axis.vertical,color: Get.isDarkMode?Colors.grey:Theme.of(context).colorScheme.primary,)),
-        SizedBox(width: Dimensions.PADDING_SIZE_SMALL,),
+        const SizedBox(width: Dimensions.paddingSizeSmall,),
         Expanded(
           child: Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-            Container(decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.RADIUS_DEFAULT),
+            Container(decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
                 border: Border.all(color: Theme.of(context).hintColor,width: 0.5)),
-              padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_LARGE,vertical: Dimensions.PADDING_SIZE_DEFAULT),
+              padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge,vertical: Dimensions.paddingSizeDefault),
               child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,children: [
                 Text(isCredit?"earned_from_booking".tr:"converted_wallet_money".tr,
                   style: ubuntuRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.5)),),
@@ -71,15 +71,15 @@ class LoyaltyPointItemView extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(width: 3,),
+                  const SizedBox(width: 3,),
                   Text("point".tr,style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall,color: Theme.of(context).secondaryHeaderColor))
 
                 ])]
               ),
             ),
 
-            SizedBox(height: Dimensions.PADDING_SIZE_SMALL,),
-            Divider()
+            const SizedBox(height: Dimensions.paddingSizeSmall,),
+            const Divider()
           ]),
         ),
 

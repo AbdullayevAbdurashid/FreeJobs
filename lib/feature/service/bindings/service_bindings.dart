@@ -9,7 +9,7 @@ class ServiceBinding extends Bindings{
     Get.lazyPut(() => sharedPreferences);
     Get.lazyPut(() => ServiceController(
         serviceRepo: ServiceRepo(apiClient: ApiClient(
-           appBaseUrl: AppConstants.BASE_URL,
+           appBaseUrl: AppConstants.baseUrl,
            sharedPreferences: sharedPreferences))
     ));
   }

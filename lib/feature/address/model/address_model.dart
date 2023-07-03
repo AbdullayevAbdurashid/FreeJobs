@@ -1,20 +1,20 @@
 class AddressModel {
   int? id;
-  var addressLabel;
-  var addressType;
+  String? addressLabel;
+  String? addressType;
   String? userId;
   String? address;
   String? latitude;
   String? longitude;
-  var city;
-  var zipCode;
-  var country;
-  var zoneId;
+  String? city;
+  String? zipCode;
+  String? country;
+  String? zoneId;
   String? method;
-  var contactPersonName;
-  var contactPersonNumber;
-  var contactPersonLabel;
-  var street;
+  String? contactPersonName;
+  String? contactPersonNumber;
+  String? contactPersonLabel;
+  String? street;
 
   AddressModel(
       {this.id,
@@ -55,23 +55,23 @@ class AddressModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['address_type'] = this.addressType;
-    data['address_label'] = this.addressLabel;
-    data['contact_person_name'] = this.contactPersonName;
-    data['contact_person_number'] = this.contactPersonNumber;
-    data['address'] = this.address;
-    data['lat'] = this.latitude;
-    data['lon'] = this.longitude;
-    data['city'] = this.city;
-    data['zip_code'] = this.zipCode;
-    data['country'] = this.country;
-    data['zone_id'] = this.zoneId;
-    data['address_label'] = this.addressLabel;
-    data['contact_person_name'] = this.contactPersonName;
-    data['_method'] = this.method;
-    data['street'] = this.street;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['address_type'] = addressType;
+    data['address_label'] = addressLabel;
+    data['contact_person_name'] = contactPersonName;
+    data['contact_person_number'] = contactPersonNumber;
+    data['address'] = address;
+    data['lat'] = latitude;
+    data['lon'] = longitude;
+    data['city'] = city;
+    data['zip_code'] = zipCode;
+    data['country'] = country;
+    data['zone_id'] = zoneId;
+    data['address_label'] = addressLabel;
+    data['contact_person_name'] = contactPersonName;
+    data['_method'] = method;
+    data['street'] = street;
     return data;
   }
 }

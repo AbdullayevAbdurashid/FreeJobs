@@ -7,6 +7,6 @@ class WalletRepo{
   WalletRepo({required this.apiClient});
 
   Future<Response> getWalletTransactionData(int offset) async {
-    return await apiClient.getData(AppConstants.WALLET_TRANSACTION_DATA+"?limit=10&offset=$offset");
+    return await apiClient.getData("${AppConstants.walletTransactionData}?limit=10&offset=$offset");
   }
 }

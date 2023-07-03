@@ -12,20 +12,20 @@ class ServiceDetailsFaqSection extends StatelessWidget {
         if(!serviceDetailsController.isLoading){
           List<Faqs>? faqs = serviceDetailsController.service!.faqs;
           return WebShadowWrap(
-            child: Container(
-              width: Dimensions.WEB_MAX_WIDTH,
+            child: SizedBox(
+              width: Dimensions.webMaxWidth,
               child: ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: faqs!.length,
-                padding: EdgeInsets.only(bottom: Dimensions.PADDING_SIZE_DEFAULT),
+                padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeDefault),
                 itemBuilder: (context, index){
 
 
                   return CustomExpansionTile(
                     expandedAlignment: Alignment.centerLeft,
                     title: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_SMALL),
+                      padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall),
                       child: Text(
                         faqs.elementAt(index).question!,
                         style: ubuntuRegular.copyWith(color:Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6)),
@@ -33,16 +33,14 @@ class ServiceDetailsFaqSection extends StatelessWidget {
                     ),
 
                     children: [
-                      Container(
-                        child: Padding(
-                          padding:
-                          EdgeInsets.only(left: 35,right: 35,bottom:10),
-                          child: Text(
-                          faqs.elementAt(index).answer!,
-                              style: ubuntuRegular.copyWith(
-                                  fontSize: Dimensions.fontSizeSmall,
-                                  color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6))),
-                        ),
+                      Padding(
+                        padding:
+                        const EdgeInsets.only(left: 35,right: 35,bottom:10),
+                        child: Text(
+                        faqs.elementAt(index).answer!,
+                            style: ubuntuRegular.copyWith(
+                                fontSize: Dimensions.fontSizeSmall,
+                                color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6))),
                       )
                     ],
                   );
@@ -50,7 +48,7 @@ class ServiceDetailsFaqSection extends StatelessWidget {
             ),
           );
         }else{
-         return SizedBox(child: Text("ok"),);
+         return const SizedBox(child: Text("ok"),);
         }
       }
     );

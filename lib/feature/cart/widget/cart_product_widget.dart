@@ -5,7 +5,7 @@ class CartServiceWidget extends StatelessWidget {
   final CartModel cart;
   final int cartIndex;
 
-  CartServiceWidget({
+  const CartServiceWidget({super.key, 
     required this.cart,
     required this.cartIndex,
   });
@@ -13,12 +13,12 @@ class CartServiceWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(bottom: Dimensions.PADDING_SIZE_DEFAULT,left: Dimensions.PADDING_SIZE_EXTRA_SMALL,right: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+      padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeDefault,left: Dimensions.paddingSizeExtraSmall,right: Dimensions.paddingSizeExtraSmall),
       child: Container(
         height: 90.0,
         decoration: BoxDecoration(
             color: Theme.of(context).hoverColor,
-            borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL)),
+            borderRadius: BorderRadius.circular(Dimensions.radiusSmall)),
         child: Stack(
             alignment: Alignment.center,
             clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -37,11 +37,11 @@ class CartServiceWidget extends StatelessWidget {
                   }},
                 child:
                 Container(
-                  padding: EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_DEFAULT, horizontal: Dimensions.PADDING_SIZE_SMALL),
+                  padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault, horizontal: Dimensions.paddingSizeSmall),
                   decoration: BoxDecoration(
                     color: Theme.of(context).cardColor,
                     border: Border.all(color: Colors.white.withOpacity(.2)),
-                    borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                    borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                     boxShadow:Get.isDarkMode ? null:[
                       BoxShadow(
                         color: Colors.grey[Get.isDarkMode ? 800 : 200]!,
@@ -59,13 +59,13 @@ class CartServiceWidget extends StatelessWidget {
                             onTap: (){
                               Get.toNamed(RouteHelper.getServiceRoute(cart.serviceId));
                             },
-                            child: Container(
+                            child: SizedBox(
                               width:ResponsiveHelper.isMobile(context)? Get.width / 1.8 : Get.width / 4,
                               child: Row(
                                 children: [
-                                  SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
+                                  const SizedBox(width: Dimensions.paddingSizeSmall),
                                   ClipRRect(
-                                    borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                                    borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                                     child: CustomImage(
                                       image: '${Get.find<SplashController>().configModel.content!.imageBaseUrl}/service/${cart.service!.thumbnail}',
                                       height: 65,
@@ -73,7 +73,7 @@ class CartServiceWidget extends StatelessWidget {
                                       fit: BoxFit.cover,
                                     ),
                                   ),
-                                  SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
+                                  const SizedBox(width: Dimensions.paddingSizeSmall),
                                   Expanded(
                                     child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,7 +85,7 @@ class CartServiceWidget extends StatelessWidget {
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                           ),
-                                          SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL,),
+                                          const SizedBox(height: Dimensions.paddingSizeExtraSmall,),
                                           SizedBox(
                                             width: Get.width * 0.4,
                                             child: Text(
@@ -95,15 +95,15 @@ class CartServiceWidget extends StatelessWidget {
                                               overflow: TextOverflow.ellipsis,
                                             ),
                                           ),
-                                          SizedBox(height: 5),
+                                          const SizedBox(height: 5),
                                           Directionality(
                                             textDirection: TextDirection.ltr,
                                             child: Text(
-                                              '${PriceConverter.convertPrice(cart.totalCost.toDouble())}',
+                                              PriceConverter.convertPrice(cart.totalCost.toDouble()),
                                               style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6)),
                                             ),
                                           ),
-                                          SizedBox(height: 5),
+                                          const SizedBox(height: 5),
                                         ]),
                                   ),
                                 ],
@@ -150,7 +150,7 @@ class CartServiceWidget extends StatelessWidget {
                                 child: Container(
                                     height: 22,
                                     width: 22,
-                                    margin: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL),
+                                    margin: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
                                     child: Image.asset(Images.cartDeleteVariation)),
                               ),
                             Text(cart.quantity.toString(), style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeExtraLarge)),

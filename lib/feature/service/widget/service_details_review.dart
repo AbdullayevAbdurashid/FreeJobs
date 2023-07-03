@@ -52,32 +52,32 @@ class _ServiceDetailsReviewState extends State<ServiceDetailsReview> {
       }
     }
 
-    if(widget.reviewList.length > 0)
+    if(widget.reviewList.isNotEmpty) {
       return  SingleChildScrollView(
         child: Center(
           child: WebShadowWrap(
-            child: Container(
-              width: Dimensions.WEB_MAX_WIDTH,
+            child: SizedBox(
+              width: Dimensions.webMaxWidth,
 
               child: Padding(
-                padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
+                padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_DEFAULT),
+                      padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault),
                       child: Container(
                         width: Get.width,
-                        padding: EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
+                        padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
                         decoration: BoxDecoration(
                             color: Theme.of(context).cardColor,
-                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                            borderRadius: const BorderRadius.all(Radius.circular(5)),
                             boxShadow:Get.isDarkMode ? null: cardShadow
                         ),
                         child: Column(
                           children: [
                             Align(alignment: Alignment.centerLeft, child: Text("reviews".tr, style: ubuntuMedium.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6),fontSize: Dimensions.fontSizeDefault))),
-                            Divider(),
+                            const Divider(),
                             Text(rating.averageRating.toString(), style: ubuntuMedium.copyWith(color:Theme.of(context).colorScheme.primary, fontSize: Dimensions.fontSizeForReview )),
                             Gaps.verticalGapOf(3.0),
                             RatingBar(rating: double.parse('${rating.averageRating}')),
@@ -89,7 +89,7 @@ class _ServiceDetailsReviewState extends State<ServiceDetailsReview> {
                                   "${rating.ratingCount.toString()} ${'ratings'.tr}",
                                   style: ubuntuRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6)),
                                 ),
-                                SizedBox(width: Dimensions.PADDING_SIZE_SMALL,),
+                                const SizedBox(width: Dimensions.paddingSizeSmall,),
                                 Text(
                                   "$reviewCount ${'reviews'.tr}",
                                   style: ubuntuRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6)),
@@ -147,7 +147,8 @@ class _ServiceDetailsReviewState extends State<ServiceDetailsReview> {
           ),
         ),
       );
-    return EmptyReviewWidget();
+    }
+    return const EmptyReviewWidget();
   }
   Widget _progressBar(
       {required String title, required double percent, required Color colr}) {
@@ -165,7 +166,7 @@ class _ServiceDetailsReviewState extends State<ServiceDetailsReview> {
           const Expanded(
             child: SizedBox(),
           ),
-          Container(
+          SizedBox(
             width: 245,
             child: ClipRRect(
               borderRadius: const BorderRadius.all(

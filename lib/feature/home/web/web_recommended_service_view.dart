@@ -3,46 +3,45 @@ import 'package:get/get.dart';
 import 'package:demandium/core/core_export.dart';
 
 class WebRecommendedServiceView extends StatelessWidget {
+  const WebRecommendedServiceView({super.key});
+
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ServiceController>(
-      initState: (state){
-        Get.find<ServiceController>().getRecommendedServiceList(1,false);
-      },
       builder: (serviceController){
-        if(serviceController.recommendedServiceList != null && serviceController.recommendedServiceList!.length == 0){
-          return SizedBox();
+        if(serviceController.recommendedServiceList != null && serviceController.recommendedServiceList!.isEmpty){
+          return const SizedBox();
         }else{
           if(serviceController.recommendedServiceList != null){
-            List<Service>? _recommendedServiceList = serviceController.recommendedServiceList;
-            return Container(
-              width: Dimensions.WEB_MAX_WIDTH / 3.5,
+            List<Service>? recommendedServiceList = serviceController.recommendedServiceList;
+            return SizedBox(
+              width: Dimensions.webMaxWidth / 3.5,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+                  const SizedBox(height: Dimensions.paddingSizeSmall),
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_SMALL),
+                    padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall),
                     child: Text('recommended_for_you'.tr,
                         style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeExtraLarge)),
                   ),
 
                   ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: _recommendedServiceList!.length > 2 ? 3 : _recommendedServiceList.length,
+                    itemCount: recommendedServiceList!.length > 2 ? 3 : recommendedServiceList.length,
                     itemBuilder: (context, index){
-                      Discount _discount = PriceConverter.discountCalculation(serviceController.recommendedServiceList![index]);
+                      Discount discount = PriceConverter.discountCalculation(serviceController.recommendedServiceList![index]);
 
                       return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                        padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall),
                         child: InkWell(
-                          onTap: () => Get.toNamed(RouteHelper.getServiceRoute(_recommendedServiceList[index].id!)),
+                          onTap: () => Get.toNamed(RouteHelper.getServiceRoute(recommendedServiceList[index].id!)),
                           child: ServiceModelView(
                             serviceList: serviceController.recommendedServiceList!,
-                            discountAmountType: _discount.discountAmountType,
-                            discountAmount: _discount.discountAmount,
+                            discountAmountType: discount.discountAmountType,
+                            discountAmount: discount.discountAmount,
                             index: index,
                           ),
                         ),
@@ -51,7 +50,7 @@ class WebRecommendedServiceView extends StatelessWidget {
                   ),
 
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_LARGE, horizontal: Dimensions.PADDING_SIZE_EXTRA_LARGE),
+                    padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeLarge, horizontal: Dimensions.paddingSizeExtraLarge),
                     child: CustomButton(
                       buttonText: 'see_all'.tr, onPressed: () => Get.toNamed(RouteHelper.allServiceScreenRoute("fromRecommendedScreen")),
                     ),
@@ -61,7 +60,7 @@ class WebRecommendedServiceView extends StatelessWidget {
             );
           }
           else{
-            return WebCampaignShimmer(enabled: true,);
+            return const WebCampaignShimmer(enabled: true,);
           }
         }
       },
@@ -84,32 +83,32 @@ class ServiceModelView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double _lowestPrice = 0.0;
+    double lowestPrice = 0.0;
     if(serviceList[index].variationsAppFormat!.zoneWiseVariations != null){
-       _lowestPrice = serviceList[index].variationsAppFormat!.zoneWiseVariations![0].price!.toDouble();
+       lowestPrice = serviceList[index].variationsAppFormat!.zoneWiseVariations![0].price!.toDouble();
       for (var i = 0; i < serviceList[index].variationsAppFormat!.zoneWiseVariations!.length; i++) {
-        if (serviceList[index].variationsAppFormat!.zoneWiseVariations![i].price! < _lowestPrice) {
-          _lowestPrice = serviceList[index].variationsAppFormat!.zoneWiseVariations![i].price!.toDouble();
+        if (serviceList[index].variationsAppFormat!.zoneWiseVariations![i].price! < lowestPrice) {
+          lowestPrice = serviceList[index].variationsAppFormat!.zoneWiseVariations![i].price!.toDouble();
         }
       }
     }
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor ,
-        borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+        borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
         boxShadow:Get.isDarkMode ? null: cardShadow,
       ),
       child: Row(children: [
         Stack(children: [
           Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal:Dimensions.PADDING_SIZE_SMALL,
-              vertical: Dimensions.PADDING_SIZE_SMALL,
+            padding: const EdgeInsets.symmetric(
+              horizontal:Dimensions.paddingSizeSmall,
+              vertical: Dimensions.paddingSizeSmall,
             ),
             child: Stack(
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                  borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                   child: CustomImage(
                     image: '${Get.find<SplashController>().configModel.content!.imageBaseUrl!}/service/${serviceList[index].thumbnail}',
                     height: 100, width: 90, fit: BoxFit.cover,
@@ -119,12 +118,12 @@ class ServiceModelView extends StatelessWidget {
                 if( discountAmount != null && discountAmountType!=null && discountAmount! > 0) Positioned.fill(
                   child: Align(alignment: Alignment.topRight,
                     child: Container(
-                      padding: EdgeInsets.all(Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                      padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
                       decoration: BoxDecoration(
                         color: Theme.of(context).colorScheme.error,
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(Dimensions.RADIUS_DEFAULT),
-                          topRight: Radius.circular(Dimensions.RADIUS_SMALL),
+                        borderRadius: const BorderRadius.only(
+                          bottomLeft: Radius.circular(Dimensions.radiusDefault),
+                          topRight: Radius.circular(Dimensions.radiusSmall),
                         ),
                       ),
                       child: Directionality(
@@ -144,31 +143,31 @@ class ServiceModelView extends StatelessWidget {
 
         Expanded(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL, vertical: Dimensions.PADDING_SIZE_MINI),
+            padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall, vertical: Dimensions.paddingSizeMini),
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
               Text(
                 serviceList[index].name!,
                 style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
                 maxLines: 1, overflow: TextOverflow.ellipsis,
               ),
-              SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+              const SizedBox(height: Dimensions.paddingSizeExtraSmall),
               RatingBar(
                 rating: double.parse(serviceList[index].avgRating.toString()), size: 15,
                 ratingCount: serviceList[index].ratingCount,
               ),
-              SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+              const SizedBox(height: Dimensions.paddingSizeExtraSmall),
               Text(serviceList[index].shortDescription!,
                 style: ubuntuLight.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor),
                 maxLines: 2, overflow: TextOverflow.ellipsis,
               ),
-              SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+              const SizedBox(height: Dimensions.paddingSizeSmall),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   if(discountAmount! > 0)
                     Directionality(
                       textDirection: TextDirection.ltr,
-                      child: Text(PriceConverter.convertPrice(_lowestPrice)+" ",
+                      child: Text("${PriceConverter.convertPrice(lowestPrice)} ",
                         style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall,
                             decoration: TextDecoration.lineThrough,
                             color: Theme.of(context).colorScheme.error.withOpacity(.8)),
@@ -178,18 +177,18 @@ class ServiceModelView extends StatelessWidget {
                   discountAmount! > 0?
                   Directionality(
                     textDirection: TextDirection.ltr,
-                    child: Text(PriceConverter.convertPrice(_lowestPrice,
+                    child: Text(PriceConverter.convertPrice(lowestPrice,
                         discount: discountAmount!.toDouble(),
                         discountType: discountAmountType
                     ),
-                      style: ubuntuMedium.copyWith(fontSize: Dimensions.PADDING_SIZE_DEFAULT,
+                      style: ubuntuMedium.copyWith(fontSize: Dimensions.paddingSizeDefault,
                           color: Get.isDarkMode? Theme.of(context).primaryColorLight: Theme.of(context).primaryColor),
                     ),
                   ): Directionality(
                     textDirection: TextDirection.ltr,
-                    child: Text(PriceConverter.convertPrice(_lowestPrice),
+                    child: Text(PriceConverter.convertPrice(lowestPrice),
                       style: ubuntuRegular.copyWith(
-                          fontSize: Dimensions.PADDING_SIZE_DEFAULT,
+                          fontSize: Dimensions.paddingSizeDefault,
                           color: Get.isDarkMode? Theme.of(context).primaryColorLight: Theme.of(context).primaryColor),
                     ),
                   ),

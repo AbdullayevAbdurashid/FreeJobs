@@ -9,7 +9,7 @@ import 'package:demandium/core/core_export.dart';
 class AllServiceView extends StatefulWidget {
   final String fromPage;
   final String campaignID;
-  AllServiceView({required this.fromPage,required this.campaignID});
+  const AllServiceView({super.key, required this.fromPage,required this.campaignID});
 
   @override
   State<AllServiceView> createState() => _AllServiceViewState();
@@ -28,7 +28,7 @@ class _AllServiceViewState extends State<AllServiceView> {
             : widget.fromPage == 'recently_view_services' ? 'recently_view_services'.tr
             : widget.fromPage == 'trending_services' ? 'trending_services'.tr
             : 'available_service'.tr,showCart: true,),
-      endDrawer:ResponsiveHelper.isDesktop(context) ? MenuDrawer():null,
+      endDrawer:ResponsiveHelper.isDesktop(context) ? const MenuDrawer():null,
       body: _buildBody(widget.fromPage,context,scrollController),
     );
   }
@@ -43,16 +43,16 @@ class _AllServiceViewState extends State<AllServiceView> {
           return FooterBaseView(
             scrollController: scrollController,
             child: SizedBox(
-              width: Dimensions.WEB_MAX_WIDTH,
+              width: Dimensions.webMaxWidth,
               child: Column(
                 children: [
                   if(ResponsiveHelper.isDesktop(context))
                   Padding(
                     padding: EdgeInsets.fromLTRB(
-                      Dimensions.PADDING_SIZE_DEFAULT,
+                      Dimensions.paddingSizeDefault,
                       Dimensions.fontSizeDefault,
-                      Dimensions.PADDING_SIZE_DEFAULT,
-                      Dimensions.PADDING_SIZE_SMALL,
+                      Dimensions.paddingSizeDefault,
+                      Dimensions.paddingSizeSmall,
                     ),
                     child: TitleWidget(
                       title: 'popular_services'.tr,
@@ -63,17 +63,16 @@ class _AllServiceViewState extends State<AllServiceView> {
                     totalSize: serviceController.popularBasedServiceContent != null ? serviceController.popularBasedServiceContent!.total! : null,
                     offset: serviceController.popularBasedServiceContent != null ? serviceController.popularBasedServiceContent!.currentPage != null ? serviceController.popularBasedServiceContent!.currentPage! : null : null,
                     onPaginate: (int offset) async {
-                      print("popular_service_on_paginate");
                       return await serviceController.getPopularServiceList(offset, false);
                     },
                     itemView: ServiceViewVertical(
                       service: serviceController.popularBasedServiceContent != null ? serviceController.popularServiceList : null,
                       padding: EdgeInsets.symmetric(
-                        horizontal: ResponsiveHelper.isDesktop(context) ? Dimensions.PADDING_SIZE_EXTRA_SMALL : Dimensions.PADDING_SIZE_SMALL,
-                        vertical: ResponsiveHelper.isDesktop(context) ? Dimensions.PADDING_SIZE_EXTRA_SMALL :  Dimensions.PADDING_SIZE_SMALL,
+                        horizontal: ResponsiveHelper.isDesktop(context) ? Dimensions.paddingSizeExtraSmall : Dimensions.paddingSizeSmall,
+                        vertical: ResponsiveHelper.isDesktop(context) ? Dimensions.paddingSizeExtraSmall :  Dimensions.paddingSizeSmall,
                       ),
                       type: 'others',
-                      noDataType: NoDataType.HOME,
+                      noDataType: NoDataType.home,
                     ),
                   ),
                 ],
@@ -92,16 +91,16 @@ class _AllServiceViewState extends State<AllServiceView> {
           return FooterBaseView(
             scrollController: scrollController,
             child: SizedBox(
-              width: Dimensions.WEB_MAX_WIDTH,
+              width: Dimensions.webMaxWidth,
               child: Column(
                 children: [
                   if(ResponsiveHelper.isDesktop(context))
                     Padding(
                       padding: EdgeInsets.fromLTRB(
-                        Dimensions.PADDING_SIZE_DEFAULT,
+                        Dimensions.paddingSizeDefault,
                         Dimensions.fontSizeDefault,
-                        Dimensions.PADDING_SIZE_DEFAULT,
-                        Dimensions.PADDING_SIZE_SMALL,
+                        Dimensions.paddingSizeDefault,
+                        Dimensions.paddingSizeSmall,
                       ),
                       child: TitleWidget(
                         title: 'trending_services'.tr,
@@ -117,11 +116,11 @@ class _AllServiceViewState extends State<AllServiceView> {
                     itemView: ServiceViewVertical(
                       service: serviceController.trendingServiceContent != null ? serviceController.trendingServiceList : null,
                       padding: EdgeInsets.symmetric(
-                        horizontal: ResponsiveHelper.isDesktop(context) ? Dimensions.PADDING_SIZE_EXTRA_SMALL : Dimensions.PADDING_SIZE_SMALL,
-                        vertical: ResponsiveHelper.isDesktop(context) ? Dimensions.PADDING_SIZE_EXTRA_SMALL :  Dimensions.PADDING_SIZE_SMALL,
+                        horizontal: ResponsiveHelper.isDesktop(context) ? Dimensions.paddingSizeExtraSmall : Dimensions.paddingSizeSmall,
+                        vertical: ResponsiveHelper.isDesktop(context) ? Dimensions.paddingSizeExtraSmall :  Dimensions.paddingSizeSmall,
                       ),
                       type: 'others',
-                      noDataType: NoDataType.HOME,
+                      noDataType: NoDataType.home,
                     ),
                   ),
                 ],
@@ -140,16 +139,16 @@ class _AllServiceViewState extends State<AllServiceView> {
           return FooterBaseView(
             scrollController: scrollController,
             child: SizedBox(
-              width: Dimensions.WEB_MAX_WIDTH,
+              width: Dimensions.webMaxWidth,
               child: Column(
                 children: [
                   if(ResponsiveHelper.isDesktop(context))
                     Padding(
                       padding: EdgeInsets.fromLTRB(
-                        Dimensions.PADDING_SIZE_DEFAULT,
+                        Dimensions.paddingSizeDefault,
                         Dimensions.fontSizeDefault,
-                        Dimensions.PADDING_SIZE_DEFAULT,
-                        Dimensions.PADDING_SIZE_SMALL,
+                        Dimensions.paddingSizeDefault,
+                        Dimensions.paddingSizeSmall,
                       ),
                       child: TitleWidget(
                         title: 'recently_view_services'.tr,
@@ -166,11 +165,11 @@ class _AllServiceViewState extends State<AllServiceView> {
                     itemView: ServiceViewVertical(
                       service: serviceController.recentlyViewServiceContent != null ? serviceController.recentlyViewServiceList : null,
                       padding: EdgeInsets.symmetric(
-                        horizontal: ResponsiveHelper.isDesktop(context) ? Dimensions.PADDING_SIZE_EXTRA_SMALL : Dimensions.PADDING_SIZE_SMALL,
-                        vertical: ResponsiveHelper.isDesktop(context) ? Dimensions.PADDING_SIZE_EXTRA_SMALL :  Dimensions.PADDING_SIZE_SMALL,
+                        horizontal: ResponsiveHelper.isDesktop(context) ? Dimensions.paddingSizeExtraSmall : Dimensions.paddingSizeSmall,
+                        vertical: ResponsiveHelper.isDesktop(context) ? Dimensions.paddingSizeExtraSmall :  Dimensions.paddingSizeSmall,
                       ),
                       type: 'others',
-                      noDataType: NoDataType.HOME,
+                      noDataType: NoDataType.home,
                     ),
                   ),
                 ],
@@ -201,16 +200,16 @@ class _AllServiceViewState extends State<AllServiceView> {
           return FooterBaseView(
             scrollController: scrollController,
             child: SizedBox(
-              width: Dimensions.WEB_MAX_WIDTH,
+              width: Dimensions.webMaxWidth,
               child: Column(
                 children: [
                   if(ResponsiveHelper.isDesktop(context))
                   Padding(
                     padding: EdgeInsets.fromLTRB(
-                      Dimensions.PADDING_SIZE_DEFAULT,
+                      Dimensions.paddingSizeDefault,
                       Dimensions.fontSizeDefault,
-                      Dimensions.PADDING_SIZE_DEFAULT,
-                      Dimensions.PADDING_SIZE_SMALL,
+                      Dimensions.paddingSizeDefault,
+                      Dimensions.paddingSizeSmall,
                     ),
                     child: TitleWidget(
                       title: 'recommended_for_you'.tr,
@@ -227,11 +226,11 @@ class _AllServiceViewState extends State<AllServiceView> {
                     itemView: ServiceViewVertical(
                       service: serviceController.recommendedBasedServiceContent != null ? serviceController.recommendedServiceList : null,
                       padding: EdgeInsets.symmetric(
-                        horizontal: ResponsiveHelper.isDesktop(context) ? Dimensions.PADDING_SIZE_EXTRA_SMALL : Dimensions.PADDING_SIZE_SMALL,
-                        vertical: ResponsiveHelper.isDesktop(context) ? Dimensions.PADDING_SIZE_EXTRA_SMALL :  Dimensions.PADDING_SIZE_SMALL,
+                        horizontal: ResponsiveHelper.isDesktop(context) ? Dimensions.paddingSizeExtraSmall : Dimensions.paddingSizeSmall,
+                        vertical: ResponsiveHelper.isDesktop(context) ? Dimensions.paddingSizeExtraSmall :  Dimensions.paddingSizeSmall,
                       ),
                       type: 'others',
-                      noDataType: NoDataType.HOME,
+                      noDataType: NoDataType.home,
                     ),
                   ),
                 ],
@@ -250,22 +249,22 @@ class _AllServiceViewState extends State<AllServiceView> {
         return FooterBaseView(
           scrollController: scrollController,
           child: SizedBox(
-            width: Dimensions.WEB_MAX_WIDTH,
+            width: Dimensions.webMaxWidth,
             child: Column(
               children: [
                 if(ResponsiveHelper.isDesktop(context))
                   Padding(
-                  padding: EdgeInsets.fromLTRB(
-                    Dimensions.PADDING_SIZE_DEFAULT,
-                    Dimensions.PADDING_SIZE_DEFAULT,
-                    Dimensions.PADDING_SIZE_DEFAULT,
-                    Dimensions.PADDING_SIZE_SMALL,
+                  padding: const EdgeInsets.fromLTRB(
+                    Dimensions.paddingSizeDefault,
+                    Dimensions.paddingSizeDefault,
+                    Dimensions.paddingSizeDefault,
+                    Dimensions.paddingSizeSmall,
                   ),
                   child: TitleWidget(
                     title: 'all_service'.tr,
                   ),
                 ),
-                SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,),
+                const SizedBox(height: Dimensions.paddingSizeDefault,),
                 PaginatedListView(
                   scrollController: scrollController,
                   totalSize:serviceController.serviceContent != null ?  serviceController.serviceContent!.total != null ? serviceController.serviceContent!.total! : null:null,
@@ -274,11 +273,11 @@ class _AllServiceViewState extends State<AllServiceView> {
                   itemView: ServiceViewVertical(
                     service: serviceController.serviceContent != null ? serviceController.allService : null,
                     padding: EdgeInsets.symmetric(
-                      horizontal: ResponsiveHelper.isDesktop(context) ? Dimensions.PADDING_SIZE_EXTRA_SMALL : Dimensions.PADDING_SIZE_SMALL,
-                      vertical: ResponsiveHelper.isDesktop(context) ? Dimensions.PADDING_SIZE_EXTRA_SMALL : 0,
+                      horizontal: ResponsiveHelper.isDesktop(context) ? Dimensions.paddingSizeExtraSmall : Dimensions.paddingSizeSmall,
+                      vertical: ResponsiveHelper.isDesktop(context) ? Dimensions.paddingSizeExtraSmall : 0,
                     ),
                     type: 'others',
-                    noDataType: NoDataType.HOME,
+                    noDataType: NoDataType.home,
                   ),
                 ),
               ],
@@ -301,21 +300,21 @@ class _AllServiceViewState extends State<AllServiceView> {
 
   Widget _buildWidget(List<Service>? serviceList,BuildContext context){
     return FooterBaseView(
-      isCenter:(serviceList == null || serviceList.length == 0),
+      isCenter:(serviceList == null || serviceList.isEmpty),
       child: SizedBox(
-        width: Dimensions.WEB_MAX_WIDTH,
-        child: (serviceList != null && serviceList.length == 0) ?  NoDataScreen(text: 'no_services_found'.tr,type: NoDataType.SERVICE,) :  serviceList != null ? Padding(
-          padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT,vertical: Dimensions.PADDING_SIZE_DEFAULT),
+        width: Dimensions.webMaxWidth,
+        child: (serviceList != null && serviceList.isEmpty) ?  NoDataScreen(text: 'no_services_found'.tr,type: NoDataType.service,) :  serviceList != null ? Padding(
+          padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault,vertical: Dimensions.paddingSizeDefault),
           child: CustomScrollView(
             shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             slivers: [
               if(ResponsiveHelper.isWeb())
-              SliverToBoxAdapter(child: SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_MORE_LARGE,)),
+              const SliverToBoxAdapter(child: SizedBox(height: Dimensions.paddingSizeExtraMoreLarge,)),
               SliverGrid(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisSpacing: Dimensions.PADDING_SIZE_DEFAULT,
-                  mainAxisSpacing:  Dimensions.PADDING_SIZE_DEFAULT,
+                  crossAxisSpacing: Dimensions.paddingSizeDefault,
+                  mainAxisSpacing:  Dimensions.paddingSizeDefault,
                   childAspectRatio: ResponsiveHelper.isDesktop(context) || ResponsiveHelper.isTab(context)  ? .9 : .75,
                   crossAxisCount: ResponsiveHelper.isMobile(context) ? 2 : ResponsiveHelper.isTab(context) ? 3 : 5,
                   mainAxisExtent: 240,
@@ -328,28 +327,28 @@ class _AllServiceViewState extends State<AllServiceView> {
                   childCount: serviceList.length,
                 ),
               ),
-              SliverToBoxAdapter(child: SizedBox(height: Dimensions.WEB_CATEGORY_SIZE,)),
+              const SliverToBoxAdapter(child: SizedBox(height: Dimensions.webCategorySize,)),
             ],
           ),
         ) : GridView.builder(
           key: UniqueKey(),
-          padding: EdgeInsets.only(
-            top: Dimensions.PADDING_SIZE_DEFAULT,
-            bottom: Dimensions.PADDING_SIZE_DEFAULT,
-            left: Dimensions.PADDING_SIZE_DEFAULT,
-            right: Dimensions.PADDING_SIZE_DEFAULT,
+          padding: const EdgeInsets.only(
+            top: Dimensions.paddingSizeDefault,
+            bottom: Dimensions.paddingSizeDefault,
+            left: Dimensions.paddingSizeDefault,
+            right: Dimensions.paddingSizeDefault,
           ),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisSpacing: Dimensions.PADDING_SIZE_DEFAULT,
-            mainAxisSpacing:  Dimensions.PADDING_SIZE_DEFAULT,
+            crossAxisSpacing: Dimensions.paddingSizeDefault,
+            mainAxisSpacing:  Dimensions.paddingSizeDefault,
             childAspectRatio: ResponsiveHelper.isDesktop(context) || ResponsiveHelper.isTab(context)  ? 1 : .70,
             crossAxisCount: ResponsiveHelper.isMobile(context) ? 2 : ResponsiveHelper.isTab(context) ? 3 : 5,
           ),
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemCount: 10,
           itemBuilder: (context, index) {
-            return ServiceShimmer(isEnabled: true, hasDivider: false);
+            return const ServiceShimmer(isEnabled: true, hasDivider: false);
           },
         ),
       ),

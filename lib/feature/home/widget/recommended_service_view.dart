@@ -3,21 +3,23 @@ import 'package:demandium/feature/home/web/web_recommended_service_view.dart';
 import 'package:demandium/core/core_export.dart';
 
 class RecommendedServiceView extends StatelessWidget {
+  const RecommendedServiceView({super.key});
+
 
   @override
   Widget build(BuildContext context) {
-    ScrollController _scrollController = ScrollController();
+    ScrollController scrollController = ScrollController();
     return GetBuilder<ServiceController>(
       builder: (serviceController){
-        if(serviceController.recommendedServiceList != null && serviceController.recommendedServiceList!.length == 0){
-          return SizedBox();
+        if(serviceController.recommendedServiceList != null && serviceController.recommendedServiceList!.isEmpty){
+          return const SizedBox();
         }
         else{
           if(serviceController.recommendedServiceList != null){
             return Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.fromLTRB(Dimensions.PADDING_SIZE_DEFAULT, 15, Dimensions.PADDING_SIZE_DEFAULT,  Dimensions.PADDING_SIZE_SMALL,),
+                  padding: const EdgeInsets.fromLTRB(Dimensions.paddingSizeDefault, 15, Dimensions.paddingSizeDefault,  Dimensions.paddingSizeSmall,),
                   child: TitleWidget(
                     title: 'recommended_for_you'.tr,
                     onTap: () => Get.toNamed(RouteHelper.allServiceScreenRoute("fromRecommendedScreen")),
@@ -26,15 +28,15 @@ class RecommendedServiceView extends StatelessWidget {
                 SizedBox(
                     height: 115,
                     child: ListView.builder(
-                      controller: _scrollController,
-                      physics: BouncingScrollPhysics(),
+                      controller: scrollController,
+                      physics: const BouncingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
-                      padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL),
+                      padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
                       itemCount: serviceController.recommendedServiceList!.length > 10 ? 10 : serviceController.recommendedServiceList!.length,
                       itemBuilder: (context, index){
-                        Discount _discountValue =  PriceConverter.discountCalculation(serviceController.recommendedServiceList![index]);
+                        Discount discountValue =  PriceConverter.discountCalculation(serviceController.recommendedServiceList![index]);
                         return Padding(
-                          padding: EdgeInsets.fromLTRB(2, 2, Dimensions.PADDING_SIZE_SMALL, 2),
+                          padding: const EdgeInsets.fromLTRB(2, 2, Dimensions.paddingSizeSmall, 2),
                           child: InkWell(
                             onTap: () {
                               Get.toNamed(
@@ -42,12 +44,12 @@ class RecommendedServiceView extends StatelessWidget {
                                 arguments: ServiceDetailsScreen(serviceID: serviceController.recommendedServiceList![index].id!),
                               );
                             },
-                            child: Container(
+                            child: SizedBox(
                               height: 110, width: MediaQuery.of(context).size.width/1.20,
                               child: ServiceModelView(
                                 serviceList: serviceController.recommendedServiceList!,
-                                discountAmountType: _discountValue.discountAmountType,
-                                discountAmount: _discountValue.discountAmount,
+                                discountAmountType: discountValue.discountAmountType,
+                                discountAmount: discountValue.discountAmount,
                                 index: index,
                               ),
                             ),
@@ -56,13 +58,13 @@ class RecommendedServiceView extends StatelessWidget {
                       },
                     )
                 ),
-                SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,)
+                const SizedBox(height: Dimensions.paddingSizeDefault,)
               ],
             );
           }else{
             return Column(
               children: [
-                Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL),
+                Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -71,13 +73,13 @@ class RecommendedServiceView extends StatelessWidget {
                         width: 100,
                         decoration: BoxDecoration(
                           color: Get.isDarkMode? Colors.grey[700]:Colors.white,
-                          borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                          borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                           boxShadow: Get.isDarkMode?null:[BoxShadow(color: Colors.grey[300]!, blurRadius: 10, spreadRadius: 1)],
                         ),
                         child: Center(child: Container(
                           height: ResponsiveHelper.isMobile(context)?10:ResponsiveHelper.isTab(context)?15:20,
                           color: Colors.grey[Get.find<ThemeController>().darkTheme ? 600 : 300],
-                          margin: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL),
+                          margin: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
                         ),),
                       ),
                       Container(
@@ -85,22 +87,22 @@ class RecommendedServiceView extends StatelessWidget {
                         width: 80,
                         decoration: BoxDecoration(
                           color: Get.isDarkMode? Colors.grey[700]:Colors.white,
-                          borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                          borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                           boxShadow: Get.isDarkMode?null:[BoxShadow(color: Colors.grey[300]!, blurRadius: 10, spreadRadius: 1)],
                         ),
                         child: Center(child: Container(
                           height: ResponsiveHelper.isMobile(context)?10:ResponsiveHelper.isTab(context)?15:20,
                           color: Colors.grey[Get.find<ThemeController>().darkTheme ? 600 : 300],
-                          margin: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL),
+                          margin: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
                         ),),
                       )
                     ],),
                 ),
-                SizedBox(height: Dimensions.PADDING_SIZE_SMALL,),
-                SizedBox(
+                const SizedBox(height: Dimensions.paddingSizeSmall,),
+                const SizedBox(
                     height: 115,
                     child: RecommendedServiceShimmer(enabled: true)),
-                SizedBox(height: Dimensions.PADDING_SIZE_SMALL,),
+                const SizedBox(height: Dimensions.paddingSizeSmall,),
               ],
             );
           }
@@ -112,48 +114,48 @@ class RecommendedServiceView extends StatelessWidget {
 
 class RecommendedServiceShimmer extends StatelessWidget {
   final bool enabled;
-  RecommendedServiceShimmer({required this.enabled});
+  const RecommendedServiceShimmer({super.key, required this.enabled});
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       shrinkWrap: true,
-      physics: BouncingScrollPhysics(),
+      physics: const BouncingScrollPhysics(),
       scrollDirection: Axis.horizontal,
-      padding: EdgeInsets.only(right: Dimensions.PADDING_SIZE_SMALL,left: Dimensions.PADDING_SIZE_SMALL,top: Dimensions.PADDING_SIZE_SMALL,),
+      padding: const EdgeInsets.only(right: Dimensions.paddingSizeSmall,left: Dimensions.paddingSizeSmall,top: Dimensions.paddingSizeSmall,),
       itemCount: 10,
       itemBuilder: (context, index){
         return Container(
           width: MediaQuery.of(context).size.width/1.20,
-          margin: EdgeInsets.only(right: Dimensions.PADDING_SIZE_SMALL,bottom: 5),
-          padding: EdgeInsets.all(Dimensions.PADDING_SIZE_EXTRA_SMALL),
+          margin: const EdgeInsets.only(right: Dimensions.paddingSizeSmall,bottom: 5),
+          padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
           decoration: BoxDecoration(
             color: Get.isDarkMode? Colors.grey[700]:Colors.white,
-            borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+            borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
             boxShadow: Get.isDarkMode?null:[BoxShadow(color: Colors.grey[300]!, blurRadius: 10, spreadRadius: 1)],
           ),
           child: Shimmer(
-            duration: Duration(seconds: 1),
-            interval: Duration(seconds: 1),
+            duration: const Duration(seconds: 1),
+            interval: const Duration(seconds: 1),
             enabled: enabled,
             child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Container(
                 height: 90, width: 90,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                    borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                     color: Colors.grey[Get.find<ThemeController>().darkTheme ? 600 : 300]
                 ),
               ),
 
               Expanded(
                 child: Padding(
-                  padding: EdgeInsets.all(Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                  padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
                     Container(height: 15, width: 100, color: Colors.grey[Get.find<ThemeController>().darkTheme ? 600 : 300]),
-                    SizedBox(height: 5),
+                    const SizedBox(height: 5),
                     Container(height: 10, width: 130, color: Colors.grey[Get.find<ThemeController>().darkTheme ? 700 : 300]),
-                    SizedBox(height: 5),
-                    RatingBar(rating: 0.0, size: 12, ratingCount: 0),
+                    const SizedBox(height: 5),
+                    const RatingBar(rating: 0.0, size: 12, ratingCount: 0),
                   ]),
                 ),
               ),

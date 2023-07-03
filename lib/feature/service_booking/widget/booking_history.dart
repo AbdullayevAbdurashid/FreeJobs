@@ -6,7 +6,7 @@ import 'package:demandium/core/core_export.dart';
 
 class BookingHistory extends StatelessWidget {
 
-   BookingHistory({Key? key}) : super(key: key);
+   const BookingHistory({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
 
@@ -18,20 +18,20 @@ class BookingHistory extends StatelessWidget {
            return SingleChildScrollView(
              child: Column(
                children: [
-                 Gaps.verticalGapOf(Dimensions.PADDING_SIZE_EXTRA_LARGE),
+                 Gaps.verticalGapOf(Dimensions.paddingSizeExtraLarge),
                  Row(
                    mainAxisAlignment: MainAxisAlignment.center,
                    children: [
                      Text('${'booking_place'.tr} : ',
                        style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).textTheme.bodyLarge!.color),
                      ),
-                     Text("${DateConverter.dateMonthYearTimeTwentyFourFormat(DateConverter.isoUtcStringToLocalDate(bookingDetailsContent!.createdAt!.toString()))}",textDirection: TextDirection.ltr,
+                     Text(DateConverter.dateMonthYearTimeTwentyFourFormat(DateConverter.isoUtcStringToLocalDate(bookingDetailsContent!.createdAt!.toString())),textDirection: TextDirection.ltr,
                        style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeDefault),),
                    ],
                  ),
 
-                 SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                 Gaps.verticalGapOf(Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                 const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+                 Gaps.verticalGapOf(Dimensions.paddingSizeExtraSmall),
 
                  Row(
                    mainAxisAlignment: MainAxisAlignment.center,
@@ -39,54 +39,52 @@ class BookingHistory extends StatelessWidget {
                      Text("${'service_scheduled_date'.tr} : ",
                        style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).textTheme.bodyLarge!.color),
                      ),
-                     Text("${DateConverter.dateMonthYearTimeTwentyFourFormat(DateTime.tryParse(bookingDetailsContent.serviceSchedule!)!)}",
+                     Text(DateConverter.dateMonthYearTimeTwentyFourFormat(DateTime.tryParse(bookingDetailsContent.serviceSchedule!)!),
                        style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeDefault),
                        textDirection:  TextDirection.ltr,),
                    ],
                  ),
-                 SizedBox(height: Dimensions.PADDING_SIZE_SMALL,),
+                 const SizedBox(height: Dimensions.paddingSizeSmall,),
                  RichText(
                    text:  TextSpan(text: '${'payment_status'.tr} : ',
                      style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).textTheme.bodyLarge!.color),
                      children: [
-                       TextSpan(text: '${bookingDetailsContent.isPaid == 0 ? '${'unpaid'.tr}': 'paid'.tr} ',
+                       TextSpan(text: '${bookingDetailsContent.isPaid == 0 ? 'unpaid'.tr: 'paid'.tr} ',
                            style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault,
                                color: bookingDetailsContent.isPaid == 0?Theme.of(context).colorScheme.error : Colors.green,decoration: TextDecoration.none)),
                      ],
                    ),
                  ),
-                 SizedBox(height: Dimensions.PADDING_SIZE_SMALL,),
+                 const SizedBox(height: Dimensions.paddingSizeSmall,),
                  RichText(
                    text:  TextSpan(
                      text: '${'booking_status'.tr} : ',
                      style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).textTheme.bodyLarge!.color),
                      children: [
                        TextSpan(
-                           text: "${bookingDetailsContent.bookingStatus!.tr}",
+                           text: bookingDetailsContent.bookingStatus!.tr,
                            style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault, color:  Theme.of(context).colorScheme.primary)),
                      ],
                    ),
                  ),
-                 Gaps.verticalGapOf(Dimensions.PADDING_SIZE_DEFAULT),
+                 Gaps.verticalGapOf(Dimensions.paddingSizeDefault),
 
 
                  Padding(
-                   padding:  EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
-                   child: Container(
-                     child: HistoryStatus(
-                       bookingDetailsContent: bookingDetailsContent,
-                       statusHistories: bookingDetailsContent.statusHistories,
-                       scheduleHistories: bookingDetailsContent.scheduleHistories,
-                       increment: bookingDetailsContent.scheduleHistories!.length>1?2:1,
-                     ),
+                   padding:  const EdgeInsets.all(Dimensions.paddingSizeDefault),
+                   child: HistoryStatus(
+                     bookingDetailsContent: bookingDetailsContent,
+                     statusHistories: bookingDetailsContent.statusHistories,
+                     scheduleHistories: bookingDetailsContent.scheduleHistories,
+                     increment: bookingDetailsContent.scheduleHistories!.length>1?2:1,
                    ),
                  ),
-                 SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_LARGE,),
+                 const SizedBox(height: Dimensions.paddingSizeExtraLarge,),
                ],
              ),
            );
          }else{
-           return SingleChildScrollView(child: BookingScreenShimmer());
+           return const SingleChildScrollView(child: BookingScreenShimmer());
          }
       },
     );
@@ -98,17 +96,17 @@ class HistoryStatus extends StatelessWidget {
   final List<StatusHistories>? statusHistories;
   final List<ScheduleHistories>? scheduleHistories;
   final int increment;
-  HistoryStatus({
+  const HistoryStatus({super.key, 
     required this.statusHistories, this.scheduleHistories, required this.increment, this.bookingDetailsContent
   });
   @override
   Widget build(BuildContext context) {
     return Timeline.tileBuilder(
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       theme: TimelineThemeData(
           nodePosition: 0,
-          indicatorTheme: IndicatorThemeData(position: 0, size: 30.0)),
+          indicatorTheme: const IndicatorThemeData(position: 0, size: 30.0)),
       padding: EdgeInsets.symmetric(vertical: 20.0,horizontal: Get.find<LocalizationController>().isLtr?0:10),
       builder: TimelineTileBuilder.connected(connectionDirection: ConnectionDirection.before,
 
@@ -116,7 +114,7 @@ class HistoryStatus extends StatelessWidget {
 
         contentsBuilder: (_, index) {
 
-          return Padding(padding:  EdgeInsets.only(left: 20.0,bottom: 20.0,top: 7,right: 10), child:
+          return Padding(padding:  const EdgeInsets.only(left: 20.0,bottom: 20.0,top: 7,right: 10), child:
           index==0?
           Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -124,16 +122,16 @@ class HistoryStatus extends StatelessWidget {
                   "${scheduleHistories![index].user!=null?scheduleHistories![index].user!.lastName:""}",
                   style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeDefault)
               ),
-              SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+              const SizedBox(height: Dimensions.paddingSizeSmall),
 
-              Text("${DateConverter.dateMonthYearTimeTwentyFourFormat(DateConverter.isoUtcStringToLocalDate(scheduleHistories![index].createdAt!))}",
+              Text(DateConverter.dateMonthYearTimeTwentyFourFormat(DateConverter.isoUtcStringToLocalDate(scheduleHistories![index].createdAt!)),
                 style: ubuntuRegular.copyWith(
                   fontSize: Dimensions.fontSizeSmall,
                   color: Theme.of(context).secondaryHeaderColor,
                 ),
                 textDirection: TextDirection.ltr,
               ),
-              SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+              const SizedBox(height: Dimensions.paddingSizeExtraSmall),
             ],
           )
 
@@ -149,7 +147,7 @@ class HistoryStatus extends StatelessWidget {
               ),
 
 
-              SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+              const SizedBox(height: Dimensions.paddingSizeSmall),
               statusHistories![index-1].user!.userType!='provider-admin'?
               Text("${statusHistories![index-1].user!.firstName} ${statusHistories![index-1].user!.lastName}",
                 style: ubuntuRegular.copyWith(
@@ -164,57 +162,57 @@ class HistoryStatus extends StatelessWidget {
               ),
 
 
-              SizedBox(height: Dimensions.PADDING_SIZE_SMALL,),
+              const SizedBox(height: Dimensions.paddingSizeSmall,),
 
-              Text("${DateConverter.dateMonthYearTimeTwentyFourFormat(DateConverter.isoUtcStringToLocalDate(statusHistories![index-1].createdAt!))}",
+              Text(DateConverter.dateMonthYearTimeTwentyFourFormat(DateConverter.isoUtcStringToLocalDate(statusHistories![index-1].createdAt!)),
                 style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall,color: Theme.of(context).secondaryHeaderColor),
                 textDirection: TextDirection.ltr,
               ),
-              SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,),
+              const SizedBox(height: Dimensions.paddingSizeDefault,),
             ],
           )
 
               :index==2 && scheduleHistories!.length>1?
           Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
+              SizedBox(
                 height: (scheduleHistories!.length-1)*80,
 
-                child: ListView.builder(itemBuilder: (_,_index){
+                child: ListView.builder(itemBuilder: (_,index){
                   return  Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("${'schedule_changed_by'.tr} ${scheduleHistories![_index+1].user!.userType.toString().tr}",
+                      Text("${'schedule_changed_by'.tr} ${scheduleHistories![index+1].user!.userType.toString().tr}",
                         style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeDefault,),
                       ),
-                      SizedBox(height: Dimensions.PADDING_SIZE_SMALL,),
-                      if(scheduleHistories![_index+1].user!.userType!='provider-admin')
-                      Text("${scheduleHistories![_index+1].user?.firstName.toString()} ${scheduleHistories![_index+1].user?.lastName.toString()}",
+                      const SizedBox(height: Dimensions.paddingSizeSmall,),
+                      if(scheduleHistories![index+1].user!.userType!='provider-admin')
+                      Text("${scheduleHistories![index+1].user?.firstName.toString()} ${scheduleHistories![index+1].user?.lastName.toString()}",
                         style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall,
                             color: Theme.of(context).secondaryHeaderColor),
                         textDirection: TextDirection.ltr,
                       ),
-                      if(scheduleHistories![_index+1].user!.userType=='provider-admin')
+                      if(scheduleHistories![index+1].user!.userType=='provider-admin')
                         Text("${bookingDetailsContent?.provider?.companyName??""} ",
                           style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall,
                               color: Theme.of(context).secondaryHeaderColor),
                           textDirection: TextDirection.ltr,
                         ),
 
-                      SizedBox(height: Dimensions.PADDING_SIZE_SMALL,),
+                      const SizedBox(height: Dimensions.paddingSizeSmall,),
 
-                      Text("${DateConverter.dateMonthYearTimeTwentyFourFormat(DateTime.tryParse(scheduleHistories![_index+1].schedule!)!)}",
+                      Text(DateConverter.dateMonthYearTimeTwentyFourFormat(DateTime.tryParse(scheduleHistories![index+1].schedule!)!),
                         style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall,
                             color: Theme.of(context).secondaryHeaderColor),
                         textDirection: TextDirection.ltr,
                       ),
-                      SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL,),
+                      const SizedBox(height: Dimensions.paddingSizeExtraSmall,),
 
                     ],
                   );},
                   shrinkWrap:true,
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   itemCount: scheduleHistories!.length-1,
                 ),
               ),
@@ -229,7 +227,7 @@ class HistoryStatus extends StatelessWidget {
                   style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeDefault)
               ),
 
-              SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+              const SizedBox(height: Dimensions.paddingSizeSmall),
               Text(bookingDetailsContent?.provider?.companyName??"",
                   style: ubuntuRegular.copyWith(
                     fontSize: Dimensions.fontSizeSmall,
@@ -237,13 +235,13 @@ class HistoryStatus extends StatelessWidget {
                   )
               ),
 
-              SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+              const SizedBox(height: Dimensions.paddingSizeSmall),
 
-              Text("${DateConverter.dateMonthYearTimeTwentyFourFormat(DateConverter.isoUtcStringToLocalDate(statusHistories![index-increment].updatedAt!))}",
+              Text(DateConverter.dateMonthYearTimeTwentyFourFormat(DateConverter.isoUtcStringToLocalDate(statusHistories![index-increment].updatedAt!)),
                 style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall,color: Theme.of(context).secondaryHeaderColor),
                 textDirection: TextDirection.ltr,
               ),
-              SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,),
+              const SizedBox(height: Dimensions.paddingSizeDefault,),
             ],
           ),
           );},

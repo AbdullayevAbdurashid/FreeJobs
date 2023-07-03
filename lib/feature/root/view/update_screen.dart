@@ -4,18 +4,18 @@ import 'package:demandium/core/core_export.dart';
 class UpdateScreen extends StatelessWidget {
   final bool? isUpdate;
 
-  UpdateScreen({required this.isUpdate});
+  const UpdateScreen({super.key, required this.isUpdate});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: Padding(
-          padding: EdgeInsets.all(Dimensions.PADDING_SIZE_LARGE),
+          padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Image.asset(
               isUpdate! ? Images.update : Images.maintenance,
-              width: Dimensions.LOGO_SIZE,
+              width: Dimensions.logoSize,
               height: MediaQuery
                   .of(context)
                   .size
@@ -54,29 +54,29 @@ class UpdateScreen extends StatelessWidget {
 
             isUpdate! ? CustomButton(
                 buttonText: 'update_now'.tr, onPressed: () async {
-              String _appUrl = 'https://google.com';
+              String appUrl = 'https://google.com';
               if (GetPlatform.isAndroid) {
-                _appUrl = Get
+                appUrl = Get
                     .find<SplashController>()
                     .configModel
                     .content!
                     .appUrlAndroid!;
               } else if (GetPlatform.isIOS) {
-                _appUrl = Get
+                appUrl = Get
                     .find<SplashController>()
                     .configModel
                     .content!
                     .appUrlIos!;
               }
 
-              _launchUrl(Uri.parse(_appUrl));
+              _launchUrl(Uri.parse(appUrl));
 
-              if (await launchUrl(Uri.parse(_appUrl))) {
-                launchUrl(Uri.parse(_appUrl));
+              if (await launchUrl(Uri.parse(appUrl))) {
+                launchUrl(Uri.parse(appUrl));
               } else {
-                customSnackBar('${'can_not_launch'.tr} $_appUrl');
+                customSnackBar('${'can_not_launch'.tr} $appUrl');
               }
-            }) : SizedBox(),
+            }) : const SizedBox(),
 
           ]),
         ),
@@ -84,9 +84,9 @@ class UpdateScreen extends StatelessWidget {
     );
   }
 
-  Future<void> _launchUrl(Uri _url) async {
-    if (!await launchUrl(_url)) {
-      throw 'Could not launch $_url';
+  Future<void> _launchUrl(Uri url) async {
+    if (!await launchUrl(url)) {
+      throw 'Could not launch $url';
     }
   }
 }

@@ -8,104 +8,137 @@ class AuthRepo {
   AuthRepo({required this.apiClient, required this.sharedPreferences});
 
   Future<Response?> registration(SignUpBody signUpBody) async {
-    return await apiClient.postData(AppConstants.REGISTER_URI, signUpBody.toJson());
+    return await apiClient.postData(AppConstants.registerUri, signUpBody.toJson());
   }
 
   Future<Response?> login({required String phone, required String password}) async {
-    return await apiClient.postData(AppConstants.LOGIN_URI, {"email_or_phone": phone, "password": password});
+    return await apiClient.postData(AppConstants.loginUri, {"email_or_phone": phone, "password": password});
   }
 
   Future<Response?> loginWithSocialMedia(SocialLogInBody socialLogInBody) async {
-    return await apiClient.postData(AppConstants.SOCIAL_LOGIN_URL, socialLogInBody.toJson(),headers: AppConstants.configHeader);
+    return await apiClient.postData(AppConstants.socialLoginUri, socialLogInBody.toJson(),headers: AppConstants.configHeader);
   }
 
   Future<Response?> registerWithSocialMedia(SocialLogInBody socialLogInBody) async {
-    return await apiClient.postData(AppConstants.SOCIAL_REGISTER_URL, socialLogInBody.toJson());
+    return await apiClient.postData(AppConstants.socialRegisterUri, socialLogInBody.toJson());
   }
 
   Future<Response?> updateToken() async {
-    String? _deviceToken;
-    if (GetPlatform.isIOS) {
+    String? deviceToken;
+    if (GetPlatform.isIOS && !GetPlatform.isWeb) {
       FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(alert: true, badge: true, sound: true);
       NotificationSettings settings = await FirebaseMessaging.instance.requestPermission(
         alert: true, announcement: false, badge: true, carPlay: false,
         criticalAlert: false, provisional: false, sound: true,
       );
       if(settings.authorizationStatus == AuthorizationStatus.authorized) {
-        _deviceToken = await _saveDeviceToken();
+        deviceToken = await _saveDeviceToken();
       }
     }else {
-      _deviceToken = await _saveDeviceToken();
+      deviceToken = await _saveDeviceToken();
     }
 
     if(!GetPlatform.isWeb){
       if(Get.find<LocationController>().getUserAddress() != null){
-        FirebaseMessaging.instance.subscribeToTopic('${AppConstants.TOPIC}');
-        FirebaseMessaging.instance.subscribeToTopic('${AppConstants.TOPIC}-${Get.find<LocationController>().getUserAddress()!.zoneId!}');
+        FirebaseMessaging.instance.subscribeToTopic(AppConstants.topic);
+        FirebaseMessaging.instance.subscribeToTopic('${AppConstants.topic}-${Get.find<LocationController>().getUserAddress()!.zoneId!}');
       }
     }
-
-    print("_deviceToken");
-    print(_deviceToken);
-    return await apiClient.postData(AppConstants.TOKEN_URI, {"_method": "put", "fcm_token": _deviceToken});
+    if (kDebugMode) {
+      print("_deviceToken");
+      print(deviceToken);
+    }
+    return await apiClient.postData(AppConstants.tokenUri, {"_method": "put", "fcm_token": deviceToken});
   }
 
   Future<String?> _saveDeviceToken() async {
-    String? _deviceToken = '@';
+    String? deviceToken = '@';
     try {
-      _deviceToken = await FirebaseMessaging.instance.getToken();
-    }catch(e) {}
-    if (_deviceToken != null) {
-      print('--------Device Token---------- '+_deviceToken);
+      deviceToken = await FirebaseMessaging.instance.getToken();
+    }catch(e) {
+      if (kDebugMode) {
+        print('');
+      }
     }
-    return _deviceToken;
+    if (deviceToken != null) {
+      if (kDebugMode) {
+        print('--------Device Token---------- $deviceToken');
+      }
+    }
+    return deviceToken;
   }
 
-  Future<Response?> forgetPassword(String? phone) async {
-    return await apiClient.postData(AppConstants.FORGET_PASSWORD_URI, {"phone_or_email": phone});
+
+  Future<Response> sendOtpForVerificationScreen(String identity, String type) async {
+    return await apiClient.postData(AppConstants.sendOtpForVerification, {
+      "identity": identity,
+      "identity_type": type
+    });
   }
 
-  Future<Response?> verifyToken(String phone, String otp) async {
-    return await apiClient.postData(AppConstants.VERIFY_TOKEN_URI, {"phone_or_email": phone.substring(1,phone.length-1), "otp": otp});
-  }
+  Future<Response> sendOtpForForgetPassword(String identity, String identityType) async {
+    return await apiClient.postData(AppConstants.sendOtpForForgetPassword,
+      {
+        "identity": identity,
+        "identity_type": identityType
+      },
 
-  Future<Response?> resetPassword(String phoneOrEmail, String otp, String password, String confirmPassword) async {
-    return await apiClient.postData(
-      AppConstants.RESET_PASSWORD_URI,
-      {"_method": "put", "phone_or_email": phoneOrEmail, "otp": otp, "password": password, "confirm_password": confirmPassword},
     );
   }
 
-  Future<Response?> checkEmail(String email) async {
-    return await apiClient.postData(AppConstants.CHECK_EMAIL_URI, {"email": email});
+  Future<Response?> verifyOtpForVerificationScreen(String? identity,String identityType, String otp) async {
+    return await apiClient.postData(AppConstants.verifyOtpForVerificationScreen,
+      {
+        "identity": identity,
+        'otp':otp,
+        "identity_type": identityType
+      },
+    );
   }
 
-  Future<Response?> verifyEmail(String email, String token) async {
-    return await apiClient.postData(AppConstants.VERIFY_EMAIL_URI, {"email": email, "token": token});
+  Future<Response> verifyOtpForForgetPassword(String identity, String identityType, String otp) async {
+    return await apiClient.postData(AppConstants.verifyOtpForForgetPasswordScreen,
+      {
+        "identity": identity,
+        'otp':otp,
+        "identity_type": identityType
+      },
+    );
   }
+
+  Future<Response?> resetPassword(String identity, String identityType, String otp, String password, String confirmPassword) async {
+    return await apiClient.putData(
+      AppConstants.resetPasswordUri,
+      {
+        "_method": "put",
+        "identity": identity,
+        "identity_type": identityType,
+        "otp": otp,
+        "password": password,
+        "confirm_password": confirmPassword},
+    );
+  }
+
+
 
   Future<Response?> updateZone() async {
-    return await apiClient.getData(AppConstants.UPDATE_ZONE_URL);
-  }
-
-  Future<Response?> verifyPhone(String phone, String otp) async {
-    return await apiClient.postData(AppConstants.VERIFY_PHONE_URI, {"phone": phone, "otp": otp});
+    return await apiClient.getData(AppConstants.updateZoneUri);
   }
 
   Future<bool?> saveUserToken(String token) async {
     apiClient.token = token;
-    apiClient.updateHeader(token, sharedPreferences.getString(AppConstants.USER_ADDRESS) != null ?
-    AddressModel.fromJson(jsonDecode(sharedPreferences.getString(AppConstants.USER_ADDRESS)!)).zoneId :
-    null, sharedPreferences.getString(AppConstants.LANGUAGE_CODE));
-    return await sharedPreferences.setString(AppConstants.TOKEN, token);
+    apiClient.updateHeader(token, sharedPreferences.getString(AppConstants.userAddress) != null ?
+    AddressModel.fromJson(jsonDecode(sharedPreferences.getString(AppConstants.userAddress)!)).zoneId :
+    null, sharedPreferences.getString(AppConstants.languageCode));
+    return await sharedPreferences.setString(AppConstants.token, token);
   }
 
   String getUserToken() {
-    return sharedPreferences.getString(AppConstants.TOKEN) ?? "";
+    return sharedPreferences.getString(AppConstants.token) ?? "";
   }
 
   bool isLoggedIn() {
-    return sharedPreferences.containsKey(AppConstants.TOKEN);
+    return sharedPreferences.containsKey(AppConstants.token);
   }
 
   ///user address and language code should not be deleted
@@ -113,75 +146,65 @@ class AuthRepo {
     if(!GetPlatform.isWeb){
       if(Get.find<LocationController>().getUserAddress() != null){
         if(Get.find<LocationController>().getUserAddress()!.zoneId != null){
-          FirebaseMessaging.instance.unsubscribeFromTopic('${AppConstants.TOPIC}');
-          FirebaseMessaging.instance.unsubscribeFromTopic('${AppConstants.TOPIC}-${Get.find<LocationController>().getUserAddress()!.zoneId!}');
+          FirebaseMessaging.instance.unsubscribeFromTopic(AppConstants.topic);
+          FirebaseMessaging.instance.unsubscribeFromTopic('${AppConstants.topic}-${Get.find<LocationController>().getUserAddress()!.zoneId!}');
         }
       }
 
     }
-    apiClient.postData(AppConstants.TOKEN_URI, {"_method": "put", "fcm_token": '@'});
-    sharedPreferences.remove(AppConstants.TOKEN);
-    sharedPreferences.setStringList(AppConstants.CART_LIST, []);
-    sharedPreferences.remove(AppConstants.USER_ADDRESS);
-    sharedPreferences.remove(AppConstants.TOKEN);
+    apiClient.postData(AppConstants.tokenUri, {"_method": "put", "fcm_token": '@'});
+    sharedPreferences.remove(AppConstants.token);
+    sharedPreferences.setStringList(AppConstants.cartList, []);
+    sharedPreferences.remove(AppConstants.userAddress);
+    sharedPreferences.remove(AppConstants.token);
+
+    Get.find<AllSearchController>().removeHistory();
+
+    sharedPreferences.setStringList(AppConstants.searchHistory, []);
     apiClient.token = null;
+    apiClient.updateHeader(null,null,AppConstants.languageCode);
     return true;
   }
 
   Future<void> saveUserNumberAndPassword(String number, String password) async {
     try {
-      await sharedPreferences.setString(AppConstants.USER_PASSWORD, password);
-      await sharedPreferences.setString(AppConstants.USER_NUMBER, number);
+      await sharedPreferences.setString(AppConstants.userPassword, password);
+      await sharedPreferences.setString(AppConstants.userNumber, number);
 
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 
   String getUserNumber() {
-    return sharedPreferences.getString(AppConstants.USER_NUMBER) ?? "";
+    return sharedPreferences.getString(AppConstants.userNumber) ?? "";
   }
 
   String getUserCountryCode() {
-    return sharedPreferences.getString(AppConstants.USER_COUNTRY_CODE) ?? "";
+    return sharedPreferences.getString(AppConstants.userCountryCode) ?? "";
   }
 
   String getUserPassword() {
-    return sharedPreferences.getString(AppConstants.USER_PASSWORD) ?? "";
+    return sharedPreferences.getString(AppConstants.userPassword) ?? "";
   }
 
   bool isNotificationActive() {
-    return sharedPreferences.getBool(AppConstants.NOTIFICATION) ?? true;
+    return sharedPreferences.getBool(AppConstants.notification) ?? true;
   }
 
   toggleNotificationSound(bool isNotification){
-    sharedPreferences.setBool(AppConstants.NOTIFICATION, isNotification);
+    sharedPreferences.setBool(AppConstants.notification, isNotification);
   }
 
 
   Future<bool> clearUserNumberAndPassword() async {
-    await sharedPreferences.remove(AppConstants.USER_PASSWORD);
-    await sharedPreferences.remove(AppConstants.USER_COUNTRY_CODE);
-    return await sharedPreferences.remove(AppConstants.USER_NUMBER);
+    await sharedPreferences.remove(AppConstants.userPassword);
+    await sharedPreferences.remove(AppConstants.userCountryCode);
+    return await sharedPreferences.remove(AppConstants.userNumber);
   }
 
   bool clearSharedAddress(){
-    sharedPreferences.remove(AppConstants.USER_ADDRESS);
+    sharedPreferences.remove(AppConstants.userAddress);
     return true;
   }
-
-
-  Future<void> saveCookiesData(bool data) async {
-    try {
-      await sharedPreferences.setBool(AppConstants.ACCEPT_COOKIES, data);
-
-    } catch (e) {
-      throw e;
-    }
-  }
-
-  bool getSavedCookiesData() {
-    return sharedPreferences.getBool(AppConstants.ACCEPT_COOKIES)!;
-  }
-
 }

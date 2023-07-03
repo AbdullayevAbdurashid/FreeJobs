@@ -12,14 +12,14 @@ class ServiceInformationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<ServiceDetailsController>(builder: (serviceController){
       return Center(
-        child: Padding(padding: const EdgeInsets.symmetric(horizontal:Dimensions.PADDING_SIZE_DEFAULT ,vertical:Dimensions.PADDING_SIZE_DEFAULT),
+        child: Padding(padding: const EdgeInsets.symmetric(horizontal:Dimensions.paddingSizeDefault ,vertical:Dimensions.paddingSizeDefault),
           child: Container(
-            width: Dimensions.WEB_MAX_WIDTH,
-            padding: EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
+            width: Dimensions.webMaxWidth,
+            padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
             decoration: BoxDecoration(
               // border: Border.all(color: Theme.of(context).colorScheme.primary),
               color:Get.isDarkMode ? Theme.of(context).primaryColorDark:Theme.of(context).cardColor,
-              borderRadius: BorderRadius.all(Radius.circular(Dimensions.PADDING_SIZE_EXTRA_SMALL)),
+              borderRadius: const BorderRadius.all(Radius.circular(Dimensions.paddingSizeExtraSmall)),
               boxShadow: cardShadow,
             ),
             child:
@@ -30,13 +30,13 @@ class ServiceInformationCard extends StatelessWidget {
                     Stack(
                       children: [
                         ClipRRect(
-                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                          borderRadius: const BorderRadius.all(Radius.circular(8.0)),
                           child: CustomImage(
                             image: '${Get.find<SplashController>().configModel.content!.imageBaseUrl!}/service/${service.thumbnail}',
                             fit: BoxFit.cover,
                             placeholder: Images.placeholder,
-                            height:ResponsiveHelper.isMobile(context) ? Dimensions.IMAGE_SIZE_LARGE :Dimensions.IMAGE_SIZE_MEDIUM,
-                            width:ResponsiveHelper.isMobile(context) ? Dimensions.IMAGE_SIZE_MEDIUM: Dimensions.IMAGE_SIZE_MEDIUM,
+                            height:ResponsiveHelper.isMobile(context) ? Dimensions.imageSizeLarge :Dimensions.imageSizeButton,
+                            width:ResponsiveHelper.isMobile(context) ? Dimensions.imageSizeButton: Dimensions.imageSizeButton,
                           ),
                         ),
                         DiscountTag(fromTop: 0,
@@ -76,7 +76,7 @@ class ServiceInformationCard extends StatelessWidget {
                   ],
                 ),
                 //description price and add to card
-                SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
+                const SizedBox(width: Dimensions.paddingSizeSmall),
                 Expanded(
                   child: Column(crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -110,16 +110,16 @@ class ServiceInformationCard extends StatelessWidget {
                                       style: ubuntuBold.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6))),
                                 )
                               ],
-                            ):SizedBox(),
+                            ):const SizedBox(),
 
                           if(ResponsiveHelper.isWeb())
-                            SizedBox(width: Dimensions.PADDING_SIZE_SMALL,),
+                            const SizedBox(width: Dimensions.paddingSizeSmall,),
                           Row(
                             children: [
                               //price with discount
                               if(discount!.discountAmount! > 0)
                                 Padding(
-                                  padding:  EdgeInsets.only(left: Get.find<LocalizationController>().isLtr ?  0.0 : Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                                  padding:  EdgeInsets.only(left: Get.find<LocalizationController>().isLtr ?  0.0 : Dimensions.paddingSizeExtraSmall),
                                   child: Directionality(
                                     textDirection: TextDirection.ltr,
                                     child: Text(PriceConverter.convertPrice(lowestPrice,isShowLongPrice: true),
@@ -131,7 +131,7 @@ class ServiceInformationCard extends StatelessWidget {
                                 ),
                               discount!.discountAmount! > 0 ?
                               Padding(
-                                padding:  EdgeInsets.only(left: Get.find<LocalizationController>().isLtr ? Dimensions.PADDING_SIZE_EXTRA_SMALL : 0.0),
+                                padding:  EdgeInsets.only(left: Get.find<LocalizationController>().isLtr ? Dimensions.paddingSizeExtraSmall : 0.0),
                                 child: Directionality(
                                   textDirection: TextDirection.ltr,
                                   child: Text(PriceConverter.convertPrice(
@@ -140,7 +140,7 @@ class ServiceInformationCard extends StatelessWidget {
                                     discountType: discount!.discountAmountType,
                                     isShowLongPrice:true,
                                   ),
-                                    style: ubuntuRegular.copyWith(fontSize: Dimensions.PADDING_SIZE_DEFAULT, color:Get.isDarkMode ? Theme.of(context).primaryColorLight: Theme.of(context).primaryColor),
+                                    style: ubuntuRegular.copyWith(fontSize: Dimensions.paddingSizeDefault, color:Get.isDarkMode ? Theme.of(context).primaryColorLight: Theme.of(context).primaryColor),
                                   ),
                                 ),
                               ): Directionality(
@@ -148,7 +148,7 @@ class ServiceInformationCard extends StatelessWidget {
                                 child: Text(
                                   PriceConverter.convertPrice(double.parse(lowestPrice.toString())),
                                   style: ubuntuRegular.copyWith(
-                                      fontSize: Dimensions.PADDING_SIZE_DEFAULT,
+                                      fontSize: Dimensions.paddingSizeDefault,
                                       color: Get.isDarkMode? Theme.of(context).primaryColorLight: Theme.of(context).primaryColor
                                   ),
                                 ),
@@ -159,7 +159,7 @@ class ServiceInformationCard extends StatelessWidget {
                         ],
                       ),
 
-                      SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                      const SizedBox(height: Dimensions.paddingSizeExtraSmall),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -175,7 +175,7 @@ class ServiceInformationCard extends StatelessWidget {
                           ),
                         ],
                       ),
-                      SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                      const SizedBox(height: Dimensions.paddingSizeExtraSmall),
                       Row(mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           ElevatedButton(
@@ -189,7 +189,7 @@ class ServiceInformationCard extends StatelessWidget {
                                   builder: (context) => ServiceCenterDialog(service: service, isFromDetails: true,)
                               );
                             },
-                            child: Text("add".tr+' +',style: ubuntuRegular.copyWith(color: Colors.white),),
+                            child: Text('${"add".tr} +',style: ubuntuRegular.copyWith(color: Colors.white),),
                           ),
                         ],
                       ),

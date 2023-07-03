@@ -6,33 +6,32 @@ import 'package:url_launcher/url_launcher_string.dart';
 class MenuButton extends StatelessWidget {
   final MenuModel? menu;
   final bool? isLogout;
-  MenuButton({@required this.menu, @required this.isLogout});
+  const MenuButton({super.key, @required this.menu, @required this.isLogout});
 
   @override
   Widget build(BuildContext context) {
-    int _count = ResponsiveHelper.isDesktop(context) ? 8 : ResponsiveHelper.isTab(context) ? 6 : 4;
-    double _size = ((context.width > Dimensions.WEB_MAX_WIDTH ? Dimensions.WEB_MAX_WIDTH : context.width)/_count)-Dimensions.PADDING_SIZE_DEFAULT;
+    int count = ResponsiveHelper.isDesktop(context) ? 8 : ResponsiveHelper.isTab(context) ? 6 : 4;
+    double size = ((context.width > Dimensions.webMaxWidth ? Dimensions.webMaxWidth : context.width)/count)-Dimensions.paddingSizeDefault;
 
     return Stack(
       children: [
         Column(children: [
           Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(Dimensions.PADDING_SIZE_EXTRA_SMALL)),
+              borderRadius: const BorderRadius.all(Radius.circular(Dimensions.paddingSizeExtraSmall)),
               color: Theme.of(context).primaryColor.withOpacity(0.1),
             ),
-            height: _size-(_size*0.3),
-            padding: EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
-            margin: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL),
+            height: size-(size*0.3),
+            padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
+            margin: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
             alignment: Alignment.center,
-            child: Image.asset(menu!.icon!, width: _size, height: _size),
+            child: Image.asset(menu!.icon!, width: size, height: size),
           ),
-          SizedBox(height: Dimensions.PADDING_SIZE_EIGHT),
+          const SizedBox(height: Dimensions.paddingSizeEight),
           Text(menu!.title!, style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeSmall), textAlign: TextAlign.center),
         ]),
         Positioned.fill(child: RippleButton(onTap: () async {
           if(isLogout!) {
-            print('inside_logout');
             Get.back();
             if(Get.find<AuthController>().isLoggedIn()) {
               Get.dialog(ConfirmationDialog(
@@ -44,7 +43,7 @@ class MenuButton extends StatelessWidget {
                 Get.find<AuthController>().googleLogout();
                 Get.find<AuthController>().signOutWithFacebook();
 
-                Get.offAllNamed(RouteHelper.getSignInRoute(RouteHelper.splash));
+                Get.offAllNamed(RouteHelper.getSignInRoute(RouteHelper.main));
               }), useSafeArea: false);
             }else {
               Get.toNamed(RouteHelper.getSignInRoute(RouteHelper.main));

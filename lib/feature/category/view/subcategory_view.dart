@@ -9,10 +9,10 @@ class SubCategoryView extends GetView<CategoryController> {
   final String? noDataText;
   final String? type;
   final Function(String type)? onVegFilterTap;
-  SubCategoryView({
+  const SubCategoryView({super.key,
     this.isScrollable = false,
     this.shimmerLength = 20,
-    this.padding = const EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
+    this.padding = const EdgeInsets.all(Dimensions.paddingSizeSmall),
     this.noDataText, this.type,
     this.onVegFilterTap});
 
@@ -23,8 +23,8 @@ class SubCategoryView extends GetView<CategoryController> {
        if(categoryController.subCategoryList == null){
          return  SliverGrid(
            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-             crossAxisSpacing: Dimensions.PADDING_SIZE_LARGE,
-             mainAxisSpacing: ResponsiveHelper.isDesktop(context) ? Dimensions.PADDING_SIZE_DEFAULT : Dimensions.PADDING_SIZE_SMALL,
+             crossAxisSpacing: Dimensions.paddingSizeLarge,
+             mainAxisSpacing: ResponsiveHelper.isDesktop(context) ? Dimensions.paddingSizeDefault : Dimensions.paddingSizeSmall,
              crossAxisCount: ResponsiveHelper.isMobile(context) ? 1 : 3,
              mainAxisExtent: ResponsiveHelper.isMobile(context) ? 115 : 120,
            ),
@@ -36,10 +36,10 @@ class SubCategoryView extends GetView<CategoryController> {
          );
        }else{
          List<CategoryModel> subCategoryList = categoryController.subCategoryList ?? [];
-         return subCategoryList.length > 0 ? SliverGrid(
+         return subCategoryList.isNotEmpty ? SliverGrid(
            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-             crossAxisSpacing:ResponsiveHelper.isTab(context) ? 0.0 : Dimensions.PADDING_SIZE_SMALL,
-             mainAxisSpacing: ResponsiveHelper.isDesktop(context) ? Dimensions.PADDING_SIZE_DEFAULT : Dimensions.PADDING_SIZE_SMALL,
+             crossAxisSpacing:ResponsiveHelper.isTab(context) ? 0.0 : Dimensions.paddingSizeSmall,
+             mainAxisSpacing: ResponsiveHelper.isDesktop(context) ? Dimensions.paddingSizeDefault : Dimensions.paddingSizeSmall,
              crossAxisCount: ResponsiveHelper.isMobile(context) ? 1 : 3,
              mainAxisExtent: ResponsiveHelper.isMobile(context) ? 118 : 120,
            ),
@@ -50,11 +50,11 @@ class SubCategoryView extends GetView<CategoryController> {
            ),
          ):
          SliverToBoxAdapter(
-           child: Container(
+           child: SizedBox(
              height: Get.height / 1.5,
              child: NoDataScreen(
-               text: noDataText != null ? noDataText : 'no_category_found'.tr,
-               type: NoDataType.CATEGORY_SUBCATEGORY,
+               text: noDataText ?? 'no_category_found'.tr,
+               type: NoDataType.categorySubcategory,
              ),
            ),
          );
@@ -68,22 +68,22 @@ class SubCategoryView extends GetView<CategoryController> {
 class SubCategoryShimmer extends StatelessWidget {
   final bool? isEnabled;
   final bool? hasDivider;
-  SubCategoryShimmer({required this.isEnabled, required this.hasDivider});
+  const SubCategoryShimmer({super.key, required this.isEnabled, required this.hasDivider});
 
   @override
   Widget build(BuildContext context) {
-    bool _desktop = ResponsiveHelper.isDesktop(context);
+    bool desktop = ResponsiveHelper.isDesktop(context);
 
     return Container(
-      padding: ResponsiveHelper.isDesktop(context) ? EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL)
-          : EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT),
+      padding: ResponsiveHelper.isDesktop(context) ? const EdgeInsets.all(Dimensions.paddingSizeSmall)
+          : const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
       decoration: BoxDecoration(
         color: Get.isDarkMode?Colors.grey[700]:Colors.white,
-        borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+        borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
         boxShadow: Get.isDarkMode? null: [BoxShadow(color: Colors.grey[300]!, blurRadius: 10, spreadRadius: 1)],
       ),
       child: Shimmer(
-        duration: Duration(seconds: 2),
+        duration: const Duration(seconds: 2),
         enabled: isEnabled!,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -91,40 +91,40 @@ class SubCategoryShimmer extends StatelessWidget {
             Row(
               children: [
                 Container(
-                  height: _desktop ? 70 : 50,
-                  width: _desktop ? 70 : 50,
+                  height: desktop ? 70 : 50,
+                  width: desktop ? 70 : 50,
                   decoration: BoxDecoration(
                     color: Colors.grey[400],
-                    borderRadius: BorderRadius.circular(Dimensions.RADIUS_DEFAULT)
+                    borderRadius: BorderRadius.circular(Dimensions.radiusDefault)
                   ),
                 ),
-                SizedBox(width: Dimensions.PADDING_SIZE_DEFAULT,),
+                const SizedBox(width: Dimensions.paddingSizeDefault,),
                 Expanded(
                   flex: 5,
                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
                     Container(
-                      height: _desktop ? 20 : 20,
+                      height: desktop ? 20 : 20,
                       decoration: BoxDecoration(
                           color: Colors.grey[400],
-                          borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL)
+                          borderRadius: BorderRadius.circular(Dimensions.radiusSmall)
                       ),
                     ),
-                    SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                    const SizedBox(height: Dimensions.paddingSizeExtraSmall),
                     Container(
-                      height: _desktop ? 12 : 8,
-                      margin: EdgeInsets.only(right: Dimensions.PADDING_SIZE_LARGE),
+                      height: desktop ? 12 : 8,
+                      margin: const EdgeInsets.only(right: Dimensions.paddingSizeLarge),
                       decoration: BoxDecoration(
                           color: Colors.grey[400],
-                          borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL)
+                          borderRadius: BorderRadius.circular(Dimensions.radiusSmall)
                       ),
                     ),
-                    SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                    const SizedBox(height: Dimensions.paddingSizeExtraSmall),
                     Container(
-                      height: _desktop ? 12 : 8,
-                      margin: EdgeInsets.only(right: 100),
+                      height: desktop ? 12 : 8,
+                      margin: const EdgeInsets.only(right: 100),
                       decoration: BoxDecoration(
                           color: Colors.grey[400],
-                          borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL)
+                          borderRadius: BorderRadius.circular(Dimensions.radiusSmall)
                       ),
                     ),
                   ]),

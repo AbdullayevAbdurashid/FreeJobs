@@ -8,15 +8,15 @@ class NotificationRepo {
   NotificationRepo({required this.apiClient, required this.sharedPreferences});
 
   Future<Response> getNotificationList( int offset) async {
-    return await apiClient.getData('${AppConstants.NOTIFICATION_URI}?limit=10&offset=$offset');
+    return await apiClient.getData('${AppConstants.notificationUri}?limit=10&offset=$offset');
   }
 
   void saveSeenNotificationCount(int count) {
-    sharedPreferences.setInt(AppConstants.NOTIFICATION_COUNT, count);
+    sharedPreferences.setInt(AppConstants.notificationCount, count);
   }
 
   int getSeenNotificationCount() {
-    return sharedPreferences.getInt(AppConstants.NOTIFICATION_COUNT)!;
+    return sharedPreferences.getInt(AppConstants.notificationCount)!;
   }
 
 }

@@ -23,17 +23,17 @@ class _LanguageScreenState extends State<LanguageScreen> {
 
   @override
   Widget build(BuildContext context) {
-    bool _isLoggedIn = Get.find<AuthController>().isLoggedIn();
+    bool isLoggedIn = Get.find<AuthController>().isLoggedIn();
 
-    final List<MenuModel> _menuList = [
+    final List<MenuModel> menuList = [
       MenuModel(icon: Images.profile, title: 'profile'.tr, route: RouteHelper.getProfileRoute()),
       MenuModel(icon: Images.customerCare, title: 'help_&_support'.tr, route: RouteHelper.getSupportRoute()),
     ];
-    _menuList.add(MenuModel(icon: Images.logout, title: _isLoggedIn ? 'logout'.tr : 'sign_in'.tr, route: ''));
+    menuList.add(MenuModel(icon: Images.logout, title: isLoggedIn ? 'logout'.tr : 'sign_in'.tr, route: ''));
 
     return Scaffold(
 
-      endDrawer:ResponsiveHelper.isDesktop(context) ? MenuDrawer():null,
+      endDrawer:ResponsiveHelper.isDesktop(context) ? const MenuDrawer():null,
       appBar:widget.fromPage != "fromOthers" ? CustomAppBar(title: "language".tr) : null,
       body: GetBuilder<LocalizationController>(
         builder: (localizationController){
@@ -41,15 +41,15 @@ class _LanguageScreenState extends State<LanguageScreen> {
             isScrollView: (ResponsiveHelper.isMobile(context) || ResponsiveHelper.isTab(context)) ? false: true,
             isCenter: true,
             child: SizedBox(
-              width: Dimensions.WEB_MAX_WIDTH,
+              width: Dimensions.webMaxWidth,
               child: Stack(
                 children: [
                   Padding(
                     padding:  EdgeInsets.only(
-                        top: Dimensions.PADDING_SIZE_DEFAULT,
-                        right: Dimensions.PADDING_SIZE_DEFAULT,
-                        left: Dimensions.PADDING_SIZE_DEFAULT,
-                        bottom:(ResponsiveHelper.isMobile(context) || ResponsiveHelper.isTab(context)) ?Dimensions.PADDING_SIZE_DEFAULT: 80.0,
+                        top: Dimensions.paddingSizeDefault,
+                        right: Dimensions.paddingSizeDefault,
+                        left: Dimensions.paddingSizeDefault,
+                        bottom:(ResponsiveHelper.isMobile(context) || ResponsiveHelper.isTab(context)) ?Dimensions.paddingSizeDefault: 80.0,
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -58,29 +58,29 @@ class _LanguageScreenState extends State<LanguageScreen> {
                         if(widget.fromPage != "fromSettingsPage")
                           Image.asset(
                             Images.logo,
-                            width: Dimensions.LOGO_SIZE,
+                            width: Dimensions.logoSize,
                           ),
-                        SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_MORE_LARGE),
+                        const SizedBox(height: Dimensions.paddingSizeExtraMoreLarge),
                         Align(
                             alignment:Get.find<LocalizationController>().isLtr ?  Alignment.centerLeft : Alignment.centerRight,
                             child: Text('select_language'.tr,style: ubuntuMedium,)),
-                        SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
+                        const SizedBox(height: Dimensions.paddingSizeDefault),
 
                         GridView.builder(
-                          padding: EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_EIGHT),
+                          padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeEight),
                           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: ResponsiveHelper.isDesktop(context) ? 4 : ResponsiveHelper.isTab(context) ? 4 : 2,
                             childAspectRatio: (1/1),
                           ),
                           itemCount: localizationController.languages.length,
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemBuilder: (context, index) => LanguageWidget(
                             languageModel: localizationController.languages[index],
                             localizationController: localizationController, index: index,
                           ),
                         ),
-                        SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+                        const SizedBox(height: Dimensions.paddingSizeSmall),
                         Align(
                             alignment:Get.find<LocalizationController>().isLtr ?  Alignment.centerLeft : Alignment.centerRight,
                             child: Text('you_can_change_language'.tr,style: ubuntuRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.5)),)),
@@ -88,9 +88,9 @@ class _LanguageScreenState extends State<LanguageScreen> {
                     ),
                   ),
                   Positioned(
-                    bottom: Dimensions.PADDING_SIZE_DEFAULT,
-                    left: Dimensions.PADDING_SIZE_DEFAULT,
-                    right: Dimensions.PADDING_SIZE_DEFAULT,
+                    bottom: Dimensions.paddingSizeDefault,
+                    left: Dimensions.paddingSizeDefault,
+                    right: Dimensions.paddingSizeDefault,
                     child: SafeArea(
                       child: CustomButton(
                           onPressed: (){

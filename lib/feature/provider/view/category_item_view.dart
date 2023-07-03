@@ -18,16 +18,16 @@ class CategorySection extends StatelessWidget {
         Theme.of(context).primaryColor.withOpacity(0.1): null,
         border: Border.symmetric(horizontal: BorderSide(color: Theme.of(context).hintColor.withOpacity(0.5),width: 1),),
       ),
-      padding: EdgeInsets.fromLTRB(Dimensions.PADDING_SIZE_DEFAULT,0,Dimensions.PADDING_SIZE_DEFAULT,Dimensions.PADDING_SIZE_LARGE),
-      child: category.serviceList.length>0?
+      padding: const EdgeInsets.fromLTRB(Dimensions.paddingSizeDefault,0,Dimensions.paddingSizeDefault,Dimensions.paddingSizeLarge),
+      child: category.serviceList.isNotEmpty?
       Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
-        Padding(padding: const EdgeInsets.symmetric(vertical:Dimensions.PADDING_SIZE_DEFAULT),
+        Padding(padding: const EdgeInsets.symmetric(vertical:Dimensions.paddingSizeDefault),
           child: Row(
             children: [
               if(category.title=="popular")
                 Image.asset(Images.hot,width: 20,),
               if(category.title=="popular")
-                SizedBox(width: Dimensions.PADDING_SIZE_DEFAULT,),
+                const SizedBox(width: Dimensions.paddingSizeDefault,),
 
               Text(category.title,style: ubuntuBold.copyWith(fontSize: Dimensions.fontSizeExtraLarge),),
             ],
@@ -35,20 +35,20 @@ class CategorySection extends StatelessWidget {
         ),
         category.title=="popular"?
         ListView.builder(
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemCount:  category.serviceList.length,
           itemBuilder: (context, index){
-            Discount _discount = PriceConverter.discountCalculation(category.serviceList[index]);
+            Discount discount = PriceConverter.discountCalculation(category.serviceList[index]);
 
             return Padding(
-              padding: const EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+              padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall),
               child: InkWell(
                 onTap: () => Get.toNamed(RouteHelper.getServiceRoute(category.serviceList[index].id!)),
                 child: ServiceModelView(
                   serviceList: category.serviceList,
-                  discountAmountType: _discount.discountAmountType,
-                  discountAmount: _discount.discountAmount,
+                  discountAmountType: discount.discountAmountType,
+                  discountAmount: discount.discountAmount,
                   index: index,
                 ),
               ),
@@ -56,21 +56,21 @@ class CategorySection extends StatelessWidget {
           },
         ) :GridView.builder(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisSpacing: Dimensions.PADDING_SIZE_DEFAULT,
-            mainAxisSpacing:  Dimensions.PADDING_SIZE_DEFAULT,
+            crossAxisSpacing: Dimensions.paddingSizeDefault,
+            mainAxisSpacing:  Dimensions.paddingSizeDefault,
             childAspectRatio: ResponsiveHelper.isDesktop(context) || ResponsiveHelper.isTab(context)  ? .9 :  .70,
             mainAxisExtent:ResponsiveHelper.isMobile(context) ?  235 : 260 ,
             crossAxisCount: ResponsiveHelper.isMobile(context) ? 2 : ResponsiveHelper.isTab(context) ? 3 : 5,),
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemCount: category.serviceList.length,
-          padding: EdgeInsets.symmetric(horizontal: 0),
+          padding: const EdgeInsets.symmetric(horizontal: 0),
           itemBuilder: (context, index) {
-            bool _isAvailable = true;
-            return ServiceWidgetVertical(service:  category.serviceList[index],  isAvailable: _isAvailable,fromType: 'provider_details',);
+            bool isAvailable = true;
+            return ServiceWidgetVertical(service:  category.serviceList[index],  isAvailable: isAvailable,fromType: 'provider_details',);
           },
         ),
-      ]):SizedBox(),
+      ]):const SizedBox(),
     );
   }
 }

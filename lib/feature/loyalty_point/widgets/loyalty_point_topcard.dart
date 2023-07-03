@@ -9,9 +9,9 @@ class LoyaltyPointTopCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<LoyaltyPointController>(builder: (loyaltyPointController){
-      return Container(height: Dimensions.WALLET_TOP_CARD_HEIGHT,
-        margin: EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.RADIUS_DEFAULT),
+      return Container(height: Dimensions.walletTopCardHeight,
+        margin: const EdgeInsets.all(Dimensions.paddingSizeDefault),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
           gradient: LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight,
             colors: [Theme.of(context).colorScheme.primary, Theme.of(context).colorScheme.primary.withOpacity(0.9)],
           ),
@@ -19,17 +19,17 @@ class LoyaltyPointTopCard extends StatelessWidget {
 
         child: Stack(alignment: AlignmentDirectional.bottomEnd,children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT),
-            child: Image.asset(Images.loyaltyPointBackground,height: Dimensions.WALLET_TOP_CARD_HEIGHT*0.6,),
+            padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
+            child: Image.asset(Images.loyaltyPointBackground,height: Dimensions.walletTopCardHeight*0.6,),
           ),
-          Padding(padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_LARGE),
+          Padding(padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
             child: Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Image.asset(Images.myPoint,width:30),
-                  SizedBox(),
+                  const SizedBox(),
                   if(ResponsiveHelper.isDesktop(context))
                   InkWell(
                     onTap: (){
@@ -60,13 +60,13 @@ class LoyaltyPointTopCard extends StatelessWidget {
                   )
                 ],
               ),
-              Padding(padding: const EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_SMALL),
+              Padding(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall),
                 child: Directionality(
                   textDirection: TextDirection.ltr,
                     child: Text(loyaltyPointController.loyaltyPointModel?.content?.loyaltyPoint?.toStringAsFixed(2)??"0",style: ubuntuBold.copyWith(fontSize: Dimensions.fontSizeForReview,color: Colors.white),)),
               ),
               Text('your_loyalty_point'.tr,style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault,color: Colors.white.withOpacity(0.8))),
-              Row()
+              const Row()
 
             ]),
           )

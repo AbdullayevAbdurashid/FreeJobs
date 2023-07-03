@@ -17,9 +17,9 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
 
   @override
   void initState() {
-    Get.find<SearchController>().removeService();
-    if(widget.queryText!.length > 0){
-      Get.find<SearchController>().searchData(widget.queryText!, shouldUpdate: false);
+    Get.find<AllSearchController>().removeService();
+    if(widget.queryText!.isNotEmpty){
+      Get.find<AllSearchController>().searchData(widget.queryText!, shouldUpdate: false);
     }
     super.initState();
   }
@@ -27,36 +27,36 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      endDrawer:ResponsiveHelper.isDesktop(context) ? MenuDrawer():null,
-      appBar: SearchAppBar(backButton: true),
-      body: GetBuilder<SearchController>(
+      endDrawer:ResponsiveHelper.isDesktop(context) ? const MenuDrawer():null,
+      appBar: const SearchAppBar(backButton: true),
+      body: GetBuilder<AllSearchController>(
 
         builder: (searchController){
           return FooterBaseView(
-              isCenter: searchController.isSearchComplete &&  ( searchController.searchServiceList == null || searchController.searchServiceList!.length == 0) ? true:false,
+              isCenter: searchController.isSearchComplete &&  ( searchController.searchServiceList == null || searchController.searchServiceList!.isEmpty) ? true:false,
               child: searchController.searchServiceList == null ?
               Center(
                 child: SizedBox(
-                  width: Dimensions.WEB_MAX_WIDTH,
+                  width: Dimensions.webMaxWidth,
                   child: GridView.builder(
                     key: UniqueKey(),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisSpacing: Dimensions.PADDING_SIZE_DEFAULT,
-                      mainAxisSpacing:  Dimensions.PADDING_SIZE_DEFAULT,
+                      crossAxisSpacing: Dimensions.paddingSizeDefault,
+                      mainAxisSpacing:  Dimensions.paddingSizeDefault,
                       childAspectRatio: ResponsiveHelper.isDesktop(context) || ResponsiveHelper.isTab(context)  ? 1 : .70,
                       crossAxisCount: ResponsiveHelper.isMobile(context) ? 2 : ResponsiveHelper.isTab(context) ? 3 : 5,
                     ),
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap:  true,
                     itemCount: 15,
-                    padding: EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
+                    padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
                     itemBuilder: (context, index) {
-                      return ServiceShimmer(isEnabled: true, hasDivider: true,);
+                      return const ServiceShimmer(isEnabled: true, hasDivider: true,);
                     },
                   ),
                 ),
               ) :
-              ItemView());
+              const ItemView());
         },
       ),
     );

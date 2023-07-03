@@ -10,19 +10,19 @@ class DiscountTag extends StatelessWidget {
   final double? fontSize;
   final bool? freeDelivery;
   final Color? color;
-  DiscountTag({required this.discount, required this.discountType, this.fromTop = 5, this.fontSize, this.freeDelivery = false, this.color});
+  const DiscountTag({super.key, required this.discount, required this.discountType, this.fromTop = 5, this.fontSize, this.freeDelivery = false, this.color});
 
   @override
   Widget build(BuildContext context) {
     return (discount! > 0 || freeDelivery!) ? Positioned(
       top: fromTop, right: 0,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL, vertical: Dimensions.PADDING_SIZE_SMALL),
+        padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall, vertical: Dimensions.paddingSizeSmall),
         decoration: BoxDecoration(
           color: color?? Theme.of(context).colorScheme.error.withOpacity(0.9),
-          borderRadius: BorderRadius.only(
-              topRight: Radius.circular(Dimensions.RADIUS_SMALL),
-              bottomLeft: Radius.circular(Dimensions.RADIUS_SMALL),
+          borderRadius: const BorderRadius.only(
+              topRight: Radius.circular(Dimensions.radiusSmall),
+              bottomLeft: Radius.circular(Dimensions.radiusSmall),
           ),
         ),
         child: Text(
@@ -30,6 +30,6 @@ class DiscountTag extends StatelessWidget {
           style: ubuntuRegular.copyWith(color: Colors.white),
         ),
       ),
-    ) : SizedBox();
+    ) : const SizedBox();
   }
 }

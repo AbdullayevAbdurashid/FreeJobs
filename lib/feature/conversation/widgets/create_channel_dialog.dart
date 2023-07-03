@@ -8,8 +8,8 @@ class CreateChannelDialog extends StatefulWidget {
   final String? serviceManId;
   final String? providerId;
 
-  CreateChannelDialog(
-      {
+  const CreateChannelDialog(
+      {super.key, 
         this.referenceId,
         this.customerID,
         this.serviceManId,
@@ -28,15 +28,16 @@ class _ProductBottomSheetState extends State<CreateChannelDialog> {
 
   @override
   Widget build(BuildContext context) {
-    if(ResponsiveHelper.isDesktop(context))
+    if(ResponsiveHelper.isDesktop(context)) {
       return  Dialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL)),
-        insetPadding: EdgeInsets.all(30),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimensions.radiusSmall)),
+        insetPadding: const EdgeInsets.all(30),
         clipBehavior: Clip.antiAliasWithSaveLayer,
         child: pointerInterceptor(),
         elevation: 0,
         backgroundColor: Colors.transparent,
       );
+    }
     return pointerInterceptor();
   }
 
@@ -45,19 +46,19 @@ class _ProductBottomSheetState extends State<CreateChannelDialog> {
     String imageBaseUrl = Get.find<SplashController>().configModel.content!.imageBaseUrl!;
     return PointerInterceptor(
       child: Container(
-        width: Dimensions.WEB_MAX_WIDTH,
+        width: Dimensions.webMaxWidth,
         margin: EdgeInsets.symmetric(horizontal: ResponsiveHelper.isDesktop(context)
-            ? (Dimensions.WEB_MAX_WIDTH)/3:0),
-        padding: EdgeInsets.only(
-            left: Dimensions.PADDING_SIZE_DEFAULT,
-            bottom: Dimensions.PADDING_SIZE_DEFAULT),
+            ? (Dimensions.webMaxWidth)/3:0),
+        padding: const EdgeInsets.only(
+            left: Dimensions.paddingSizeDefault,
+            bottom: Dimensions.paddingSizeDefault),
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.only(
-            topRight: Radius.circular(20),
-            topLeft: Radius.circular(20),
-            bottomLeft: ResponsiveHelper.isDesktop(context)?Radius.circular(20):Radius.circular(0),
-            bottomRight: ResponsiveHelper.isDesktop(context)?Radius.circular(20):Radius.circular(0),
+            topRight: const Radius.circular(20),
+            topLeft: const Radius.circular(20),
+            bottomLeft: ResponsiveHelper.isDesktop(context)?const Radius.circular(20):const Radius.circular(0),
+            bottomRight: ResponsiveHelper.isDesktop(context)?const Radius.circular(20):const Radius.circular(0),
           ),
         ),
         child: GetBuilder<ConversationController>(
@@ -71,7 +72,7 @@ class _ProductBottomSheetState extends State<CreateChannelDialog> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
+                        padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
                         child: Container(
                           height: 35, width: 35, alignment: Alignment.center,
                           decoration: BoxDecoration(
@@ -83,7 +84,7 @@ class _ProductBottomSheetState extends State<CreateChannelDialog> {
                           ),
                           child: InkWell(
                               onTap: () => Get.back(),
-                              child: Icon(
+                              child: const Icon(
                                 Icons.close,
                                 color: Colors.black54,
 
@@ -93,15 +94,15 @@ class _ProductBottomSheetState extends State<CreateChannelDialog> {
                       ),
                       Padding(
                         padding: EdgeInsets.only(
-                          right: Dimensions.PADDING_SIZE_DEFAULT,
-                          top: ResponsiveHelper.isDesktop(context) ? 0 : Dimensions.PADDING_SIZE_DEFAULT,
+                          right: Dimensions.paddingSizeDefault,
+                          top: ResponsiveHelper.isDesktop(context) ? 0 : Dimensions.paddingSizeDefault,
                         ),
                         child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text('create_channel_with_provider'.tr,style: ubuntuMedium,),
-                              SizedBox(height: Dimensions.PADDING_SIZE_LARGE,),
+                              const SizedBox(height: Dimensions.paddingSizeLarge,),
 
                               Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -109,19 +110,19 @@ class _ProductBottomSheetState extends State<CreateChannelDialog> {
                                     if(widget.providerId != null)
                                       TextButton(
                                         onPressed:(){
-                                          String name = "${bookingDetailsContent.provider!.companyName!}";
+                                          String name = bookingDetailsContent.provider!.companyName!;
                                           String image = "$imageBaseUrl/provider/logo/${bookingDetailsContent.provider!.logo!}";
                                           String phone =bookingDetailsContent.provider?.companyPhone??"";
                                           Get.find<ConversationController>().createChannel(widget.providerId!, widget.referenceId!,name: name,image: image,fromBookingDetailsPage: true,phone: phone,userType: "provider");
                                         },
                                         style: TextButton.styleFrom(
-                                          backgroundColor: Theme.of(context).disabledColor.withOpacity(0.3), minimumSize:  Size(Dimensions.PADDING_SIZE_LARGE, 40),
-                                          padding:  EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_SMALL,horizontal: Dimensions.PADDING_SIZE_LARGE ),
-                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimensions.RADIUS_LARGE)),
+                                          backgroundColor: Theme.of(context).disabledColor.withOpacity(0.3), minimumSize:  const Size(Dimensions.paddingSizeLarge, 40),
+                                          padding:  const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall,horizontal: Dimensions.paddingSizeLarge ),
+                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimensions.radiusLarge)),
                                         ),
                                         child: Text('provider'.tr, textAlign: TextAlign.center, style: ubuntuBold.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color),),
                                       ),
-                                    const SizedBox(width: Dimensions.PADDING_SIZE_LARGE),
+                                    const SizedBox(width: Dimensions.paddingSizeLarge),
                                     if(widget.serviceManId != null)
                                       TextButton(
                                         onPressed:(){
@@ -132,9 +133,9 @@ class _ProductBottomSheetState extends State<CreateChannelDialog> {
                                           Get.find<ConversationController>().createChannel(widget.serviceManId!, widget.referenceId!,name: name,image: image,fromBookingDetailsPage: true,phone: phone);
                                         },
                                         style: TextButton.styleFrom(
-                                          backgroundColor: Theme.of(context).disabledColor.withOpacity(0.3), minimumSize:  Size(Dimensions.PADDING_SIZE_LARGE, 40),
-                                          padding:  EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_SMALL,horizontal: Dimensions.PADDING_SIZE_LARGE ),
-                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimensions.RADIUS_LARGE)),
+                                          backgroundColor: Theme.of(context).disabledColor.withOpacity(0.3), minimumSize:  const Size(Dimensions.paddingSizeLarge, 40),
+                                          padding:  const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall,horizontal: Dimensions.paddingSizeLarge ),
+                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimensions.radiusLarge)),
                                         ),
                                         child: Text(
                                           'service_man'.tr, textAlign: TextAlign.center,
@@ -142,7 +143,7 @@ class _ProductBottomSheetState extends State<CreateChannelDialog> {
                                         ),
                                       ),
                                   ]),
-                              SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
+                              const SizedBox(height: Dimensions.paddingSizeLarge),
                             ]),
                       ),
                     ]),

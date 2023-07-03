@@ -4,28 +4,30 @@ import 'package:demandium/components/web_search_widget.dart';
 import 'package:demandium/core/core_export.dart';
 
 class WebMenuBar extends StatelessWidget implements PreferredSizeWidget {
+  const WebMenuBar({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        width: Dimensions.WEB_MAX_WIDTH,
+        width: Dimensions.webMaxWidth,
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
-              offset: Offset(1, 1),
+              offset: const Offset(1, 1),
               blurRadius: 8,
               color: Theme.of(context).primaryColor.withOpacity(0.15),
             ),
           ],
           color: Theme.of(context).cardColor,
-          borderRadius: BorderRadius.only(
-            bottomRight: Radius.circular(Dimensions.RADIUS_DEFAULT),
-            bottomLeft: Radius.circular(Dimensions.RADIUS_DEFAULT),
+          borderRadius: const BorderRadius.only(
+            bottomRight: Radius.circular(Dimensions.radiusDefault),
+            bottomLeft: Radius.circular(Dimensions.radiusDefault),
           ),
         ),
-        padding: EdgeInsets.symmetric(
-          horizontal: Dimensions.PADDING_SIZE_DEFAULT,
-          vertical: Dimensions.PADDING_SIZE_SMALL,
+        padding: const EdgeInsets.symmetric(
+          horizontal: Dimensions.paddingSizeDefault,
+          vertical: Dimensions.paddingSizeSmall,
         ),
         child: GetBuilder<LocationController>(
           builder: (locationController) {
@@ -57,17 +59,17 @@ class WebMenuBar extends StatelessWidget implements PreferredSizeWidget {
                           onTap: () => Get.toNamed(
                               RouteHelper.getAccessLocationRoute('home')),
                           child: Padding(
-                            padding:
-                                EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
+                            padding: const EdgeInsets.all(
+                                Dimensions.paddingSizeSmall),
                             child: GetBuilder<LocationController>(
                               builder: (locationController) {
                                 return Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    SizedBox(
-                                        width: Dimensions
-                                            .PADDING_SIZE_EXTRA_SMALL),
+                                    const SizedBox(
+                                        width:
+                                            Dimensions.paddingSizeExtraSmall),
                                     Icon(
                                       locationController
                                                   .getUserAddress()!
@@ -86,9 +88,9 @@ class WebMenuBar extends StatelessWidget implements PreferredSizeWidget {
                                           .bodyLarge!
                                           .color,
                                     ),
-                                    SizedBox(
-                                        width: Dimensions
-                                            .PADDING_SIZE_EXTRA_SMALL),
+                                    const SizedBox(
+                                        width:
+                                            Dimensions.paddingSizeExtraSmall),
                                     Flexible(
                                       child: Text(
                                         locationController
@@ -119,12 +121,12 @@ class WebMenuBar extends StatelessWidget implements PreferredSizeWidget {
                           ),
                         ),
                       )
-                    : Expanded(child: SizedBox()),
+                    : const Expanded(child: SizedBox()),
                 MenuButtonWeb(
                   title: 'home'.tr,
                   onTap: () => Get.toNamed(RouteHelper.getMainRoute("home")),
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 MenuButtonWeb(
                   title: 'categories'.tr,
                   onTap: () {
@@ -137,37 +139,37 @@ class WebMenuBar extends StatelessWidget implements PreferredSizeWidget {
                     );
                   },
                 ),
-                SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
+                const SizedBox(width: Dimensions.paddingSizeSmall),
                 MenuButtonWeb(
                     title: 'services'.tr,
                     onTap: () => Get.toNamed(
                         RouteHelper.allServiceScreenRoute('all_service'))),
-                SearchWidgetWeb(),
+                const SearchWidgetWeb(),
                 MenuButtonWebIcon(
                   icon: Images.notification,
                   isCart: false,
                   onTap: () => Get.toNamed(RouteHelper.getNotificationRoute()),
                 ),
-                SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
+                const SizedBox(width: Dimensions.paddingSizeSmall),
                 MenuButtonWebIcon(
                   icon: Images.offerMenu,
                   isCart: false,
                   onTap: () => Get.toNamed(RouteHelper.getOffersRoute('offer')),
                 ),
-                SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
+                const SizedBox(width: Dimensions.paddingSizeSmall),
                 MenuButtonWebIcon(
                   icon: Images.webCartIcon,
                   isCart: true,
                   onTap: () => Get.toNamed(RouteHelper.getCartRoute()),
                 ),
-                SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
+                const SizedBox(width: Dimensions.paddingSizeSmall),
                 MenuButtonWebIcon(
                   icon: Images.webHomeIcon,
                   onTap: () {
                     Scaffold.of(context).openEndDrawer();
                   },
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 GetBuilder<AuthController>(
                   builder: (authController) {
                     return InkWell(
@@ -180,26 +182,26 @@ class WebMenuBar extends StatelessWidget implements PreferredSizeWidget {
                         }
                       },
                       child: Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: Dimensions.PADDING_SIZE_SMALL,
-                          vertical: Dimensions.PADDING_SIZE_SMALL - 2,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: Dimensions.paddingSizeSmall,
+                          vertical: Dimensions.paddingSizeSmall - 2,
                         ),
                         decoration: BoxDecoration(
                           color: Theme.of(context).primaryColor,
                           borderRadius:
-                              BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                              BorderRadius.circular(Dimensions.radiusSmall),
                         ),
                         child: Row(
                           children: [
                             authController.isLoggedIn()
-                                ? SizedBox.shrink()
+                                ? const SizedBox.shrink()
                                 : Image.asset(
                                     Images.webSignInButton,
                                     width: 16.0,
                                     height: 16.0,
                                   ),
-                            SizedBox(
-                                width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                            const SizedBox(
+                                width: Dimensions.paddingSizeExtraSmall),
                             Text(
                               authController.isLoggedIn()
                                   ? 'my_bookings'.tr
@@ -222,7 +224,7 @@ class WebMenuBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size(Dimensions.webMaxWidth, 70);
 }
 
 class MenuButtonWebIcon extends StatelessWidget {
@@ -230,7 +232,10 @@ class MenuButtonWebIcon extends StatelessWidget {
   final bool isCart;
   final Function() onTap;
   MenuButtonWebIcon(
-      {@required this.icon, this.isCart = false, required this.onTap});
+      {super.key,
+      @required this.icon,
+      this.isCart = false,
+      required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -252,7 +257,7 @@ class MenuButtonWebIcon extends StatelessWidget {
                           top: -7,
                           right: -7,
                           child: Container(
-                            padding: EdgeInsets.all(2),
+                            padding: const EdgeInsets.all(2),
                             height: 15,
                             width: 15,
                             alignment: Alignment.center,
@@ -268,11 +273,11 @@ class MenuButtonWebIcon extends StatelessWidget {
                             ),
                           ),
                         )
-                      : SizedBox();
+                      : const SizedBox();
                 })
-              : SizedBox(),
+              : const SizedBox(),
         ]),
-        SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+        const SizedBox(width: Dimensions.paddingSizeExtraSmall),
       ]),
     );
   }
@@ -283,7 +288,10 @@ class MenuButtonWeb extends StatelessWidget {
   final bool isCart;
   final Function() onTap;
   MenuButtonWeb(
-      {@required this.title, this.isCart = false, required this.onTap});
+      {super.key,
+      @required this.title,
+      this.isCart = false,
+      required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -294,15 +302,15 @@ class MenuButtonWeb extends StatelessWidget {
               color: hovered
                   ? Theme.of(context).colorScheme.primary.withOpacity(.1)
                   : Colors.transparent,
-              borderRadius:
-                  BorderRadius.all(Radius.circular(Dimensions.RADIUS_DEFAULT))),
+              borderRadius: const BorderRadius.all(
+                  Radius.circular(Dimensions.radiusDefault))),
           child: InkWell(
             hoverColor: Colors.transparent,
             onTap: onTap,
             child: Padding(
               padding: const EdgeInsets.symmetric(
-                  vertical: Dimensions.PADDING_SIZE_EIGHT,
-                  horizontal: Dimensions.PADDING_SIZE_EIGHT),
+                  vertical: Dimensions.paddingSizeEight,
+                  horizontal: Dimensions.paddingSizeEight),
               child: Text(title!,
                   style: ubuntuMedium.copyWith(
                       fontSize: Dimensions.fontSizeSmall)),

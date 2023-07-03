@@ -6,8 +6,8 @@ class ServiceRequestSectionMenu extends SliverPersistentHeaderDelegate{
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
       color: Theme.of(context).cardColor,
-      width: Dimensions.WEB_MAX_WIDTH,
-      padding: EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_SMALL),
+      width: Dimensions.webMaxWidth,
+      padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall),
       child: ListView.builder(
           itemCount: BookingStatusTabs.values.length,
           scrollDirection: Axis.horizontal,

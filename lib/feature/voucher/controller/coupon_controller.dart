@@ -20,7 +20,7 @@ class CouponController extends GetxController implements GetxService{
   
 
   TabController? voucherTabController;
-  CouponTabState __couponTabCurrentState = CouponTabState.CURRENT_COUPON;
+  CouponTabState __couponTabCurrentState = CouponTabState.currentCoupon;
   CouponTabState get couponTabCurrentState => __couponTabCurrentState;
 
   Future<void> getCouponList() async {
@@ -53,8 +53,7 @@ class CouponController extends GetxController implements GetxService{
       customSnackBar('this_coupon_is_not_valid_for_your_cart'.tr, isError: true);
 
     }
-    print('coupon response : ${response.body}');
-    print('coupon code : ${response.statusCode}');
+
     update();
   }
 
@@ -69,7 +68,9 @@ class CouponController extends GetxController implements GetxService{
       Get.find<CartController>().getCartListFromServer();
       customSnackBar("coupon_removed_successfully".tr, isError: false);
     }else{
-      print(response.statusCode);
+      if (kDebugMode) {
+        print(response.statusCode);
+      }
     }
     update();
   }
@@ -90,20 +91,12 @@ class CouponController extends GetxController implements GetxService{
     }
   }
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
 
 
 }
 
 enum CouponTabState {
-  CURRENT_COUPON,
-  USED_COUPON
+  currentCoupon,
+  usedCoupon
 }

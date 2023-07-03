@@ -1,3 +1,4 @@
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:demandium/components/footer_base_view.dart';
 import 'package:demandium/components/menu_drawer.dart';
 import 'package:demandium/components/web_shadow_wrap.dart';
@@ -5,7 +6,8 @@ import 'package:get/get.dart';
 import 'package:demandium/core/core_export.dart';
 
 class ForgetPassScreen extends StatefulWidget {
-  const ForgetPassScreen({Key? key}) : super(key: key);
+  final bool fromVerification;
+  const ForgetPassScreen({super.key,this.fromVerification = false});
 
   @override
   State<ForgetPassScreen> createState() => _ForgetPassScreenState();
@@ -13,18 +15,47 @@ class ForgetPassScreen extends StatefulWidget {
 
 class _ForgetPassScreenState extends State<ForgetPassScreen> {
 
+  final TextEditingController _identityController = TextEditingController();
+
+  String identityType ="";
+  final ConfigModel _configModel = Get.find<SplashController>().configModel;
+
+  String countryDialCode = CountryCode.fromCountryCode(Get.find<SplashController>().configModel.content!.countryCode!).dialCode!;
   @override
   void initState() {
-    Get.find<AuthController>().contactNumberController.clear();
-    Get.find<AuthController>().initCountryCode();
     super.initState();
+
+    if(widget.fromVerification){
+      if(_configModel.content?.emailVerification==1){
+        identityType = "email";
+      }else{
+        identityType = "phone";
+      }
+
+
+    } else{
+      identityType = _configModel.content?.forgetPasswordVerificationMethod??"";
+    }
+
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      endDrawer:ResponsiveHelper.isDesktop(context) ? MenuDrawer():null,
-      appBar: CustomAppBar(title:'forgot_password'.tr),
+      endDrawer:ResponsiveHelper.isDesktop(context) ? const MenuDrawer():null,
+      appBar: CustomAppBar(title: widget.fromVerification && Get.find<SplashController>().configModel.content?.phoneVerification==1 ?
+      'phone_verification'.tr : widget.fromVerification && Get.find<SplashController>().configModel.content?.emailVerification==1 ?
+      "email_verification".tr : 'forgot_password'.tr.replaceAll("?", " "),
+        onBackPressed: (){
+        if(Navigator.canPop(context)){
+          Get.back();
+        }else{
+          Get.toNamed(RouteHelper.getSignInRoute(RouteHelper.main));
+        }
+        },
+      ),
+
       body: SafeArea(
         child: GetBuilder<AuthController>(
           builder: (authController){
@@ -33,29 +64,38 @@ class _ForgetPassScreenState extends State<ForgetPassScreen> {
               child: WebShadowWrap(
                 child: Padding(
                   padding: EdgeInsets.symmetric(
-                      horizontal: ResponsiveHelper.isDesktop(context)?Dimensions.WEB_MAX_WIDTH/6:
-                      ResponsiveHelper.isTab(context)? Dimensions.WEB_MAX_WIDTH/8:0
+                      horizontal: ResponsiveHelper.isDesktop(context)?Dimensions.webMaxWidth/6:
+                      ResponsiveHelper.isTab(context)? Dimensions.webMaxWidth/8:0
                   ),
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_LARGE),
+                    padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge),
                     child: Column(
+
                       mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                      Image.asset(
-                        Images.forgotPass,
-                        width: 100,
-                        height: 100,),
-                      SizedBox(height: Dimensions.PADDING_SIZE_LARGE,),
-                      Row(
-                        children: [
-                          CodePickerWidget(
-                            onChanged: (CountryCode countryCode) =>
-                            authController.countryDialCode = countryCode.dialCode!,
-                            initialSelection: authController.countryDialCode,
-                            favorite: [authController.countryDialCode],
+                      Image.asset(Images.forgotPass, width: 100, height: 100,),
+
+                      if(widget.fromVerification)
+                      Padding(padding: const EdgeInsets.only(top: Dimensions.paddingSizeLarge),
+                        child: Center(child: Text('${"verify_your".tr} ${identityType=="email"?"email_address".tr.toLowerCase():"phone_number".tr.toLowerCase()}',
+                          style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeLarge,color: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.9)),textAlign: TextAlign.center,
+                        )),
+                      ),
+
+                       Padding(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeLarge*1.5),
+                         child: Center(child: Text('${"please_enter_your".tr} ${identityType=="email"?"email_address".tr.toLowerCase():"phone_number".tr.toLowerCase()} ${"to_receive_a_verification_code".tr}',
+                           style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeDefault,color: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.7)),textAlign: TextAlign.center,
+                         )),
+                       ),
+
+                      (identityType=="phone")?
+                       Row(children: [
+                          CountryCodePicker(
+                            onChanged:  (CountryCode countryCode) => countryDialCode = countryCode.dialCode!,
                             showDropDownButton: true,
                             padding: EdgeInsets.zero,
                             showFlagMain: true,
+                            initialSelection: countryDialCode,
                             dialogBackgroundColor: Theme.of(context).cardColor,
                             barrierColor: Get.isDarkMode?Colors.black.withOpacity(0.4):null,
                             textStyle: ubuntuRegular.copyWith(
@@ -64,26 +104,33 @@ class _ForgetPassScreenState extends State<ForgetPassScreen> {
                           ),
                           Expanded(
                             child: CustomTextField(
-                                hintText: 'enter_phone_number'.tr,
-                                controller: authController.contactNumberController,
-                                inputType: TextInputType.phone,
-                                countryDialCode: authController.countryDialCode,
-                                onCountryChanged: (CountryCode countryCode) => authController.countryDialCode = countryCode.dialCode!,
-                                onValidate: (String? value){
-                                  return FormValidation().isValidLength(value!);
-                                }
+                              hintText: 'enter_phone_number'.tr,
+                              controller: _identityController,
+                              inputType: TextInputType.phone,
+                              inputAction: TextInputAction.done,
+                              isShowBorder: true,
+
                             ),
                           ),
                         ],
+                      ): Padding(padding: const EdgeInsets.symmetric(horizontal: 5),
+                        child: CustomTextField(
+                            title: 'email_address'.tr,
+                           hintText: 'enter_email_address'.tr,
+                           controller: _identityController,
+                           inputType: TextInputType.emailAddress,
+                         ),
                       ),
-                      SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
+
+                      const SizedBox(height: Dimensions.paddingSizeLarge*1.5),
                       GetBuilder<AuthController>(builder: (authController) {
                           return !authController.isLoading! ? CustomButton(
                             buttonText: 'send_otp'.tr,
-                            onPressed: () => _forgetPass(),
-                          ) : Center(child: CircularProgressIndicator());
+                            fontSize: Dimensions.fontSizeDefault,
+                            onPressed: ()=>_forgetPass(countryDialCode,authController),
+                          ) : const Center(child: CircularProgressIndicator());
                         }),
-                     SizedBox(height: Dimensions.PADDING_SIZE_LARGE*4),
+                     const SizedBox(height: Dimensions.paddingSizeLarge*4),
                       ]),
                   ),
                 ),
@@ -95,14 +142,36 @@ class _ForgetPassScreenState extends State<ForgetPassScreen> {
     );
   }
 
-  void _forgetPass() async {
+  void _forgetPass(String countryDialCode,AuthController authController) async {
 
-    if(Get.find<AuthController>().contactNumberController.value.text.isNotEmpty){
-      Get.find<AuthController>().forgetPassword();
-    }else{
-      customSnackBar('enter_phone_number'.tr);
-    }
+    String phone = countryDialCode + _identityController.text.trim();
+    String email = _identityController.text.trim();
+    String identity = identityType=="phone"?phone:email;
 
+    if (_identityController.text.isEmpty) {
+      if(identityType=="phone"){
+        customSnackBar('enter_phone_number'.tr);
+      }else{
+        customSnackBar('enter_email_address'.tr);
+      }
+    }else {
+      if(widget.fromVerification){
+        authController.sendOtpForVerificationScreen(identity,identityType).then((status) {
+          if(status.isSuccess!){
+            Get.toNamed(RouteHelper.getVerificationRoute(identity,identityType,"verification"));
+          }else{
+            customSnackBar(status.message.toString().capitalizeFirst);
+          }
+        });
+      }else{
+        authController.sendOtpForForgetPassword(identity,identityType).then((status){
+          if(status.isSuccess!){
+            Get.toNamed(RouteHelper.getVerificationRoute(identity,identityType,"forget-password"));
+          }else{
+            customSnackBar(status.message.toString().capitalizeFirst);
+          }
+        });
+      }}
   }
 }
 

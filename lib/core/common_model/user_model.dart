@@ -7,18 +7,18 @@ class User {
   String? identificationNumber;
   String? identificationType;
   List<String>? identificationImage;
-  var dateOfBirth;
+  String? dateOfBirth;
   String? gender;
   String? profileImage;
-  var fcmToken;
+  String? fcmToken;
   int? isPhoneVerified;
   int? isEmailVerified;
-  var phoneVerifiedAt;
-  var emailVerifiedAt;
+  String? phoneVerifiedAt;
+  String? emailVerifiedAt;
   int? isActive;
   String? userType;
-  var rememberToken;
-  var deletedAt;
+  String? rememberToken;
+  String? deletedAt;
   String? createdAt;
   String? updatedAt;
 
@@ -71,29 +71,29 @@ class User {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['first_name'] = this.firstName;
-    data['last_name'] = this.lastName;
-    data['email'] = this.email;
-    data['phone'] = this.phone;
-    data['identification_number'] = this.identificationNumber;
-    data['identification_type'] = this.identificationType;
-    data['identification_image'] = this.identificationImage;
-    data['date_of_birth'] = this.dateOfBirth;
-    data['gender'] = this.gender;
-    data['profile_image'] = this.profileImage;
-    data['fcm_token'] = this.fcmToken;
-    data['is_phone_verified'] = this.isPhoneVerified;
-    data['is_email_verified'] = this.isEmailVerified;
-    data['phone_verified_at'] = this.phoneVerifiedAt;
-    data['email_verified_at'] = this.emailVerifiedAt;
-    data['is_active'] = this.isActive;
-    data['user_type'] = this.userType;
-    data['remember_token'] = this.rememberToken;
-    data['deleted_at'] = this.deletedAt;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['first_name'] = firstName;
+    data['last_name'] = lastName;
+    data['email'] = email;
+    data['phone'] = phone;
+    data['identification_number'] = identificationNumber;
+    data['identification_type'] = identificationType;
+    data['identification_image'] = identificationImage;
+    data['date_of_birth'] = dateOfBirth;
+    data['gender'] = gender;
+    data['profile_image'] = profileImage;
+    data['fcm_token'] = fcmToken;
+    data['is_phone_verified'] = isPhoneVerified;
+    data['is_email_verified'] = isEmailVerified;
+    data['phone_verified_at'] = phoneVerifiedAt;
+    data['email_verified_at'] = emailVerifiedAt;
+    data['is_active'] = isActive;
+    data['user_type'] = userType;
+    data['remember_token'] = rememberToken;
+    data['deleted_at'] = deletedAt;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }

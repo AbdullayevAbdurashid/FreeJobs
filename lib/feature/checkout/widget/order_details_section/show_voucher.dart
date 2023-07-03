@@ -12,7 +12,7 @@ class ShowVoucher extends StatelessWidget {
         return couponController.coupon != null ?
         Container(
           width: MediaQuery.of(context).size.width,
-          padding: EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_SMALL,horizontal: Dimensions.PADDING_SIZE_DEFAULT),
+          padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall,horizontal: Dimensions.paddingSizeDefault),
           decoration: BoxDecoration(border: Border.all(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6).withOpacity(.3), width: 1)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -24,8 +24,8 @@ class ShowVoucher extends StatelessWidget {
                 child: Row(
                   children: [
                     Image.asset(Images.couponIcon,width: 20.0,height: 20.0,),
-                    SizedBox(width: Dimensions.PADDING_SIZE_DEFAULT,),
-                    Text("${couponController.coupon!.couponCode! }",
+                    const SizedBox(width: Dimensions.paddingSizeDefault,),
+                    Text(couponController.coupon!.couponCode!,
                       style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault),),
                     Text("applied".tr,style: ubuntuMedium.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6),),),
                   ],
@@ -45,7 +45,7 @@ class ShowVoucher extends StatelessWidget {
             ],
           ),
         ):
-        ApplyVoucher();
+        const ApplyVoucher();
       }
     );
   }

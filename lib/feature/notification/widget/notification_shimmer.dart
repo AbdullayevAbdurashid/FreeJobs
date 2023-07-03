@@ -7,20 +7,20 @@ class NotificationShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer(
-      duration: Duration(seconds: 3),
-      interval: Duration(seconds: 5),
+      duration: const Duration(seconds: 3),
+      interval: const Duration(seconds: 5),
       color: Colors.white,
       colorOpacity: 0,
       enabled: true,
-      direction: ShimmerDirection.fromLTRB(),
-      child: Container(
+      direction: const ShimmerDirection.fromLTRB(),
+      child: SizedBox(
         height: context.height,
         width: context.width,
         child: ListView.builder(
           itemCount: 8,
           itemBuilder: (context, index) {
             return Container(
-              margin: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+              margin: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
               child: Column(
                 children: [
                   Row(
@@ -33,7 +33,7 @@ class NotificationShimmer extends StatelessWidget {
                           color:Theme.of(context).shadowColor,
                         ),
                       ),
-                      SizedBox(width: Dimensions.PADDING_SIZE_DEFAULT,),
+                      const SizedBox(width: Dimensions.paddingSizeDefault,),
                       Expanded(
                           child: Container(
                               width: 200,
@@ -44,7 +44,7 @@ class NotificationShimmer extends StatelessWidget {
                               )))
                     ],
                   ),
-                  SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,),
+                  const SizedBox(height: Dimensions.paddingSizeDefault,),
                   Container(
                       height: 25,
                       width: context.width*.9,

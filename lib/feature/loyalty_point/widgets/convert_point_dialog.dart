@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 class ConvertLoyaltyPointDialog extends StatelessWidget {
 
-  const ConvertLoyaltyPointDialog({Key? key});
+  const ConvertLoyaltyPointDialog({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,18 +18,18 @@ class ConvertLoyaltyPointDialog extends StatelessWidget {
     ];
 
     return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimensions.RADIUS_DEFAULT)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimensions.radiusDefault)),
       insetPadding: const EdgeInsets.all(20),
       clipBehavior: Clip.antiAliasWithSaveLayer,
       backgroundColor: Theme.of(context).cardColor,
-      child: Container(width: 500, child: Padding(
-        padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
+      child: SizedBox(width: 500, child: Padding(
+        padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
         child: SingleChildScrollView(
           child: GetBuilder<LoyaltyPointController>(builder: (loyaltyPointController){
             return Column(mainAxisSize: MainAxisSize.min, children: [
 
               Row(mainAxisAlignment: MainAxisAlignment.end,children: [InkWell(
-                child: Icon(Icons.highlight_remove,size: 22,),
+                child: const Icon(Icons.highlight_remove,size: 22,),
                 onTap: ()=> Get.back(),
               )]),
 
@@ -38,10 +38,10 @@ class ConvertLoyaltyPointDialog extends StatelessWidget {
               )),
 
               Container(
-                padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
+                padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
                 decoration: BoxDecoration(
                     color: Theme.of(context).cardColor,
-                    borderRadius: BorderRadius.circular(Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                    borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
                     boxShadow: [BoxShadow(color: Theme.of(context).hintColor.withOpacity(.12), blurRadius: 1,
                         spreadRadius: 1, offset: const Offset(0,0))]
                 ),
@@ -49,7 +49,7 @@ class ConvertLoyaltyPointDialog extends StatelessWidget {
                   children: [
                     Text('convert_point_to_wallet_money'.tr, style: ubuntuMedium.copyWith(color:Get.isDarkMode?Colors.white70 :  Theme.of(context).primaryColor,fontSize: Dimensions.fontSizeLarge),),
                     Padding(
-                      padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
+                      padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
                       child: SizedBox(height: 50,child: TextFormField(
                         textAlign: TextAlign.center,
                         textInputAction: TextInputAction.done,
@@ -83,40 +83,40 @@ class ConvertLoyaltyPointDialog extends StatelessWidget {
                 ),
               ),
 
-              SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,),
+              const SizedBox(height: Dimensions.paddingSizeDefault,),
 
               Container(decoration: BoxDecoration(color: Theme.of(context).primaryColor.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(Dimensions.RADIUS_DEFAULT)),
-                padding: EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
+                  borderRadius: BorderRadius.circular(Dimensions.radiusDefault)),
+                padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
                   Padding(
-                      padding: const EdgeInsets.fromLTRB(0,0,0,Dimensions.PADDING_SIZE_SMALL),
+                      padding: const EdgeInsets.fromLTRB(0,0,0,Dimensions.paddingSizeSmall),
                       child: Text('note'.tr,style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeLarge,color: Get.isDarkMode?Colors.white70 : Theme.of(context).primaryColor),)),
 
                   Column(
                     children: noteList.map((item) => Column(children: [
                       Row(crossAxisAlignment: CrossAxisAlignment.start,children: [
-                        Padding(padding: const EdgeInsets.only(left: Dimensions.PADDING_SIZE_SMALL, right: Dimensions.PADDING_SIZE_SMALL,top: 5),
+                        const Padding(padding: EdgeInsets.only(left: Dimensions.paddingSizeSmall, right: Dimensions.paddingSizeSmall,top: 5),
                           child: Icon(Icons.circle,size: 7,),
                         ),
                         Expanded(child: Text(item,style: ubuntuRegular.copyWith(color: Theme.of(context).textTheme.bodySmall!.color),)),
                       ]),
-                      SizedBox(height: Dimensions.PADDING_SIZE_SMALL,),
+                      const SizedBox(height: Dimensions.paddingSizeSmall,),
                     ],)).toList(),
                   ),
                 ],),
               ),
 
-              SizedBox(height: Dimensions.PADDING_SIZE_LARGE,),
+              const SizedBox(height: Dimensions.paddingSizeLarge,),
 
               loyaltyPointController.isLoading== false?
               CustomButton(
                 height: ResponsiveHelper.isDesktop(context)?45 : 40,
                 fontSize: Dimensions.fontSizeSmall,
-                width: Dimensions.CURRENCY_CONVERT_BUTTON_HEIGHT-20,
+                width: Dimensions.currencyConvertButtonHeight-20,
                 buttonText: "convert_to_currency".tr,
                 assetIcon: Images.convertPoint,
-                radius: Dimensions.RADIUS_EXTRA_MORE_LARGE,
+                radius: Dimensions.radiusExtraMoreLarge,
                 onPressed: (){
                   double inputAmount = double.tryParse(loyaltyPointController.loyaltyPointController.text)??0;
                   double availAblePoint = loyaltyPointController.loyaltyPointModel?.content?.loyaltyPoint??0;
@@ -132,8 +132,8 @@ class ConvertLoyaltyPointDialog extends StatelessWidget {
                     loyaltyPointController.convertLoyaltyPoint();
                   }
                 },
-              ):CircularProgressIndicator(),
-              SizedBox(height: Dimensions.PADDING_SIZE_LARGE,),
+              ):const CircularProgressIndicator(),
+              const SizedBox(height: Dimensions.paddingSizeLarge,),
             ]);
           })
         ),

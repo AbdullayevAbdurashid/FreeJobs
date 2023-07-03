@@ -20,14 +20,14 @@ class ThemeController extends GetxController implements GetxService {
 
   void toggleTheme() {
     _darkTheme = !_darkTheme;
-    sharedPreferences.setBool(AppConstants.THEME, _darkTheme);
+    sharedPreferences.setBool(AppConstants.theme, _darkTheme);
     update();
   }
 
   void _loadCurrentTheme() async {
     _lightMap = await rootBundle.loadString('assets/map/light_map.json');
     _darkMap = await rootBundle.loadString('assets/map/dark_map.json');
-    _darkTheme = sharedPreferences.getBool(AppConstants.THEME) ?? false;
+    _darkTheme = sharedPreferences.getBool(AppConstants.theme) ?? false;
     update();
   }
 }

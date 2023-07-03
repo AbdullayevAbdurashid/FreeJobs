@@ -3,42 +3,44 @@ import 'package:demandium/core/core_export.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
 
 class ChooseLanguageBottomSheet extends StatelessWidget {
+  const ChooseLanguageBottomSheet({super.key});
+
   @override
   Widget build(BuildContext context) {
-    bool _isLoggedIn = Get.find<AuthController>().isLoggedIn();
+    bool isLoggedIn = Get.find<AuthController>().isLoggedIn();
 
-    final List<MenuModel> _menuList = [
+    final List<MenuModel> menuList = [
       MenuModel(icon: Images.profile, title: 'profile'.tr, route: RouteHelper.getProfileRoute()),
       MenuModel(icon: Images.customerCare, title: 'help_&_support'.tr, route: RouteHelper.getSupportRoute()),
     ];
 
-    _menuList.add(MenuModel(icon: Images.logout, title: _isLoggedIn ? 'logout'.tr : 'sign_in'.tr, route: ''));
+    menuList.add(MenuModel(icon: Images.logout, title: isLoggedIn ? 'logout'.tr : 'sign_in'.tr, route: ''));
 
     return PointerInterceptor(
       child: GetBuilder<LocalizationController>(
         builder: (localizationController){
           return Container(
-            width: Dimensions.WEB_MAX_WIDTH,
-            padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL),
+            width: Dimensions.webMaxWidth,
+            padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
               color: Theme.of(context).cardColor,
             ),
             child: Column(mainAxisSize: MainAxisSize.min, children: [
               InkWell(
                 onTap: () => Get.back(),
-                child: Icon(Icons.keyboard_arrow_down_rounded, size: 30),
+                child: const Icon(Icons.keyboard_arrow_down_rounded, size: 30),
               ),
-              SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+              const SizedBox(height: Dimensions.paddingSizeExtraSmall),
 
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Gaps.verticalGapOf(Dimensions.PADDING_SIZE_EXTRA_LARGE),
+                  Gaps.verticalGapOf(Dimensions.paddingSizeExtraLarge),
                   Text("select_language".tr,style: ubuntuMedium.copyWith(
                       color: Theme.of(context).primaryColor,
                       fontSize: Dimensions.fontSizeDefault),),
-                  SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                  const SizedBox(height: Dimensions.paddingSizeExtraSmall),
 
                   GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -46,18 +48,18 @@ class ChooseLanguageBottomSheet extends StatelessWidget {
                       childAspectRatio: (1/1),
                     ),
                     itemCount: localizationController.languages.length,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemBuilder: (context, index) => LanguageWidget(
                       languageModel: localizationController.languages[index],
                       localizationController: localizationController, index: index,
                     ),
                   ),
-                  SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
-                  Gaps.verticalGapOf(Dimensions.PADDING_SIZE_EXTRA_LARGE),
+                  const SizedBox(height: Dimensions.paddingSizeLarge),
+                  Gaps.verticalGapOf(Dimensions.paddingSizeExtraLarge),
                 ],
               ),
-              SizedBox(height: ResponsiveHelper.isMobile(context) ? Dimensions.PADDING_SIZE_SMALL : 0),
+              SizedBox(height: ResponsiveHelper.isMobile(context) ? Dimensions.paddingSizeSmall : 0),
             ]),
           );
         },

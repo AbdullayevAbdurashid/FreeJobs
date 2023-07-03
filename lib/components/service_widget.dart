@@ -3,21 +3,21 @@ import 'package:demandium/core/core_export.dart';
 
 class ServiceWidget extends StatelessWidget {
   final Service? service;
-  ServiceWidget({required this.service,});
+  const ServiceWidget({super.key, required this.service,});
 
   @override
   Widget build(BuildContext context) {
-    bool _desktop = ResponsiveHelper.isDesktop(context);
-    bool? _isAvailable;
+    bool desktop = ResponsiveHelper.isDesktop(context);
+    bool? isAvailable;
 
     return InkWell(
       onTap: () {
         Get.toNamed(RouteHelper.getServiceRoute(service!.id!), arguments: ServiceDetailsScreen(serviceID : service!.id!));
       },
       child: Container(
-        padding: EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
+        padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+          borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
           color: Theme.of(context).cardColor,
           boxShadow: shadow
         ),
@@ -27,36 +27,36 @@ class ServiceWidget extends StatelessWidget {
             Row(children: [
               Stack(children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                  borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                   child: CustomImage(
                     // image: '${Get.find<SplashController>().configModel.content!.baseUrl!.productImageUrl!}/${service!.image}',
                     image: '',
-                    height: _desktop ? 120 : 78, width: _desktop ? 120 : 78, fit: BoxFit.cover,
+                    height: desktop ? 120 : 78, width: desktop ? 120 : 78, fit: BoxFit.cover,
                   ),
                 ),
                 // DiscountTag(discount: _discount, discountType: _discountType),
                 NotAvailableWidget(
-                  online: _isAvailable,
-                  borderRadius: BorderRadius.vertical(bottom: Radius.circular(Dimensions.RADIUS_SMALL)),
+                  online: isAvailable,
+                  borderRadius: const BorderRadius.vertical(bottom: Radius.circular(Dimensions.radiusSmall)),
                 ),
               ]),
-              SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
+              const SizedBox(width: Dimensions.paddingSizeSmall),
               Expanded(
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
                   Row(children: [
                     Expanded(child: Text(
                       service!.name!,
                       style: ubuntuBold.copyWith(fontSize: Dimensions.fontSizeDefault),
-                      maxLines: _desktop ? 2 : 1, overflow: TextOverflow.ellipsis,
+                      maxLines: desktop ? 2 : 1, overflow: TextOverflow.ellipsis,
                     )),
                   ]),
-                  SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                  const SizedBox(height: Dimensions.paddingSizeExtraSmall),
                   Text(
                     service!.description ?? '', maxLines: 2, overflow: TextOverflow.ellipsis,
                     style: ubuntuRegular.copyWith( color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6)),
                   ),
 
-                  SizedBox(height: Dimensions.PADDING_SIZE_SMALL,),
+                  const SizedBox(height: Dimensions.paddingSizeSmall,),
                   Text("12 Services",style: ubuntuRegular.copyWith(
                       decoration: TextDecoration.underline,
                       color: Theme.of(context).primaryColor),)

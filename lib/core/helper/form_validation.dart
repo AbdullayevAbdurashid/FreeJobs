@@ -1,4 +1,5 @@
-import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:get/get.dart';
+
 
 class FormValidation {
   String? isValidLength(String value) {
@@ -22,6 +23,13 @@ class FormValidation {
   String? isValidPassword(String value) {
     if (value.length<=7) {
       return 'password_should_be'.tr;
+    }
+    return null;
+  }
+
+  String? isValidEmail(String value) {
+    if (!GetUtils.isEmail(value)) {
+      return 'enter_valid_email_address'.tr;
     }
     return null;
   }

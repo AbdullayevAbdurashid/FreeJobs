@@ -10,16 +10,16 @@ class WebLandingContentModel {
     responseCode = json['response_code'];
     message = json['message'];
     content =
-    json['content'] != null ? new WebLandingContent.fromJson(json['content']) : null;
+    json['content'] != null ? WebLandingContent.fromJson(json['content']) : null;
 
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['response_code'] = this.responseCode;
-    data['message'] = this.message;
-    if (this.content != null) {
-      data['content'] = this.content!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['response_code'] = responseCode;
+    data['message'] = message;
+    if (content != null) {
+      data['content'] = content!.toJson();
     }
 
     return data;
@@ -43,54 +43,54 @@ class WebLandingContent {
     if (json['banner_images'] != null) {
       bannerImage = <BannerImage>[];
       json['banner_images'].forEach((v) {
-        bannerImage!.add(new BannerImage.fromJson(v));
+        bannerImage!.add(BannerImage.fromJson(v));
       });
     }
     if (json['text_content'] != null) {
       textContent = <TextContent>[];
       json['text_content'].forEach((v) {
-        textContent!.add(new TextContent.fromJson(v));
+        textContent!.add(TextContent.fromJson(v));
       });
     }
     if (json['image_content'] != null) {
       imageContent = <ImageContent>[];
       json['image_content'].forEach((v) {
-        imageContent!.add(new ImageContent.fromJson(v));
+        imageContent!.add(ImageContent.fromJson(v));
       });
     }
     if (json['testimonial'] != null) {
       testimonial = <Testimonial>[];
       json['testimonial'].forEach((v) {
-        testimonial!.add(new Testimonial.fromJson(v));
+        testimonial!.add(Testimonial.fromJson(v));
       });
     }
 
     if (json['social_media'] != null) {
       socialMedia = <SocialMedia>[];
       json['social_media'].forEach((v) {
-        socialMedia!.add(new SocialMedia.fromJson(v));
+        socialMedia!.add(SocialMedia.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.bannerImage != null) {
-      data['banner_images'] = this.bannerImage!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (bannerImage != null) {
+      data['banner_images'] = bannerImage!.map((v) => v.toJson()).toList();
     }
-    if (this.textContent != null) {
-      data['text_content'] = this.textContent!.map((v) => v.toJson()).toList();
+    if (textContent != null) {
+      data['text_content'] = textContent!.map((v) => v.toJson()).toList();
     }
-    if (this.imageContent != null) {
+    if (imageContent != null) {
       data['image_content'] =
-          this.imageContent!.map((v) => v.toJson()).toList();
+          imageContent!.map((v) => v.toJson()).toList();
     }
-    if (this.testimonial != null) {
-      data['testimonial'] = this.testimonial!.map((v) => v.toJson()).toList();
+    if (testimonial != null) {
+      data['testimonial'] = testimonial!.map((v) => v.toJson()).toList();
     }
 
-    if (this.socialMedia != null) {
-      data['social_media'] = this.socialMedia!.map((v) => v.toJson()).toList();
+    if (socialMedia != null) {
+      data['social_media'] = socialMedia!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -108,9 +108,9 @@ class BannerImage {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['key_name'] = this.keyName;
-    data['live_values'] = this.liveValues;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['key_name'] = keyName;
+    data['live_values'] = liveValues;
     return data;
   }
 }
@@ -127,9 +127,9 @@ class TextContent {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['key_name'] = this.keyName;
-    data['live_values'] = this.liveValues;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['key_name'] = keyName;
+    data['live_values'] = liveValues;
     return data;
   }
 }
@@ -145,9 +145,9 @@ class ImageContent {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['key_name'] = this.keyName;
-    data['live_values'] = this.liveValues;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['key_name'] = keyName;
+    data['live_values'] = liveValues;
     return data;
   }
 }
@@ -170,12 +170,12 @@ class Testimonial {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['designation'] = this.designation;
-    data['review'] = this.review;
-    data['image'] = this.image;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['designation'] = designation;
+    data['review'] = review;
+    data['image'] = image;
     return data;
   }
 }
@@ -195,10 +195,10 @@ class SocialMedia {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['media'] = this.media;
-    data['link'] = this.link;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['media'] = media;
+    data['link'] = link;
     return data;
   }
 }
@@ -221,12 +221,12 @@ class FeaturesImages {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['title'] = this.title;
-    data['sub_title'] = this.subTitle;
-    data['image_1'] = this.image1;
-    data['image_2'] = this.image2;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['title'] = title;
+    data['sub_title'] = subTitle;
+    data['image_1'] = image1;
+    data['image_2'] = image2;
     return data;
   }
 }

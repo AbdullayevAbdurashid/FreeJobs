@@ -14,32 +14,30 @@ class LoyaltyPointListView extends StatelessWidget {
     return GetBuilder<LoyaltyPointController>(builder: (loyaltyPointController){
       List<LoyaltyPointTransactionData> listOfTransaction = loyaltyPointController.listOfTransaction;
       return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT,vertical: Dimensions.PADDING_SIZE_SMALL),
+        padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault,vertical: Dimensions.paddingSizeSmall),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
           Text('point_history'.tr,style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeExtraLarge,
               color: Theme.of(context).textTheme.bodyLarge!.color),
           ),
-          SizedBox(height: Dimensions.PADDING_SIZE_LARGE,),
-          listOfTransaction.length>0?
+          const SizedBox(height: Dimensions.paddingSizeLarge,),
+          listOfTransaction.isNotEmpty?
           PaginatedListView(
             scrollController: scrollController,
             totalSize: loyaltyPointController.loyaltyPointModel!.content!.transactions!.total!,
             onPaginate: (int offset) async => await loyaltyPointController.getLoyaltyPointData(
               offset, reload: false,
             ),
-            offset: loyaltyPointController.loyaltyPointModel!.content!.transactions?.currentPage != null ?
-            loyaltyPointController.loyaltyPointModel!.content!.transactions?.currentPage  != null ?
-            loyaltyPointController.loyaltyPointModel!.content!.transactions?.currentPage:null:null,
+            offset: loyaltyPointController.loyaltyPointModel!.content!.transactions?.currentPage,
             itemView: GridView.builder(gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: ResponsiveHelper.isDesktop(context)?2:1,
-                mainAxisExtent: 120,crossAxisSpacing: Dimensions.PADDING_SIZE_DEFAULT),
+                mainAxisExtent: 120,crossAxisSpacing: Dimensions.paddingSizeDefault),
               itemCount: listOfTransaction.length,
               shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context,index){
                 return LoyaltyPointItemView(transactionData: listOfTransaction[index],);
               },),
-          ):NoDataScreen(text: 'no_transaction_yet'.tr,type: NoDataType.TRANSACTION,),
+          ):NoDataScreen(text: 'no_transaction_yet'.tr,type: NoDataType.transaction,),
         ],),
       );
     });

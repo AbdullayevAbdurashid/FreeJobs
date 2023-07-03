@@ -4,25 +4,25 @@ import 'package:demandium/core/core_export.dart';
 
 class SplashScreen extends StatefulWidget {
   final NotificationBody? body;
-  SplashScreen({@required this.body});
+  const SplashScreen({super.key, @required this.body});
 
   @override
-  _SplashScreenState createState() => _SplashScreenState();
+  SplashScreenState createState() => SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
-  GlobalKey<ScaffoldState> _globalKey = GlobalKey();
+class SplashScreenState extends State<SplashScreen> {
+  final GlobalKey<ScaffoldState> _globalKey = GlobalKey();
   late StreamSubscription<ConnectivityResult> _onConnectivityChanged;
 
   @override
   void initState() {
     super.initState();
 
-    bool _firstTime = true;
+    bool firstTime = true;
     _onConnectivityChanged = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
-      if(!_firstTime) {
+      if(!firstTime) {
         bool isNotConnected = result != ConnectivityResult.wifi && result != ConnectivityResult.mobile;
-        isNotConnected ? SizedBox() : ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        isNotConnected ? const SizedBox() : ScaffoldMessenger.of(context).hideCurrentSnackBar();
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: isNotConnected ? Colors.red : Colors.green,
           duration: Duration(seconds: isNotConnected ? 6000 : 3),
@@ -35,7 +35,7 @@ class _SplashScreenState extends State<SplashScreen> {
           _route();
         }
       }
-      _firstTime = false;
+      firstTime = false;
     });
 
     Get.find<SplashController>().initSharedData();
@@ -53,14 +53,14 @@ class _SplashScreenState extends State<SplashScreen> {
   void _route() {
     Get.find<SplashController>().getConfigData().then((isSuccess) {
       if(isSuccess) {
-        Timer(Duration(seconds: 1), () async {
+        Timer(const Duration(seconds: 1), () async {
           bool isAvailableUpdate =false;
 
-          String _minimumVersion = "1.1.0";
+          String minimumVersion = "1.1.0";
           double? minimumBaseVersion =1.0;
           double? minimumLastVersion =0;
 
-          String appVersion = AppConstants.APP_VERSION;
+          String appVersion = AppConstants.appVersion;
           double? baseVersion = double.tryParse(appVersion.substring(0,3));
           double lastVersion=0;
           if(appVersion.length>3){
@@ -69,16 +69,15 @@ class _SplashScreenState extends State<SplashScreen> {
 
 
           if(GetPlatform.isAndroid && Get.find<SplashController>().configModel.content!.minimumVersion!=null) {
-            _minimumVersion = Get.find<SplashController>().configModel.content!.minimumVersion!.minVersionForAndroid!.toString();
-            if(_minimumVersion.length==1){
-              _minimumVersion = _minimumVersion+".0";
+            minimumVersion = Get.find<SplashController>().configModel.content!.minimumVersion!.minVersionForAndroid!.toString();
+            if(minimumVersion.length==1){
+              minimumVersion = "$minimumVersion.0";
             }
-            if(_minimumVersion.length==3){
-              _minimumVersion = _minimumVersion+".0";
+            if(minimumVersion.length==3){
+              minimumVersion = "$minimumVersion.0";
             }
-            print("minimumVersion: $_minimumVersion");
-            minimumBaseVersion = double.tryParse(_minimumVersion.substring(0,3));
-            minimumLastVersion = double.tryParse(_minimumVersion.substring(4,5));
+            minimumBaseVersion = double.tryParse(minimumVersion.substring(0,3));
+            minimumLastVersion = double.tryParse(minimumVersion.substring(4,5));
 
             if(minimumBaseVersion!>baseVersion!){
               isAvailableUpdate= true;
@@ -93,16 +92,16 @@ class _SplashScreenState extends State<SplashScreen> {
             }
           }
           else if(GetPlatform.isIOS && Get.find<SplashController>().configModel.content!.minimumVersion!=null) {
-            _minimumVersion = Get.find<SplashController>().configModel.content!.minimumVersion!.minVersionForIos!;
-            if(_minimumVersion.length==1){
-              _minimumVersion = _minimumVersion+".0";
+            minimumVersion = Get.find<SplashController>().configModel.content!.minimumVersion!.minVersionForIos!;
+            if(minimumVersion.length==1){
+              minimumVersion = "$minimumVersion.0";
             }
-            if(_minimumVersion.length==3){
-              _minimumVersion = _minimumVersion+".0";
+            if(minimumVersion.length==3){
+              minimumVersion = "$minimumVersion.0";
             }
-            minimumBaseVersion = double.tryParse(_minimumVersion.substring(0,3));
-            if(_minimumVersion.length>3){
-              minimumLastVersion = double.tryParse(_minimumVersion.substring(4,5));
+            minimumBaseVersion = double.tryParse(minimumVersion.substring(0,3));
+            if(minimumVersion.length>3){
+              minimumLastVersion = double.tryParse(minimumVersion.substring(4,5));
             }
             if(minimumBaseVersion!>baseVersion!){
               isAvailableUpdate= true;
@@ -121,18 +120,42 @@ class _SplashScreenState extends State<SplashScreen> {
           }
           else {
             if(widget.body != null) {
-                if(widget.body!.type=='general'){
-                  Get.toNamed(RouteHelper.getNotificationRoute());
-                }else if(widget.body!.type=='booking'
-                    && widget.body!.bookingId!=null&& widget.body!.bookingId!=""){
-                  Get.toNamed(RouteHelper.getBookingDetailsScreen(widget.body!.bookingId!,'fromNotification'));
-                } else if(widget.body!.type=='privacy_policy'){
+
+              String notificationType = widget.body?.type??"";
+
+              switch(notificationType) {
+
+                case "chatting": {
+                  Get.toNamed(RouteHelper.getChatScreenRoute(
+                    widget.body?.channelId??"",
+                    widget.body?.userName??"",
+                    widget.body?.userProfileImage??"",
+                    widget.body?.userPhone??"",
+                    "",
+                    widget.body?.userType??"",
+                  ));
+                } break;
+
+                case "booking": {
+                  if( widget.body!.bookingId!=null&& widget.body!.bookingId!=""){
+                    Get.toNamed(RouteHelper.getBookingDetailsScreen(widget.body!.bookingId!,'fromNotification'));
+                  }else{
+                    Get.toNamed(RouteHelper.getMainRoute(""));
+                  }
+                } break;
+
+                case "privacy_policy": {
                   Get.toNamed(RouteHelper.getHtmlRoute("privacy-policy"));
-                }else if(widget.body!.type=='terms_and_conditions'){
+                } break;
+
+                case "terms_and_conditions": {
                   Get.toNamed(RouteHelper.getHtmlRoute("terms-and-condition"));
-                }else{
+                } break;
+
+                default: {
                   Get.toNamed(RouteHelper.getNotificationRoute());
-                }
+                } break;
+              }
             }
             else {
               if (Get.find<AuthController>().isLoggedIn()) {
@@ -171,9 +194,9 @@ class _SplashScreenState extends State<SplashScreen> {
             children: [
               Image.asset(
                 Images.logo,
-                width: Dimensions.LOGO_SIZE,
+                width: Dimensions.logoSize,
               ),
-              SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
+              const SizedBox(height: Dimensions.paddingSizeLarge),
             ],
           ) : NoInternetScreen(child: SplashScreen(body: widget.body)),
         );

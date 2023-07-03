@@ -5,7 +5,7 @@ class CartWidget extends GetView<CartController> {
   final Color color;
   final double size;
   final bool fromRestaurant;
-  CartWidget({required this.color, required this.size, this.fromRestaurant = false});
+  const CartWidget({super.key, required this.color, required this.size, this.fromRestaurant = false});
 
   @override
   Widget build(BuildContext context) {
@@ -13,11 +13,11 @@ class CartWidget extends GetView<CartController> {
 
       Image.asset(Images.cart, width: size, height: size, color: color),
       GetBuilder<CartController>(builder: (cartController) {
-        return cartController.cartList.length > 0 ? Positioned(
+        return cartController.cartList.isNotEmpty ? Positioned(
           top: -5, right: -5,
           child: Container(
             height: size < 20 ? 10 : size/2, width: size < 20 ? 10 : size/2, alignment: Alignment.center,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               shape: BoxShape.circle, color: Colors.red,
             ),
             child: Text(
@@ -29,7 +29,7 @@ class CartWidget extends GetView<CartController> {
             ),
           ),
         ):
-        SizedBox();
+        const SizedBox();
       }),
 
     ]);

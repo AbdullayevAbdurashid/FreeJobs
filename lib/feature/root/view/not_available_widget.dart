@@ -5,7 +5,7 @@ class NotAvailableWidget extends StatelessWidget {
   final bool? online;
   final double? fontSize;
   final BorderRadius? borderRadius;
-  NotAvailableWidget({required this.online, this.fontSize = 8, this.borderRadius});
+  const NotAvailableWidget({super.key, required this.online, this.fontSize = 8, this.borderRadius});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +13,7 @@ class NotAvailableWidget extends StatelessWidget {
       left: 0, bottom: 0, right: 0,
       child: Container(
         alignment: Alignment.center,
-        padding: EdgeInsets.all(2),
+        padding: const EdgeInsets.all(2),
         decoration: BoxDecoration(
           borderRadius: borderRadius,
           color: online! ? Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6) : Theme.of(context).disabledColor,

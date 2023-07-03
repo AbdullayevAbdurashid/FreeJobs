@@ -4,7 +4,7 @@ import 'package:demandium/core/core_export.dart';
 class AddAddressScreen extends StatefulWidget {
   final bool fromCheckout;
   final AddressModel? address;
-  AddAddressScreen({required this.fromCheckout, this.address});
+  const AddAddressScreen({super.key, required this.fromCheckout, this.address});
 
   @override
   State<AddAddressScreen> createState() => _AddAddressScreenState();
@@ -27,7 +27,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
   final FocusNode _numberNode = FocusNode();
   LatLng? _initialPosition;
   final GlobalKey<FormState> addressFormKey = GlobalKey<FormState>();
-  Completer<GoogleMapController> _controller = Completer();
+  final Completer<GoogleMapController> _controller = Completer();
   CameraPosition? _cameraPosition;
 
   @override
@@ -36,13 +36,13 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
     Get.find<LocationController>().resetAddress();
     if(widget.address != null) {
       _serviceAddressController.text = widget.address!.address!;
-      _contactPersonNameController.text = widget.address!.contactPersonName!;
-      _contactPersonNumberController.text = widget.address!.contactPersonNumber!;
+      _contactPersonNameController.text = widget.address?.contactPersonName?.replaceAll("null null", "")??"";
+      _contactPersonNumberController.text = widget.address?.contactPersonNumber?.replaceAll("null", "")??"";
       _cityController.text = widget.address!.city ?? '';
       _countryController.text = widget.address!.country ?? '';
       _streetController.text = widget.address!.street ?? 'street'.toString();
       _zipController.text = widget.address!.zipCode ?? '';
-      Get.find<LocationController>().updateAddressLabel(addressLabelString: widget.address!.addressLabel);
+      Get.find<LocationController>().updateAddressLabel(addressLabelString: widget.address!.addressLabel??"");
 
     }else{
       Get.find<LocationController>().updateAddressLabel(addressLabelString: 'home'.tr);
@@ -64,6 +64,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
     }
   }
 
+  @override
   void dispose(){
     super.dispose();
   }
@@ -78,22 +79,22 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
             key: addressFormKey,
             child: Column(children: [
               Expanded(child: Scrollbar(child: SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
-                padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT, vertical: Dimensions.PADDING_SIZE_SMALL),
-                child: Center(child: SizedBox(width: Dimensions.WEB_MAX_WIDTH, child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                physics: const BouncingScrollPhysics(),
+                padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault, vertical: Dimensions.paddingSizeSmall),
+                child: Center(child: SizedBox(width: Dimensions.webMaxWidth, child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Container(
                     height: 140,
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                      borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                       border: Border.all(width: 2, color: Theme.of(context).primaryColor),
                     ),
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                      borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                       child: Stack(clipBehavior: Clip.none, children: [
                         if(_initialPosition != null)
                           GoogleMap(
-                            minMaxZoomPreference: MinMaxZoomPreference(0, 16),
+                            minMaxZoomPreference: const MinMaxZoomPreference(0, 16),
                             onTap: (latLng) {
                               Get.toNamed(
                                 RouteHelper.getPickMapRoute('add-address', false,  '${widget.fromCheckout}'),
@@ -112,7 +113,9 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                               try{
                                 locationController.updatePosition(_cameraPosition!, true, formCheckout: widget.fromCheckout);
                               }catch(error){
-                                print('error : $error');
+                                if (kDebugMode) {
+                                  print('error : $error');
+                                }
                               }
                             },
                             onCameraMove: ((position) => _cameraPosition = position),
@@ -128,12 +131,12 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                               }
                             },
                           ),
-                        locationController.loading ? Center(child: CircularProgressIndicator()) : SizedBox(),
+                        locationController.loading ? const Center(child: CircularProgressIndicator()) : const SizedBox(),
                         Center(child: !locationController.loading ? Image.asset(Images.marker, height: 50, width: 50)
-                            : CircularProgressIndicator()),
+                            : const CircularProgressIndicator()),
                         Positioned(
                           bottom: 10,
-                          left:Get.find<LocalizationController>().isLtr ? null: Dimensions.PADDING_SIZE_SMALL,
+                          left:Get.find<LocalizationController>().isLtr ? null: Dimensions.paddingSizeSmall,
                           right:Get.find<LocalizationController>().isLtr ?  0:null,
                           child: InkWell(
                             onTap: () => _checkPermission(() {
@@ -141,15 +144,15 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                             }),
                             child: Container(
                               width: 30, height: 30,
-                              margin: EdgeInsets.only(right: Dimensions.PADDING_SIZE_LARGE),
-                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL), color:Theme.of(context).primaryColorLight.withOpacity(.5)),
+                              margin: const EdgeInsets.only(right: Dimensions.paddingSizeLarge),
+                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.radiusSmall), color:Theme.of(context).primaryColorLight.withOpacity(.5)),
                               child: Icon(Icons.my_location, color: Theme.of(context).primaryColor, size: 20),
                             ),
                           ),
                         ),
                         Positioned(
                           top: 10,
-                          left:Get.find<LocalizationController>().isLtr ? null: Dimensions.PADDING_SIZE_SMALL,
+                          left:Get.find<LocalizationController>().isLtr ? null: Dimensions.paddingSizeSmall,
                           right:Get.find<LocalizationController>().isLtr ?  0:null,
                           child: InkWell(
                             onTap: () {
@@ -163,8 +166,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                             },
                             child: Container(
                               width: 30, height: 30,
-                              margin: EdgeInsets.only(right: Dimensions.PADDING_SIZE_LARGE),
-                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL), 
+                              margin: const EdgeInsets.only(right: Dimensions.paddingSizeLarge),
+                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                                   color: Theme.of(context).primaryColorLight.withOpacity(.5)),
                               child: Icon(Icons.fullscreen, color: Theme.of(context).primaryColor, size: 20),
                             ),
@@ -173,7 +176,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                       ]),
                     ),
                   ),
-                  SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+                  const SizedBox(height: Dimensions.paddingSizeSmall),
 
                   Center(
                       child: Text(
@@ -181,27 +184,27 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                         style: ubuntuRegular.copyWith(
                             color: Theme.of(context).disabledColor,
                             fontSize: Dimensions.fontSizeExtraSmall),
-                  )),
-                  SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
-                  AddressLabelWidget(),
+                      )),
+                  const SizedBox(height: Dimensions.paddingSizeLarge),
+                  const AddressLabelWidget(),
 
-                  SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
+                  const SizedBox(height: Dimensions.paddingSizeDefault),
                   CustomTextField(
-                    title: 'service_address'.tr,
-                    hintText: 'service_address_hint'.tr,
-                    inputType: TextInputType.streetAddress,
-                    focusNode: _serviceAddressNode,
-                    nextFocus: _streetNode,
-                    controller: _serviceAddressController..text = locationController.address,
-                    onChanged: (text) => locationController.setPlaceMark(text),
-                    onValidate: (String? value){
-                      return FormValidation().isValidLength(value!);
-                    }
+                      title: 'service_address'.tr,
+                      hintText: 'service_address_hint'.tr,
+                      inputType: TextInputType.streetAddress,
+                      focusNode: _serviceAddressNode,
+                      nextFocus: _streetNode,
+                      controller: _serviceAddressController..text = locationController.address,
+                      onChanged: (text) => locationController.setPlaceMark(text),
+                      onValidate: (String? value){
+                        return FormValidation().isValidLength(value!);
+                      }
                   ),
-                  SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
+                  const SizedBox(height: Dimensions.paddingSizeLarge),
 
                   CustomTextField(
-                    title: 'street'.tr,
+                      title: 'street'.tr,
                       hintText: 'street'.tr,
                       inputType: TextInputType.streetAddress,
                       focusNode: _streetNode,
@@ -211,10 +214,10 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                         return FormValidation().isValidLength(value!);
                       }
                   ),
-                  SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
+                  const SizedBox(height: Dimensions.paddingSizeLarge),
 
                   CustomTextField(
-                    title: 'city'.tr,
+                      title: 'city'.tr,
                       hintText: 'city'.tr,
                       inputType: TextInputType.streetAddress,
                       focusNode: _cityNode,
@@ -224,27 +227,27 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                         return FormValidation().isValidLength(value!);
                       }
                   ),
-                  SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
+                  const SizedBox(height: Dimensions.paddingSizeLarge),
 
                   CustomTextField(
-                    title: 'country'.tr,
-                    hintText: 'country'.tr,
-                    inputType: TextInputType.text,
-                    focusNode: _countryNode,
-                    inputAction: TextInputAction.next,
-                    nextFocus: _zipNode,
-                    controller: _countryController,
-                    onValidate: (String? value){
+                      title: 'country'.tr,
+                      hintText: 'country'.tr,
+                      inputType: TextInputType.text,
+                      focusNode: _countryNode,
+                      inputAction: TextInputAction.next,
+                      nextFocus: _zipNode,
+                      controller: _countryController,
+                      onValidate: (String? value){
                         return FormValidation().isValidLength(value!);
-                    }
+                      }
                   ),
-                  SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
+                  const SizedBox(height: Dimensions.paddingSizeLarge),
 
 
                   CustomTextField(
                     title: 'zip'.tr,
                     hintText: 'zip'.tr,
-                    inputType: TextInputType.number,
+                    inputType: TextInputType.text,
                     focusNode: _zipNode,
                     nextFocus: _nameNode,
                     controller: _zipController,
@@ -252,7 +255,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                       return FormValidation().isValidLength(value!);
                     },
                   ),
-                  SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
+                  const SizedBox(height: Dimensions.paddingSizeLarge),
 
                   CustomTextField(
                     title: 'contact_person_name'.tr,
@@ -266,7 +269,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                       return FormValidation().isValidLength(value!);
                     },
                   ),
-                  SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
+                  const SizedBox(height: Dimensions.paddingSizeLarge),
 
                   CustomTextField(
                     title: 'contact_person_number'.tr,
@@ -279,13 +282,13 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                       return FormValidation().isValidLength(value!);
                     },
                   ),
-                  SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
+                  const SizedBox(height: Dimensions.paddingSizeLarge),
                 ]))),
               ))),
 
               Container(
-                width: Dimensions.WEB_MAX_WIDTH,
-                padding: EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
+                width: Dimensions.webMaxWidth,
+                padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
                 child: !locationController.isLoading ? CustomButton(
                   buttonText: widget.address == null ? 'save_location'.tr : 'update_address'.tr,
                   onPressed:  () {
@@ -293,10 +296,13 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                     if(isRedundentClick(DateTime.now())){
                       return;
                     }
-                    if(isValid){
+
+                    if(locationController.zoneID.isEmpty){
+                      customSnackBar('this_service_not_available'.tr);
+                    }else if(isValid ){
                       addressFormKey.currentState!.save();
 
-                      AddressModel _addressModel = AddressModel(
+                      AddressModel addressModel = AddressModel(
                         id: widget.address != null ? widget.address!.id : null,
                         addressType: locationController.selectedAddressType.name,
                         addressLabel:locationController.selectedAddressLabel.name.toLowerCase(),
@@ -312,9 +318,9 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                         street: _streetController.text,
                       );
                       if(widget.address == null) {
-                        locationController.addAddress(_addressModel, true);
+                        locationController.addAddress(addressModel, true);
                       }else {
-                        locationController.updateAddress(_addressModel, widget.address!.id!).then((response) {
+                        locationController.updateAddress(addressModel, widget.address!.id!).then((response) {
                           if(response.isSuccess!) {
                             Get.back();
                             customSnackBar(response.message!.tr,isError: false);
@@ -325,7 +331,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                       }
                     }
                   },
-                ) : Center(child: CircularProgressIndicator()),
+                ) : const Center(child: CircularProgressIndicator()),
               ),
 
             ]),
@@ -343,10 +349,9 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
     if(permission == LocationPermission.denied) {
       customSnackBar('you_have_to_allow'.tr);
     }else if(permission == LocationPermission.deniedForever) {
-      Get.dialog(PermissionDialog());
+      Get.dialog(const PermissionDialog());
     }else {
       onTap();
     }
   }
 }
-

@@ -3,23 +3,22 @@ import 'package:demandium/feature/home/web/web_banner_shimmer.dart';
 import 'package:get/get.dart';
 
 class WebCampaignView extends GetView<BannerController> {
+  const WebCampaignView({super.key});
+
   @override
   Widget build(BuildContext context) {
     bool isLtr = Get.find<LocalizationController>().isLtr;
 
-    final PageController _pageController = PageController();
+    final PageController pageController = PageController();
     return GetBuilder<CampaignController>(
-      initState: (state){
-        Get.find<CampaignController>().getCampaignList(true);
-      },
       builder: (campaignController){
-        if(campaignController.campaignList != null && campaignController.campaignList!.length == 0){
-          return SizedBox();
+        if(campaignController.campaignList != null && campaignController.campaignList!.isEmpty){
+          return const SizedBox();
         }else{
           return Container(
             alignment: Alignment.center,
             child: SizedBox(
-                width: Dimensions.WEB_MAX_WIDTH,
+                width: Dimensions.webMaxWidth,
                 height: 250,
                 child: campaignController.campaignList != null ?
 
@@ -33,7 +32,7 @@ class WebCampaignView extends GetView<BannerController> {
                 campaignController.navigateFromCampaign(campaignController.campaignList![0].id!,campaignController.campaignList![0].discount!.discountType!);
               },
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                 child: CustomImage(
                   image: '${Get.find<SplashController>().configModel.content!.imageBaseUrl}/campaign/${campaignController.campaignList![0].coverImage}',
                   fit: BoxFit.fill,
@@ -47,13 +46,13 @@ class WebCampaignView extends GetView<BannerController> {
               children: [
 
                 PageView.builder(
-                  controller: _pageController,
+                  controller: pageController,
                   itemCount: (campaignController.campaignList!.length/2).ceil(),
                   itemBuilder: (context, index) {
-                    String? _baseUrl =  Get.find<SplashController>().configModel.content!.imageBaseUrl;
+                    String? baseUrl =  Get.find<SplashController>().configModel.content!.imageBaseUrl;
                     int index1 = index * 2;
                     int index2 = (index * 2) + 1;
-                    bool _hasSecond = index2 < campaignController.campaignList!.length;
+                    bool hasSecond = index2 < campaignController.campaignList!.length;
                     return Row(children: [
                       Expanded(child: InkWell(
                         onTap: () {
@@ -63,16 +62,16 @@ class WebCampaignView extends GetView<BannerController> {
                           campaignController.navigateFromCampaign(campaignController.campaignList![index1].id!,campaignController.campaignList![index1].discount!.discountType!);
                         },
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                          borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                           child: CustomImage(
-                            image: '$_baseUrl/campaign/${campaignController.campaignList![index1].coverImage}', fit: BoxFit.cover, height: 220,
+                            image: '$baseUrl/campaign/${campaignController.campaignList![index1].coverImage}', fit: BoxFit.cover, height: 220,
                           ),
                         ),
                       )),
 
-                      SizedBox(width: Dimensions.PADDING_SIZE_LARGE),
+                      const SizedBox(width: Dimensions.paddingSizeLarge),
 
-                      Expanded(child: _hasSecond ? InkWell(
+                      Expanded(child: hasSecond ? InkWell(
                         onTap: () {
                           if(isRedundentClick(DateTime.now())){
                             return;
@@ -80,12 +79,12 @@ class WebCampaignView extends GetView<BannerController> {
                           campaignController.navigateFromCampaign(campaignController.campaignList![index2].id!,campaignController.campaignList![index2].discount!.discountType!);
                         },
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                          borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                           child: CustomImage(
-                            image: '$_baseUrl/campaign/${campaignController.campaignList![index2].coverImage}', fit: BoxFit.cover, height: 220,
+                            image: '$baseUrl/campaign/${campaignController.campaignList![index2].coverImage}', fit: BoxFit.cover, height: 220,
                           ),
                         ),
-                      ) :(!_hasSecond && campaignController.campaignList!.length> 2 ) ? InkWell(
+                      ) :(!hasSecond && campaignController.campaignList!.length> 2 ) ? InkWell(
                         onTap: () {
                           if(isRedundentClick(DateTime.now())){
                             return;
@@ -93,12 +92,12 @@ class WebCampaignView extends GetView<BannerController> {
                           campaignController.navigateFromCampaign(campaignController.campaignList![0].id!,campaignController.campaignList![0].discount!.discountType!);
                         },
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                          borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                           child: CustomImage(
-                            image: '$_baseUrl/campaign/${campaignController.campaignList![0].coverImage}', fit: BoxFit.cover, height: 220,
+                            image: '$baseUrl/campaign/${campaignController.campaignList![0].coverImage}', fit: BoxFit.cover, height: 220,
                           ),
                         ),
-                      ) :SizedBox()),
+                      ) :const SizedBox()),
 
                     ]);
                   },
@@ -109,9 +108,9 @@ class WebCampaignView extends GetView<BannerController> {
                 Positioned(
                   top: 0, bottom: 0, left: 0,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_EXTRA_LARGE),
+                    padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraLarge),
                     child: InkWell(
-                      onTap: () => _pageController.previousPage(duration: Duration(seconds: 1), curve: Curves.easeInOut),
+                      onTap: () => pageController.previousPage(duration: const Duration(seconds: 1), curve: Curves.easeInOut),
                       child: Container(
                         height: 40, width: 40, alignment: Alignment.center,
                         decoration: BoxDecoration(
@@ -121,12 +120,12 @@ class WebCampaignView extends GetView<BannerController> {
                         ),
                         child: Padding(
                           padding:  EdgeInsets.only(
-                            left: isLtr ?  Dimensions.PADDING_SIZE_SMALL : 0.0,
-                            right: !isLtr ?  Dimensions.PADDING_SIZE_SMALL : 0.0,
+                            left: isLtr ?  Dimensions.paddingSizeSmall : 0.0,
+                            right: !isLtr ?  Dimensions.paddingSizeSmall : 0.0,
                           ),
                           child: Icon(
                               Icons.arrow_back_ios,
-                              size: Dimensions.WEB_ARROW_SIZE,
+                              size: Dimensions.webArrowSize,
                               color: dark.cardColor
                           ),
                         ),
@@ -134,15 +133,15 @@ class WebCampaignView extends GetView<BannerController> {
                     ),
                   ),
                 ) :
-                SizedBox(width: 0.0,),
+                const SizedBox(width: 0.0,),
 
                 campaignController.currentIndex != ((campaignController.campaignList!.length/2).ceil()-1) ?
                 Positioned(
                   top: 0, bottom: 0, right: 0,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_EXTRA_LARGE),
+                    padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraLarge),
                     child: InkWell(
-                      onTap: () => _pageController.nextPage(duration: Duration(seconds: 1), curve: Curves.easeInOut),
+                      onTap: () => pageController.nextPage(duration: const Duration(seconds: 1), curve: Curves.easeInOut),
                       child: Container(
                         height: 40, width: 40, alignment: Alignment.center,
                         decoration: BoxDecoration(
@@ -152,17 +151,17 @@ class WebCampaignView extends GetView<BannerController> {
                         ),
                         child: Icon(
                             Icons.arrow_forward_ios,
-                            size: Dimensions.WEB_ARROW_SIZE,
+                            size: Dimensions.webArrowSize,
                             color: dark.cardColor
                         ),
                       ),
                     ),
                   ),
                 ) :
-                SizedBox(width: 0.0,),
+                const SizedBox(width: 0.0,),
 
               ],
-            ) : WebBannerShimmer()),
+            ) : const WebBannerShimmer()),
           );
         }
 
@@ -174,44 +173,44 @@ class WebCampaignView extends GetView<BannerController> {
 
 class WebCampaignShimmer extends StatelessWidget {
   final bool enabled;
-  WebCampaignShimmer({required this.enabled});
+  const WebCampaignShimmer({super.key, required this.enabled});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: Dimensions.WEB_MAX_WIDTH / 3.5,
+    return SizedBox(
+      width: Dimensions.webMaxWidth / 3.5,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,),
+          const SizedBox(height: Dimensions.paddingSizeDefault,),
           Container(
             height: 30,
             width: 100,
             decoration: BoxDecoration(
               color: Colors.grey[Get.isDarkMode?700:300],
-              borderRadius: BorderRadius.all(Radius.circular(Dimensions.RADIUS_DEFAULT,)),
+              borderRadius: const BorderRadius.all(Radius.circular(Dimensions.radiusDefault,)),
             ),
           ),
-          SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,),
+          const SizedBox(height: Dimensions.paddingSizeDefault,),
           ListView.builder(
             shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             itemCount: 3,
             itemBuilder: (context, index){
               return Padding(
-                padding: const EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_SMALL),
+                padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall),
                 child: Container(
                   height: 130, width: 200,
-                  margin: EdgeInsets.only(right: Dimensions.PADDING_SIZE_SMALL),
-                  padding: EdgeInsets.all(Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                  margin: const EdgeInsets.only(right: Dimensions.paddingSizeSmall),
+                  padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
                   decoration: BoxDecoration(
                     color: Get.isDarkMode? Colors.grey[700]:Colors.white,
-                    borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                    borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                     boxShadow: Get.isDarkMode?null:[BoxShadow(color: Colors.grey[300]!, blurRadius: 10, spreadRadius: 1)],
                   ),
                   child: Shimmer(
-                    duration: Duration(seconds: 2),
-                    interval: Duration(seconds: 1),
+                    duration: const Duration(seconds: 2),
+                    interval: const Duration(seconds: 1),
                     enabled: enabled,
                     child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -219,7 +218,7 @@ class WebCampaignShimmer extends StatelessWidget {
                       Container(
                         height: 120, width: 90,
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                            borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                             color: Colors.grey[Get.isDarkMode?400:300]
                         ),
                       ),
@@ -229,11 +228,11 @@ class WebCampaignShimmer extends StatelessWidget {
                         child: Column(crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.start, children: [
                           Container(height: 15, width: 100, color: Colors.grey[Get.isDarkMode?400:300]),
-                          SizedBox(height: 5),
-                          RatingBar(rating: 0.0, size: 12, ratingCount: 0),
-                          SizedBox(height: 5),
+                          const SizedBox(height: 5),
+                          const RatingBar(rating: 0.0, size: 12, ratingCount: 0),
+                          const SizedBox(height: 5),
                           Container(height: 10, width: 130, color: Colors.grey[Get.isDarkMode?400:300]),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           Container(height: 10, width: 30, color: Colors.grey[Get.isDarkMode?400:300]),
                         ]),
                       ),

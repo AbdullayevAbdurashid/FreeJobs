@@ -4,20 +4,20 @@ class RatingBar extends StatelessWidget {
   final double? rating;
   final double? size;
   final int? ratingCount;
-  RatingBar({required this.rating, this.ratingCount, this.size = 18});
+  const RatingBar({super.key, required this.rating, this.ratingCount, this.size = 18});
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> _starList = [];
+    List<Widget> starList = [];
 
     int realNumber = rating!.floor();
     int partNumber = ((rating! - realNumber) * 10).ceil();
 
     for (int i = 0; i < 5; i++) {
       if (i < realNumber) {
-        _starList.add(Icon(Icons.star, color: Theme.of(context).colorScheme.primary, size: size));
+        starList.add(Icon(Icons.star, color: Theme.of(context).colorScheme.primary, size: size));
       } else if (i == realNumber) {
-        _starList.add(SizedBox(
+        starList.add(SizedBox(
           height: size,
           width: size,
           child: Stack(
@@ -32,17 +32,17 @@ class RatingBar extends StatelessWidget {
           ),
         ));
       } else {
-        _starList.add(Icon(Icons.star, color: Colors.grey, size: size));
+        starList.add(Icon(Icons.star, color: Colors.grey, size: size));
       }
     }
-    ratingCount != null ? _starList.add(Padding(
-      padding: EdgeInsets.only(left: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+    ratingCount != null ? starList.add(Padding(
+      padding: const EdgeInsets.only(left: Dimensions.paddingSizeExtraSmall),
       child: Directionality(textDirection: TextDirection.ltr, child: Text('($ratingCount)', style: ubuntuRegular.copyWith(fontSize: size!*0.8, color: Theme.of(context).disabledColor))),
-    )) : SizedBox();
+    )) : const SizedBox();
 
     return Row(
       mainAxisSize: MainAxisSize.min,
-      children: _starList,
+      children: starList,
     );
   }
 }

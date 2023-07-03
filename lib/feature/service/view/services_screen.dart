@@ -13,9 +13,9 @@ class _ServicesScreenState extends State<ServicesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AddressAppBar(),
+      appBar: const AddressAppBar(),
       body: SingleChildScrollView(
-        child: Center(child: SizedBox(width: Dimensions.WEB_MAX_WIDTH, child: Column(children: [
+        child: Center(child: SizedBox(width: Dimensions.webMaxWidth, child: Column(children: [
           ServiceView(service: Get.find<ServiceController>().popularServiceList!),
         ]))),
       ),

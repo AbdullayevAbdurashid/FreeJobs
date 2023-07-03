@@ -1,4 +1,5 @@
 import 'package:demandium/components/menu_drawer.dart';
+import 'package:demandium/components/web_shadow_wrap.dart';
 import 'package:demandium/feature/cart/widget/available_provider_widgets.dart';
 import 'package:demandium/feature/cart/widget/selected_provider_widget.dart';
 import 'package:demandium/feature/cart/widget/unselected_provider_widget.dart';
@@ -7,185 +8,213 @@ import 'package:demandium/components/footer_base_view.dart';
 import 'package:demandium/core/core_export.dart';
 import 'package:demandium/feature/cart/widget/cart_product_widget.dart';
 
-class CartScreen extends StatelessWidget {
-  final fromNav;
-  CartScreen({@required this.fromNav});
+class CartScreen extends StatefulWidget {
+  final bool fromNav;
+  const CartScreen({super.key, required this.fromNav});
+
+  @override
+  State<CartScreen> createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+    if(Get.find<AuthController>().isLoggedIn()){
+      Get.find<LocationController>().getAddressList();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
 
 
     return Scaffold(
-      endDrawer:ResponsiveHelper.isDesktop(context) ? MenuDrawer():null,
+      endDrawer:ResponsiveHelper.isDesktop(context) ? const MenuDrawer():null,
       appBar: CustomAppBar(
-          title: 'cart'.tr,
-          isBackButtonExist: (ResponsiveHelper.isDesktop(context) || !fromNav)),
+        title: 'cart'.tr,
+        isBackButtonExist: (ResponsiveHelper.isDesktop(context) || !widget.fromNav),
+        onBackPressed: (){
+            if(Navigator.canPop(context)){
+              Get.back();
+            }else{
+              Get.offAllNamed(RouteHelper.getMainRoute("home"));
+            }
+        },
+      ),
       body: SafeArea(
         child: GetBuilder<CartController>(
           initState: (state) async {
-            await Get.find<CartController>().getCartListFromServer();
-            Get.find<CartController>().cartList.forEach((cart) async {
-              if (cart.service == null) {
-                await Get.find<CartController>().removeCartFromServer(cart.id);
-              }
-            });
+            if(Get.find<AuthController>().isLoggedIn()){
+              await Get.find<CartController>().getCartListFromServer();
+              Get.find<CartController>().cartList.forEach((cart) async {
+                if (cart.service == null) {
+                  await Get.find<CartController>().removeCartFromServer(cart.id);
+                }
+              });
+            }
           },
           builder: (cartController){
             return Column(
               children: [
                 Expanded(
                   child: FooterBaseView(
-                    isCenter: (cartController.cartList.length == 0),
-                    child: SizedBox(
-                      width: Dimensions.WEB_MAX_WIDTH,
-                      child: GetBuilder<CartController>(
-                        builder: (cartController) {
+                    isCenter: (cartController.cartList.isEmpty),
+                    child: WebShadowWrap(
+                      child: SizedBox(
+                        width: Dimensions.webMaxWidth,
+                        child: GetBuilder<CartController>(
+                          builder: (cartController) {
 
-                          if (cartController.isLoading) {
-                            return SizedBox(
-                              height: MediaQuery.of(context).size.height*0.85,
-                                child: Center(child: CustomLoader())
-                            );
-                          } else {
-                            if (cartController.cartList.length > 0) {
-                              return Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
+                            if (cartController.isLoading) {
+                              return SizedBox(
+                                height: MediaQuery.of(context).size.height*0.85,
+                                  child: const Center(child: CustomLoader())
+                              );
+                            } else {
+                              if (cartController.cartList.isNotEmpty) {
+                                return Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  "${cartController.cartList.length} ${'services_in_cart'.tr}",
+                                                  style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault,),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          GridView.builder(
+                                            key: UniqueKey(),
+                                            gridDelegate:
+                                            SliverGridDelegateWithFixedCrossAxisCount(
+                                              crossAxisSpacing: Dimensions.paddingSizeLarge,
+                                              mainAxisSpacing: ResponsiveHelper.isDesktop(context) ?
+                                              Dimensions.paddingSizeLarge :
+                                              Dimensions.paddingSizeMini,
+                                              childAspectRatio: ResponsiveHelper.isMobile(context) ?  5 : 6 ,
+                                              crossAxisCount: ResponsiveHelper.isMobile(context) ? 1 :cartController.cartList.length > 1 ? 2:1,
+                                              mainAxisExtent:ResponsiveHelper.isMobile(context) ? 115 : 125,
+                                            ),
+                                            physics: const NeverScrollableScrollPhysics(),
+                                            shrinkWrap: true,
+                                            itemCount: cartController.cartList.length,
+                                            itemBuilder: (context, index) {
+                                              return cartController.cartList[index].service != null
+                                                  ? CartServiceWidget(cart: cartController.cartList[index], cartIndex: index)
+                                                  : const SizedBox();
+                                            },
+                                          ),
+                                          const SizedBox(height: Dimensions.paddingSizeSmall),
+                                        ]),
+                                    if(ResponsiveHelper.isWeb() && !ResponsiveHelper.isTab(context) && !ResponsiveHelper.isMobile(context))
+                                      cartController.cartList.isNotEmpty ?
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault,),
+                                        child: Column(
+                                          children: [
+                                          const Divider(),
+                                          SizedBox(
+                                            height: 50,
+                                            child: Center(
+                                              child: Row(mainAxisAlignment: MainAxisAlignment.center,children:[
+
+                                                Text('${"total_price".tr} ',
+                                                  style: ubuntuRegular.copyWith(
+                                                    fontSize: Dimensions.fontSizeLarge,
+                                                    color: Theme.of(context).textTheme.bodyLarge!.color,
+                                                  ),
+                                                ),
+                                                Directionality(
+                                                  textDirection: TextDirection.ltr,
+                                                  child: Text(PriceConverter.convertPrice(Get.find<CartController>().totalPrice),
+                                                    style: ubuntuBold.copyWith(
+                                                      color: Theme.of(context).colorScheme.error,
+                                                      fontSize: Dimensions.fontSizeLarge,
+                                                    ),
+                                                  ),
+                                                )]),
+                                            ),
+                                          ),
+                                          Row(
                                             children: [
-                                              Text(
-                                                "${cartController.cartList.length} ${'services_in_cart'.tr}",
-                                                style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault,),
+                                              if(Get.find<SplashController>().configModel.content?.directProviderBooking==1)
+                                              cartController.preSelectedProvider?
+                                              GestureDetector(
+                                                onTap: (){
+                                                  showModalBottomSheet(
+                                                      useRootNavigator: true,
+                                                      isScrollControlled: true,
+                                                      backgroundColor: Colors.transparent,
+                                                      context: context, builder: (context) => const AvailableProviderWidget()
+                                                  );
+                                                },
+                                                child: const SelectedProductWidget(),
+                                              ): GestureDetector(
+                                                onTap: (){
+                                                  showModalBottomSheet(
+                                                      useRootNavigator: true,
+                                                      isScrollControlled: true,
+                                                      backgroundColor: Colors.transparent,
+                                                      context: context, builder: (context) => const AvailableProviderWidget()
+                                                  );
+                                                },
+                                                child: const UnselectedProductWidget(),
+                                              ),
+                                              if(Get.find<SplashController>().configModel.content?.directProviderBooking==1)
+                                              const SizedBox(width: Dimensions.paddingSizeSmall,),
+                                              Expanded(
+                                                child: Padding(
+                                                  padding: const EdgeInsets.symmetric(
+                                                    vertical: Dimensions.paddingSizeSmall,
+                                                  ),
+                                                  child: CustomButton(
+                                                    height: 50,
+                                                    width: Get.width,
+                                                    radius: Dimensions.radiusDefault,
+                                                    buttonText: 'proceed_to_checkout'.tr,
+                                                    onPressed: () {
+                                                      if (Get.find<AuthController>().isLoggedIn()) {
+                                                        Get.find<CheckOutController>().updateState(PageState.orderDetails);
+                                                        Get.toNamed(RouteHelper.getCheckoutRoute(RouteHelper.checkout,'orderDetails','null'));
+
+                                                      } else {
+                                                        Get.toNamed(RouteHelper.getNotLoggedScreen(RouteHelper.cart,"cart"));
+                                                      }
+                                                    },
+                                                  ),
+                                                ),
                                               ),
                                             ],
                                           ),
+                                        ],
                                         ),
-                                        GridView.builder(
-                                          key: UniqueKey(),
-                                          gridDelegate:
-                                          SliverGridDelegateWithFixedCrossAxisCount(
-                                            crossAxisSpacing: Dimensions.PADDING_SIZE_LARGE,
-                                            mainAxisSpacing: ResponsiveHelper.isDesktop(context) ?
-                                            Dimensions.PADDING_SIZE_LARGE :
-                                            Dimensions.PADDING_SIZE_MINI,
-                                            childAspectRatio: ResponsiveHelper.isMobile(context) ?  5 : 6 ,
-                                            crossAxisCount: ResponsiveHelper.isMobile(context) ? 1 :cartController.cartList.length > 1 ? 2:1,
-                                            mainAxisExtent:ResponsiveHelper.isMobile(context) ? 115 : 125,
-                                          ),
-                                          physics: NeverScrollableScrollPhysics(),
-                                          shrinkWrap: true,
-                                          itemCount: cartController.cartList.length,
-                                          itemBuilder: (context, index) {
-                                            return cartController.cartList[index].service != null
-                                                ? CartServiceWidget(cart: cartController.cartList[index], cartIndex: index)
-                                                : SizedBox();
-                                          },
-                                        ),
-                                        SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
-                                      ]),
-                                  if(ResponsiveHelper.isWeb() && !ResponsiveHelper.isTab(context) && !ResponsiveHelper.isMobile(context))
-                                    cartController.cartList.length > 0 ?
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT,),
-                                      child: Column(
-                                        children: [
-                                        Divider(),
-                                        Container(
-                                          height: 50,
-                                          child: Center(
-                                            child: Row(mainAxisAlignment: MainAxisAlignment.center,children:[
-
-                                              Text('${"total_price".tr} ',
-                                                style: ubuntuRegular.copyWith(
-                                                  fontSize: Dimensions.fontSizeLarge,
-                                                  color: Theme.of(context).textTheme.bodyLarge!.color,
-                                                ),
-                                              ),
-                                              Directionality(
-                                                textDirection: TextDirection.ltr,
-                                                child: Text('${PriceConverter.convertPrice(Get.find<CartController>().totalPrice)}',
-                                                  style: ubuntuBold.copyWith(
-                                                    color: Theme.of(context).colorScheme.error,
-                                                    fontSize: Dimensions.fontSizeLarge,
-                                                  ),
-                                                ),
-                                              )]),
-                                          ),
-                                        ),
-                                        Row(
-                                          children: [
-                                            cartController.preSelectedProvider?
-                                            GestureDetector(
-                                              onTap: (){
-                                                showModalBottomSheet(
-                                                    useRootNavigator: true,
-                                                    isScrollControlled: true,
-                                                    backgroundColor: Colors.transparent,
-                                                    context: context, builder: (context) => AvailableProviderWidget()
-                                                );
-                                              },
-                                              child: SelectedProductWidget(),
-                                            ): GestureDetector(
-                                              onTap: (){
-                                                showModalBottomSheet(
-                                                    useRootNavigator: true,
-                                                    isScrollControlled: true,
-                                                    backgroundColor: Colors.transparent,
-                                                    context: context, builder: (context) => AvailableProviderWidget()
-                                                );
-                                              },
-                                              child: UnselectedProductWidget(),
-                                            ),
-                                            SizedBox(width: Dimensions.PADDING_SIZE_SMALL,),
-                                            Expanded(
-                                              child: Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                  vertical: Dimensions.PADDING_SIZE_SMALL,
-                                                ),
-                                                child: CustomButton(
-                                                  height: 50,
-                                                  width: Get.width,
-                                                  radius: Dimensions.RADIUS_DEFAULT,
-                                                  buttonText: 'proceed_to_checkout'.tr,
-                                                  onPressed: () {
-                                                    if (Get.find<AuthController>().isLoggedIn()) {
-                                                      Get.find<CheckOutController>().updateState(PageState.orderDetails);
-                                                      Get.toNamed(RouteHelper.getCheckoutRoute(RouteHelper.checkout,'orderDetails','null'));
-
-                                                    } else {
-                                                      Get.toNamed(RouteHelper.getSignInRoute(RouteHelper.main));
-                                                    }
-                                                  },
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                      ),
-                                    ):
-                                    SizedBox(),
-                                ],
-                              );
-                            } else {
-                              return NoDataScreen(
-                                text: "cart_is_empty".tr,
-                                type: NoDataType.CART,
-                              );
+                                      ):
+                                      const SizedBox(),
+                                  ],
+                                );
+                              } else {
+                                return NoDataScreen(
+                                  text: "cart_is_empty".tr,
+                                  type: NoDataType.cart,
+                                );
+                              }
                             }
-                          }
-                        },
+                          },
+                        ),
                       ),
                     ),
                   ),
                 ),
-                if((ResponsiveHelper.isTab(context) || ResponsiveHelper.isMobile(context))&& cartController.cartList.length > 0 )
+                if((ResponsiveHelper.isTab(context) || ResponsiveHelper.isMobile(context))&& cartController.cartList.isNotEmpty )
                 Column(children: [
                   Divider(height: 2,color: Theme.of(context).shadowColor,),
                   Container(
@@ -216,13 +245,15 @@ class CartScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Padding(padding: EdgeInsets.only(
-                      left: Dimensions.PADDING_SIZE_DEFAULT,
-                      right: Dimensions.PADDING_SIZE_DEFAULT,
-                      bottom: Dimensions.PADDING_SIZE_SMALL,
+                  Padding(padding: const EdgeInsets.only(
+                      left: Dimensions.paddingSizeDefault,
+                      right: Dimensions.paddingSizeDefault,
+                      bottom: Dimensions.paddingSizeSmall,
                     ),
                     child: Row(
                       children: [
+
+                        if(Get.find<SplashController>().configModel.content?.directProviderBooking==1)
                         cartController.preSelectedProvider?
                         GestureDetector(
                           onTap: (){
@@ -230,34 +261,37 @@ class CartScreen extends StatelessWidget {
                                 useRootNavigator: true,
                                 isScrollControlled: true,
                                 backgroundColor: Colors.transparent,
-                                context: context, builder: (context) => AvailableProviderWidget()
+                                context: context, builder: (context) => const AvailableProviderWidget()
                             );
                           },
-                          child: SelectedProductWidget(),
+                          child: const SelectedProductWidget(),
                         ): GestureDetector(
                           onTap: (){
                             showModalBottomSheet(
                                 useRootNavigator: true,
                                 isScrollControlled: true,
                                 backgroundColor: Colors.transparent,
-                                context: context, builder: (context) => AvailableProviderWidget()
+                                context: context, builder: (context) => const AvailableProviderWidget()
                             );
                           },
-                          child: UnselectedProductWidget(),
+                          child: const UnselectedProductWidget(),
                         ),
-                        SizedBox(width: Dimensions.PADDING_SIZE_EIGHT,),
+                        if(Get.find<SplashController>().configModel.content?.directProviderBooking==1)
+                        const SizedBox(width: Dimensions.paddingSizeEight,),
+
+
                         Expanded(
                           child: CustomButton(
                             width: Get.width,
                             height:  ResponsiveHelper.isDesktop(context)? 50 : 45,
-                            radius: Dimensions.RADIUS_DEFAULT,
+                            radius: Dimensions.radiusDefault,
                             buttonText: 'proceed_to_checkout'.tr,
                             onPressed: () {
                               if (Get.find<AuthController>().isLoggedIn()) {
                                 Get.find<CheckOutController>().updateState(PageState.orderDetails);
                                 Get.toNamed(RouteHelper.getCheckoutRoute('cart','orderDetails','null'));
                               } else {
-                                Get.toNamed(RouteHelper.getSignInRoute(RouteHelper.main));
+                                Get.toNamed(RouteHelper.getNotLoggedScreen(RouteHelper.cart,"cart"));
                               }
                             },
                           ),
@@ -275,6 +309,4 @@ class CartScreen extends StatelessWidget {
       // bottomSheet: FooterView(),
     );
   }
-
-
 }

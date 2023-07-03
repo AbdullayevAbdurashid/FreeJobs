@@ -31,7 +31,7 @@ class InvoiceController {
        phone: bookingDetailsContent.provider != null? bookingDetailsContent.provider!.companyPhone!: '',
       ),
       serviceman: Serviceman(
-        name: bookingDetailsContent.serviceman != null? bookingDetailsContent.serviceman!.user!.firstName!+ " "+ bookingDetailsContent.serviceman!.user!.lastName!:'',
+        name: bookingDetailsContent.serviceman != null? "${bookingDetailsContent.serviceman!.user!.firstName!} ${bookingDetailsContent.serviceman!.user!.lastName!}":'',
         phone: bookingDetailsContent.serviceman != null? bookingDetailsContent.serviceman!.user!.phone!: '',
       ),
       info: InvoiceInfo(
@@ -53,7 +53,7 @@ class InvoiceController {
         buildHeader(invoice,bookingDetailsContent),
         SizedBox(height: 0.8 * PdfPageFormat.cm),
         buildInvoice(invoice),
-        SizedBox(height:Dimensions.PADDING_SIZE_DEFAULT),
+        SizedBox(height:Dimensions.paddingSizeDefault),
         buildTotal(bookingDetailsContent,controller,invoice.info.paymentStatus),
       ],
       footer: (context) => buildFooter(bookingDetailsContent),
@@ -83,13 +83,13 @@ class InvoiceController {
             address: content.serviceAddress != null ?
             "${content.serviceAddress!.address!.contains('null') ? '':
             content.serviceAddress!.address}" : '',
-            email: "${content.customer?.email??""}",
-            phone:content.customer!.phone != null ?  "${content.customer!.phone!}" : '',
+            email: content.customer?.email??"",
+            phone:content.customer!.phone != null ?  content.customer!.phone! : '',
           ),
           Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-            SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+            SizedBox(height: Dimensions.paddingSizeSmall),
             buildProviderSection(invoice.provider,invoice.serviceman),
           ])
         ],
@@ -126,7 +126,7 @@ class InvoiceController {
       Text(serviceman.name),
       // Text(provider.address),
       Text(serviceman.phone),
-      SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
+      SizedBox(height: Dimensions.paddingSizeDefault),
       if(provider.name != '' && provider.phone != '')
         Text("Provider Details", style: TextStyle(fontWeight: FontWeight.bold)),
       Text(provider.name),
@@ -211,8 +211,8 @@ class InvoiceController {
     }).toList();
 
     return ClipRRect(
-      horizontalRadius: Dimensions.PADDING_SIZE_EXTRA_SMALL,
-      verticalRadius: Dimensions.PADDING_SIZE_EXTRA_SMALL,
+      horizontalRadius: Dimensions.paddingSizeExtraSmall,
+      verticalRadius: Dimensions.paddingSizeExtraSmall,
       child:  Container(
           color:  PdfColors.grey300,
           child: Table.fromTextArray(
@@ -224,7 +224,7 @@ class InvoiceController {
             },
             border: null,
             headerStyle: TextStyle(fontWeight: FontWeight.bold,),
-            headerDecoration: BoxDecoration(color: PdfColors.grey400),
+            headerDecoration: const BoxDecoration(color: PdfColors.grey400),
             cellHeight: 30,
             cellAlignments: {
               0: Alignment.centerLeft,
@@ -245,9 +245,9 @@ class InvoiceController {
       BookingDetailsContent bookingDetailsContent,
       BookingDetailsTabsController controller,
       String paymentStatus) {
-    double _serviceDiscount = 0;
+    double serviceDiscount = 0;
     bookingDetailsContent.detail?.forEach((service) {
-      _serviceDiscount = _serviceDiscount + service.discountAmount!;
+      serviceDiscount = serviceDiscount + service.discountAmount!;
     });
     return Container(
       alignment: Alignment.centerRight,
@@ -276,7 +276,7 @@ class InvoiceController {
 
                 buildText(
                   title: 'Service discount',
-                  value: '(-) ${_serviceDiscount.toString()}',
+                  value: '(-) ${serviceDiscount.toString()}',
                   unite: true,
                 ),
                 buildText(
@@ -294,6 +294,7 @@ class InvoiceController {
                   value: "(+) ${bookingDetailsContent.totalTaxAmount!.toStringAsFixed(2)}",
                   unite: true,
                 ),
+
                 Divider(),
                 buildText(
                   title: 'Grand Total',
@@ -317,12 +318,12 @@ class InvoiceController {
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
       Text("If you require any assistance or have feedback or suggestions about our site, you can call or email us.",textAlign: TextAlign.center),
-      SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+      SizedBox(height: Dimensions.paddingSizeSmall),
 
       Container(
         color: PdfColors.grey100,
         width: double.infinity,
-        padding: EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
+        padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
         child: Column(
 
           children: [
@@ -334,9 +335,9 @@ class InvoiceController {
                 Text("${Get.find<SplashController>().configModel.content!.businessEmail}"),
               ]
             ),
-            SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-            Text(AppConstants.BASE_URL),
-            SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+            SizedBox(height: Dimensions.paddingSizeExtraSmall),
+            Text(AppConstants.baseUrl),
+            SizedBox(height: Dimensions.paddingSizeExtraSmall),
             Text("${Get.find<SplashController>().configModel.content!.footerText != null ? Get.find<SplashController>().configModel.content!.footerText! : null}",
              textAlign: TextAlign.center
            ),
@@ -386,8 +387,8 @@ class InvoiceController {
 
    static Widget buildInvoiceImage(var netImage,BookingDetailsContent bookingDetailsContent,Invoice invoice) {
      return Container(
-       width: Dimensions.INVOICE_IMAGE_WIDTH,
-       height: Dimensions.INVOICE_IMAGE_HEIGHT,
+       width: Dimensions.invoiceImageWidth,
+       height: Dimensions.invoiceImageHeight,
        child: pw.Image(netImage),);
    }
 }

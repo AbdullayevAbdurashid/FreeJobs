@@ -8,13 +8,10 @@ class WebTrendingServiceView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ServiceController>(
-        initState: (state){
-          Get.find<ServiceController>().getTrendingServiceList(1,false);
-        },
         builder: (serviceController){
 
-          if(serviceController.trendingServiceList != null && serviceController.trendingServiceList!.length == 0){
-            return SizedBox();
+          if(serviceController.trendingServiceList != null && serviceController.trendingServiceList!.isEmpty){
+            return const SizedBox();
           }else{
             if(serviceController.trendingServiceList != null){
               return  Column(
@@ -32,16 +29,16 @@ class WebTrendingServiceView extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: Dimensions.PADDING_SIZE_LARGE,),
+                  const SizedBox(height: Dimensions.paddingSizeLarge,),
                   GridView.builder(
                     key: UniqueKey(),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisSpacing: Dimensions.PADDING_SIZE_DEFAULT,
-                      mainAxisSpacing:  Dimensions.PADDING_SIZE_DEFAULT,
+                      crossAxisSpacing: Dimensions.paddingSizeDefault,
+                      mainAxisSpacing:  Dimensions.paddingSizeDefault,
                       childAspectRatio: ResponsiveHelper.isDesktop(context) || ResponsiveHelper.isTab(context)  ? 0.92 : .70,
                       crossAxisCount: ResponsiveHelper.isMobile(context) ? 2 : ResponsiveHelper.isTab(context) ? 3 : 5,
                     ),
-                    physics:NeverScrollableScrollPhysics(),
+                    physics:const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: serviceController.trendingServiceList!.length>5?5:serviceController.trendingServiceList!.length,
                     itemBuilder: (context, index) {
@@ -51,7 +48,7 @@ class WebTrendingServiceView extends StatelessWidget {
                 ],
               );
             }else{
-              return SizedBox();
+              return const SizedBox();
             }
           }
     });

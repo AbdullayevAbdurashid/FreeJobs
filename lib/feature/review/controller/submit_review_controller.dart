@@ -20,10 +20,10 @@ class SubmitReviewController extends GetxController {
   List<String> serviceIdList =[];
 
   TextEditingController reviewController = TextEditingController();
-  Map<String, TextEditingController> textControllers =  Map();
-  Map<String, int> selectedRating =  Map();
-  Map<String, bool> isEditable =  Map();
-  Map<String, String> reviewComments =  Map();
+  Map<String, TextEditingController> textControllers =  {};
+  Map<String, int> selectedRating =  {};
+  Map<String, bool> isEditable =  {};
+  Map<String, String> reviewComments =  {};
 
   int _selectedIndex = -1;
   int get selectedIndex => _selectedIndex;
@@ -58,9 +58,9 @@ class SubmitReviewController extends GetxController {
     update();
     Response response =await submitReviewRepo.getReviewList(bookingId: bookingId);
     if(response.statusCode == 200){
-      print('===>${response.body['content']}');
+
       if(response.body['content'].isNotEmpty){
-        serviceIdList.forEach((id) {
+        for (var id in serviceIdList) {
          if( response.body['content'][id]!=null){
            listOfReview[id]= response.body['content'][id][0];
            selectedRating[id] = response.body['content'][id][0]['review_rating'];
@@ -71,9 +71,8 @@ class SubmitReviewController extends GetxController {
              isEditable[id] = false;
            }
            }
-        });
+        }
       }
-      print(listOfReview.toString());
     }
     _loading = false;
     update();
@@ -82,15 +81,21 @@ class SubmitReviewController extends GetxController {
   void  uniqueService(BookingDetailsContent bookingDetailsContent){
      serviceIdList =[];
      uniqueServiceList =[];
-    bookingDetailsContent.detail!.forEach((element) {
+    for (var element in bookingDetailsContent.detail!) {
       if(!serviceIdList.contains(element.serviceId)){
         serviceIdList.add(element.serviceId!);
         uniqueServiceList.add(element);
       }
-    });
-    uniqueServiceList.forEach((_method) => textControllers[_method.serviceId!] = TextEditingController());
-    uniqueServiceList.forEach((_method) => selectedRating[_method.serviceId!] = 5);
-    uniqueServiceList.forEach((_method) => isEditable[_method.serviceId!] = true);
+    }
+    for (var method in uniqueServiceList) {
+      textControllers[method.serviceId!] = TextEditingController();
+    }
+    for (var method in uniqueServiceList) {
+      selectedRating[method.serviceId!] = 5;
+    }
+    for (var method in uniqueServiceList) {
+      isEditable[method.serviceId!] = true;
+    }
   }
 
   void updateEditableValue(String serviceId,bool value,{bool isUpdate= false}){
@@ -98,7 +103,5 @@ class SubmitReviewController extends GetxController {
     if(isUpdate){
       update();
     }
-    print(isEditable[serviceId]);
-
   }
 }

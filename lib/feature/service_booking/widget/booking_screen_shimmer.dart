@@ -8,22 +8,22 @@ class BookingScreenShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer(
-      duration: Duration(seconds: 3),
-      interval: Duration(seconds: 5), //Default value: Duration(seconds: 0)
+      duration: const Duration(seconds: 3),
+      interval: const Duration(seconds: 5), //Default value: Duration(seconds: 0)
       color: Colors.white, //Default value
       colorOpacity: 0, //Default value
       enabled: true, //Default value
-      direction: ShimmerDirection.fromLTRB(),
-      child: Container(
+      direction: const ShimmerDirection.fromLTRB(),
+      child: SizedBox(
         height: context.height,
         width: context.width,
         child: ListView.builder(
           itemCount: 8,
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
             return Container(
-              margin: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+              margin: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
               child: Column(
                 children: [
                   Row(
@@ -36,7 +36,7 @@ class BookingScreenShimmer extends StatelessWidget {
                           color: Theme.of(context).shadowColor,
                         ),
                       ),
-                      SizedBox(width: 10,),
+                      const SizedBox(width: 10,),
                       Expanded(
                           child: Container(
                               width: 200,
@@ -49,7 +49,7 @@ class BookingScreenShimmer extends StatelessWidget {
                       )
                     ],
                   ),
-                  SizedBox(height: 7,),
+                  const SizedBox(height: 7,),
                   Container(
                       height: 25,
                       width: context.width*.9,

@@ -1,9 +1,11 @@
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:get/get.dart';
 import 'package:demandium/core/common_model/errrors_model.dart';
 import 'package:demandium/core/core_export.dart';
 
 class AuthController extends GetxController implements GetxService {
   final AuthRepo authRepo;
+
 
   bool? _isLoading = false;
   bool _acceptTerms = false;
@@ -21,15 +23,15 @@ class AuthController extends GetxController implements GetxService {
   var passwordController = TextEditingController();
   var confirmPasswordController = TextEditingController();
   var referCodeController = TextEditingController();
-  var countryDialCodeForSignup;
+  var countryDialCodeForSignup= "+880";
 
   var signInPhoneController = TextEditingController();
   var signInPasswordController = TextEditingController();
-  var countryDialCodeForSignIn;
+  var countryDialCodeForSignIn= "+880";
 
   var contactNumberController = TextEditingController();
-  var countryDialCode;
-  String _mobileNumber = '';
+  var countryDialCode= "+880";
+  final String _mobileNumber = '';
   String get mobileNumber => _mobileNumber;
 
   var newPasswordController = TextEditingController();
@@ -48,131 +50,120 @@ class AuthController extends GetxController implements GetxService {
     newPasswordController.text = '';
     confirmNewPasswordController.text = '';
     contactNumberController.text = '';
-    signInPhoneController.text = getUserNumber();
+    signInPhoneController.text =  getUserNumber();
     signInPasswordController.text = getUserPassword();
-    countryDialCode = CountryCode.fromCountryCode(
-            Get.find<SplashController>().configModel.content != null
-                ? Get.find<SplashController>().configModel.content!.countryCode!
-                : "BD")
-        .dialCode;
-    countryDialCodeForSignup = CountryCode.fromCountryCode(
-            Get.find<SplashController>().configModel.content != null
-                ? Get.find<SplashController>().configModel.content!.countryCode!
-                : "BD")
-        .dialCode;
-    countryDialCodeForSignIn = CountryCode.fromCountryCode(
-            Get.find<SplashController>().configModel.content != null
-                ? Get.find<SplashController>().configModel.content!.countryCode!
-                : "BD")
-        .dialCode;
+    countryDialCode = CountryCode.fromCountryCode(Get.find<SplashController>().configModel.content != null ? Get.find<SplashController>().configModel.content!.countryCode!:"BD").dialCode!;
+    countryDialCodeForSignup = CountryCode.fromCountryCode(Get.find<SplashController>().configModel.content != null ? Get.find<SplashController>().configModel.content!.countryCode!:"BD").dialCode!;
+    countryDialCodeForSignIn = CountryCode.fromCountryCode(Get.find<SplashController>().configModel.content != null ? Get.find<SplashController>().configModel.content!.countryCode!:"BD").dialCode!;
   }
 
-  onClose() {
-    super.onClose();
-  }
 
-  fetchUserNamePassword() {
-    signInPhoneController.text = getUserNumber();
+  fetchUserNamePassword(){
+    signInPhoneController.text =  getUserNumber();
     signInPasswordController.text = getUserPassword();
   }
+
 
   Future<void> registration() async {
-    String _numberWithCountryCode =
-        countryDialCodeForSignup + phoneController.value.text;
+    SignUpBody signUpBody;
+    String numberWithCountryCode = countryDialCodeForSignup + phoneController.value.text;
 
-    bool _isValid = GetPlatform.isWeb ? true : false;
-    if (!GetPlatform.isWeb) {
-      try {
-        _isValid = await PhoneNumberUtil().validate(_numberWithCountryCode);
-      } catch (e) {}
-    }
-    if (_isValid) {
       _isLoading = true;
       update();
-      SignUpBody signUpBody;
-      if (referCodeController.text != "") {
+
+      if(referCodeController.text!=""){
         signUpBody = SignUpBody(
-          fName: firstNameController.value.text,
-          lName: lastNameController.value.text,
-          email: emailController.value.text,
-          phone: _numberWithCountryCode,
-          password: passwordController.value.text,
-          confirmPassword: confirmPasswordController.value.text,
-          referCode: referCodeController.value.text,
+            fName: firstNameController.value.text.trim(),
+            lName: lastNameController.value.text.trim(),
+            email: emailController.value.text.trim(),
+            phone: numberWithCountryCode.trim(),
+            password: passwordController.value.text.trim(),
+            confirmPassword: confirmPasswordController.value.text.trim(),
+            referCode: referCodeController.text.trim()
         );
-      } else {
+      }else{
         signUpBody = SignUpBody(
-          fName: firstNameController.value.text,
-          lName: lastNameController.value.text,
-          email: emailController.value.text,
-          phone: _numberWithCountryCode,
-          password: passwordController.value.text,
-          confirmPassword: confirmPasswordController.value.text,
+            fName: firstNameController.value.text.trim(),
+            lName: lastNameController.value.text.trim(),
+            email: emailController.value.text.trim(),
+            phone: numberWithCountryCode.trim(),
+            password: passwordController.value.text.trim(),
+            confirmPassword: confirmPasswordController.value.text.trim(),
         );
       }
-
       Response? response = await authRepo.registration(signUpBody);
-      if (response!.statusCode == 200) {
-        if (response.body['response_code'] == 'registration_200') {
-          firstNameController.clear();
-          lastNameController.clear();
-          emailController.clear();
-          phoneController.clear();
-          passwordController.clear();
-          confirmPasswordController.clear();
-          referCodeController.clear();
-          Get.offAllNamed(RouteHelper.getSignInRoute(RouteHelper.main));
+      if (response!.statusCode == 200 && response.body['response_code'] == 'registration_200') {
+        resetControllerValue();
+        if(Get.find<SplashController>().configModel.content?.phoneVerification==1 || Get.find<SplashController>().configModel.content?.emailVerification==1){
+          Get.offAllNamed(RouteHelper.getSendOtpScreen("verification"));
+        }else{
+          Get.toNamed(RouteHelper.getSignInRoute(RouteHelper.main));
         }
-        customSnackBar('registration_200'.tr, isError: false);
-      } else {
-        ErrorsModel _errorResponse = ErrorsModel.fromJson(response.body);
-        if (_errorResponse.responseCode == "referral_code_400") {
-          customSnackBar('invalid_refer_code'.tr);
-        }
+
+        customSnackBar('registration_200'.tr,isError:false);
       }
-    } else {
-      customSnackBar('phone_number_with_valid_country_code'.tr);
-    }
+      else if(response.statusCode == 404 && response.body['response_code']=="referral_code_400"){
+        customSnackBar("invalid_refer_code".tr);
+      }
+      else {
+        ErrorsModel errorResponse = ErrorsModel.fromJson(response.body);
+        customSnackBar(errorResponse.errors![0].message);
+      }
 
     _isLoading = false;
     update();
   }
 
-  Future<void> login() async {
-    String _numberWithCountryCode = signInPhoneController.value.text;
-    if (!_numberWithCountryCode.startsWith('+')) {
-      _numberWithCountryCode = '+$_numberWithCountryCode';
+  Future<void> login(String fromPage) async {
+    String numberWithCountryCode = signInPhoneController.value.text;
+      _isLoading = true;
+      update();
+      Response? response = await authRepo.login(phone: numberWithCountryCode, password: signInPasswordController.value.text);
+      if (response!.statusCode == 200 && response.body['response_code']=="auth_login_200") {
+        authRepo.saveUserToken(response.body['content']['token']);
+        await authRepo.updateToken();
+        await _addLocalCartToApi();
+        Get.find<LocationController>().getAddressList(saveAddress: true);
+        _navigateLogin(fromPage);
+
+      }else if(response.statusCode == 401 && (response.body["response_code"]=="unverified_phone_401") || response.body["response_code"]=="unverified_email_401"){
+        customSnackBar(response.body['message']);
+        Get.toNamed(RouteHelper.getSendOtpScreen("verification"));
+      }
+      else{
+        customSnackBar(response.body["message"].toString().capitalizeFirst??response.statusText);
+      }
+      _isLoading = false;
+      update();
+
+  }
+
+  _addLocalCartToApi() async {
+
+    await Get.find<CartController>().getCartData();
+    if(Get.find<CartController>().cartList.isNotEmpty){
+      await Get.find<CartController>().addMultipleCartToServer(fromServiceCenterDialog: false);
+      await Get.find<CartController>().getCartListFromServer(shouldUpdate: true);
     }
-    _isLoading = true;
-    update();
-    Response? response = await authRepo.login(
-        phone: _numberWithCountryCode,
-        password: signInPasswordController.value.text);
-    if (response!.statusCode == 200) {
-      authRepo.saveUserToken(response.body['content']['token']);
-      await authRepo.updateToken();
-      _navigateLogin();
-      Get.find<CartController>().getCartData().then((cartList) {
-        if (cartList.length > 0) {
-          Get.find<CartController>()
-              .addMultipleCartToServer()
-              .then((value) {})
-              .then((value) =>
-                  Get.find<CartController>().getCartListFromServer());
+  }
+
+  _navigateLogin(String fromPage){
+
+    if( fromPage.contains(RouteHelper.main) || fromPage.contains(RouteHelper.splash) || fromPage.contains("booking")){
+      if (Get.find<LocationController>().getUserAddress() != null) {
+        if(fromPage=="booking"){
+          Get.offAllNamed(RouteHelper.getMainRoute('booking'));
+        }else{
+          Get.offAllNamed(RouteHelper.getMainRoute('home'));
         }
-      });
-    } else {
-      customSnackBar(response.statusText!.tr);
+      } else {
+        Get.offAllNamed(RouteHelper.getAccessLocationRoute('home'));
+      }
+    }else{
+      Get.offAllNamed(fromPage);
     }
-    _isLoading = false;
-    update();
-  }
-
-  _navigateLogin() {
-    Get.offAllNamed(RouteHelper.getServiceRoute(Get.currentRoute));
     if (_isActiveRememberMe) {
-      saveUserNumberAndPassword(signInPhoneController.value.text,
-          signInPasswordController.value.text);
+      saveUserNumberAndPassword(signInPhoneController.value.text, signInPasswordController.value.text);
     } else {
       clearUserNumberAndPassword();
     }
@@ -180,137 +171,124 @@ class AuthController extends GetxController implements GetxService {
     signInPasswordController.clear();
   }
 
-  Future<void> loginWithSocialMedia(SocialLogInBody socialLogInBody) async {
-    Get.dialog(
-      CustomLoader(),
-      barrierDismissible: false,
-    );
 
+
+  Future<void> loginWithSocialMedia(SocialLogInBody socialLogInBody,{String? fromPage}) async {
+    Get.dialog(const CustomLoader(),barrierDismissible: false);
     Response? response = await authRepo.loginWithSocialMedia(socialLogInBody);
-    print(response!.body);
-    if (response.statusCode == 200) {
-      String _token = response.body['content']['token'];
-      if (_token.isNotEmpty) {
-        if (response.body['content']['is_active'] == 1) {
-          authRepo.saveUserToken(response.body['content']['token']);
+    if (response?.statusCode == 200) {
+      String token = response?.body['content']['token'];
+      if(token.isNotEmpty) {
+        if(response?.body['content']['is_active'] == 1) {
+          authRepo.saveUserToken(response?.body['content']['token']);
           await authRepo.updateToken();
-          Get.offAllNamed(RouteHelper.getInitialRoute());
+          await _addLocalCartToApi();
+          Get.back();
+          _navigateLogin(fromPage??RouteHelper.getMainRoute("home"));
+        }else{
+          Get.back();
         }
+      }else{
+        Get.back();
       }
     } else {
-      customSnackBar(response.statusText!);
+      Get.back();
+      customSnackBar(response?.statusText!);
     }
-    Get.back();
   }
 
-  Future<void> forgetPassword() async {
-    String _numberWithCountryCode =
-        countryDialCode + contactNumberController.value.text;
-    _mobileNumber = _numberWithCountryCode;
+  Future<ResponseModel> sendOtpForVerificationScreen(String identity, String identityType) async {
     _isLoading = true;
     update();
-    Response? response = await authRepo.forgetPassword(_numberWithCountryCode);
-    if (response!.body['response_code'] == 'default_200') {
+    Response  response = await authRepo.sendOtpForVerificationScreen(identity,identityType);
+    if (response.statusCode == 200 && response.body["response_code"]=="default_200") {
       _isLoading = false;
-      customSnackBar('successfully_sent_otp'.tr, isError: false);
-      Get.toNamed(RouteHelper.getVerificationRoute(_numberWithCountryCode));
+      update();
+      return ResponseModel(true, "");
     } else {
       _isLoading = false;
-      customSnackBar('invalid_number'.tr);
+      update();
+      return ResponseModel(false, response.body["message"] ?? response.statusText);
     }
-    update();
   }
 
-  Future<void> updateToken() async {
-    await authRepo.updateToken();
-  }
 
-  Future<void> verifyToken(String phoneOrEmail) async {
-    Response? response =
-        await authRepo.verifyToken(phoneOrEmail, _verificationCode);
-    print(response!.body);
-    if (response.body['response_code'] == 'default_verified_200') {
-      Navigator.popAndPushNamed(
-          Get.context!,
-          RouteHelper.getResetPasswordRoute(
-              phoneOrEmail.substring(1, phoneOrEmail.length - 1),
-              _verificationCode));
-      customSnackBar('${response.body['response_code']}'.tr, isError: false);
-    } else {
-      customSnackBar('invalid_otp'.tr);
-    }
-    _isLoading = false;
-    update();
-  }
-
-  Future<void> resetPassword(String phoneOrEmail) async {
+  Future<ResponseModel> sendOtpForForgetPassword(String identity, String identityType) async {
     _isLoading = true;
     update();
-    Response? response = await authRepo.resetPassword(
-        _mobileNumber,
-        _otp,
-        newPasswordController.value.text,
-        confirmNewPasswordController.value.text);
-    if (response!.body['response_code'] == 'default_password_reset_200') {
-      contactNumberController.clear();
-      newPasswordController.clear();
-      confirmNewPasswordController.clear();
-      Get.toNamed(RouteHelper.getSignInRoute(RouteHelper.main));
-      customSnackBar('password_change_successfully'.tr, isError: false);
+    Response response = await authRepo.sendOtpForForgetPassword(identity,identityType);
+
+    if (response.statusCode == 200 && response.body["response_code"]=="default_200") {
+      _isLoading = false;
+      update();
+      return ResponseModel(true, "");
     } else {
-      customSnackBar(response.body['message']);
+      _isLoading = false;
+      update();
+      return ResponseModel(false, response.body["message"] ?? response.statusText);
     }
-    _isLoading = false;
-    update();
   }
 
-  Future<ResponseModel> checkEmail(String email) async {
+
+  Future<ResponseModel>  verifyOtpForVerificationScreen(String identity,  String identityType, String otp,) async {
     _isLoading = true;
     update();
-    Response? response = await authRepo.checkEmail(email);
+    Response? response = await authRepo.verifyOtpForVerificationScreen(identity,identityType,otp);
     ResponseModel responseModel;
-    if (response!.statusCode == 200) {
-      responseModel = ResponseModel(true, response.body["token"]);
-    } else {
-      responseModel = ResponseModel(false, response.statusText);
-    }
-    _isLoading = false;
-    update();
-    return responseModel;
-  }
-
-  Future<ResponseModel> verifyEmail(String email, String token) async {
-    _isLoading = true;
-    update();
-    Response? response = await authRepo.verifyEmail(email, _verificationCode);
-    ResponseModel responseModel;
-    if (response!.statusCode == 200) {
-      authRepo.saveUserToken(token);
-      await authRepo.updateToken();
+    if (response!.statusCode == 200 && response.body['response_code']=="default_200") {
       responseModel = ResponseModel(true, response.body["message"]);
     } else {
-      responseModel = ResponseModel(false, response.statusText);
+      responseModel = ResponseModel(false, response.body["message"] ?? response.statusText);
     }
     _isLoading = false;
     update();
     return responseModel;
   }
 
-  Future<ResponseModel> verifyPhone(String phone, String token) async {
+
+  Future<ResponseModel> verifyOtpForForgetPasswordScreen(String identity, String identityType, String otp) async {
     _isLoading = true;
     update();
-    Response? response = await authRepo.verifyPhone(phone, _verificationCode);
-    ResponseModel responseModel;
-    if (response!.statusCode == 200) {
-      authRepo.saveUserToken(token);
-      await authRepo.updateToken();
-      responseModel = ResponseModel(true, response.body["message"]);
+    Response response = await authRepo.verifyOtpForForgetPassword(identity, identityType, otp);
+
+    if (response.statusCode==200 &&  response.body['response_code'] == 'default_200') {
+      _isLoading = false;
+      update();
+      return ResponseModel(true, "successfully_verified");
+    }else{
+      _isLoading = false;
+      update();
+      return ResponseModel(false, response.body["message"] ?? response.statusText);
+    }
+
+  }
+
+
+  Future<void> resetPassword(String identity,String identityType, String otp, String password, String confirmPassword) async {
+    _isLoading = true;
+    update();
+    Response? response = await authRepo.resetPassword(identity,identityType, otp, password, confirmPassword);
+
+    if (response!.statusCode == 200 && response.body['response_code']=="default_password_reset_200") {
+      Get.offNamed(RouteHelper.getSignInRoute(RouteHelper.main));
+      customSnackBar('password_changed_successfully'.tr,isError: false);
     } else {
-      responseModel = ResponseModel(false, response.statusText);
+      customSnackBar(response.statusText);
     }
     _isLoading = false;
     update();
-    return responseModel;
+  }
+
+
+
+  void resetControllerValue(){
+    firstNameController.clear();
+    lastNameController.clear();
+    emailController.clear();
+    phoneController.clear();
+    passwordController.clear();
+    confirmPasswordController.clear();
+    referCodeController.clear();
   }
 
   Future<void> updateZone() async {
@@ -329,11 +307,12 @@ class AuthController extends GetxController implements GetxService {
 
   void updateVerificationCode(String query) {
     _verificationCode = query;
-    if (_verificationCode.isNotEmpty) {
-      _otp = _verificationCode;
+    if(_verificationCode.isNotEmpty){
+    _otp = _verificationCode;
     }
     update();
   }
+
 
   bool _isActiveRememberMe = false;
   bool get isActiveRememberMe => _isActiveRememberMe;
@@ -341,6 +320,10 @@ class AuthController extends GetxController implements GetxService {
   void toggleTerms() {
     _acceptTerms = !_acceptTerms;
     update();
+  }
+
+  void cancelTermsAndCondition(){
+    _acceptTerms = false;
   }
 
   void toggleRememberMe() {
@@ -360,17 +343,6 @@ class AuthController extends GetxController implements GetxService {
     authRepo.saveUserNumberAndPassword(number, password);
   }
 
-  void saveCookiesData(bool data) {
-    authRepo.saveCookiesData(data);
-    savedCookiesData = true;
-    update();
-  }
-
-  getCookiesData() {
-    savedCookiesData = authRepo.getSavedCookiesData();
-    update();
-  }
-
   String getUserNumber() {
     return authRepo.getUserNumber();
   }
@@ -382,12 +354,11 @@ class AuthController extends GetxController implements GetxService {
   String getUserPassword() {
     return authRepo.getUserPassword();
   }
-
   bool isNotificationActive() {
     return authRepo.isNotificationActive();
-  }
 
-  toggleNotificationSound() {
+  }
+  toggleNotificationSound(){
     authRepo.toggleNotificationSound(!isNotificationActive());
     update();
   }
@@ -400,43 +371,45 @@ class AuthController extends GetxController implements GetxService {
     return authRepo.getUserToken();
   }
 
-  GoogleSignIn? _googleSignIn = GoogleSignIn();
+
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+
 
   // GoogleSignIn? _googleSignIn = GoogleSignIn();
   GoogleSignInAccount? googleAccount;
   GoogleSignInAuthentication? auth;
 
   Future<void> socialLogin() async {
-    this.googleAccount = (await _googleSignIn!.signIn())!;
+    googleAccount = (await _googleSignIn.signIn())!;
     auth = await googleAccount!.authentication;
     update();
   }
 
+
+
   Future<void> googleLogout() async {
-    try {
-      this.googleAccount = (await _googleSignIn!.disconnect())!;
+    try{
+      googleAccount = (await _googleSignIn.disconnect())!;
       auth = await googleAccount!.authentication;
-    } catch (e) {}
+    }catch(e){
+      if (kDebugMode) {
+        print("");
+      }
+    }
   }
+
 
   Future<void> signOutWithFacebook() async {
     await FacebookAuth.instance.logOut();
   }
 
-  void initCountryCode() {
-    countryDialCode = CountryCode.fromCountryCode(
-            Get.find<SplashController>().configModel.content != null
-                ? Get.find<SplashController>().configModel.content!.countryCode!
-                : "BD")
-        .dialCode;
-    countryDialCodeForSignup = CountryCode.fromCountryCode(
-            Get.find<SplashController>().configModel.content?.countryCode ??
-                "BD")
-        .dialCode;
-    countryDialCodeForSignIn = CountryCode.fromCountryCode(
-            Get.find<SplashController>().configModel.content != null
-                ? Get.find<SplashController>().configModel.content!.countryCode!
-                : "BD")
-        .dialCode;
+  Future<void> updateToken() async {
+    await authRepo.updateToken();
+  }
+
+  void initCountryCode(){
+    countryDialCode = CountryCode.fromCountryCode(Get.find<SplashController>().configModel.content != null ? Get.find<SplashController>().configModel.content!.countryCode!:"BD").dialCode!;
+    countryDialCodeForSignup = CountryCode.fromCountryCode(Get.find<SplashController>().configModel.content?.countryCode??"BD").dialCode!;
+    countryDialCodeForSignIn = CountryCode.fromCountryCode(Get.find<SplashController>().configModel.content != null ? Get.find<SplashController>().configModel.content!.countryCode!:"BD").dialCode!;
   }
 }

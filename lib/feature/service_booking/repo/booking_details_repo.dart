@@ -8,12 +8,12 @@ class BookingDetailsRepo{
 
 
   Future<Response> getBookingDetails({required String bookingID})async{
-    return await apiClient.getData(AppConstants.BOOKING_DETAILS+"/$bookingID");
+    return await apiClient.getData("${AppConstants.bookingDetails}/$bookingID");
   }
 
 
   Future<Response> bookingCancel({required String bookingID}) async {
-    return await apiClient.postData('${AppConstants.BOOKING_CANCEL}/$bookingID', {
+    return await apiClient.postData('${AppConstants.bookingCancel}/$bookingID', {
       "booking_status" :"canceled",
       "_method" : "put"});
   }

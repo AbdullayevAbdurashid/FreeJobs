@@ -13,12 +13,12 @@ class BookingItem extends StatelessWidget {
     return Row(
       children: [
         Image(image: AssetImage(img),height: 15,width: 15),
-        SizedBox(width:Dimensions.PADDING_SIZE_SMALL),
+        const SizedBox(width:Dimensions.paddingSizeSmall),
         Expanded(
           child: Row(
             children: [
               Flexible(
-                child: Text("$title".tr,
+                child: Text(title.tr,
                   style: ubuntuRegular.copyWith(
                       fontSize: Dimensions.fontSizeSmall,
                       color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.6)),
@@ -26,7 +26,7 @@ class BookingItem extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              Text("$date",
+              Text(date,
                 style: ubuntuRegular.copyWith(
                     fontSize: Dimensions.fontSizeSmall,
                     color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.6)),

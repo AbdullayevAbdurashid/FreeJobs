@@ -8,8 +8,8 @@ class NetworkInfo {
   NetworkInfo(this.connectivity);
 
   Future<bool> get isConnected async {
-    ConnectivityResult _result = await connectivity.checkConnectivity();
-    return _result != ConnectivityResult.none;
+    ConnectivityResult result = await connectivity.checkConnectivity();
+    return result != ConnectivityResult.none;
   }
 
   static void checkConnectivity(BuildContext context) {
@@ -18,7 +18,7 @@ class NetworkInfo {
         Get.find<SplashController>().setFirstTimeConnectionCheck(false);
       }else {
         bool isNotConnected = result == ConnectivityResult.none;
-        isNotConnected ? SizedBox() : ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        isNotConnected ? const SizedBox() : ScaffoldMessenger.of(context).hideCurrentSnackBar();
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: isNotConnected ? Colors.red : Colors.green,
           duration: Duration(seconds: isNotConnected ? 6000 : 3),

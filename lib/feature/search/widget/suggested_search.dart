@@ -14,9 +14,9 @@ class SuggestedSearch extends StatelessWidget {
             fontSize: Dimensions.fontSizeLarge,
             color: Theme.of(context).colorScheme.primary),),
 
-        SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,),
+        const SizedBox(height: Dimensions.paddingSizeDefault,),
 
-        Wrap(
+        const Wrap(
           children: [
             SuggestedSearchItem(title: 'all_service',),
             SuggestedSearchItem(title: 'popular_services',),
@@ -39,11 +39,11 @@ class SuggestedSearchItem extends StatelessWidget {
       children: [
         Container(
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(50)),
+              borderRadius: const BorderRadius.all(Radius.circular(50)),
               color:Get.isDarkMode?Colors.grey.withOpacity(0.2): Theme.of(context).primaryColor.withOpacity(0.1)
           ),
-          padding: EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_SMALL-3, horizontal: Dimensions.PADDING_SIZE_SMALL,),
-          margin: EdgeInsets.only(right: Dimensions.PADDING_SIZE_SMALL, bottom:Dimensions.PADDING_SIZE_SMALL),
+          padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall-3, horizontal: Dimensions.paddingSizeSmall,),
+          margin: const EdgeInsets.only(right: Dimensions.paddingSizeSmall, bottom:Dimensions.paddingSizeSmall),
           child: Text(title.tr, style: ubuntuRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.5)),),
         ),
         Positioned.fill(child: RippleButton(onTap: () {

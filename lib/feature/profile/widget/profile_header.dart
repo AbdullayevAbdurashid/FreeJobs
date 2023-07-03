@@ -4,48 +4,48 @@ import 'package:demandium/core/core_export.dart';
 
 class ProfileHeader extends GetView<UserController> {
   final UserInfoModel userInfoModel;
-   ProfileHeader({Key? key,required this.userInfoModel}) : super(key: key);
+   const ProfileHeader({Key? key,required this.userInfoModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final _isLoggedIn = Get.find<AuthController>().isLoggedIn();
+    final isLoggedIn = Get.find<AuthController>().isLoggedIn();
     return GetBuilder<UserController>(builder: (userController){
-      return Container(
+      return SizedBox(
           width: Get.width,
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_DEFAULT),
+            padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault),
             child: Stack(
               children: [
-                Container(
+                SizedBox(
                   width: Get.width,
                   child: Column(children: [
-                    SizedBox(height:Dimensions.PADDING_SIZE_DEFAULT),
+                    const SizedBox(height:Dimensions.paddingSizeDefault),
                     Stack(
                       alignment: Alignment.center,
                       children: [
                         ClipRRect(
-                          borderRadius: BorderRadius.all(Radius.circular(150.0)),
+                          borderRadius: const BorderRadius.all(Radius.circular(150.0)),
                           child: CustomImage(
                             width: 130.0,
                             height: 130.0,
-                            image:_isLoggedIn ? userController.userInfoModel.image != null ? Get.find<SplashController>().configModel.content!.imageBaseUrl!+"/user/profile_image/"+userController.userInfoModel.image! : '':'',
+                            image:isLoggedIn ? userController.userInfoModel.image != null ? "${Get.find<SplashController>().configModel.content!.imageBaseUrl!}/user/profile_image/${userController.userInfoModel.image!}" : '':'',
                           ),
                         ),
 
                       ],
                     ),
-                    SizedBox(width: Dimensions.PADDING_SIZE_LARGE, height: Dimensions.PADDING_SIZE_EXTRA_LARGE,),
-                    if(!_isLoggedIn)
+                    const SizedBox(width: Dimensions.paddingSizeLarge, height: Dimensions.paddingSizeExtraLarge,),
+                    if(!isLoggedIn)
                       Text('guest_user'.tr,
                         style: ubuntuBold.copyWith(fontSize: Dimensions.fontSizeExtraLarge, color: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(.5)),
                       ),
-                    if( _isLoggedIn && userInfoModel.fName != null && userInfoModel.lName != null )
-                      Text("${userInfoModel.fName! +" "+ userInfoModel.lName!}",
+                    if( isLoggedIn && userInfoModel.fName != null && userInfoModel.lName != null )
+                      Text("${userInfoModel.fName!} ${userInfoModel.lName!}",
                         style: ubuntuBold.copyWith(fontSize: Dimensions.fontSizeExtraLarge, color: Theme.of(context).textTheme.bodyMedium!.color),
                       ),
 
-                    SizedBox(width: Dimensions.PADDING_SIZE_LARGE, height: Dimensions.PADDING_SIZE_EXTRA_LARGE,),
-                    _isLoggedIn ? Row(
+                    const SizedBox(width: Dimensions.paddingSizeLarge, height: Dimensions.paddingSizeExtraLarge,),
+                    isLoggedIn ? Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -61,14 +61,14 @@ class ProfileHeader extends GetView<UserController> {
                           title: 'since_joined'.tr,
                         ),
                       ],
-                    ) : SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+                    ) : const SizedBox(height: Dimensions.paddingSizeSmall),
                   ],),
                 ),
 
-                _isLoggedIn ? Positioned(
-                  right:Get.find<LocalizationController>().isLtr ? Dimensions.PADDING_SIZE_DEFAULT : null,
-                  left:Get.find<LocalizationController>().isLtr ?null: Dimensions.PADDING_SIZE_DEFAULT,
-                  top:Dimensions.PADDING_SIZE_SMALL,
+                isLoggedIn ? Positioned(
+                  right:Get.find<LocalizationController>().isLtr ? Dimensions.paddingSizeDefault : null,
+                  left:Get.find<LocalizationController>().isLtr ?null: Dimensions.paddingSizeDefault,
+                  top:Dimensions.paddingSizeSmall,
                   child: GestureDetector(
                     onTap: (){
                       Get.toNamed(RouteHelper.profileEdit);
@@ -77,12 +77,12 @@ class ProfileHeader extends GetView<UserController> {
                     child: Row(
                       children: [
                         Text('edit'.tr,style: ubuntuBold.copyWith(fontSize: Dimensions.fontSizeExtraLarge,color: Theme.of(context).colorScheme.primary),),
-                        SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL,),
+                        const SizedBox(width: Dimensions.paddingSizeExtraSmall,),
                         Icon(Icons.edit,color: Theme.of(context).colorScheme.primary,size: Dimensions.fontSizeExtraLarge,)
                       ],
                     ),
                   ),
-                ): SizedBox()
+                ): const SizedBox()
               ],
             ),
           ));

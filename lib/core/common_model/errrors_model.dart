@@ -13,17 +13,17 @@ class ErrorsModel {
     if (json['errors'] != null) {
       errors = <Errors>[];
       json['errors'].forEach((v) {
-        errors!.add(new Errors.fromJson(v));
+        errors!.add(Errors.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['response_code'] = this.responseCode;
-    data['message'] = this.message;
-    if (this.errors != null) {
-      data['errors'] = this.errors!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['response_code'] = responseCode;
+    data['message'] = message;
+    if (errors != null) {
+      data['errors'] = errors!.map((v) => v.toJson()).toList();
     }
     return data;
   }

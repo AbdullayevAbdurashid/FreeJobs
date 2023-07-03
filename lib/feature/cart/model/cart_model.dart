@@ -35,20 +35,20 @@ class CartModel {
         ProviderData? provider
       })
   {
-  this._id = id;
-  this._serviceId = serviceId;
-  this._categoryId = categoryId;
-  this._subCategoryId = subCategoryId;
-  this._variantKey = variantKey;
-  this._serviceCost = serviceCost;
-  this._quantity = quantity;
-  this._discountAmount = discountAmount;
-  this._campaignDiscountAmount = campaignDiscountAmount;
-  this._couponDiscountAmount = couponDiscountAmount;
-  this._taxAmount = taxAmount;
-  this._totalCost = totalCost;
-  this._service = service;
-  this._provider = provider;
+  _id = id;
+  _serviceId = serviceId;
+  _categoryId = categoryId;
+  _subCategoryId = subCategoryId;
+  _variantKey = variantKey;
+  _serviceCost = serviceCost;
+  _quantity = quantity;
+  _discountAmount = discountAmount;
+  _campaignDiscountAmount = campaignDiscountAmount;
+  _couponDiscountAmount = couponDiscountAmount;
+  _taxAmount = taxAmount;
+  _totalCost = totalCost;
+  _service = service;
+  _provider = provider;
   }
 
   String get id => _id!;
@@ -97,28 +97,28 @@ class CartModel {
     _couponDiscountAmount = json['coupon_discount'];
     _taxAmount = json['tax_amount'];
     _totalCost = json['total_cost'];
-    _service = json['service'] != null ? new Service.fromJson(json['service']) : null;
-    _provider = (json['provider'] != null ? new ProviderData.fromJson(json['provider']) : null);
+    _service = json['service'] != null ? Service.fromJson(json['service']) : null;
+    _provider = (json['provider'] != null ? ProviderData.fromJson(json['provider']) : null);
 
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this._id;
-    data['service_id'] = this._serviceId;
-    data['category_id'] = this._categoryId;
-    data['sub_category_id'] = this._subCategoryId;
-    data['variant_key'] = this._variantKey;
-    data['service_cost'] = this._serviceCost;
-    data['quantity'] = this._quantity;
-    data['discount_amount'] = this._discountAmount;
-    data['campaign_discount'] = this._campaignDiscountAmount;
-    data['coupon_discount'] = this._couponDiscountAmount;
-    data['tax_amount'] = this._taxAmount;
-    data['total_cost'] = this._totalCost;
-    data['service'] = this._service;
-    data['service'] = this.service?.toJson();
-    data['provider'] = this.provider?.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = _id;
+    data['service_id'] = _serviceId;
+    data['category_id'] = _categoryId;
+    data['sub_category_id'] = _subCategoryId;
+    data['variant_key'] = _variantKey;
+    data['service_cost'] = _serviceCost;
+    data['quantity'] = _quantity;
+    data['discount_amount'] = _discountAmount;
+    data['campaign_discount'] = _campaignDiscountAmount;
+    data['coupon_discount'] = _couponDiscountAmount;
+    data['tax_amount'] = _taxAmount;
+    data['total_cost'] = _totalCost;
+    data['service'] = _service;
+    data['service'] = service?.toJson();
+    data['provider'] = provider?.toJson();
     return data;
   }
 }

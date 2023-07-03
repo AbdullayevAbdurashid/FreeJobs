@@ -3,18 +3,20 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:demandium/core/core_export.dart';
 
 class CampaignView extends StatelessWidget {
+  const CampaignView({super.key});
+
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<CampaignController>(
         builder: (campaignController){
-          if(campaignController.campaignList != null && campaignController.campaignList!.length == 0){
-            return SizedBox();
+          if(campaignController.campaignList != null && campaignController.campaignList!.isEmpty){
+            return const SizedBox();
           }else{
             return Container(
                 width: MediaQuery.of(context).size.width,
                 height: ResponsiveHelper.isTab(context) || MediaQuery.of(context).size.width > 450 ? 350 :MediaQuery.of(context).size.width * 0.40,
-                padding: EdgeInsets.only(top: Dimensions.PADDING_SIZE_DEFAULT),
+                padding: const EdgeInsets.only(top: Dimensions.paddingSizeDefault),
                 child: campaignController.campaignList != null ?
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -26,37 +28,34 @@ class CampaignView extends StatelessWidget {
                           enlargeCenterPage: false,
                           viewportFraction: .92,
                           disableCenter: true,
-                          autoPlayInterval: Duration(seconds: 7),
+                          autoPlayInterval: const Duration(seconds: 7),
                           onPageChanged: (index, reason) {
                             campaignController.setCurrentIndex(index, true);
                           },
                         ),
-                        itemCount: campaignController.campaignList!.length == 0 ? 1 : campaignController.campaignList!.length,
+                        itemCount: campaignController.campaignList!.isEmpty ? 1 : campaignController.campaignList!.length,
                         itemBuilder: (context, index, _) {
-                          String? _baseUrl =  Get.find<SplashController>().configModel.content!.imageBaseUrl;
+                          String? baseUrl =  Get.find<SplashController>().configModel.content!.imageBaseUrl;
                           return InkWell(
                             onTap: () {
                               if(isRedundentClick(DateTime.now())){
                                 return;
                               }
-                              print("checking_campaign");
-                              print(campaignController.campaignList![index].id!);
-                              print(campaignController.campaignList![index].discount!.discountType!);
                               campaignController.navigateFromCampaign(campaignController.campaignList![index].id!,campaignController.campaignList![index].discount!.discountType!);
                             },
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                              padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall),
                               child: Container(
                                 decoration: BoxDecoration(
                                   color: Theme.of(context).cardColor,
-                                  borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                                  borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                                   //boxShadow: shadow,
                                 ),
                                 child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                                  borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                                   child: GetBuilder<SplashController>(builder: (splashController) {
                                     return CustomImage(
-                                      image: '$_baseUrl/campaign/${campaignController.campaignList![index].coverImage}',
+                                      image: '$baseUrl/campaign/${campaignController.campaignList![index].coverImage}',
                                       fit: BoxFit.cover,
                                       placeholder: Images.placeholder,
                                     );
@@ -69,7 +68,7 @@ class CampaignView extends StatelessWidget {
                         },
                       ),
                     ),
-                    SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                    const SizedBox(height: Dimensions.paddingSizeExtraSmall),
                     Align(
                       alignment: Alignment.center,
                       child: AnimatedSmoothIndicator(
@@ -84,12 +83,12 @@ class CampaignView extends StatelessWidget {
                     ),
                   ],) :
                 Shimmer(
-                  duration: Duration(seconds: 2),
+                  duration: const Duration(seconds: 2),
                   enabled: true,
                   child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 10),
+                      margin: const EdgeInsets.symmetric(horizontal: 10),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                        borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                         color: Colors.grey[Get.find<ThemeController>().darkTheme ? 700 : 300],)
                   ),));
           }

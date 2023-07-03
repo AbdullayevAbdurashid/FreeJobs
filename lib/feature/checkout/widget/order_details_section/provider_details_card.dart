@@ -12,21 +12,21 @@ class ProviderDetailsCard extends StatelessWidget {
         children: [
           Container(
             decoration: BoxDecoration(color: Theme.of(context).hoverColor),
-            padding: EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
-            margin: EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_SMALL),
+            padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
+            margin: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall),
 
             child:  Row(children: [
-              ClipRRect( borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+              ClipRRect( borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                 child: CustomImage(
                   image: "${Get.find<SplashController>().configModel.content!.imageBaseUrl}/provider/logo/${cartController.selectedProviderProfileImages}",
                   height: 60,width: 60,),
               ),
-              SizedBox(width: Dimensions.PADDING_SIZE_DEFAULT,),
+              const SizedBox(width: Dimensions.paddingSizeDefault,),
 
               Column(crossAxisAlignment: CrossAxisAlignment.start,mainAxisAlignment: MainAxisAlignment.start,children: [
                 Text(cartController.selectedProviderName, style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeLarge),
                     maxLines: 1, overflow: TextOverflow.ellipsis),
-                Padding(padding: const EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                Padding(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall),
                   child: Text('Computer repair,Laptop Repair',
                     style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall,color: Theme.of(context).secondaryHeaderColor),),
                 ),
@@ -53,7 +53,7 @@ class ProviderDetailsCard extends StatelessWidget {
                       useRootNavigator: true,
                       isScrollControlled: true,
                       backgroundColor: Colors.transparent,
-                      context: context, builder: (context) => AvailableProviderWidget()
+                      context: context, builder: (context) => const AvailableProviderWidget()
                   );
                 }, child: Image.asset(Images.editButton,width: 20.0,height: 20.0,)),
           ),

@@ -6,22 +6,22 @@ import 'package:demandium/feature/profile/model/profile_cart_item_model.dart';
 import 'package:demandium/core/core_export.dart';
 
 class ProfileScreen extends GetView<UserController> {
-  ProfileScreen({Key? key}) : super(key: key);
+  const ProfileScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final bool _isLoggedIn = Get.find<AuthController>().isLoggedIn();
-    final _profileCartModelList = [
+    final bool isLoggedIn = Get.find<AuthController>().isLoggedIn();
+    final profileCartModelList = [
       ProfileCardItemModel(
         'my_address'.tr, Images.address,Get.find<AuthController>().isLoggedIn() ?
-      RouteHelper.getAddressRoute('fromProfileScreen') : RouteHelper.getNotLoggedScreen('my_address'.tr),
+      RouteHelper.getAddressRoute('fromProfileScreen') : RouteHelper.getNotLoggedScreen(RouteHelper.profile,"profile"),
       ),
       ProfileCardItemModel(
         'notifications'.tr, Images.notification, RouteHelper.getNotificationRoute(),
       ),
       if(!Get.find<AuthController>().isLoggedIn() )
       ProfileCardItemModel(
-        'sign_in'.tr, Images.logout, RouteHelper.getSignInRoute('profileScreen'),
+        'sign_in'.tr, Images.logout, RouteHelper.getSignInRoute(RouteHelper.profile),
       ),
 
       if(Get.find<AuthController>().isLoggedIn() && Get.find<UserController>().referCode!="" && Get.find<SplashController>().configModel.content?.referEarnStatus==1)
@@ -48,48 +48,55 @@ class ProfileScreen extends GetView<UserController> {
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
-      endDrawer:ResponsiveHelper.isDesktop(context) ? MenuDrawer():null,
+      endDrawer:ResponsiveHelper.isDesktop(context) ? const MenuDrawer():null,
       appBar: CustomAppBar(
         title: 'profile'.tr,
         centerTitle: true,
         bgColor: Theme.of(context).primaryColor,
         isBackButtonExist: true,
+        onBackPressed: (){
+          if(Navigator.canPop(context)){
+            Get.back();
+          }else{
+            Get.offAllNamed(RouteHelper.getMainRoute("home"));
+          }
+        },
       ),
 
       body: GetBuilder<UserController>(
         initState: (state){
-          if(_isLoggedIn){
+          if(isLoggedIn){
             Get.find<UserController>().getUserInfo();
           }
         },
 
         builder: (userController) {
           return userController.isLoading ?
-          Center(child: CircularProgressIndicator()) :
+          const Center(child: CircularProgressIndicator()) :
           FooterBaseView(
             child: WebShadowWrap(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   ProfileHeader(userInfoModel: userController.userInfoModel,),
-                  SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
+                  const SizedBox(height: Dimensions.paddingSizeLarge),
                   GridView.builder(
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT),
+                    padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: ResponsiveHelper.isMobile(context) ? 1 : 2,
                       childAspectRatio: 6,
-                      crossAxisSpacing: Dimensions.PADDING_SIZE_EXTRA_LARGE,
-                      mainAxisSpacing: Dimensions.PADDING_SIZE_SMALL,
+                      crossAxisSpacing: Dimensions.paddingSizeExtraLarge,
+                      mainAxisSpacing: Dimensions.paddingSizeSmall,
                     ),
-                    itemCount: _profileCartModelList.length,
+                    itemCount: profileCartModelList.length,
                     itemBuilder: (context, index) {
                       return ProfileCardItem(
-                        title: _profileCartModelList[index].title,
-                        leadingIcon: _profileCartModelList[index].loadingIcon,
+                        title: profileCartModelList[index].title,
+                        leadingIcon: profileCartModelList[index].loadingIcon,
                         onTap: () {
-                          if(_profileCartModelList[index].routeName == 'sign_out'){
+                          if(profileCartModelList[index].routeName == 'sign_out'){
                             if(
                             Get.find<AuthController>().isLoggedIn()) {
                               Get.dialog(ConfirmationDialog(
@@ -105,7 +112,7 @@ class ProfileScreen extends GetView<UserController> {
                             }else {
                               Get.toNamed(RouteHelper.getSignInRoute(RouteHelper.main));
                             }
-                          }else if(_profileCartModelList[index].routeName == 'delete_account'){
+                          }else if(profileCartModelList[index].routeName == 'delete_account'){
                             Get.dialog(
                                 ConfirmationDialog(
                                     icon: Images.deleteProfile,
@@ -116,17 +123,18 @@ class ProfileScreen extends GetView<UserController> {
                                     noText: 'cancel',
                                     descriptionTextColor: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.5),
                                     onYesPressed: () => userController.removeUser()),
-                                useSafeArea: false);
+                                useSafeArea: false
+                            );
                           }
                           else{
-                            Get.toNamed(_profileCartModelList[index].routeName);
+                            Get.toNamed(profileCartModelList[index].routeName);
                           }
                         },
                       );
                     },
                   ),
 
-                  SizedBox(height:Dimensions.PADDING_SIZE_DEFAULT,)
+                  const SizedBox(height:Dimensions.paddingSizeDefault,)
                 ],
               ),
             ),

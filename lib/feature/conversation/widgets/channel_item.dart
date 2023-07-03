@@ -22,14 +22,13 @@ class ChannelItem extends StatelessWidget {
 
     if(conversationUserModel.user!.provider != null){
       name =  conversationUserModel.user!.provider!.companyName!;
-      print(conversationUserModel.user!.provider!.companyName!);
       image = '${Get.find<SplashController>().configModel.content!.imageBaseUrl}''$imagePath${conversationUserModel.user!.provider!.logo!}';
       userTypeImage =  'provider'.tr;
       phone = conversationUserModel.user!.phone!;
       userType ="provider";
 
     }else{
-      name = conversationUserModel.user!.firstName!+ " " +conversationUserModel.user!.lastName!;
+      name = "${conversationUserModel.user!.firstName!} ${conversationUserModel.user!.lastName!}";
       phone = conversationUserModel.user!.phone!;
       image = '${Get.find<SplashController>().configModel.content!.imageBaseUrl}''$imagePath${conversationUserModel.user!.profileImage!}';
       userTypeImage = conversationUserModel.user!.userType! == 'provider-serviceman'?"provider-serviceman".tr:"super-admin".tr;
@@ -46,8 +45,8 @@ class ChannelItem extends StatelessWidget {
       child: Stack(
         children: [
           Container(
-            margin: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
-            padding: EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_DEFAULT),
+            margin: const EdgeInsets.symmetric(vertical: 5,horizontal: 10),
+            padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: isRead == 0? Theme.of(context).colorScheme.primary.withOpacity(.5) : Theme.of(context).hoverColor,
@@ -56,12 +55,12 @@ class ChannelItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children:[
-                SizedBox(width: Dimensions.PADDING_SIZE_SMALL,),
+                const SizedBox(width: Dimensions.paddingSizeSmall,),
                 ClipRRect(borderRadius: BorderRadius.circular(50),
                   child: CustomImage(height: 50, width: 50,
                       image: image),
                 ),
-                Gaps.horizontalGapOf(Dimensions.PADDING_SIZE_SMALL),
+                Gaps.horizontalGapOf(Dimensions.paddingSizeSmall),
                 Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,7 +72,7 @@ class ChannelItem extends StatelessWidget {
                               color:Get.isDarkMode ? Theme.of(context).primaryColorLight:Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.8)
                           )
                         ),
-                        SizedBox(height: Dimensions.PADDING_SIZE_SMALL,),
+                        const SizedBox(height: Dimensions.paddingSizeSmall,),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -82,7 +81,7 @@ class ChannelItem extends StatelessWidget {
                               style: ubuntuRegular.copyWith(
                                   fontSize: Dimensions.fontSizeSmall,
                                   color:Get.isDarkMode ? Theme.of(context).primaryColorLight : Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.6) ),),
-                            Text( "${DateConverter.dateMonthYearTimeTwentyFourFormat(DateConverter.isoUtcStringToLocalDate(channelupdatedAt))}",
+                            Text( DateConverter.dateMonthYearTimeTwentyFourFormat(DateConverter.isoUtcStringToLocalDate(channelupdatedAt)),
                                 textDirection: TextDirection.ltr,
                                 style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall,
                                   color:Get.isDarkMode ? Theme.of(context).primaryColorLight : Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.6),)),
@@ -94,22 +93,22 @@ class ChannelItem extends StatelessWidget {
 
 
 
-                SizedBox(width: Dimensions.PADDING_SIZE_SMALL,),
+                const SizedBox(width: Dimensions.paddingSizeSmall,),
               ],
             ),
           ),
           if(conversationUserModel.user!.userType == "super-admin")
           Positioned(
-            top: Dimensions.PADDING_SIZE_DEFAULT,
-            right:Get.find<LocalizationController>().isLtr ?  Dimensions.PADDING_SIZE_DEFAULT : null,
-            left:Get.find<LocalizationController>().isLtr ?  null : Dimensions.PADDING_SIZE_DEFAULT,
+            top: Dimensions.paddingSizeDefault,
+            right:Get.find<LocalizationController>().isLtr ?  Dimensions.paddingSizeDefault : null,
+            left:Get.find<LocalizationController>().isLtr ?  null : Dimensions.paddingSizeDefault,
             child: Container(
                 decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.primary.withOpacity(.2),
-                    borderRadius: BorderRadius.all(Radius.circular(12.0))
+                    borderRadius: const BorderRadius.all(Radius.circular(12.0))
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_EIGHT,vertical: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                  padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeEight,vertical: Dimensions.paddingSizeExtraSmall),
                   child: Text('support'.tr,style: ubuntuMedium.copyWith(
                       color: Theme.of(context).colorScheme.primary,
                       fontSize: Dimensions.fontSizeDefault),),

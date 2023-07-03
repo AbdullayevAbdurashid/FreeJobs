@@ -11,6 +11,9 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 
 class SocialLoginWidget extends StatelessWidget {
+  final String? fromPage;
+  const SocialLoginWidget({super.key, this.fromPage});
+
   @override
   Widget build(BuildContext context) {
 
@@ -20,12 +23,12 @@ class SocialLoginWidget extends StatelessWidget {
       Center(child: Text('or'.tr, style: ubuntuRegular.copyWith(
           color:  Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.6),
           fontSize: Dimensions.fontSizeSmall))),
-      SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
+      const SizedBox(height: Dimensions.paddingSizeDefault),
 
       Center(child: Text('sign_in_with'.tr, style: ubuntuRegular.copyWith(
           color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.6),
           fontSize: Dimensions.fontSizeSmall))),
-      SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
+      const SizedBox(height: Dimensions.paddingSizeDefault),
 
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
 
@@ -35,7 +38,6 @@ class SocialLoginWidget extends StatelessWidget {
               await Get.find<AuthController>().socialLogin();
               String id = '', token = '', email = '', medium ='';
               if(Get.find<AuthController>().googleAccount != null){
-                print(Get.find<AuthController>().googleAccount!);
                 id = Get.find<AuthController>().googleAccount!.id;
                 email = Get.find<AuthController>().googleAccount!.email;
                 token = Get.find<AuthController>().auth!.idToken!;
@@ -43,7 +45,7 @@ class SocialLoginWidget extends StatelessWidget {
               }
               Get.find<AuthController>().loginWithSocialMedia(SocialLogInBody(
                 email: email, token: token, uniqueId: id, medium: medium,
-              ));
+              ),fromPage: fromPage);
             },
             child: TextHover(
               builder: (hovered){
@@ -53,7 +55,7 @@ class SocialLoginWidget extends StatelessWidget {
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     color: hovered?Theme.of(context).primaryColor.withOpacity(0.1) :Theme.of(context).shadowColor,
-                    borderRadius: BorderRadius.all(Radius.circular(Dimensions.RADIUS_LARGE)),
+                    borderRadius: const BorderRadius.all(Radius.circular(Dimensions.radiusLarge)),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -66,10 +68,10 @@ class SocialLoginWidget extends StatelessWidget {
                       !ResponsiveHelper.isMobile(context)?
                       Row(
                         children: [
-                          SizedBox(width: Dimensions.PADDING_SIZE_SMALL,),
+                          const SizedBox(width: Dimensions.paddingSizeSmall,),
                           Text('google'.tr,style: ubuntuRegular.copyWith(),)
                         ],
-                      ):SizedBox.shrink()
+                      ):const SizedBox.shrink()
                     ],
                   ),
                 );
@@ -78,18 +80,18 @@ class SocialLoginWidget extends StatelessWidget {
           ),
 
         if(Get.find<SplashController>().configModel.content!.googleSocialLogin.toString() == '1' && Get.find<SplashController>().configModel.content!.facebookSocialLogin.toString() == '1')
-          SizedBox(width: Dimensions.PADDING_SIZE_DEFAULT,),
+          const SizedBox(width: Dimensions.paddingSizeDefault,),
 
 
         if(Get.find<SplashController>().configModel.content!.facebookSocialLogin.toString() == '1')
           InkWell(
           onTap: () async{
-            LoginResult _result = await FacebookAuth.instance.login();
-            if (_result.status == LoginStatus.success) {
-              Map _userData = await FacebookAuth.instance.getUserData();
+            LoginResult result = await FacebookAuth.instance.login();
+            if (result.status == LoginStatus.success) {
+              Map userData = await FacebookAuth.instance.getUserData();
               Get.find<AuthController>().loginWithSocialMedia(SocialLogInBody(
-                email: _userData['email'], token: _result.accessToken!.token, uniqueId: _result.accessToken!.userId, medium: 'facebook',
-              ));
+                email: userData['email'], token: result.accessToken!.token, uniqueId: result.accessToken!.userId, medium: 'facebook',
+              ),fromPage: fromPage);
             }
           },
           child: TextHover(
@@ -100,7 +102,7 @@ class SocialLoginWidget extends StatelessWidget {
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: hovered?Theme.of(context).primaryColor.withOpacity(0.1) :Theme.of(context).shadowColor,
-                  borderRadius: BorderRadius.all(Radius.circular(Dimensions.RADIUS_LARGE)),
+                  borderRadius: const BorderRadius.all(Radius.circular(Dimensions.radiusLarge)),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -114,10 +116,10 @@ class SocialLoginWidget extends StatelessWidget {
                     !ResponsiveHelper.isMobile(context)?
                     Row(
                       children: [
-                        SizedBox(width: Dimensions.PADDING_SIZE_SMALL,),
+                        const SizedBox(width: Dimensions.paddingSizeSmall,),
                         Text('facebook'.tr,style: ubuntuRegular.copyWith(),)
                       ],
-                    ):SizedBox.shrink()
+                    ):const SizedBox.shrink()
                   ],
                 ),
               );

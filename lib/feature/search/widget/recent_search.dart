@@ -11,8 +11,8 @@ class RecentSearch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return GetBuilder<SearchController>(
-      builder: (searchController){ return searchController.historyList!=null && searchController.historyList!.length > 0 ?
+    return GetBuilder<AllSearchController>(
+      builder: (searchController){ return searchController.historyList!=null && searchController.historyList!.isNotEmpty ?
          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -25,7 +25,7 @@ class RecentSearch extends StatelessWidget {
                     searchController.removeHistory();
                   },
                   child: Padding(
-                    padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
+                    padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
                     child: Text(
                       'clear_all'.tr,
                       style: ubuntuMedium.copyWith(
@@ -39,12 +39,12 @@ class RecentSearch extends StatelessWidget {
 
             Wrap(direction: Axis.horizontal, alignment:WrapAlignment.start,
               children: [for (int index =0;index<searchController.historyList!.length;index++)
-                Padding(padding: const EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_EIGHT),
+                Padding(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeEight),
                   child: Container(decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(50)),
+                    borderRadius: const BorderRadius.all(Radius.circular(50)),
                     color: Get.isDarkMode?Colors.grey.withOpacity(0.2): Theme.of(context).primaryColor.withOpacity(0.1)),
-                    padding: EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_SMALL-3, horizontal: Dimensions.PADDING_SIZE_DEFAULT,),
-                    margin: EdgeInsets.only(right: Dimensions.PADDING_SIZE_SMALL),
+                    padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall-3, horizontal: Dimensions.paddingSizeDefault,),
+                    margin: const EdgeInsets.only(right: Dimensions.paddingSizeSmall),
                     child: InkWell(
                       onTap: () {
                       searchController.populatedSearchController(searchController.historyList![index]);
@@ -61,7 +61,7 @@ class RecentSearch extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                          SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL,),
+                          const SizedBox(width: Dimensions.paddingSizeExtraSmall,),
                           InkWell(
                             onTap: (){
                               // searchController.removeSuggestedServicesFromServer(
@@ -78,7 +78,7 @@ class RecentSearch extends StatelessWidget {
                 )
               ],
             )],
-        ): SizedBox();
+        ): const SizedBox();
       }
     );
   }

@@ -20,25 +20,26 @@ class _ReviewRecommendationDialogState extends State<ReviewRecommendationDialog>
   @override
   Widget build(BuildContext context) {
 
-    if(ResponsiveHelper.isDesktop(context))
+    if(ResponsiveHelper.isDesktop(context)) {
       return  Dialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimensions.RADIUS_EXTRA_LARGE)),
-        insetPadding: EdgeInsets.all(30),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge)),
+        insetPadding: const EdgeInsets.all(30),
         clipBehavior: Clip.antiAliasWithSaveLayer,
         child: pointerInterceptor(),
       );
+    }
     return pointerInterceptor();
   }
   pointerInterceptor(){
     return Padding(
-      padding: EdgeInsets.only(top: ResponsiveHelper.isWeb()? 0 :Dimensions.CART_DIALOG_PADDING),
+      padding: EdgeInsets.only(top: ResponsiveHelper.isWeb()? 0 :Dimensions.cartDialogPadding),
       child: PointerInterceptor(
         child: Container(
-            width:ResponsiveHelper.isDesktop(context)? Dimensions.WEB_MAX_WIDTH/1.5:Dimensions.WEB_MAX_WIDTH,
-            padding: EdgeInsets.only(left: Dimensions.PADDING_SIZE_DEFAULT, bottom: Dimensions.PADDING_SIZE_DEFAULT),
+            width:ResponsiveHelper.isDesktop(context)? Dimensions.webMaxWidth/1.5:Dimensions.webMaxWidth,
+            padding: const EdgeInsets.only(left: Dimensions.paddingSizeDefault, bottom: Dimensions.paddingSizeDefault),
             decoration: BoxDecoration(
               color: Theme.of(context).cardColor,
-              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
             ),
             child: SingleChildScrollView(
               child: Column(
@@ -50,9 +51,9 @@ class _ReviewRecommendationDialogState extends State<ReviewRecommendationDialog>
                       child: InkWell(
                           onTap: () => Get.back(),
                           child: Padding(
-                            padding: EdgeInsets.only(
-                                top: Dimensions.PADDING_SIZE_DEFAULT,
-                                right: Dimensions.PADDING_SIZE_DEFAULT),
+                            padding: const EdgeInsets.only(
+                                top: Dimensions.paddingSizeDefault,
+                                right: Dimensions.paddingSizeDefault),
                             child: Icon(Icons.close,color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6),),
                           )),
                     ),
@@ -61,23 +62,23 @@ class _ReviewRecommendationDialogState extends State<ReviewRecommendationDialog>
                       style: ubuntuBold.copyWith(
                           fontSize: Dimensions.fontSizeLarge,
                           color: Theme.of(context).colorScheme.primary),),
-                    SizedBox(height: Dimensions.PADDING_SIZE_SMALL,),
+                    const SizedBox(height: Dimensions.paddingSizeSmall,),
                     Text(
                       'leave_a_review'.tr,
                       style: ubuntuBold.copyWith(
                           fontSize: Dimensions.fontSizeLarge,
                           color: Theme.of(context).colorScheme.primary),
                     ),
-                    SizedBox(height: Dimensions.PADDING_SIZE_LARGE,),
+                    const SizedBox(height: Dimensions.paddingSizeLarge,),
                     Image.asset(
                       Images.emptyReview,
-                      scale:Dimensions.PADDING_SIZE_SMALL,
+                      scale:Dimensions.paddingSizeSmall,
                       color:Get.isDarkMode ?  Theme.of(context).primaryColorLight: Theme.of(context).primaryColor,),
-                    SizedBox(height: 30.0,),
+                    const SizedBox(height: 30.0,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Container(
+                        SizedBox(
                             height: 40,
                             width: ResponsiveHelper.isDesktop(context)? 200: 150,
                             child: TextButton(
@@ -106,7 +107,7 @@ class _ReviewRecommendationDialogState extends State<ReviewRecommendationDialog>
                         ),
                       ],
                     ),
-                    SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_LARGE,)
+                    const SizedBox(height: Dimensions.paddingSizeExtraLarge,)
                   ]),
             )),
       ),

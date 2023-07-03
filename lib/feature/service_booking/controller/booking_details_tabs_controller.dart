@@ -3,16 +3,16 @@ import 'package:demandium/feature/service_booking/model/invoice.dart';
 import 'package:demandium/feature/service_booking/repo/booking_details_repo.dart';
 import '../../../core/core_export.dart';
 
-enum BookingDetailsTabs {BookingDetails, Status}
+enum BookingDetailsTabs {bookingDetails, status}
 class BookingDetailsTabsController extends GetxController with GetSingleTickerProviderStateMixin {
   BookingDetailsRepo bookingDetailsRepo;
   BookingDetailsTabsController({required this.bookingDetailsRepo});
 
-  BookingDetailsTabs _selectedDetailsTabs = BookingDetailsTabs.BookingDetails;
+  BookingDetailsTabs _selectedDetailsTabs = BookingDetailsTabs.bookingDetails;
   BookingDetailsTabs get selectedBookingStatus =>_selectedDetailsTabs;
   TabController? detailsTabController;
 
-  bool _isLoading = false;
+  final bool _isLoading = false;
   bool get isLoading => _isLoading;
   bool _isCancelling = false;
   bool get isCancelling => _isCancelling;
@@ -63,7 +63,6 @@ class BookingDetailsTabsController extends GetxController with GetSingleTickerPr
 
     _bookingDetailsContent = null;
     Response response = await bookingDetailsRepo.getBookingDetails(bookingID: bookingId);
-    print(response.statusCode);
     if(response.statusCode == 200){
       _allTotalCost = 0.0;
       _unitTotalCost = [];
@@ -71,15 +70,15 @@ class BookingDetailsTabsController extends GetxController with GetSingleTickerPr
 
       _bookingDetailsContent = BookingDetailsContent.fromJson(response.body['content']);
       if(_bookingDetailsContent!.detail != null ){
-        _bookingDetailsContent!.detail!.forEach((element) {
+        for (var element in _bookingDetailsContent!.detail!) {
           _unitTotalCost.add(element.serviceCost!.toDouble()*element.quantity!);
 
-        });
-        _unitTotalCost.forEach((element) {
+        }
+        for (var element in _unitTotalCost) {
           _allTotalCost = _allTotalCost+element;
-        });
+        }
 
-        _bookingDetailsContent!.detail!.forEach((element){
+        for (var element in _bookingDetailsContent!.detail!) {
           _invoiceItems.add(
               InvoiceItem(
                 discountAmount:(
@@ -93,7 +92,7 @@ class BookingDetailsTabsController extends GetxController with GetSingleTickerPr
                 unitPrice: element.serviceCost!.toStringAsFixed(2),
               )
           );
-        });
+        }
       }
       double? discount= _bookingDetailsContent!.totalDiscountAmount!.toDouble();
       double? campaignDiscount= _bookingDetailsContent!.totalCampaignDiscountAmount!.toDouble();

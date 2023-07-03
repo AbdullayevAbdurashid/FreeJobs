@@ -1,4 +1,8 @@
+import 'package:demandium/feature/checkout/repo/checkout_repo.dart';
+import 'package:demandium/feature/checkout/repo/schedule_repo.dart';
 import 'package:demandium/feature/conversation/repo/conversation_repo.dart';
+import 'package:demandium/feature/create_post/controller/create_post_controller.dart';
+import 'package:demandium/feature/create_post/repository/create_post_repo.dart';
 import 'package:demandium/feature/provider/controller/provider_booking_controller.dart';
 import 'package:demandium/feature/provider/repository/provider_booking_repo.dart';
 import 'package:demandium/feature/web_landing/controller/web_landing_controller.dart';
@@ -25,13 +29,14 @@ class InitialBinding extends Bindings {
     Get.lazyPut(() => ServiceBookingController(serviceBookingRepo: ServiceBookingRepo(sharedPreferences:Get.find(),apiClient: Get.find())));
     Get.lazyPut(() => UserController(userRepo: UserRepo(apiClient: Get.find())));
     Get.lazyPut(() => CouponController(couponRepo: CouponRepo(apiClient: Get.find())));
-    Get.lazyPut(() => ScheduleController());
+    Get.lazyPut(() => ScheduleController(scheduleRepo: ScheduleRepo(apiClient: Get.find())));
     Get.lazyPut(() => BookingDetailsTabsController(bookingDetailsRepo: BookingDetailsRepo(apiClient: Get.find(), sharedPreferences: Get.find())));
-    Get.lazyPut(() => SearchController(searchRepo: SearchRepo(apiClient: Get.find(), sharedPreferences: Get.find())));
+    Get.lazyPut(() => AllSearchController(searchRepo: SearchRepo(apiClient: Get.find(), sharedPreferences: Get.find())));
     Get.lazyPut(() => ServiceController(serviceRepo: ServiceRepo(apiClient: Get.find())));
     Get.lazyPut(() => HtmlViewController(htmlRepository: HtmlRepository(apiClient: Get.find())));
     Get.lazyPut(() => ConversationController(conversationRepo: ConversationRepo(apiClient: Get.find())));
-    Get.lazyPut(() => CheckOutController());
+    Get.lazyPut(() => CheckOutController(checkoutRepo: CheckoutRepo(apiClient: Get.find())));
     Get.lazyPut(() => ProviderBookingController(providerBookingRepo: ProviderBookingRepo(apiClient: Get.find())));
+    Get.lazyPut(() => CreatePostController(createPostRepo: CreatePostRepo(apiClient: Get.find())));
   }
 }

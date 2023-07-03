@@ -11,15 +11,15 @@ class ConversationModel {
   ConversationModel.fromJson(Map<String, dynamic> json) {
     responseCode = json['response_code'];
     message = json['message'];
-    content = json['content'] != null ? new ConversationContent.fromJson(json['content']) : null;
+    content = json['content'] != null ? ConversationContent.fromJson(json['content']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['response_code'] = this.responseCode;
-    data['message'] = this.message;
-    if (this.content != null) {
-      data['content'] = this.content!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['response_code'] = responseCode;
+    data['message'] = message;
+    if (content != null) {
+      data['content'] = content!.toJson();
     }
     return data;
   }
@@ -33,10 +33,10 @@ class ConversationContent {
   int? lastPage;
   String? lastPageUrl;
   List<Links>? links;
-  var nextPageUrl;
+  String?  nextPageUrl;
   String? path;
   int? perPage;
-  var prevPageUrl;
+  String?  prevPageUrl;
   int? to;
   int? total;
 
@@ -60,7 +60,7 @@ class ConversationContent {
     if (json['data'] != null) {
       conversationList = <ConversationData>[];
       json['data'].forEach((v) {
-        conversationList!.add(new ConversationData.fromJson(v));
+        conversationList!.add(ConversationData.fromJson(v));
       });
     }
     firstPageUrl = json['first_page_url'];
@@ -70,7 +70,7 @@ class ConversationContent {
     if (json['links'] != null) {
       links = <Links>[];
       json['links'].forEach((v) {
-        links!.add(new Links.fromJson(v));
+        links!.add(Links.fromJson(v));
       });
     }
     nextPageUrl = json['next_page_url'];
@@ -82,24 +82,24 @@ class ConversationContent {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['current_page'] = this.currentPage;
-    if (this.conversationList != null) {
-      data['data'] = this.conversationList!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['current_page'] = currentPage;
+    if (conversationList != null) {
+      data['data'] = conversationList!.map((v) => v.toJson()).toList();
     }
-    data['first_page_url'] = this.firstPageUrl;
-    data['from'] = this.from;
-    data['last_page'] = this.lastPage;
-    data['last_page_url'] = this.lastPageUrl;
-    if (this.links != null) {
-      data['links'] = this.links!.map((v) => v.toJson()).toList();
+    data['first_page_url'] = firstPageUrl;
+    data['from'] = from;
+    data['last_page'] = lastPage;
+    data['last_page_url'] = lastPageUrl;
+    if (links != null) {
+      data['links'] = links!.map((v) => v.toJson()).toList();
     }
-    data['next_page_url'] = this.nextPageUrl;
-    data['path'] = this.path;
-    data['per_page'] = this.perPage;
-    data['prev_page_url'] = this.prevPageUrl;
-    data['to'] = this.to;
-    data['total'] = this.total;
+    data['next_page_url'] = nextPageUrl;
+    data['path'] = path;
+    data['per_page'] = perPage;
+    data['prev_page_url'] = prevPageUrl;
+    data['to'] = to;
+    data['total'] = total;
     return data;
   }
 }
@@ -110,7 +110,7 @@ class ConversationData {
   String? channelId;
   String? message;
   String? userId;
-  var deletedAt;
+  String?  deletedAt;
   String? createdAt;
   String? updatedAt;
   ConversationUser? user;
@@ -136,31 +136,31 @@ class ConversationData {
     deletedAt = json['deleted_at'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    user = json['user'] != null ? new ConversationUser.fromJson(json['user']) : null;
+    user = json['user'] != null ? ConversationUser.fromJson(json['user']) : null;
 
     if (json['conversation_files'] != null) {
       conversationFile = <ConversationFile>[];
       json['conversation_files'].forEach((v) {
-        conversationFile!.add(new ConversationFile.fromJson(v));
+        conversationFile!.add(ConversationFile.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['channel_id'] = this.channelId;
-    data['message'] = this.message;
-    data['user_id'] = this.userId;
-    data['deleted_at'] = this.deletedAt;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    if (this.user != null) {
-      data['user'] = this.user!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['channel_id'] = channelId;
+    data['message'] = message;
+    data['user_id'] = userId;
+    data['deleted_at'] = deletedAt;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    if (user != null) {
+      data['user'] = user!.toJson();
     }
 
-    if (this.conversationFile != null) {
-      data['conversation_files'] = this.conversationFile!.map((v) => v.toJson()).toList();
+    if (conversationFile != null) {
+      data['conversation_files'] = conversationFile!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -171,7 +171,7 @@ class ConversationFile {
   String? conversationId;
   String? fileName;
   String? fileType;
-  var deletedAt;
+  String?  deletedAt;
   String? createdAt;
   String? updatedAt;
 
@@ -195,14 +195,14 @@ class ConversationFile {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['conversation_id'] = this.conversationId;
-    data['file_name'] = this.fileName;
-    data['file_type'] = this.fileType;
-    data['deleted_at'] = this.deletedAt;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['conversation_id'] = conversationId;
+    data['file_name'] = fileName;
+    data['file_type'] = fileType;
+    data['deleted_at'] = deletedAt;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }

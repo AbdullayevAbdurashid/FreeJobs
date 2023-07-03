@@ -9,11 +9,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool? centerTitle;
   final Color? bgColor;
   final Widget? actionWidget;
-  CustomAppBar({required this.title, this.isBackButtonExist = true, this.onBackPressed, this.showCart = false,this.centerTitle = true,this.bgColor, this.actionWidget});
+  const CustomAppBar({super.key, required this.title, this.isBackButtonExist = true, this.onBackPressed, this.showCart = false,this.centerTitle = true,this.bgColor, this.actionWidget});
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveHelper.isDesktop(context) ? WebMenuBar() : AppBar(
+    return ResponsiveHelper.isDesktop(context) ? const WebMenuBar() : AppBar(
       title: Text(title!, style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeLarge, color:  Theme.of(context).primaryColorLight),),
       centerTitle: centerTitle,
       leading: isBackButtonExist! ? IconButton(
@@ -22,7 +22,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         icon: Icon(Icons.arrow_back_ios,color:Theme.of(context).primaryColorLight),
         color: Theme.of(context).textTheme.bodyLarge!.color,
         onPressed: () => onBackPressed != null ? onBackPressed!() : Navigator.pop(context),
-      ) : SizedBox(),
+      ) : const SizedBox(),
       backgroundColor:Get.isDarkMode ? Theme.of(context).cardColor.withOpacity(.2):Theme.of(context).primaryColor,
       shape: Border(bottom: BorderSide(
           width: .4,
@@ -34,10 +34,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               color: Get.isDarkMode
                   ? Theme.of(context).primaryColorLight
                   : Colors.white,
-              size: Dimensions.CART_WIDGET_SIZE),
+              size: Dimensions.cartWidgetSize),
         )]:actionWidget!=null?[actionWidget!]: null,
     );
   }
   @override
-  Size get preferredSize => Size(Dimensions.WEB_MAX_WIDTH, ResponsiveHelper.isDesktop(Get.context) ? Dimensions.PREFERRED_SIZE_WHEN_DESKTOP : Dimensions.PREFERRED_SIZE );
+  Size get preferredSize => Size(Dimensions.webMaxWidth, ResponsiveHelper.isDesktop(Get.context) ? Dimensions.preferredSizeWhenDesktop : Dimensions.preferredSize );
 }

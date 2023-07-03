@@ -14,8 +14,8 @@ class CategoryController extends GetxController implements GetxService {
   bool _isLoading = false;
   int? _pageSize;
   bool? _isSearching = false;
-  String? _type = 'all';
-  String? _searchText = '';
+  final String _type = 'all';
+  final String _searchText = '';
   int? _offset = 1;
 
   List<CategoryModel>? get categoryList => _categoryList;
@@ -65,7 +65,7 @@ class CategoryController extends GetxController implements GetxService {
   }
 
 
-  Future<void> getSubCategoryList(String categoryID, int subCategoryIndex, {bool shouldUpdate = true}) async {
+  Future<void> getSubCategoryList(String categoryID, int? subCategoryIndex, {bool shouldUpdate = true}) async {
     _subCategoryList = null;
     if(shouldUpdate){
       update();
@@ -92,7 +92,7 @@ class CategoryController extends GetxController implements GetxService {
       }
       response.body['content']['data'].forEach((categoryTypesModel) {
         if(CategoryTypesModel.fromJson(categoryTypesModel).category != null){
-          _campaignBasedCategoryList!.add(CategoryTypesModel.fromJson(categoryTypesModel).category);
+          _campaignBasedCategoryList!.add(CategoryTypesModel.fromJson(categoryTypesModel).category!);
         }
       });
       _isLoading = false;

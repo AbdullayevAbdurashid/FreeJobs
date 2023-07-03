@@ -12,10 +12,10 @@ class TimeSlotModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['day'] = this.day;
-    data['start_time'] = this.startTime;
-    data['end_time'] = this.endTime;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['day'] = day;
+    data['start_time'] = startTime;
+    data['end_time'] = endTime;
     return data;
   }
 }

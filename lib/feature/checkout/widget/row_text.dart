@@ -17,7 +17,7 @@ class RowText extends StatelessWidget {
           Expanded(
             child: Row(
               children: [
-                Container(
+                SizedBox(
                   width:ResponsiveHelper.isWeb() ? 200 : Get.width / 2.5,
                   child: Text(title,
                     maxLines: 2,

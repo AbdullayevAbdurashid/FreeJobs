@@ -7,7 +7,7 @@ class HtmlRepository{
   HtmlRepository({required this.apiClient});
 
   Future<Response> getPagesContent() async {
-    return await apiClient.getData('${AppConstants.PAGES}');
+    return await apiClient.getData(AppConstants.pages);
   }
 
 }

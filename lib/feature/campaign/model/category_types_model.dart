@@ -7,7 +7,7 @@ class CategoryTypesModel {
   String? typeWiseId;
   String? createdAt;
   String? updatedAt;
-  var category;
+  CategoryModel? category;
 
   CategoryTypesModel(
       {this.id,
@@ -26,20 +26,20 @@ class CategoryTypesModel {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     category = json['category'] != null
-        ? new CategoryModel.fromJson(json['category'])
+        ? CategoryModel.fromJson(json['category'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['discount_id'] = this.discountId;
-    data['discount_type'] = this.discountType;
-    data['type_wise_id'] = this.typeWiseId;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    if (this.category != null) {
-      data['category'] = this.category!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['discount_id'] = discountId;
+    data['discount_type'] = discountType;
+    data['type_wise_id'] = typeWiseId;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    if (category != null) {
+      data['category'] = category!.toJson();
     }
     return data;
   }

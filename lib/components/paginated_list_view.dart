@@ -1,3 +1,5 @@
+import 'package:demandium/feature/create_post/controller/create_post_controller.dart';
+import 'package:demandium/feature/home/widget/bottom_create_post_dialog.dart';
 import 'package:get/get.dart';
 import 'package:demandium/core/core_export.dart';
 
@@ -7,8 +9,9 @@ class PaginatedListView extends StatefulWidget {
   final int? totalSize;
   final int? offset;
   final Widget itemView;
+  final bool showBottomSheet;
   const PaginatedListView({
-    Key? key, required this.scrollController, required this.onPaginate, required this.totalSize,
+    Key? key, required this.scrollController, required this.onPaginate, required this.totalSize, this.showBottomSheet = false,
     required this.offset, required this.itemView,
   }) : super(key: key);
 
@@ -20,6 +23,7 @@ class _PaginatedListViewState extends State<PaginatedListView> {
   late int _offset;
   List<int>? _offsetList;
   bool _isLoading = false;
+  bool showBottomSheet = false;
 
   @override
   void initState() {
@@ -56,6 +60,17 @@ class _PaginatedListViewState extends State<PaginatedListView> {
         });
       }
     }
+
+    if(_offset>=pageSize-1  &&  widget.showBottomSheet &&  Get.find<SplashController>().configModel.content?.biddingStatus==1 ){
+      showModalBottomSheet(
+          backgroundColor: Colors.transparent,
+          isScrollControlled: true,
+          context: Get.context!,
+          builder: (BuildContext context){
+        return const BottomCreatePostDialog();
+      });
+      Get.find<CreatePostController>().resetCreatePostValue();
+    }
   }
 
 
@@ -71,15 +86,18 @@ class _PaginatedListViewState extends State<PaginatedListView> {
     return Column(children: [
 
       widget.itemView,
-      SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
-      (ResponsiveHelper.isDesktop(context) && (widget.totalSize == null || _offset >= (widget.totalSize! / 10).ceil() || _offsetList!.contains(_offset+1))) ? SizedBox() : Center(child: Padding(
-        padding: (_isLoading || ResponsiveHelper.isDesktop(context)) ? EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL) : EdgeInsets.zero,
-        child: _isLoading ? CircularProgressIndicator() : (ResponsiveHelper.isDesktop(context) && widget.totalSize != null) ? InkWell(
+      const SizedBox(height: Dimensions.paddingSizeDefault),
+      (ResponsiveHelper.isDesktop(context) && (widget.totalSize == null || _offset >= (widget.totalSize! / 10).ceil() || _offsetList!.contains(_offset+1))) ?
+      const SizedBox() :
+      Center(child: Padding(
+        padding: (_isLoading || ResponsiveHelper.isDesktop(context)) ? const EdgeInsets.all(Dimensions.paddingSizeSmall) : EdgeInsets.zero,
+        child: _isLoading ?
+        const CircularProgressIndicator() : (ResponsiveHelper.isDesktop(context) && widget.totalSize != null) ?
+        InkWell(
           radius: 50,
-
           onTap: _paginate,
           child: Container(
-            padding: EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_SMALL, horizontal: Dimensions.PADDING_SIZE_LARGE),
+            padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall, horizontal: Dimensions.paddingSizeLarge),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(50),
               border: Border.all(color: Get.isDarkMode? light.cardColor: Theme.of(context).primaryColor),
@@ -92,10 +110,10 @@ class _PaginatedListViewState extends State<PaginatedListView> {
               ),
             ),
           ),
-        ) : SizedBox(),
+        ) : const SizedBox(),
       )),
 
-      SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_LARGE*2),
+      const SizedBox(height: Dimensions.paddingSizeExtraLarge*2),
     ]);
   }
 }

@@ -9,8 +9,8 @@ import 'package:get/get.dart';
 
 class TestimonialWidget extends StatelessWidget {
   final WebLandingController webLandingController;
-  final textContent;
-  final baseUrl;
+  final Map<String?,String?>? textContent;
+  final String baseUrl;
   final PageController _pageController = PageController();
 
    TestimonialWidget({
@@ -26,34 +26,34 @@ class TestimonialWidget extends StatelessWidget {
 
     return Container(
       color: Theme.of(context).hoverColor,
-      height: Dimensions.WEB_LANDING_TESTIMONIAL_HEIGHT,
+      height: Dimensions.webLandingTestimonialHeight,
       width: Get.width,
       child: Align(
         alignment: Alignment.center,
         child: SizedBox(
-          width: Dimensions.WEB_MAX_WIDTH,
+          width: Dimensions.webMaxWidth,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_EXTRA_LARGE),
+                padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraLarge),
                 child: InkWell(
-                  onTap: () => _pageController.previousPage(duration: Duration(seconds: 1), curve: Curves.easeInOut),
+                  onTap: () => _pageController.previousPage(duration: const Duration(seconds: 1), curve: Curves.easeInOut),
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 5),
-                    height: Dimensions.WEB_LANDING_ICON_CONTAINER_HEIGHT, width: Dimensions.WEB_LANDING_ICON_CONTAINER_HEIGHT, alignment: Alignment.center,
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    height: Dimensions.webLandingIconContainerHeight, width: Dimensions.webLandingIconContainerHeight, alignment: Alignment.center,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.grey.withOpacity(0.15),
                     ),
                     child: Padding(
                       padding:  EdgeInsets.only(
-                        left: isLtr ?  Dimensions.PADDING_SIZE_SMALL : 0.0,
-                        right: !isLtr ?  Dimensions.PADDING_SIZE_SMALL : 0.0,
+                        left: isLtr ?  Dimensions.paddingSizeSmall : 0.0,
+                        right: !isLtr ?  Dimensions.paddingSizeSmall : 0.0,
                       ),
                       child: Icon(
                           Icons.arrow_back_ios,
-                          size: Dimensions.WEB_ARROW_SIZE,
+                          size: Dimensions.webArrowSize,
                           color:webLandingController.currentPage! > 0? Theme.of(context).colorScheme.primary :Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.8)
                       ),
                     ),
@@ -70,7 +70,7 @@ class TestimonialWidget extends StatelessWidget {
                         itemBuilder: (context, index) {
                           Testimonial testimonial =  webLandingController.webLandingContent!.testimonial!.elementAt(index);
                           return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_LARGE),
+                            padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
@@ -81,18 +81,18 @@ class TestimonialWidget extends StatelessWidget {
                                       mainAxisSize: MainAxisSize.min,
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        if(textContent['testimonial_title'] != null && textContent['testimonial_title'] != '')
+                                        if(textContent?['testimonial_title'] != null && textContent?['testimonial_title'] != '')
                                         Text(
-                                          "${textContent['testimonial_title']}",
+                                          "${textContent?['testimonial_title']}",
                                           style: ubuntuBold.copyWith(fontSize: Dimensions.fontSizeOverLarge), textAlign: TextAlign.center,
                                         ),
-                                        SizedBox(height: 70,),
-                                        Container(
+                                        const SizedBox(height: 70,),
+                                        SizedBox(
                                             width: Get.width / 4,
-                                            child: Text("${testimonial.review!}",style: ubuntuMedium.copyWith(
+                                            child: Text(testimonial.review!,style: ubuntuMedium.copyWith(
                                                 fontStyle: FontStyle.italic,
                                                 fontSize: Dimensions.fontSizeDefault),)),
-                                        SizedBox(height: 24,),
+                                        const SizedBox(height: 24,),
                                         Text(
                                           "- ${testimonial.name!}",
                                           style: ubuntuBold.copyWith(fontSize: Dimensions.fontSizeDefault), textAlign: TextAlign.center,
@@ -120,18 +120,18 @@ class TestimonialWidget extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_EXTRA_LARGE),
+                padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraLarge),
                 child: InkWell(
-                  onTap: () => _pageController.nextPage(duration: Duration(seconds: 1), curve: Curves.easeInOut),
+                  onTap: () => _pageController.nextPage(duration: const Duration(seconds: 1), curve: Curves.easeInOut),
                   child: Container(
-                    height: Dimensions.WEB_LANDING_ICON_CONTAINER_HEIGHT, width: Dimensions.WEB_LANDING_ICON_CONTAINER_HEIGHT, alignment: Alignment.center,
+                    height: Dimensions.webLandingIconContainerHeight, width: Dimensions.webLandingIconContainerHeight, alignment: Alignment.center,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.grey.withOpacity(0.15),
                     ),
                     child: Icon(
                         Icons.arrow_forward_ios,
-                        size: Dimensions.WEB_ARROW_SIZE,
+                        size: Dimensions.webArrowSize,
                         color:webLandingController.currentPage!+1 < webLandingController.webLandingContent!.testimonial!.length
                             ? Theme.of(context).colorScheme.primary :Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.8)
                     ),

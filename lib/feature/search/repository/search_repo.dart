@@ -10,26 +10,26 @@ class SearchRepo {
   Future<Response> getSearchData(String query) async {
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
     String encoded = stringToBase64.encode(query);
-    return await apiClient.getData('${AppConstants.SEARCH_URI}?string=$encoded&offset=1&limit=50');
+    return await apiClient.getData('${AppConstants.searchUri}?string=$encoded&offset=1&limit=50');
   }
 
   Future<bool> saveSearchHistory(List<String> searchHistories) async {
-    return await sharedPreferences.setStringList(AppConstants.SEARCH_HISTORY, searchHistories);
+    return await sharedPreferences.setStringList(AppConstants.searchHistory, searchHistories);
   }
 
   List<String> getSearchAddress() {
-    return sharedPreferences.getStringList(AppConstants.SEARCH_HISTORY) ?? [];
+    return sharedPreferences.getStringList(AppConstants.searchHistory) ?? [];
   }
 
   Future<bool> clearSearchHistory() async {
-    return sharedPreferences.setStringList(AppConstants.SEARCH_HISTORY, []);
+    return sharedPreferences.setStringList(AppConstants.searchHistory, []);
   }
 
   Future<Response> getSuggestedServicesFromServer() async {
-    return await apiClient.getData('${AppConstants.SUGGESTED_SEARCH_URI}?offset=1&limit=20');
+    return await apiClient.getData('${AppConstants.suggestedSearchUri}?offset=1&limit=20');
   }
 
   Future<Response> removeSuggestedServicesFromServer({String? id}) async {
-    return await apiClient.getData('${AppConstants.REMOVE_SUGGESTED_SEARCH_URI}${id!=null?'?id[]=$id':''}');
+    return await apiClient.getData('${AppConstants.removeSuggestedServiceUri}${id!=null?'?id[]=$id':''}');
   }
 }

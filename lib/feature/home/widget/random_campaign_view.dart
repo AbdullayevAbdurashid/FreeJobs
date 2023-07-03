@@ -11,20 +11,20 @@ import 'package:demandium/utils/images.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
 class RandomCampaignView extends StatelessWidget {
-   RandomCampaignView({Key? key}) : super(key: key);
+   const RandomCampaignView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<CampaignController>(
         builder: (campaignController) {
           int randomIndex = 1;
-          if(campaignController.campaignList != null && campaignController.campaignList!.length == 0){
-            return SizedBox();
+          if(campaignController.campaignList != null && campaignController.campaignList!.isEmpty){
+            return const SizedBox();
           }else{
-            String? _baseUrl =  Get.find<SplashController>().configModel.content!.imageBaseUrl;
+            String? baseUrl =  Get.find<SplashController>().configModel.content!.imageBaseUrl;
             if(campaignController.campaignList != null) {
-              var rng = new Random();
-              randomIndex =  rng.nextInt(campaignController.campaignList!.length> 0 ? campaignController.campaignList!.length :1 );
+              var rng = Random();
+              randomIndex =  rng.nextInt(campaignController.campaignList!.isNotEmpty ? campaignController.campaignList!.length :1 );
               return InkWell(
                 onTap: (){
                   if(isRedundentClick(DateTime.now())){
@@ -38,15 +38,15 @@ class RandomCampaignView extends StatelessWidget {
                   alignment: Alignment.center,
                   children: [
                     Padding(
-                      padding:  EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT),
+                      padding:  const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
                       child: Container(
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.PADDING_SIZE_EIGHT),),
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.paddingSizeEight),),
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(Dimensions.PADDING_SIZE_EIGHT),
+                          borderRadius: BorderRadius.circular(Dimensions.paddingSizeEight),
                           child: CustomImage(
                             height: ResponsiveHelper.isTab(context) || MediaQuery.of(context).size.width > 450 ? 350 :MediaQuery.of(context).size.width * 0.40,
                             width: Get.width, fit: BoxFit.cover, placeholder: Images.placeholder,
-                            image:'$_baseUrl/campaign/${campaignController.campaignList![randomIndex].coverImage}',),
+                            image:'$baseUrl/campaign/${campaignController.campaignList![randomIndex].coverImage}',),
                         ),
                       ),
                     ),
@@ -55,18 +55,18 @@ class RandomCampaignView extends StatelessWidget {
               );
             }
             else{
-              return Container(
+              return SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: ResponsiveHelper.isTab(context) ? 300 : GetPlatform.isDesktop ? 500 : MediaQuery.of(context).size.width * 0.40,
-                child:  Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT),
+                child:  Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
                   child: Shimmer(
-                      duration: Duration(seconds: 2),
+                      duration: const Duration(seconds: 2),
                       enabled: true,
                       color: Colors.grey,
                       child: Container(
                         decoration: BoxDecoration(
                           color: Get.isDarkMode? Colors.grey[700]:Colors.white,
-                          borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                          borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                           boxShadow: Get.isDarkMode?null:[BoxShadow(color: Colors.grey[300]!, blurRadius: 10, spreadRadius: 1)],
                         ),
                       )

@@ -11,8 +11,8 @@ class ImageDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dialog(
       backgroundColor: Get.isDarkMode?Theme.of(context).primaryColorDark:null,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(Dimensions.RADIUS_SMALL))),
-      insetPadding: EdgeInsets.all(30),
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(Dimensions.radiusSmall))),
+      insetPadding: const EdgeInsets.all(30),
       clipBehavior: Clip.antiAliasWithSaveLayer,
       child: SizedBox(
         width: 600,
@@ -23,12 +23,12 @@ class ImageDialog extends StatelessWidget {
               Align(
                 alignment: Alignment.centerRight,
                 child: IconButton(
-                  icon: Icon(Icons.close),
+                  icon: const Icon(Icons.close),
                   onPressed: () => Navigator.of(context).pop(),
                 ),
               ),
               Container(
-                margin: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_LARGE),
+                margin: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge),
                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Theme.of(context).primaryColor.withOpacity(0.20)),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
@@ -41,7 +41,7 @@ class ImageDialog extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
+              const SizedBox(height: Dimensions.paddingSizeLarge),
 
             ],
           ),

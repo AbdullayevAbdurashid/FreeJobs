@@ -7,28 +7,28 @@ class BookingSummeryWidget extends StatelessWidget{
 
   @override
   Widget build(BuildContext context){
-    double _serviceDiscount = 0;
+    double serviceDiscount = 0;
     bookingDetailsContent.detail?.forEach((service) {
-      _serviceDiscount = _serviceDiscount + service.discountAmount!;
+      serviceDiscount = serviceDiscount + service.discountAmount!;
     });
 
     return GetBuilder<BookingDetailsTabsController>(
         builder:(bookingDetailsController){
-          if(!bookingDetailsController.isLoading)
-          return Column(
+          if(!bookingDetailsController.isLoading) {
+            return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(horizontal:Dimensions.PADDING_SIZE_DEFAULT),
+                padding: const EdgeInsets.symmetric(horizontal:Dimensions.paddingSizeDefault),
                 child: Text(
                     'booking_summery'.tr,
                     style:ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).textTheme.bodyLarge!.color))
               ),
-              Gaps.verticalGapOf(Dimensions.PADDING_SIZE_DEFAULT),
+              Gaps.verticalGapOf(Dimensions.paddingSizeDefault),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal:Dimensions.PADDING_SIZE_EIGHT),
+                padding: const EdgeInsets.symmetric(horizontal:Dimensions.paddingSizeEight),
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal:Dimensions.PADDING_SIZE_EIGHT),
+                  padding: const EdgeInsets.symmetric(horizontal:Dimensions.paddingSizeEight),
                   color: Theme.of(context).primaryColor.withOpacity(0.1),
                   height: 40,
                   child:  Row(
@@ -53,31 +53,29 @@ class BookingSummeryWidget extends StatelessWidget{
                 );
               },
                 itemCount: bookingDetailsController.bookingDetailsContent!.detail?.length,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
               ),
 
-              Gaps.verticalGapOf(Dimensions.PADDING_SIZE_SMALL),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT),
+              Gaps.verticalGapOf(Dimensions.paddingSizeSmall),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
                 child: Divider(height: 2, color: Colors.grey,),
               ),
-              Gaps.verticalGapOf(Dimensions.PADDING_SIZE_SMALL),
+              Gaps.verticalGapOf(Dimensions.paddingSizeSmall),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT),
+                padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      child: Text('sub_total'.tr,
-                        style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyLarge!.color,),
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                    Text('sub_total'.tr,
+                      style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyLarge!.color,),
+                      overflow: TextOverflow.ellipsis,
                     ),
                     Directionality(
                       textDirection: TextDirection.ltr,
                       child: Text(
-                        '${PriceConverter.convertPrice(bookingDetailsController.allTotalCost,isShowLongPrice: true)}',
+                        PriceConverter.convertPrice(bookingDetailsController.allTotalCost,isShowLongPrice: true),
                         style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyLarge!.color),
                       ),
                     ),
@@ -85,38 +83,36 @@ class BookingSummeryWidget extends StatelessWidget{
                 ),
               ),
 
-              Gaps.verticalGapOf(Dimensions.PADDING_SIZE_SMALL),
+              Gaps.verticalGapOf(Dimensions.paddingSizeSmall),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT),
+                padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      child: Text(
-                        'service_discount'.tr,
-                        style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color:Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.6)),
-                          overflow: TextOverflow.ellipsis
-                      )),
+                    Text(
+                      'service_discount'.tr,
+                      style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color:Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.6)),
+                        overflow: TextOverflow.ellipsis
+                    ),
                     Directionality(
                       textDirection: TextDirection.ltr,
                       child: Text(
-                        "(-) ${PriceConverter.convertPrice(_serviceDiscount)}",
+                        "(-) ${PriceConverter.convertPrice(serviceDiscount)}",
                         style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color:Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.6)),),
                     ),
                   ],
                 ),
               ),
-              Gaps.verticalGapOf(Dimensions.PADDING_SIZE_SMALL),
+              Gaps.verticalGapOf(Dimensions.paddingSizeSmall),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT),
+                padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      child: Text(
-                        'coupon_discount'.tr,
-                        style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.6)),
-                        overflow: TextOverflow.ellipsis,),),
+                    Text(
+                      'coupon_discount'.tr,
+                      style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.6)),
+                      overflow: TextOverflow.ellipsis,),
                     Directionality(
                       textDirection: TextDirection.ltr,
                       child: Text('(-) ${PriceConverter.convertPrice(bookingDetailsController.bookingDetailsContent!.totalCouponDiscountAmount!.toDouble())}',
@@ -126,16 +122,16 @@ class BookingSummeryWidget extends StatelessWidget{
                 ),
               ),
 
-              Gaps.verticalGapOf(Dimensions.PADDING_SIZE_SMALL),
+              Gaps.verticalGapOf(Dimensions.paddingSizeSmall),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT),
+                padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(child: Text(
+                    Text(
                       'campaign_discount'.tr,
                       style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.6)),
-                      overflow: TextOverflow.ellipsis,),),
+                      overflow: TextOverflow.ellipsis,),
                     Directionality(
                       textDirection: TextDirection.ltr,
                       child: Text('(-) ${PriceConverter.convertPrice(bookingDetailsController.bookingDetailsContent!.totalCampaignDiscountAmount!.toDouble())}',
@@ -145,17 +141,16 @@ class BookingSummeryWidget extends StatelessWidget{
                 ),
               ),
 
-              Gaps.verticalGapOf(Dimensions.PADDING_SIZE_SMALL),
+              Gaps.verticalGapOf(Dimensions.paddingSizeSmall),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT),
+                padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      child: Text(
-                        'service_vat'.tr,
-                        style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.6)),
-                        overflow: TextOverflow.ellipsis,)),
+                    Text(
+                      'service_vat'.tr,
+                      style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.6)),
+                      overflow: TextOverflow.ellipsis,),
                     Directionality(
                       textDirection: TextDirection.ltr,
                       child: Text('(+) ${PriceConverter.convertPrice(bookingDetailsController.bookingDetailsContent!.totalTaxAmount!.toDouble(),isShowLongPrice: true)}',
@@ -165,35 +160,54 @@ class BookingSummeryWidget extends StatelessWidget{
                   ],
                 ),
               ),
+              // if(bookingDetailsController.bookingDetailsContent?.additionalCharge!=null)
+              //   Padding(
+              //     padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
+              //     child: Row(
+              //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //       children: [
+              //         Text( bookingDetailsController.bookingDetailsContent!.additionalCharge! >= 0 ?"due".tr : "refund".tr, style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall,
+              //             color: Theme.of(context).textTheme.bodyLarge!.color),overflow: TextOverflow.ellipsis,
+              //         ),
+              //         Text(PriceConverter.convertPrice(
+              //             double.tryParse(bookingDetailsController.bookingDetailsContent?.additionalCharge.toString()??"0"),
+              //             isShowLongPrice:true),
+              //           style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall,
+              //               color: Theme.of(context).textTheme.bodyLarge!.color
+              //           ),
+              //         ),
+              //       ],
+              //     ),
+              //   ),
 
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
                 child: Divider(),
               ),
-              Gaps.verticalGapOf(Dimensions.PADDING_SIZE_SMALL),
+              Gaps.verticalGapOf(Dimensions.paddingSizeSmall),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT),
+                padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      child: Text(
-                        'grand_total'.tr,
-                        style: ubuntuBold.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyLarge!.color),
-                        overflow: TextOverflow.ellipsis,),),
+                    Text(
+                      'grand_total'.tr,
+                      style: ubuntuBold.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyLarge!.color),
+                      overflow: TextOverflow.ellipsis,),
                     Directionality(
                       textDirection: TextDirection.ltr,
                       child: Text(
-                        '${PriceConverter.convertPrice(bookingDetailsController.bookingDetailsContent!.totalBookingAmount!.toDouble(),isShowLongPrice: true)}',
+                        PriceConverter.convertPrice(bookingDetailsController.bookingDetailsContent!.totalBookingAmount!.toDouble(),isShowLongPrice: true),
                         style: ubuntuBold.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).textTheme.bodyLarge!.color),),
                     ),
                   ],
                 ),
               ),
-              SizedBox(height: Dimensions.PADDING_FOR_CHATTING_BUTTON),
+              const SizedBox(height: Dimensions.paddingForChattingButton),
             ],
           );
-          return SizedBox();
+          }
+          return const SizedBox();
         });
   }
 }
@@ -207,23 +221,25 @@ class ServiceInfoItem extends StatelessWidget {
   const ServiceInfoItem({Key? key,required this.bookingService,required this.bookingDetailsController, required this.index, required this.bookingDetailsContent}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    double _unitTotalCost = 0;
+    double unitTotalCost = 0;
     try{
-      _unitTotalCost = bookingDetailsController.unitTotalCost[index];
+      unitTotalCost = bookingDetailsController.unitTotalCost[index];
     }catch(error) {
-      print('error : $error');
+      if (kDebugMode) {
+        print('error : $error');
+      }
     }
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT),
+        padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
         child: Stack(
           alignment: Alignment.bottomRight,
           children: [
             Column(crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Gaps.verticalGapOf(Dimensions.PADDING_SIZE_DEFAULT),
+                Gaps.verticalGapOf(Dimensions.paddingSizeDefault),
                 Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
+                    SizedBox(
                       width: Get.width / 2,
                       child: Text(bookingService.serviceName != null ?bookingService.serviceName!:'',
                         style: ubuntuRegular.copyWith(
@@ -234,23 +250,23 @@ class ServiceInfoItem extends StatelessWidget {
                     Directionality(
                       textDirection: TextDirection.ltr,
                       child: Text(
-                        '${PriceConverter.convertPrice(_unitTotalCost,isShowLongPrice: true)}',
+                        PriceConverter.convertPrice(unitTotalCost,isShowLongPrice: true),
                         style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall,
                             color: Theme.of(context).textTheme.bodyLarge!.color),
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL,),
-                Container(
+                const SizedBox(height: Dimensions.paddingSizeExtraSmall,),
+                SizedBox(
                   width: Get.width / 1.5,
-                  child: Text('${bookingService.variantKey!}',
+                  child: Text(bookingService.variantKey??"",
                     style: ubuntuRegular.copyWith(
                         fontSize: Dimensions.fontSizeExtraSmall,
                         color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.6)
                     ),),
                 ),
-                Gaps.verticalGapOf(Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                Gaps.verticalGapOf(Dimensions.paddingSizeExtraSmall),
                 priceText('unit_price'.tr, bookingService.serviceCost!.toDouble(), context,mainAxisAlignmentStart: true),
                 Row(
                   children: [
@@ -264,11 +280,11 @@ class ServiceInfoItem extends StatelessWidget {
                   ],
                 ),
                 bookingService.discountAmount! > 0 ?
-                priceText('discount'.tr,bookingService.discountAmount!.toDouble(), context,mainAxisAlignmentStart: true) : SizedBox(),
+                priceText('discount'.tr,bookingService.discountAmount!.toDouble(), context,mainAxisAlignmentStart: true) : const SizedBox(),
                 bookingService.campaignDiscountAmount! > 0 ?
-                priceText('campaign'.tr, bookingService.campaignDiscountAmount!.toDouble(), context,mainAxisAlignmentStart: true) : SizedBox(),
+                priceText('campaign'.tr, bookingService.campaignDiscountAmount!.toDouble(), context,mainAxisAlignmentStart: true) : const SizedBox(),
                 bookingService.overallCouponDiscountAmount! > 0 ?
-                priceText('coupon'.tr, bookingService.overallCouponDiscountAmount!.toDouble(), context,mainAxisAlignmentStart: true) : SizedBox(),
+                priceText('coupon'.tr, bookingService.overallCouponDiscountAmount!.toDouble(), context,mainAxisAlignmentStart: true) : const SizedBox(),
 
               ],
             ),
@@ -287,7 +303,7 @@ Widget priceText(String title,double amount,context, {bool mainAxisAlignmentStar
         mainAxisAlignment:mainAxisAlignmentStart?MainAxisAlignment.start: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            title+' :   ',
+            '$title :   ',
             style: ubuntuRegular.copyWith(
                 fontSize: Dimensions.fontSizeExtraSmall,
                 color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.6)
@@ -295,14 +311,14 @@ Widget priceText(String title,double amount,context, {bool mainAxisAlignmentStar
           ),
           Directionality(
             textDirection: TextDirection.ltr,
-            child: Text('${PriceConverter.convertPrice(amount,isShowLongPrice: true)}',style: ubuntuRegular.copyWith(
+            child: Text(PriceConverter.convertPrice(amount,isShowLongPrice: true),style: ubuntuRegular.copyWith(
               color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.6),
               fontSize: Dimensions.fontSizeExtraSmall
             ),),
           )
         ],
       ),
-      Gaps.verticalGapOf(Dimensions.PADDING_SIZE_MINI),
+      Gaps.verticalGapOf(Dimensions.paddingSizeMini),
     ],
   );
 }

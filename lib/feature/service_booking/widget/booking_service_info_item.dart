@@ -6,9 +6,9 @@ class BookingServiceInfoItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(
-          horizontal: Dimensions.PADDING_SIZE_DEFAULT,
-          vertical: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+      padding: const EdgeInsets.symmetric(
+          horizontal: Dimensions.paddingSizeDefault,
+          vertical: Dimensions.paddingSizeExtraSmall),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -16,9 +16,9 @@ class BookingServiceInfoItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               if(bookingContentDetailsItem.service != null)
-              Container(
+              SizedBox(
                 width: 215,
-                child: Text("${bookingContentDetailsItem.service!.name!}",
+                child: Text(bookingContentDetailsItem.service!.name!,
                   style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall,color: Theme.of(context).textTheme.bodyLarge!.color),
                   overflow: TextOverflow.ellipsis,),),
               Text("\$${bookingContentDetailsItem.totalCost}",
@@ -26,12 +26,12 @@ class BookingServiceInfoItem extends StatelessWidget {
                     color: Theme.of(context).textTheme.bodyLarge!.color),),
             ],
           ),
-          Gaps.verticalGapOf(Dimensions.PADDING_SIZE_EXTRA_SMALL),
+          Gaps.verticalGapOf(Dimensions.paddingSizeExtraSmall),
           Text("${bookingContentDetailsItem.variantKey}",
             style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall,color: Theme.of(context).hintColor),),
           Text("Qty :${bookingContentDetailsItem.quantity}",
             style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall,color: Theme.of(context).hintColor),),
-          Gaps.horizontalGapOf(Dimensions.PADDING_SIZE_SMALL),
+          Gaps.horizontalGapOf(Dimensions.paddingSizeSmall),
         ],
       ),
     );

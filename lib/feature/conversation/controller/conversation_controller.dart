@@ -37,9 +37,9 @@ class ConversationController extends GetxController implements GetxService{
   int? _offset = 1;
   bool? _isLoading = false;
   bool? get isLoading => _isLoading;
-  String _name='';
+  final String _name='';
   String get name => _name;
-  String _image='';
+  final String _image='';
   String get image => _image;
 
   List<ChannelData>? _channelList;
@@ -177,7 +177,6 @@ class ConversationController extends GetxController implements GetxService{
       update();
     }
     Response response = await conversationRepo.createChannel(userID,referenceID);
-    print(response.body);
     if(response.statusCode == 200){
       if(fromBookingDetailsPage){
         _isLoading = false;
@@ -260,15 +259,15 @@ class ConversationController extends GetxController implements GetxService{
 
   void downloadFile(String url, String dir) async {
     await FlutterDownloader.enqueue(
-      url: '$url',
-      savedDir: '$dir',
+      url: url,
+      savedDir: dir,
       showNotification: true,
       saveInPublicStorage: true,
       openFileFromNotification: true,
     );
   }
   void downloadFileForWeb(String url) {
-    html.AnchorElement anchorElement =  new html.AnchorElement(href: url);
+    html.AnchorElement anchorElement =  html.AnchorElement(href: url);
     anchorElement.download = url;
     anchorElement.click();
   }

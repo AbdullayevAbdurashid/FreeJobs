@@ -15,31 +15,31 @@ class ProviderDetailsTopCard extends StatelessWidget {
           Provider providerDetails = providerController.providerDetailsContent!.provider!;
       return Column(children: [
         Container(decoration: BoxDecoration(color: Theme.of(context).cardColor,
-          borderRadius: BorderRadius.circular(Dimensions.RADIUS_DEFAULT),
+          borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
           border: Border.all(color: Theme.of(context).hintColor.withOpacity(0.3)),
         ),
-          padding: EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
-          margin: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT,vertical: Dimensions.PADDING_SIZE_DEFAULT),
+          padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
+          margin: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault,vertical: Dimensions.paddingSizeDefault),
           child: Row(crossAxisAlignment: CrossAxisAlignment.start,children: [
-            ClipRRect(borderRadius: BorderRadius.circular(Dimensions.RADIUS_EXTRA_MORE_LARGE),
+            ClipRRect(borderRadius: BorderRadius.circular(Dimensions.radiusExtraMoreLarge),
                 child: CustomImage(height: 50, width: 50, fit: BoxFit.cover,
                     image: "${Get.find<SplashController>().configModel.content!.imageBaseUrl}/provider/logo/${providerDetails.logo}")),
 
-            SizedBox(width: Dimensions.PADDING_SIZE_SMALL,),
+            const SizedBox(width: Dimensions.paddingSizeSmall,),
             Expanded(
               child: Column(mainAxisAlignment: MainAxisAlignment.start,crossAxisAlignment: CrossAxisAlignment.start,children: [
                 Text(providerDetails.companyName??'', style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeLarge),
                     maxLines: 1, overflow: TextOverflow.ellipsis),
 
-                SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                const SizedBox(height: Dimensions.paddingSizeExtraSmall),
                 Text(subcategories,
                   style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall,color: Theme.of(context).secondaryHeaderColor),
                   maxLines: 2,overflow: TextOverflow.ellipsis,
                 ),
-                SizedBox(height: Dimensions.PADDING_SIZE_EIGHT),
+                const SizedBox(height: Dimensions.paddingSizeEight),
                 Row(
                   children: [
-                    Container(
+                    SizedBox(
                       height: 20,
                       child: Row(
                         children: [
@@ -60,7 +60,7 @@ class ProviderDetailsTopCard extends StatelessWidget {
                     ),
                     Container(
                       width: 1,height: 10,
-                      margin: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                      margin: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall),
                       decoration: BoxDecoration(
                         color: Theme.of(context).primaryColor.withOpacity(0.5),
                       ),
@@ -80,7 +80,7 @@ class ProviderDetailsTopCard extends StatelessWidget {
           ],),
         ),
         if(isAppbar==true)
-          Expanded(child: SizedBox()),
+          const Expanded(child: SizedBox()),
       ],
       );
     });

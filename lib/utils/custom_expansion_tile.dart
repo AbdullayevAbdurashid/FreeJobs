@@ -280,8 +280,9 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> with SingleTi
     _backgroundColor = _controller.drive(_backgroundColorTween.chain(_easeOutTween));
 
     _isExpanded = PageStorage.of(context).readState(context) as bool? ?? widget.initiallyExpanded;
-    if (_isExpanded)
+    if (_isExpanded) {
       _controller.value = 1.0;
+    }
   }
 
   @override
@@ -297,8 +298,9 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> with SingleTi
         _controller.forward();
       } else {
         _controller.reverse().then<void>((void value) {
-          if (!mounted)
+          if (!mounted) {
             return;
+          }
           setState(() {
             // Rebuild without widget.children.
           });
@@ -316,8 +318,8 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> with SingleTi
     return Container(
       decoration: BoxDecoration(
         color: _backgroundColor.value ?? expansionTileTheme.backgroundColor ?? Colors.transparent,
-        border: Border(
-          top: const BorderSide(color: Colors.transparent),
+        border: const Border(
+          top: BorderSide(color: Colors.transparent),
           bottom: BorderSide(color: Colors.transparent),
         ),
       ),
@@ -337,10 +339,10 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> with SingleTi
                 decoration: BoxDecoration(
                      color: Theme.of(context).hoverColor,
                     borderRadius:
-                    BorderRadius.all(Radius.circular(5))),
+                    const BorderRadius.all(Radius.circular(5))),
                 child: Row(
                   children: [
-                    SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL,),
+                    const SizedBox(width: Dimensions.paddingSizeExtraSmall,),
                      Icon( _isExpanded == true ?
                         Icons.remove_circle:
                         Icons.add_circle_outlined,

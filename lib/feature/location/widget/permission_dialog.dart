@@ -2,39 +2,41 @@ import 'package:get/get.dart';
 import 'package:demandium/core/core_export.dart';
 
 class PermissionDialog extends StatelessWidget {
+  const PermissionDialog({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL)),
-      insetPadding: EdgeInsets.all(30),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimensions.radiusSmall)),
+      insetPadding: const EdgeInsets.all(30),
       clipBehavior: Clip.antiAliasWithSaveLayer,
       child: Padding(
-        padding: EdgeInsets.all(Dimensions.PADDING_SIZE_LARGE),
+        padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
         child: SizedBox(
           width: 500,
           child: Column(mainAxisSize: MainAxisSize.min, children: [
             Icon(Icons.add_location_alt_rounded, color: Theme.of(context).primaryColor, size: 100),
-            SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
+            const SizedBox(height: Dimensions.paddingSizeLarge),
             Text(
               'you_denied_location_permission'.tr, textAlign: TextAlign.center,
               style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeLarge),
             ),
-            SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
+            const SizedBox(height: Dimensions.paddingSizeLarge),
             Row(children: [
               Expanded(
                 child: TextButton(
                   style: TextButton.styleFrom(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL), side: BorderSide(width: 2, color: Theme.of(context).primaryColor)),
-                    minimumSize: Size(1, 50),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimensions.radiusSmall), side: BorderSide(width: 2, color: Theme.of(context).primaryColor)),
+                    minimumSize: const Size(1, 50),
                   ),
                   child: Text('close'.tr),
                   onPressed: () => Navigator.pop(context),
                 ),
               ),
-              SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
+              const SizedBox(width: Dimensions.paddingSizeSmall),
               Expanded(child: CustomButton(buttonText: 'settings'.tr, onPressed: () async {
                 await Geolocator.openAppSettings();
-                Navigator.pop(context);
+                Navigator.pop(Get.context!);
               })),
             ]),
           ]),

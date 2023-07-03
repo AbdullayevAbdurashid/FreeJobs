@@ -13,7 +13,7 @@ class _WebFeatheredCategoryViewState extends State<WebFeatheredCategoryView> {
   @override
   void initState() {
     super.initState();
-     Get.find<ServiceController>().getFeatherCategoryList(false);
+
   }
   @override
   Widget build(BuildContext context) {
@@ -31,16 +31,16 @@ class _WebFeatheredCategoryViewState extends State<WebFeatheredCategoryView> {
             width: Get.width,
             decoration: BoxDecoration(
               color: Theme.of(context).primaryColor.withOpacity(0.05),
-              borderRadius: BorderRadius.circular(Dimensions.RADIUS_DEFAULT),
+              borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
             ),
-            margin: EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-            padding: EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_SMALL,horizontal: Dimensions.PADDING_SIZE_DEFAULT),
+            margin: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall),
+            padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall,horizontal: Dimensions.paddingSizeDefault),
             child: Column(
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Padding(padding: EdgeInsets.only(bottom:Dimensions.PADDING_SIZE_SMALL),
+                    Padding(padding: const EdgeInsets.only(bottom:Dimensions.paddingSizeSmall),
                       child: Text(serviceController.categoryList[categoryIndex].name??"", style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeExtraLarge)),
                     ),
                     InkWell(
@@ -57,28 +57,28 @@ class _WebFeatheredCategoryViewState extends State<WebFeatheredCategoryView> {
                 ),
                 Row(children: [
                   if(ResponsiveHelper.isDesktop(context) || ResponsiveHelper.isTab(context))
-                  Container(
+                  SizedBox(
                     height: Get.find<LocalizationController>().isLtr?245:255,
                     width: Get.find<LocalizationController>().isLtr?245:255,
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(Dimensions.RADIUS_DEFAULT),
+                      borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
                       child: CustomImage(
                       image: '${Get.find<SplashController>().configModel.content!.imageBaseUrl}/category/${serviceController.categoryList[categoryIndex].image}',
                     ),),
                   ),
                   if(ResponsiveHelper.isDesktop(context) || ResponsiveHelper.isTab(context))
-                  SizedBox(width: Dimensions.PADDING_SIZE_LARGE,),
+                  const SizedBox(width: Dimensions.paddingSizeLarge,),
 
                   Expanded(
                     child: GridView.builder(
                       key: UniqueKey(),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisSpacing: Dimensions.PADDING_SIZE_DEFAULT,
-                        mainAxisSpacing:  Dimensions.PADDING_SIZE_DEFAULT,
+                        crossAxisSpacing: Dimensions.paddingSizeDefault,
+                        mainAxisSpacing:  Dimensions.paddingSizeDefault,
                         mainAxisExtent: Get.find<LocalizationController>().isLtr?235:250,
                         crossAxisCount:ResponsiveHelper.isDesktop(context) ?4 :ResponsiveHelper.isTab(context)? 3:2,
                       ),
-                      physics:NeverScrollableScrollPhysics(),
+                      physics:const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: serviceItemCount,
                       itemBuilder: (context, index) {
@@ -92,7 +92,7 @@ class _WebFeatheredCategoryViewState extends State<WebFeatheredCategoryView> {
           );
         },itemCount: serviceController.categoryList.length,
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
         ),
       );
     });

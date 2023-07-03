@@ -8,12 +8,9 @@ class WebRecentlyServiceView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ServiceController>(
-        initState: (state){
-          Get.find<ServiceController>().getRecentlyViewedServiceList(1,false);
-        },
         builder: (serviceController){
-      if(serviceController.recentlyViewServiceList != null && serviceController.recentlyViewServiceList!.length == 0){
-        return SizedBox();
+      if(serviceController.recentlyViewServiceList != null && serviceController.recentlyViewServiceList!.isEmpty){
+        return const SizedBox();
       }else{
         if(serviceController.recentlyViewServiceList != null){
           return  Column(
@@ -31,16 +28,16 @@ class WebRecentlyServiceView extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: Dimensions.PADDING_SIZE_LARGE,),
+              const SizedBox(height: Dimensions.paddingSizeLarge,),
               GridView.builder(
                 key: UniqueKey(),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisSpacing: Dimensions.PADDING_SIZE_DEFAULT,
-                  mainAxisSpacing:  Dimensions.PADDING_SIZE_DEFAULT,
+                  crossAxisSpacing: Dimensions.paddingSizeDefault,
+                  mainAxisSpacing:  Dimensions.paddingSizeDefault,
                   childAspectRatio: ResponsiveHelper.isDesktop(context) || ResponsiveHelper.isTab(context)  ? 0.92 : .70,
                   crossAxisCount: ResponsiveHelper.isMobile(context) ? 2 : ResponsiveHelper.isTab(context) ? 3 : 5,
                 ),
-                physics:NeverScrollableScrollPhysics(),
+                physics:const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: serviceController.recentlyViewServiceList!.length>5?5:serviceController.recentlyViewServiceList!.length,
                 itemBuilder: (context, index) {
@@ -51,7 +48,7 @@ class WebRecentlyServiceView extends StatelessWidget {
           );
         }
         else{
-          return SizedBox();
+          return const SizedBox();
         }
       }
     });

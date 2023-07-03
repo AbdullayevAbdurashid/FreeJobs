@@ -29,7 +29,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
     final ScrollController scrollController = ScrollController();
 
     return Scaffold(
-        endDrawer:ResponsiveHelper.isDesktop(context) ? MenuDrawer():null,
+        endDrawer:ResponsiveHelper.isDesktop(context) ? const MenuDrawer():null,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: CustomAppBar(title: "notifications".tr, isBackButtonExist: true,),
         body: GetBuilder<NotificationController>(
@@ -40,12 +40,12 @@ class _NotificationScreenState extends State<NotificationScreen> {
             return FooterBaseView(
                 isScrollView:true,
                 scrollController: scrollController,
-                isCenter: Get.find<NotificationController>().notificationList.length == 0 ? true:false,
+                isCenter: Get.find<NotificationController>().notificationList.isEmpty ? true:false,
                 child: WebShadowWrap(
                   child: SizedBox(
-                    width: Dimensions.WEB_MAX_WIDTH,
-                    child: controller.isLoading? NotificationShimmer(): controller.dateList.length == 0 ?
-                    NoDataScreen(text: 'no_notification_found'.tr,type: NoDataType.NOTIFICATION,):
+                    width: Dimensions.webMaxWidth,
+                    child: controller.isLoading? const NotificationShimmer(): controller.dateList.isEmpty ?
+                    NoDataScreen(text: 'no_notification_found'.tr,type: NoDataType.notification,):
                     PaginatedListView(
                       scrollController: scrollController,
                       totalSize: controller.notificationModel!.content!.total!,
@@ -53,19 +53,17 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         offset,
                         reload: false,
                       ),
-                      offset: controller.notificationModel?.content?.currentPage != null ?
-                      controller.notificationModel?.content?.currentPage  != null ?
-                      controller.notificationModel?.content?.currentPage:null:null,
+                      offset: controller.notificationModel?.content?.currentPage,
 
                       itemView: ListView.builder(
-                        padding:  EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT),
+                        padding:  const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
                         itemBuilder: (context, index0) {
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Padding(padding:  EdgeInsets.symmetric(
-                                horizontal: Dimensions.PADDING_SIZE_EXTRA_SMALL,
-                                vertical: Dimensions.PADDING_SIZE_SMALL,
+                              Padding(padding:  const EdgeInsets.symmetric(
+                                horizontal: Dimensions.paddingSizeExtraSmall,
+                                vertical: Dimensions.paddingSizeSmall,
                               ),
                                 child: Text(
                                   Get.find<NotificationController>().dateList[index0].toString(),
@@ -75,7 +73,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
                                 ),
                               ),
-                              if(controller.notificationList.length > 0)
+                              if(controller.notificationList.isNotEmpty)
                                 Card(
                                   color: Theme.of(context).hoverColor,
                                   elevation: 0,
@@ -90,7 +88,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                           ));
                                         },
                                         child: Container(
-                                            padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL,vertical: Dimensions.PADDING_SIZE_SMALL),
+                                            padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall,vertical: Dimensions.paddingSizeSmall),
                                             child: Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
@@ -107,17 +105,17 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                                         fit: BoxFit.cover,
                                                       ),
                                                     ),
-                                                    SizedBox(width: Dimensions.PADDING_SIZE_DEFAULT,),
+                                                    const SizedBox(width: Dimensions.paddingSizeDefault,),
                                                     Expanded(
                                                       child: Column(
                                                         crossAxisAlignment: CrossAxisAlignment.start,
                                                         children: [
-                                                          Text("${controller.notificationList[index0][index1].title.toString().trim()}",
+                                                          Text(controller.notificationList[index0][index1].title.toString().trim(),
                                                               style: ubuntuMedium.copyWith(color: Theme.of(context).
                                                               textTheme.bodyLarge!.color!.withOpacity(0.7) ,
                                                                   fontSize: Dimensions.fontSizeDefault
                                                               )),
-                                                          SizedBox(height: Dimensions.PADDING_SIZE_SMALL,),
+                                                          const SizedBox(height: Dimensions.paddingSizeSmall,),
                                                           Text("${controller.notificationList[index0][index1].description}",
                                                               maxLines: 2,
                                                               style: ubuntuRegular.copyWith(color: Theme.of(context).
@@ -127,9 +125,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                                         ],
                                                       ),
                                                     ),
-                                                    Container(
+                                                    SizedBox(
                                                         height: 40, width: 60,
-                                                        child: Text("${DateConverter.convertStringTimeToDate(DateConverter.isoUtcStringToLocalDate(controller.notificationList[index0][index1].createdAt))}")),
+                                                        child: Text(DateConverter.convertStringTimeToDate(DateConverter.isoUtcStringToLocalDate(controller.notificationList[index0][index1].createdAt)))),
                                                   ],
                                                 ),
                                               ],
@@ -138,7 +136,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                       );
                                     },
                                     shrinkWrap: true,
-                                    physics: NeverScrollableScrollPhysics(),
+                                    physics: const NeverScrollableScrollPhysics(),
                                     itemCount: controller.notificationList[index0].length,
                                   ),
                                 )
@@ -146,7 +144,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           );
                         },
                         shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         itemCount: controller.dateList.length,
                       ),
                     ),

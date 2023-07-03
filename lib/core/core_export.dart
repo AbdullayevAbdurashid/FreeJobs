@@ -1,6 +1,5 @@
 export 'dart:async';
 export 'dart:io';
-export 'package:country_code_picker/country_code.dart';
 export 'package:demandium/feature/auth/controller/auth_controller.dart';
 export 'package:demandium/controller/localization_controller.dart';
 export 'package:demandium/feature/splash/controller/splash_controller.dart';
