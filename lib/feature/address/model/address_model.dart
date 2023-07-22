@@ -16,24 +16,24 @@ class AddressModel {
   String? contactPersonLabel;
   String? street;
 
-  AddressModel(
-      {this.id,
-        this.addressType,
-        this.addressLabel,
-        this.userId,
-        this.address,
-        this.latitude,
-        this.longitude,
-        this.city,
-        this.zipCode,
-        this.country,
-        this.zoneId,
-        this.method,
-        this.contactPersonName,
-        this.contactPersonNumber,
-        this.contactPersonLabel,
-        this.street,
-      });
+  AddressModel({
+    this.id,
+    this.addressType,
+    this.addressLabel,
+    this.userId,
+    this.address,
+    this.latitude,
+    this.longitude,
+    this.city,
+    this.zipCode,
+    this.country,
+    this.zoneId,
+    this.method,
+    this.contactPersonName,
+    this.contactPersonNumber,
+    this.contactPersonLabel,
+    this.street,
+  });
 
   AddressModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];

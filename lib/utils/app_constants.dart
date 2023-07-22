@@ -3,11 +3,11 @@ import 'package:demandium/data/model/response/language_model.dart';
 import 'package:demandium/utils/images.dart';
 
 class AppConstants {
-  static const String appName = 'Demandium';
+  static const String appName = 'Top-usta';
   static const String appVersion = '2.0';
 
-  static const String baseUrl = 'https://demandium-admin.6amtech.com';
-  static const String categoryUrl = '/api/v1/customer/category?limit=20';
+  static const String baseUrl = 'https://topusta.markoola.uz';
+  static const String categoryUrl = '/apri/v1/customer/category?limit=20';
   static const String webLandingContents = '/api/v1/customer/landing/contents';
   static const String bannerUri = '/api/v1/customer/banner?limit=10&offset=1';
   static const String allServiceUri = '/api/v1/customer/service';
@@ -163,14 +163,14 @@ class AppConstants {
   static List<LanguageModel> languages = [
     LanguageModel(
         imageUrl: Images.us,
+        languageName: 'Uzbek',
+        countryCode: 'uz',
+        languageCode: 'uz'),
+    LanguageModel(
+        imageUrl: Images.us,
         languageName: 'English',
         countryCode: 'US',
         languageCode: 'en'),
-    LanguageModel(
-        imageUrl: Images.arabicTwo,
-        languageName: 'عربى',
-        countryCode: 'SA',
-        languageCode: 'ar'),
   ];
   static const double limitOfPickedImageSizeInMB = 2;
 }
