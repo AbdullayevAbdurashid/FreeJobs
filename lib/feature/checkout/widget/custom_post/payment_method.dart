@@ -26,7 +26,14 @@ class _PaymentMethodState extends State<PaymentMethod> {
     CustomPostPaymentMethodButton(
       title: "cash_after_service".tr,
       paymentMethodName: PaymentMethodName.cos,
-      assetName: Images.cod,
+      assetName: Images.pay,
+    ),
+    CustomPostPaymentMethodButton(
+      title: "Kafolatli Payment", // Change this to the desired title
+      paymentMethodName: PaymentMethodName
+          .kafolatli, // Use a unique name for this payment method
+      assetName: Images
+          .walletMenu, // Replace with the path to your "Kafolatli" payment icon
     ),
     CustomPostPaymentMethodButton(
       title: "wallet_money".tr,

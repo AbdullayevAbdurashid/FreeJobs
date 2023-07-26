@@ -10,7 +10,7 @@
     "find_services_near_you": "Sizga yaqin xizmatlarni toping",
     "please_select_you_location_to_start_exploring_available_services_near_you": "Iltimos, mavjudligini boshlash uchun manzilni tanlang \n Sizga yaqin xizmat",
     "use_current_location": "Hozirgi joydan foydalaning",
-    "set_from_map": "Xaritadan o'rnatilgan",
+    "set_from_map": "Xaritadan o'rnating",
     "search_location": "Qidiruv joylashuvi",
     "you_denied_location_permission": "Siz manzilning ruxsatini rad etdingiz",
     "service_not_available_in_current_location": "Xizmat joriy joylashuvda mavjud emas",
@@ -333,7 +333,7 @@
     "payment_status": "To'lov holati",
     "paid": "To'langan",
     "unpaid": "To'lanmagan",
-    "cash_after_service": "Xizmatdan keyin naqd pul",
+    "cash_after_service": "Kafolatsiz",
     "transaction_id": "Bitim identifikatori",
     "amount": "Miqdori",
     "booking_place": "Bron qilish joyi",
@@ -536,5 +536,6 @@
     "no_active_coupon_found": "Faol kupon topilmadi",
     "coupon_removed_successfully": "Kupon muvaffaqiyatli olib tashlandi",
     "change": "O'zgarish",
-    "months_ago": "bir necha oy avval"
+    "months_ago": "bir necha oy avval",
+    "your_privacy_matters":"Sizning maxfiyligingiz muxums"
 }

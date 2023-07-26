@@ -4,10 +4,10 @@ import 'package:demandium/utils/images.dart';
 
 class AppConstants {
   static const String appName = 'Top-usta';
-  static const String appVersion = '2.0';
+  static const String appVersion = '2.2';
 
-  static const String baseUrl = 'https://topusta.markoola.uz';
-  static const String categoryUrl = '/apri/v1/customer/category?limit=20';
+  static const String baseUrl = 'https://top-usta.uz';
+  static const String categoryUrl = '/api/v1/customer/category?limit=20';
   static const String webLandingContents = '/api/v1/customer/landing/contents';
   static const String bannerUri = '/api/v1/customer/banner?limit=10&offset=1';
   static const String allServiceUri = '/api/v1/customer/service';

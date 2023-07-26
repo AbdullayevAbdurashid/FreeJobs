@@ -164,7 +164,7 @@ class AuthController extends GetxController implements GetxService {
   }
 
   _navigateLogin(String fromPage) {
-    Get.offAllNamed(RouteHelper.getMainRoute('home'));
+    Get.offAllNamed(RouteHelper.getProfileRoute());
 
     if (_isActiveRememberMe) {
       saveUserNumberAndPassword(signInPhoneController.value.text,
@@ -188,7 +188,7 @@ class AuthController extends GetxController implements GetxService {
           await authRepo.updateToken();
           await _addLocalCartToApi();
           Get.back();
-          _navigateLogin(fromPage ?? RouteHelper.getMainRoute("home"));
+          _navigateLogin(fromPage ?? RouteHelper.getProfileRoute());
         } else {
           Get.back();
         }
