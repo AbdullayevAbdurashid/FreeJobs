@@ -1,6 +1,8 @@
 import 'package:demandium/feature/cart/widget/available_provider_widgets.dart';
 import 'package:demandium/feature/cart/widget/selected_provider_widget.dart';
 import 'package:demandium/feature/cart/widget/unselected_provider_widget.dart';
+import 'package:demandium/feature/create_post/controller/create_post_controller.dart';
+import 'package:demandium/feature/home/widget/bottom_create_post_dialog.dart';
 import 'package:get/get.dart';
 import 'package:demandium/core/core_export.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
@@ -11,7 +13,8 @@ class ServiceCenterDialog extends StatefulWidget {
   final int? cartIndex;
   final bool? isFromDetails;
 
-  ServiceCenterDialog({
+  const ServiceCenterDialog({
+    super.key,
     required this.service,
     this.cart,
     this.cartIndex,
@@ -31,36 +34,37 @@ class _ProductBottomSheetState extends State<ServiceCenterDialog> {
 
   @override
   Widget build(BuildContext context) {
-    if(ResponsiveHelper.isDesktop(context))
-    return  Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimensions.RADIUS_EXTRA_LARGE)),
-      insetPadding: EdgeInsets.all(30),
+    if(ResponsiveHelper.isDesktop(context)) {
+      return  Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge)),
+      insetPadding: const EdgeInsets.all(30),
       clipBehavior: Clip.antiAliasWithSaveLayer,
       child: pointerInterceptor(),
     );
+    }
     return pointerInterceptor();
   }
 
   pointerInterceptor(){
     return Padding(
-      padding: EdgeInsets.only(top: ResponsiveHelper.isWeb()? 0 :Dimensions.CART_DIALOG_PADDING),
+      padding: EdgeInsets.only(top: ResponsiveHelper.isWeb()? 0 :Dimensions.cartDialogPadding),
       child: PointerInterceptor(
         child: Container(
-          width:ResponsiveHelper.isDesktop(context)? Dimensions.WEB_MAX_WIDTH/2:Dimensions.WEB_MAX_WIDTH,
-          padding: EdgeInsets.only(top: Dimensions.PADDING_SIZE_LARGE),
+          width:ResponsiveHelper.isDesktop(context)? Dimensions.webMaxWidth/2:Dimensions.webMaxWidth,
+          padding: const EdgeInsets.only(top: Dimensions.paddingSizeLarge),
           decoration: BoxDecoration(
             color: Theme.of(context).cardColor,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(Dimensions.RADIUS_EXTRA_LARGE)),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(Dimensions.radiusExtraLarge)),
           ),
           child:  GetBuilder<CartController>(builder: (cartControllerInit) {
               return GetBuilder<ServiceController>(builder: (serviceController) {
-                if(widget.service!.variationsAppFormat!.zoneWiseVariations != null)
+                if(widget.service!.variationsAppFormat!.zoneWiseVariations != null) {
                   return Stack(
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(
-                          right: Dimensions.PADDING_SIZE_DEFAULT,
-                          left:  Dimensions.PADDING_SIZE_DEFAULT,
+                        padding: const EdgeInsets.only(
+                          right: Dimensions.paddingSizeDefault,
+                          left:  Dimensions.paddingSizeDefault,
                           top:  150,),
                         child: SingleChildScrollView(
                           child: Column(
@@ -69,28 +73,28 @@ class _ProductBottomSheetState extends State<ServiceCenterDialog> {
                               children: [
                                 Padding(
                                   padding: EdgeInsets.only(
-                                    top: ResponsiveHelper.isDesktop(context) ? 0 : Dimensions.PADDING_SIZE_DEFAULT,
-                                    bottom:  Dimensions.PADDING_SIZE_EXTRA_MORE_LARGE,
+                                    top: ResponsiveHelper.isDesktop(context) ? 0 : Dimensions.paddingSizeDefault,
+                                    bottom:  Dimensions.paddingSizeExtraMoreLarge,
                                   ),
                                   child: Column(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
+                                        const SizedBox(height: Dimensions.paddingSizeLarge),
                                         ListView.builder(
                                             shrinkWrap: true,
-                                            padding: EdgeInsets.only(bottom: Dimensions.PADDING_SIZE_EXTRA_LARGE,),
-                                            physics: NeverScrollableScrollPhysics(),
+                                            padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeExtraLarge,),
+                                            physics: const NeverScrollableScrollPhysics(),
                                             itemCount: cartControllerInit.initialCartList.length,
                                             itemBuilder: (context, index) {
                                               //variation item
                                               return Padding(
-                                                padding:  EdgeInsets.symmetric(vertical:Dimensions.PADDING_SIZE_SMALL),
+                                                padding:  const EdgeInsets.symmetric(vertical:Dimensions.paddingSizeSmall),
                                                 child: Container(
-                                                  padding: EdgeInsets.symmetric(vertical:Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                                                  padding: const EdgeInsets.symmetric(vertical:Dimensions.paddingSizeExtraSmall),
                                                   decoration: BoxDecoration(
                                                       color: Theme.of(context).hoverColor,
-                                                      borderRadius: BorderRadius.all(Radius.circular(Dimensions.PADDING_SIZE_DEFAULT))
+                                                      borderRadius: const BorderRadius.all(Radius.circular(Dimensions.paddingSizeDefault))
                                                   ),
                                                   child: GetBuilder<CartController>(builder: (cartController){
                                                     return Padding(
@@ -105,7 +109,7 @@ class _ProductBottomSheetState extends State<ServiceCenterDialog> {
                                                                 cartControllerInit.initialCartList[index].variantKey.replaceAll('-', ' '), style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
                                                                 maxLines: 2, overflow: TextOverflow.ellipsis,
                                                               ),
-                                                              SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL,),
+                                                              const SizedBox(height: Dimensions.paddingSizeExtraSmall,),
                                                               Directionality(
                                                                 textDirection: TextDirection.ltr,
                                                                 child: Text(
@@ -124,16 +128,16 @@ class _ProductBottomSheetState extends State<ServiceCenterDialog> {
                                                               },
                                                               child: Container(
                                                                 height: 30, width: 30,
-                                                                margin: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL),
+                                                                margin: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
                                                                 decoration: BoxDecoration(shape: BoxShape.circle, color:  Theme.of(context).colorScheme.secondary),
                                                                 alignment: Alignment.center,
                                                                 child: Icon(Icons.remove , size: 15, color:Theme.of(context).cardColor,),
                                                               ),
-                                                            ) : SizedBox(),
+                                                            ) : const SizedBox(),
 
                                                             cartControllerInit.initialCartList[index].quantity > 0 ? Text(
                                                               cartControllerInit.initialCartList[index].quantity.toString(),
-                                                            ) : SizedBox(),
+                                                            ) : const SizedBox(),
 
                                                             GestureDetector(
                                                               onTap: (){
@@ -141,7 +145,7 @@ class _ProductBottomSheetState extends State<ServiceCenterDialog> {
                                                               },
                                                               child: Container(
                                                                 height: 30, width: 30,
-                                                                margin: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL),
+                                                                margin: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
                                                                 decoration: BoxDecoration(
                                                                     shape: BoxShape.circle,
                                                                     color:  Theme.of(context).colorScheme.secondary
@@ -163,14 +167,14 @@ class _ProductBottomSheetState extends State<ServiceCenterDialog> {
                                                 ),
                                               );
                                             }),
-                                        SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
+                                        const SizedBox(height: Dimensions.paddingSizeLarge),
                                       ]),
                                 ),
                               ]),
                         ),
                       ),
                       Positioned(child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT),
+                        padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -178,13 +182,13 @@ class _ProductBottomSheetState extends State<ServiceCenterDialog> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  SizedBox(width: Dimensions.PADDING_SIZE_LARGE,),
+                                  const SizedBox(width: Dimensions.paddingSizeLarge,),
                                   ClipRRect(
-                                    borderRadius: BorderRadius.all(Radius.circular(Dimensions.PADDING_SIZE_DEFAULT)),
+                                    borderRadius: const BorderRadius.all(Radius.circular(Dimensions.paddingSizeDefault)),
                                     child: CustomImage(
                                       image: '${Get.find<SplashController>().configModel.content!.imageBaseUrl!}/service/${widget.service!.thumbnail}',
-                                      height: Dimensions.IMAGE_SIZE_MEDIUM,
-                                      width: Dimensions.IMAGE_SIZE_MEDIUM,
+                                      height: Dimensions.imageSizeButton,
+                                      width: Dimensions.imageSizeButton,
                                     ),
                                   ),
                                   Container(
@@ -198,7 +202,7 @@ class _ProductBottomSheetState extends State<ServiceCenterDialog> {
                                       ),
                                     child: InkWell(
                                       onTap: () => Get.back(),
-                                      child: Icon(
+                                      child: const Icon(
                                         Icons.close,
                                         color: Colors.black54,
 
@@ -211,14 +215,14 @@ class _ProductBottomSheetState extends State<ServiceCenterDialog> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  SizedBox(height: Dimensions.PADDING_SIZE_EIGHT,),
+                                  const SizedBox(height: Dimensions.paddingSizeEight,),
                                   Text(
                                     widget.service!.name!,
                                     style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault),
                                     textAlign: TextAlign.center,
                                     maxLines: 2,
                                   ),
-                                  SizedBox(height: Dimensions.PADDING_SIZE_MINI,),
+                                  const SizedBox(height: Dimensions.paddingSizeMini,),
                                   Text(
                                     "${widget.service!.variationsAppFormat!.zoneWiseVariations!.length} ${'options_available'.tr}",
                                     style: ubuntuRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.5)),
@@ -236,14 +240,15 @@ class _ProductBottomSheetState extends State<ServiceCenterDialog> {
                           color: Theme.of(context).cardColor,
                         ),),
                       Positioned(
-                        left: Dimensions.PADDING_SIZE_DEFAULT,
-                        right: Dimensions.PADDING_SIZE_DEFAULT,
-                        bottom:  Dimensions.PADDING_SIZE_DEFAULT,
+                        left: Dimensions.paddingSizeDefault,
+                        right: Dimensions.paddingSizeDefault,
+                        bottom:  Dimensions.paddingSizeDefault,
                         child:  GetBuilder<CartController>(builder: (cartController) {
-                          bool _addToCart = true;
-                          return cartController.isLoading ? Center(child: CircularProgressIndicator()) :
+                          bool addToCart = true;
+                          return cartController.isLoading ? const Center(child: CircularProgressIndicator()) :
 
                           Row(children: [
+                            if(Get.find<SplashController>().configModel.content?.directProviderBooking==1)
                             cartControllerInit.preSelectedProvider?
                             GestureDetector(
                               onTap: (){
@@ -252,10 +257,10 @@ class _ProductBottomSheetState extends State<ServiceCenterDialog> {
                                     useRootNavigator: true,
                                     isScrollControlled: true,
                                     backgroundColor: Colors.transparent,
-                                    context: context, builder: (context) => AvailableProviderWidget()
+                                    context: context, builder: (context) => const AvailableProviderWidget()
                                 );
                               },
-                              child: SelectedProductWidget(),
+                              child: const SelectedProductWidget(),
                             ): GestureDetector(
                               onTap: (){
                                 cartControllerInit.setSubCategoryId(widget.service?.subCategoryId??"");
@@ -263,28 +268,64 @@ class _ProductBottomSheetState extends State<ServiceCenterDialog> {
                                 useRootNavigator: true,
                                 isScrollControlled: true,
                                 backgroundColor: Colors.transparent,
-                                context: context, builder: (context) => AvailableProviderWidget()
+                                context: context, builder: (context) => const AvailableProviderWidget()
                                 );
                               },
-                              child: UnselectedProductWidget(),
+                              child: const UnselectedProductWidget(),
                             ),
-                            SizedBox(width: Dimensions.PADDING_SIZE_SMALL,),
+
+                            if(Get.find<SplashController>().configModel.content?.directProviderBooking==1)
+                            const SizedBox(width: Dimensions.paddingSizeSmall,),
+
+                            if(Get.find<SplashController>().configModel.content?.biddingStatus==1)
+                            GestureDetector(
+                              onTap: (){
+                                Get.back();
+                                showModalBottomSheet(
+                                backgroundColor: Colors.transparent,
+                                isScrollControlled: true,
+                                context: Get.context!,
+                                builder: (BuildContext context){
+                                  return const BottomCreatePostDialog();
+                                });
+                                if(widget.service!=null){
+                                  Get.find<CreatePostController>().updateSelectedService(widget.service!);
+                                  Get.find<CreatePostController>().resetCreatePostValue(removeService: false);
+                                }
+                              },
+                              child: Container(
+                                height:  ResponsiveHelper.isDesktop(context)? 50 : 45,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                                  border: Border.all(color: Theme.of(context).colorScheme.primary.withOpacity(0.5),width: 0.7),
+                                  color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                                ),
+                                padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
+                                child: Center(child: Hero(tag: 'provide_image',
+                                  child: ClipRRect( borderRadius: BorderRadius.circular(Dimensions.radiusExtraMoreLarge),
+                                    child: Image.asset(Images.customPostIcon,height: 30,width: 30,),
+                                  ),
+                                )),
+                              ),
+                            ),
+
+                            if(Get.find<SplashController>().configModel.content?.biddingStatus==1)
+                              const SizedBox(width: Dimensions.paddingSizeSmall,),
+
                             Expanded(child: CustomButton(
-                                height: ResponsiveHelper.isDesktop(context)? 50 : 45,
+                                height: ResponsiveHelper.isDesktop(context)? 55 : 45,
                                 onPressed:cartControllerInit.isButton ? () async{
-                                  if(_addToCart) {
-                                    _addToCart = false;
+                                  if(addToCart) {
+                                    addToCart = false;
                                     if(Get.find<AuthController>().isLoggedIn()){
                                       await cartController.addMultipleCartToServer();
-                                      await cartController.getCartListFromServer();
-                                      // Get.back();
-
+                                      await cartController.getCartListFromServer(shouldUpdate: true);
                                     }else{
                                       cartController.addDataToCart();
                                     }
                                   }
                                 }: null,
-                                buttonText:(cartController.cartList.length > 0 && cartController.cartList.elementAt(0).serviceId == widget.service!.id)
+                                buttonText:(cartController.cartList.isNotEmpty && cartController.cartList.elementAt(0).serviceId == widget.service!.id)
                                     ? 'update_cart'.tr : 'add_to_cart'.tr,
                               ),
                             )
@@ -292,6 +333,7 @@ class _ProductBottomSheetState extends State<ServiceCenterDialog> {
                       }))
                     ],
                   );
+                }
                 return Stack(
                   children: [
                     Positioned(
@@ -308,10 +350,10 @@ class _ProductBottomSheetState extends State<ServiceCenterDialog> {
                         ),
                         child: InkWell(
                             onTap: () => Get.back(),
-                            child: Icon(Icons.close)),
+                            child: const Icon(Icons.close)),
                       ),
                     ),
-                    Container(
+                    SizedBox(
                         height: Get.height / 7,
                         child: Center(child: Text('no_variation_is_available'.tr,style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeLarge),)))
                   ],

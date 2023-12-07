@@ -8,14 +8,14 @@ class ProviderBookingRepo {
 
 
   Future<Response> getCategoryList() async {
-    return await apiClient.getData('${AppConstants.CATEGORY_URI}&limit=100&offset=1');
+    return await apiClient.getData('${AppConstants.categoryUrl}&limit=100&offset=1');
   }
 
-  Future<Response> getProviderList(int offset,Map<String,dynamic> _body) async {
-    return await apiClient.postData("${AppConstants.GET_PROVIDER_LIST}$offset",_body);
+  Future<Response> getProviderList(int offset,Map<String,dynamic> body) async {
+    return await apiClient.postData("${AppConstants.getProviderList}$offset",body);
   }
 
   Future<Response> getProviderDetails(String providerId) async {
-    return await apiClient.getData(AppConstants.GET_PROVIDER_DETAILS+"?id=$providerId");
+    return await apiClient.getData("${AppConstants.getProviderDetails}?id=$providerId");
   }
 }

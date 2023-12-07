@@ -23,7 +23,7 @@ class _CouponScreenState extends State<CouponScreen> with TickerProviderStateMix
     Get.find<CouponController>().getCouponList();
     _couponTabController?.addListener(() {
       Get.find<CouponController>().updateTabBar(
-        _couponTabController?.index == 0 ?  CouponTabState.CURRENT_COUPON : CouponTabState.USED_COUPON,
+        _couponTabController?.index == 0 ?  CouponTabState.currentCoupon : CouponTabState.usedCoupon,
       );
     });
 
@@ -33,7 +33,7 @@ class _CouponScreenState extends State<CouponScreen> with TickerProviderStateMix
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      endDrawer:ResponsiveHelper.isDesktop(context) ? MenuDrawer():null,
+      endDrawer:ResponsiveHelper.isDesktop(context) ? const MenuDrawer():null,
       appBar: CustomAppBar(
         title: "voucher".tr,
         centerTitle: true,
@@ -45,14 +45,14 @@ class _CouponScreenState extends State<CouponScreen> with TickerProviderStateMix
             List<CouponModel>? expiredCouponList = couponController.expiredCouponList;
             return FooterBaseView(
               isScrollView: ResponsiveHelper.isWeb()?true:false,
-              isCenter: (activeCouponList == null || activeCouponList.length == 0),
+              isCenter: (activeCouponList == null || activeCouponList.isEmpty),
               child: WebShadowWrap(
                 child: Container(
-                    child: ((activeCouponList != null && activeCouponList.length == 0) && (expiredCouponList != null && expiredCouponList.length == 0)) ?
-                    NoDataScreen(text: "no_coupon_found".tr,type: NoDataType.COUPON):
+                    child: ((activeCouponList != null && activeCouponList.isEmpty) && (expiredCouponList != null && expiredCouponList.isEmpty)) ?
+                    NoDataScreen(text: "no_coupon_found".tr,type: NoDataType.coupon):
                     (activeCouponList != null && expiredCouponList!=null) ?
                     Column(children: [
-                      if(activeCouponList.length > 0 || expiredCouponList.length > 0)
+                      if(activeCouponList.isNotEmpty || expiredCouponList.isNotEmpty)
                         Stack(
                           children: [
                             Container(
@@ -98,14 +98,14 @@ class _CouponScreenState extends State<CouponScreen> with TickerProviderStateMix
                         ),
                         tabs: [
                           Padding(
-                            padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
+                            padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
                             child: Text(
                               'current_voucher'.tr,
                               style: ubuntuMedium,
                             ),
                           ),
                           Padding(
-                            padding:  EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
+                            padding:  const EdgeInsets.all(Dimensions.paddingSizeDefault),
                             child: Text('used_voucher'.tr,
                               style: ubuntuMedium,),
                           ),
@@ -130,7 +130,7 @@ class _CouponScreenState extends State<CouponScreen> with TickerProviderStateMix
                       ):_couponList(
                           context, expiredCouponList,isExpired: true
                       ),
-                    ],): Center(child: CircularProgressIndicator(),)),
+                    ],): const Center(child: CircularProgressIndicator(),)),
               ),
             );
           }
@@ -140,32 +140,30 @@ class _CouponScreenState extends State<CouponScreen> with TickerProviderStateMix
   }
 
   Widget _couponList(BuildContext context, List<CouponModel> couponList,{bool isExpired = false}) {
-    return couponList.length > 0 ?
-    Container(
-        child: GridView.builder(
-          shrinkWrap: true,
-          padding: EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_DEFAULT),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisSpacing: Dimensions.PADDING_SIZE_LARGE,
-            mainAxisSpacing: ResponsiveHelper.isDesktop(context) ?
-            Dimensions.PADDING_SIZE_LARGE : Dimensions.PADDING_SIZE_SMALL,
-            childAspectRatio: ResponsiveHelper.isMobile(context) ? 3.2 : 4,
-            crossAxisCount: ResponsiveHelper.isMobile(context) ? 1 : 2,
-            mainAxisExtent:Get.find<LocalizationController>().isLtr ?  130 : 162,
-          ),
-          itemBuilder: (context, index) {
-            return Voucher(
-              isExpired: isExpired,
-              couponModel: couponList[index],
-            );
-          },
-          itemCount: couponList.length,
-        )
+    return couponList.isNotEmpty ?
+    GridView.builder(
+      shrinkWrap: true,
+      padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisSpacing: Dimensions.paddingSizeLarge,
+        mainAxisSpacing: ResponsiveHelper.isDesktop(context) ?
+        Dimensions.paddingSizeLarge : Dimensions.paddingSizeSmall,
+        childAspectRatio: ResponsiveHelper.isMobile(context) ? 3.2 : 4,
+        crossAxisCount: ResponsiveHelper.isMobile(context) ? 1 : 2,
+        mainAxisExtent:Get.find<LocalizationController>().isLtr ?  130 : 162,
+      ),
+      itemBuilder: (context, index) {
+        return Voucher(
+          isExpired: isExpired,
+          couponModel: couponList[index],
+        );
+      },
+      itemCount: couponList.length,
     ) : SizedBox(
         height:Get.height*0.6,
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
+            padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
             child: Text(
               isExpired?'no_expired_coupon_found'.tr:'no_active_coupon_found'.tr,
             ),

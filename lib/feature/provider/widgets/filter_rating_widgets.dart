@@ -9,7 +9,7 @@ class FilterRatingWidgets extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ProviderBookingController>(builder: (providerBookingController){
-      return Container(
+      return SizedBox(
         height: 50.0,
         child: ListView.builder(
           itemCount: 5,
@@ -17,7 +17,7 @@ class FilterRatingWidgets extends StatelessWidget {
           itemBuilder: (context, index) {
             return starWidget(index,context,providerBookingController);
           },shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics()
+          physics: const NeverScrollableScrollPhysics()
           ,),
       );
     });
@@ -25,7 +25,7 @@ class FilterRatingWidgets extends StatelessWidget {
 
   Widget starWidget(int index, BuildContext context,ProviderBookingController controller) {
     return IconButton(
-      padding: EdgeInsets.symmetric(vertical: 10,horizontal: 0),
+      padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 0),
       onPressed: clickable? () {
           controller.updateRatingIndex(index+1);
       }:null,

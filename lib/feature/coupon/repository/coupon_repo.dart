@@ -7,14 +7,14 @@ class CouponRepo {
   CouponRepo({required this.apiClient});
 
   Future<Response> getCouponList() async {
-    return await apiClient.getData(AppConstants.COUPON_URI);
+    return await apiClient.getData(AppConstants.couponUri);
   }
 
   Future<Response> applyCoupon(String couponCode) async {
-    return await apiClient.postData('${AppConstants.APPLY_COUPON}',{'coupon_code':couponCode});
+    return await apiClient.postData(AppConstants.applyCoupon,{'coupon_code':couponCode});
   }
 
   Future<Response> removeCoupon() async {
-    return await apiClient.getData('${AppConstants.REMOVE_COUPON}');
+    return await apiClient.getData(AppConstants.removeCoupon);
   }
 }

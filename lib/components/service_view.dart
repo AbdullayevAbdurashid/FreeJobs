@@ -9,16 +9,16 @@ class ServiceView extends StatelessWidget {
   final String? noDataText;
   final String? type;
   final Function(String type)? onVegFilterTap;
-  ServiceView({required this.service, this.isScrollable = false, this.shimmerLength = 20,
-    this.padding = const EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL), this.noDataText, this.type, this.onVegFilterTap});
+  const ServiceView({super.key, required this.service, this.isScrollable = false, this.shimmerLength = 20,
+    this.padding = const EdgeInsets.all(Dimensions.paddingSizeSmall), this.noDataText, this.type, this.onVegFilterTap});
 
   @override
   Widget build(BuildContext context) {
-    bool _isNull = true;
-    int _length = 0;
-    _isNull = service == null;
-    if(!_isNull) {
-      _length = service!.length;
+    bool isNull = true;
+    int length = 0;
+    isNull = service == null;
+    if(!isNull) {
+      length = service!.length;
     }
 
     return Column(children: [
@@ -28,37 +28,37 @@ class ServiceView extends StatelessWidget {
             fontSize: Dimensions.fontSizeDefault,
             color: Theme.of(context).primaryColor),),
       ),
-      !_isNull ? _length > 0 ? GridView.builder(
+      !isNull ? length > 0 ? GridView.builder(
         key: UniqueKey(),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisSpacing: Dimensions.PADDING_SIZE_LARGE,
-          mainAxisSpacing: ResponsiveHelper.isDesktop(context) ? Dimensions.PADDING_SIZE_LARGE : Dimensions.PADDING_SIZE_SMALL,
+          crossAxisSpacing: Dimensions.paddingSizeLarge,
+          mainAxisSpacing: ResponsiveHelper.isDesktop(context) ? Dimensions.paddingSizeLarge : Dimensions.paddingSizeSmall,
           childAspectRatio: ResponsiveHelper.isDesktop(context) ? 4 : 3.5,
           crossAxisCount: ResponsiveHelper.isMobile(context) ? 1 : 2,
         ),
-        physics: isScrollable! ? BouncingScrollPhysics() : NeverScrollableScrollPhysics(),
+        physics: isScrollable! ? const BouncingScrollPhysics() : const NeverScrollableScrollPhysics(),
         shrinkWrap: isScrollable! ? false : true,
-        itemCount: _length,
+        itemCount: length,
         padding: padding,
         itemBuilder: (context, index) {
           return ServiceWidget(service: service![index]);
         },
       ) : NoDataScreen(
-        text: noDataText != null ? noDataText : 'no_services_found'.tr,
+        text: noDataText ?? 'no_services_found'.tr,
       ) : GridView.builder(
         key: UniqueKey(),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisSpacing: Dimensions.PADDING_SIZE_LARGE,
-          mainAxisSpacing: ResponsiveHelper.isDesktop(context) ? Dimensions.PADDING_SIZE_LARGE : 0.01,
+          crossAxisSpacing: Dimensions.paddingSizeLarge,
+          mainAxisSpacing: ResponsiveHelper.isDesktop(context) ? Dimensions.paddingSizeLarge : 0.01,
           childAspectRatio: ResponsiveHelper.isDesktop(context) ? 4 : 4,
           crossAxisCount: ResponsiveHelper.isMobile(context) ? 1 : 2,
         ),
-        physics: isScrollable! ? BouncingScrollPhysics() : NeverScrollableScrollPhysics(),
+        physics: isScrollable! ? const BouncingScrollPhysics() : const NeverScrollableScrollPhysics(),
         shrinkWrap: isScrollable! ? false : true,
         itemCount: shimmerLength,
         padding: padding,
         itemBuilder: (context, index) {
-          return ServiceShimmer(isEnabled: _isNull, hasDivider: index != shimmerLength!-1);
+          return ServiceShimmer(isEnabled: isNull, hasDivider: index != shimmerLength!-1);
         },
       ),
 

@@ -23,19 +23,19 @@ class ProviderCartItemView extends StatelessWidget {
           children: [
 
             Container(
-              decoration: BoxDecoration(color: Theme.of(context).cardColor , borderRadius: BorderRadius.circular(Dimensions.RADIUS_DEFAULT),
+              decoration: BoxDecoration(color: Theme.of(context).cardColor , borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
                 border: Border.all(color: Theme.of(context).hintColor.withOpacity(0.3)),
               ),
-              padding: EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
-              margin: EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+              padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
+              margin: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall),
 
               child:  Row(children: [
-                ClipRRect( borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                ClipRRect( borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                   child: CustomImage(
                     image: "${Get.find<SplashController>().configModel.content!.imageBaseUrl}/provider/logo/${providerData.logo}",
                     height: 60,width: 60,),
                 ),
-                SizedBox(width: Dimensions.PADDING_SIZE_DEFAULT,),
+                const SizedBox(width: Dimensions.paddingSizeDefault,),
 
                 Column(crossAxisAlignment: CrossAxisAlignment.start,mainAxisAlignment: MainAxisAlignment.start,children: [
                   Text(providerData.companyName??"", style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeLarge),

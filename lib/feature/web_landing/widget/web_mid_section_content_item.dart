@@ -17,7 +17,7 @@ class WebMidSectionContentItem extends StatelessWidget {
           title, textAlign: TextAlign.center,
           style: ubuntuBold.copyWith(fontSize: Dimensions.fontSizeLarge),
         ),
-        SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_LARGE),
+        const SizedBox(height: Dimensions.paddingSizeExtraLarge),
         Text(
           subTitle, textAlign: TextAlign.start,
           style: ubuntuRegular.copyWith(
@@ -25,7 +25,7 @@ class WebMidSectionContentItem extends StatelessWidget {
               fontSize: Dimensions.fontSizeSmall
           ),
         ),
-        SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
+        const SizedBox(height: Dimensions.paddingSizeLarge),
       ],
     );
   }

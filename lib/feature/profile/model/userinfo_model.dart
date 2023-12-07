@@ -41,17 +41,17 @@ class UserInfoModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['first_name'] = this.fName;
-    data['last_name'] = this.lName;
-    data['email'] = this.email;
-    data['profile_image'] = this.image;
-    data['phone'] = this.phone;
-    data['password'] = this.password;
-    data['confirm_password'] = this.confirmPassword;
-    data['ref_code'] = this.referCode;
-    data['referred_by'] = this.referredBy;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['first_name'] = fName;
+    data['last_name'] = lName;
+    data['email'] = email;
+    data['profile_image'] = image;
+    data['phone'] = phone;
+    data['password'] = password;
+    data['confirm_password'] = confirmPassword;
+    data['ref_code'] = referCode;
+    data['referred_by'] = referredBy;
     return data;
   }
 }

@@ -9,18 +9,18 @@ class BookingStatusTabItem extends GetView<ServiceBookingController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-      padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT,vertical: 5),
+      margin: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall),
+      padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault,vertical: 5),
       decoration: BoxDecoration(
           color: controller.selectedBookingStatus.name != title ? Colors.grey.withOpacity(0.2): Theme.of(context).colorScheme.primary,
-          borderRadius: BorderRadius.all(Radius.circular(20))
+          borderRadius: const BorderRadius.all(Radius.circular(20))
       ),
       child: Row(
         children: [
           Image.asset(title.png),
-          SizedBox(width: 5,),
+          const SizedBox(width: 5,),
           Text(
-            "$title".tr,
+            title.tr,
             textAlign: TextAlign.center,
             style:ubuntuMedium.copyWith(
                 fontSize: Dimensions.fontSizeSmall,

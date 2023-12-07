@@ -18,14 +18,14 @@ class CartModelBody {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['service_id'] = this.serviceId;
-    data['category_id'] = this.categoryId;
-    data['variant_key'] = this.variantKey;
-    data['quantity'] = this.quantity;
-    data['sub_category_id'] = this.subCategoryId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['service_id'] = serviceId;
+    data['category_id'] = categoryId;
+    data['variant_key'] = variantKey;
+    data['quantity'] = quantity;
+    data['sub_category_id'] = subCategoryId;
     if(providerId!=null){
-      data['provider_id'] = this.providerId;
+      data['provider_id'] = providerId;
     }
     return data;
   }

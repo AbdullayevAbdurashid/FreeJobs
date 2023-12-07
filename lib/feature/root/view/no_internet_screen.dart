@@ -3,7 +3,7 @@ import 'package:demandium/core/core_export.dart';
 
 class NoInternetScreen extends StatelessWidget {
   final Widget? child;
-  NoInternetScreen({this.child});
+  const NoInternetScreen({super.key, this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -18,20 +18,20 @@ class NoInternetScreen extends StatelessWidget {
               fontSize: 30,
               color: Theme.of(context).textTheme.bodyLarge!.color,
             )),
-            SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+            const SizedBox(height: Dimensions.paddingSizeExtraSmall),
             Text(
               'no_internet_connection'.tr,
               textAlign: TextAlign.center,
               style: ubuntuRegular,
             ),
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
             Container(
               height: 45,
-              margin: EdgeInsets.symmetric(horizontal: 40),
+              margin: const EdgeInsets.symmetric(horizontal: 40),
               child: CustomButton(
                 onPressed: () async {
                   if(await Connectivity().checkConnectivity() != ConnectivityResult.none) {
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => child!));
+                    Navigator.pushReplacement(Get.context!, MaterialPageRoute(builder: (_) => child!));
                   }
                 },
                 buttonText: 'retry'.tr,

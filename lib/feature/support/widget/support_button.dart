@@ -9,16 +9,16 @@ class SupportButton extends StatelessWidget {
   final String? info;
   final Color? color;
   final Function()? onTap;
-  SupportButton({required this.icon, required this.title, required this.info, required this.color, required this.onTap});
+  const SupportButton({super.key, required this.icon, required this.title, required this.info, required this.color, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
+        padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+          borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
           color: Theme.of(context).cardColor,
           boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200]!, spreadRadius: 1, blurRadius: 5)],
         ),
@@ -32,11 +32,11 @@ class SupportButton extends StatelessWidget {
             ),
             child: Icon(icon, color: color, size: 20),
           ),
-          SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
+          const SizedBox(width: Dimensions.paddingSizeSmall),
 
           Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(title!, style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeSmall, color: color)),
-            SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+            const SizedBox(height: Dimensions.paddingSizeExtraSmall),
             Text(info!, style: ubuntuRegular, maxLines: 1, overflow: TextOverflow.ellipsis),
           ])),
 

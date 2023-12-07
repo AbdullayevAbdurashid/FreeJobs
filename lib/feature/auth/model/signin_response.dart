@@ -9,15 +9,15 @@ class SignInResponse {
     responseCode = json['response_code'];
     message = json['message'];
     content =
-    json['content'] != null ? new Content.fromJson(json['content']) : null;
+    json['content'] != null ? Content.fromJson(json['content']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['response_code'] = this.responseCode;
-    data['message'] = this.message;
-    if (this.content != null) {
-      data['content'] = this.content!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['response_code'] = responseCode;
+    data['message'] = message;
+    if (content != null) {
+      data['content'] = content!.toJson();
     }
     return data;
   }
@@ -35,9 +35,9 @@ class Content {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['token'] = this.token;
-    data['is_active'] = this.isActive;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['token'] = token;
+    data['is_active'] = isActive;
     return data;
   }
 }

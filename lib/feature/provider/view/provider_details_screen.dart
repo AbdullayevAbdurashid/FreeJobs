@@ -11,14 +11,14 @@ import 'package:get/get.dart';
 class ProviderDetailsScreen extends StatefulWidget {
   final String providerId;
   final String subCategories;
-  ProviderDetailsScreen({Key? key,required this.providerId, required this.subCategories}) : super(key: key);
+  const ProviderDetailsScreen({Key? key,required this.providerId, required this.subCategories}) : super(key: key);
 
 
   @override
-  _ProviderDetailsScreenState createState() => _ProviderDetailsScreenState();
+  ProviderDetailsScreenState createState() => ProviderDetailsScreenState();
 }
 
-class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> with SingleTickerProviderStateMixin {
+class ProviderDetailsScreenState extends State<ProviderDetailsScreen> with SingleTickerProviderStateMixin {
   late TabController tabController;
 
   @override
@@ -44,11 +44,11 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> with Sing
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      endDrawer:ResponsiveHelper.isDesktop(context) ? MenuDrawer():null,
+      endDrawer:ResponsiveHelper.isDesktop(context) ? const MenuDrawer():null,
       appBar: CustomAppBar(title: "provider_details".tr,showCart: true,),
       body: Center(
         child: SizedBox(
-          width: Dimensions.WEB_MAX_WIDTH,
+          width: Dimensions.webMaxWidth,
           child: GetBuilder<ProviderBookingController>(
               builder: (providerBookingController){
             if(providerBookingController.providerDetailsContent!=null){
@@ -77,8 +77,8 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> with Sing
                             automaticallyImplyLeading: false,
                             backgroundColor: Get.isDarkMode? null:Theme.of(context).cardColor,
                             pinned: true,
-                            leading: SizedBox(),
-                            actions: [ SizedBox()],
+                            leading: const SizedBox(),
+                            actions: const [ SizedBox()],
                             flexibleSpace: ProviderDetailsTopCard(subcategories: widget.subCategories,providerId: widget.providerId,),
                             toolbarHeight: 140,
                             elevation: 0,
@@ -89,7 +89,7 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> with Sing
                               indicatorColor: Get.isDarkMode?Colors.white70:Theme.of(context).primaryColor,
                               labelColor: Get.isDarkMode?Colors.white:Theme.of(context).primaryColor,
                               unselectedLabelColor: Colors.grey,
-                              padding: EdgeInsets.only(bottom: 10),
+                              padding: const EdgeInsets.only(bottom: 10),
                               indicatorWeight: 3.0,
                               tabs: providerBookingController.categoryItemList.map((e) {
                                 return Tab(text: e.title);
@@ -107,7 +107,7 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> with Sing
               }
 
             }else{
-             return Center(child: CircularProgressIndicator(),);
+             return const Center(child: CircularProgressIndicator(),);
             }
           }),
         ),

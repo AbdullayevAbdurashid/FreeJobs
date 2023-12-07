@@ -9,12 +9,20 @@ class ChannelList extends GetView<ConversationController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      endDrawer:ResponsiveHelper.isDesktop(context) ? MenuDrawer():null,
-      appBar: CustomAppBar(title: 'inbox'.tr, isBackButtonExist: true,),
+      endDrawer:ResponsiveHelper.isDesktop(context) ? const MenuDrawer():null,
+      appBar: CustomAppBar(title: 'inbox'.tr,
+        isBackButtonExist: true,
+        onBackPressed: (){
+        if(Navigator.canPop(context)){
+          Get.back();
+        }else{
+          Get.offNamed(RouteHelper.getMainRoute(RouteHelper.chatInbox));
+        }
+        },
+      ),
       body: GetBuilder<ConversationController>(
         initState:(state) async  {
           await Get.find<ConversationController>().createChannel(Get.find<SplashController>().configModel.content!.adminDetails!.id??"", "",shouldUpdate: false,);
-          print(Get.find<SplashController>().configModel.content!.adminDetails!.id);
           Get.find<ConversationController>().getChannelList(1);
           Get.find<UserController>().getUserInfo();
         },
@@ -23,50 +31,50 @@ class ChannelList extends GetView<ConversationController> {
 
 
             return FooterBaseView(
-              isCenter: (conversationController.channelList == null || conversationController.channelList!.length == 0),
+              isCenter: (conversationController.channelList == null || conversationController.channelList!.isEmpty),
               child: SizedBox(
-                width: Dimensions.WEB_MAX_WIDTH,
+                width: Dimensions.webMaxWidth,
                 child: conversationController.channelList == null ?
-                InboxShimmer() :
-                conversationController.channelList!.length > 0 ?
+                const InboxShimmer() :
+                conversationController.channelList!.isNotEmpty ?
                 Column(
                   children: [
                     if(ResponsiveHelper.isWeb())
-                    SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_MORE_LARGE,),
-                    SizedBox(height: Dimensions.PADDING_SIZE_SMALL,),
+                    const SizedBox(height: Dimensions.paddingSizeExtraMoreLarge,),
+                    const SizedBox(height: Dimensions.paddingSizeSmall,),
                     conversationController.adminConversationModel!=null?
                     ChannelItem(
                       conversationUserModel: conversationController.adminConversationModel!,
-                      channelupdatedAt: conversationController.adminConversationModel!.createdAt,
+                      channelupdatedAt: conversationController.adminConversationModel!.createdAt!,
                       isRead: 1,
                       bookingID: '',
-                    ): SizedBox(),
+                    ): const SizedBox(),
                     ListView.builder(
                         controller: conversationController.scrollController,
                         itemCount: controller.channelList!.length,
                         shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context,index){
                           bool user =
                           ((controller.channelList![index].channelUsers![0].user != null && controller.channelList![index].channelUsers![0].user!.userType !='super-admin')
                               &&  (controller.channelList![index].channelUsers![1].user != null && controller.channelList![index].channelUsers![1].user!.userType !='super-admin'));
-                          int? _isRead;
+                          int? isRead;
                           if(user){
-                            _isRead = controller.channelList![index].channelUsers![0].user!.userType == "customer" ?
+                            isRead = controller.channelList![index].channelUsers![0].user!.userType == "customer" ?
                             controller.channelList![index].channelUsers![0].isRead! : controller.channelList![index].channelUsers![1].isRead!;
                           }
                           return user? ChannelItem(
                             conversationUserModel:  controller.channelList![index].channelUsers![0].user!.userType != "customer" ?
                             controller.channelList![index].channelUsers![0] : controller.channelList![index].channelUsers![1],
                             channelupdatedAt: controller.channelList!.elementAt(index).updatedAt!,
-                            isRead: _isRead!,
+                            isRead: isRead!,
                             bookingID: controller.channelList!.elementAt(index).referenceId??'',
-                          ): SizedBox();
+                          ): const SizedBox();
                         }
                     ),
                   ],
                 ):
-                NoDataScreen(text: 'your_inbox_list_empty'.tr,type: NoDataType.INBOX,)
+                NoDataScreen(text: 'your_inbox_list_empty'.tr,type: NoDataType.inbox,)
               ),
             );
         },

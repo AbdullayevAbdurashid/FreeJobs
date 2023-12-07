@@ -6,12 +6,12 @@ class ColumnText extends StatelessWidget {
   final bool isProfileTimeAgo;
   final num amount;
   final String title;
-   ColumnText({Key? key,required this.title,required this.amount,  this.accountAgo ='',  this.isProfileTimeAgo = false}) : super(key: key);
+   const ColumnText({Key? key,required this.title,required this.amount,  this.accountAgo ='',  this.isProfileTimeAgo = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: ResponsiveHelper.isDesktop(context) ? Dimensions.WEB_MAX_WIDTH * .40 : Get.width * .40,
+    return SizedBox(
+      width: ResponsiveHelper.isDesktop(context) ? Dimensions.webMaxWidth * .40 : Get.width * .40,
       child: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -34,8 +34,8 @@ class ColumnText extends StatelessWidget {
               ),
               textDirection: TextDirection.ltr,
             ),
-            SizedBox(
-              height: Dimensions.PADDING_SIZE_SMALL,
+            const SizedBox(
+              height: Dimensions.paddingSizeSmall,
             ),
             Text(
               title,

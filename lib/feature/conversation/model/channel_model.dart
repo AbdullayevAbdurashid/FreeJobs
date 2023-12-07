@@ -11,15 +11,15 @@ class ChannelModel {
   ChannelModel.fromJson(Map<String, dynamic> json) {
     responseCode = json['response_code'];
     message = json['message'];
-    conversationContent = json['content'] != null ? new ChannelContent.fromJson(json['content']) : null;
+    conversationContent = json['content'] != null ? ChannelContent.fromJson(json['content']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['response_code'] = this.responseCode;
-    data['message'] = this.message;
-    if (this.conversationContent != null) {
-      data['content'] = this.conversationContent!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['response_code'] = responseCode;
+    data['message'] = message;
+    if (conversationContent != null) {
+      data['content'] = conversationContent!.toJson();
     }
     return data;
   }
@@ -33,10 +33,10 @@ class ChannelContent {
   int? lastPage;
   String? lastPageUrl;
   List<Links>? links;
-  var nextPageUrl;
+  String?  nextPageUrl;
   String? path;
   String? perPage;
-  var prevPageUrl;
+  String?  prevPageUrl;
   int? to;
   int? total;
 
@@ -60,7 +60,7 @@ class ChannelContent {
     if (json['data'] != null) {
       conversationList = <ChannelData>[];
       json['data'].forEach((v) {
-        conversationList!.add(new ChannelData.fromJson(v));
+        conversationList!.add(ChannelData.fromJson(v));
       });
     }
     firstPageUrl = json['first_page_url'];
@@ -70,7 +70,7 @@ class ChannelContent {
     if (json['links'] != null) {
       links = <Links>[];
       json['links'].forEach((v) {
-        links!.add(new Links.fromJson(v));
+        links!.add(Links.fromJson(v));
       });
     }
     nextPageUrl = json['next_page_url'];
@@ -82,33 +82,33 @@ class ChannelContent {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['current_page'] = this.currentPage;
-    if (this.conversationList != null) {
-      data['data'] = this.conversationList!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['current_page'] = currentPage;
+    if (conversationList != null) {
+      data['data'] = conversationList!.map((v) => v.toJson()).toList();
     }
-    data['first_page_url'] = this.firstPageUrl;
-    data['from'] = this.from;
-    data['last_page'] = this.lastPage;
-    data['last_page_url'] = this.lastPageUrl;
-    if (this.links != null) {
-      data['links'] = this.links!.map((v) => v.toJson()).toList();
+    data['first_page_url'] = firstPageUrl;
+    data['from'] = from;
+    data['last_page'] = lastPage;
+    data['last_page_url'] = lastPageUrl;
+    if (links != null) {
+      data['links'] = links!.map((v) => v.toJson()).toList();
     }
-    data['next_page_url'] = this.nextPageUrl;
-    data['path'] = this.path;
-    data['per_page'] = this.perPage;
-    data['prev_page_url'] = this.prevPageUrl;
-    data['to'] = this.to;
-    data['total'] = this.total;
+    data['next_page_url'] = nextPageUrl;
+    data['path'] = path;
+    data['per_page'] = perPage;
+    data['prev_page_url'] = prevPageUrl;
+    data['to'] = to;
+    data['total'] = total;
     return data;
   }
 }
 
 class ChannelData {
   String? id;
-  var referenceId;
-  var referenceType;
-  var deletedAt;
+  String?  referenceId;
+  String?  referenceType;
+  String?  deletedAt;
   String? createdAt;
   String? updatedAt;
   int? channelUsersCount;
@@ -135,23 +135,23 @@ class ChannelData {
     if (json['channel_users'] != null) {
       channelUsers = <ConversationUserModel>[];
       json['channel_users'].forEach((v) {
-        channelUsers!.add(new ConversationUserModel.fromJson(v));
+        channelUsers!.add(ConversationUserModel.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['reference_id'] = this.referenceId;
-    data['reference_type'] = this.referenceType;
-    data['deleted_at'] = this.deletedAt;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['channel_users_count'] = this.channelUsersCount;
-    if (this.channelUsers != null) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['reference_id'] = referenceId;
+    data['reference_type'] = referenceType;
+    data['deleted_at'] = deletedAt;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['channel_users_count'] = channelUsersCount;
+    if (channelUsers != null) {
       data['channel_users'] =
-          this.channelUsers!.map((v) => v.toJson()).toList();
+          channelUsers!.map((v) => v.toJson()).toList();
     }
     return data;
   }

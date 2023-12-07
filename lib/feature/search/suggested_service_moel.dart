@@ -9,15 +9,15 @@ class SuggestedServiceModel {
     responseCode = json['response_code'];
     message = json['message'];
     content =
-    json['content'] != null ? new SuggestedServiceContent.fromJson(json['content']) : null;
+    json['content'] != null ? SuggestedServiceContent.fromJson(json['content']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['response_code'] = this.responseCode;
-    data['message'] = this.message;
-    if (this.content != null) {
-      data['content'] = this.content!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['response_code'] = responseCode;
+    data['message'] = message;
+    if (content != null) {
+      data['content'] = content!.toJson();
     }
     return data;
   }
@@ -34,14 +34,14 @@ class SuggestedServiceContent {
     if (json['data'] != null) {
       data = <SuggestedService>[];
       json['data'].forEach((v) {
-        data!.add(new SuggestedService.fromJson(v));
+        data!.add(SuggestedService.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['current_page'] = this.currentPage;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['current_page'] = currentPage;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
@@ -61,9 +61,9 @@ class SuggestedService {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['keyword'] = this.keyword;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['keyword'] = keyword;
     return data;
   }
 }

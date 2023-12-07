@@ -14,7 +14,7 @@ class EditProfileScreen extends GetView<EditProfileTabController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      endDrawer:ResponsiveHelper.isDesktop(context) ? MenuDrawer():null,
+      endDrawer:ResponsiveHelper.isDesktop(context) ? const MenuDrawer():null,
       appBar: CustomAppBar(
         title: 'edit_profile'.tr,
         centerTitle: true,
@@ -24,14 +24,14 @@ class EditProfileScreen extends GetView<EditProfileTabController> {
       body: FooterBaseView(
         isScrollView: ResponsiveHelper.isMobile(context) ? false : true,
         child: SizedBox(
-          width: Dimensions.WEB_MAX_WIDTH,
+          width: Dimensions.webMaxWidth,
           child: WebShadowWrap(
             child: DefaultTabController(
               length: 2,
               child: Column(
                 children: [
                   if(!ResponsiveHelper.isMobile(context))
-                    SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,),
+                    const SizedBox(height: Dimensions.paddingSizeDefault,),
                   DecoratedTabBar(
                     decoration: BoxDecoration(
                       border: Border(
@@ -65,10 +65,10 @@ class EditProfileScreen extends GetView<EditProfileTabController> {
                   if(!ResponsiveHelper.isMobile(context))
                     GetBuilder<EditProfileTabController>(builder: (editProfileTabController){
                       return  editProfileTabController.editProfilePageCurrentState == EditProfileTabControllerState.generalInfo?
-                      EditProfileGeneralInfo():EditProfileAccountInfo();
+                      const EditProfileGeneralInfo():const EditProfileAccountInfo();
                     }),
                   if(ResponsiveHelper.isMobile(context))
-                    Expanded(child: TabBarView(
+                    const Expanded(child: TabBarView(
                       children: [
                         EditProfileGeneralInfo(),
                         EditProfileAccountInfo(),

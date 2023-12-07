@@ -8,16 +8,16 @@ class ServiceBookingList {
   ServiceBookingList.fromJson(Map<String, dynamic> json) {
     responseCode = json['response_code'];
     message = json['message'];
-    content = json['content'] != null ? new BookingContent.fromJson(json['content']) : null;
+    content = json['content'] != null ? BookingContent.fromJson(json['content']) : null;
 
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['response_code'] = this.responseCode;
-    data['message'] = this.message;
-    if (this.content != null) {
-      data['content'] = this.content!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['response_code'] = responseCode;
+    data['message'] = message;
+    if (content != null) {
+      data['content'] = content!.toJson();
     }
 
     return data;
@@ -53,7 +53,7 @@ class BookingContent {
     if (json['data'] != null) {
       bookingModel = <BookingModel>[];
       json['data'].forEach((v) {
-        bookingModel!.add(new BookingModel.fromJson(v));
+        bookingModel!.add(BookingModel.fromJson(v));
       });
     }
     firstPageUrl = json['first_page_url'];
@@ -67,19 +67,19 @@ class BookingContent {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['current_page'] = this.currentPage;
-    if (this.bookingModel != null) {
-      data['data'] = this.bookingModel!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['current_page'] = currentPage;
+    if (bookingModel != null) {
+      data['data'] = bookingModel!.map((v) => v.toJson()).toList();
     }
-    data['first_page_url'] = this.firstPageUrl;
-    data['from'] = this.from;
-    data['last_page'] = this.lastPage;
-    data['last_page_url'] = this.lastPageUrl;
-    data['path'] = this.path;
-    data['per_page'] = this.perPage;
-    data['to'] = this.to;
-    data['total'] = this.total;
+    data['first_page_url'] = firstPageUrl;
+    data['from'] = from;
+    data['last_page'] = lastPage;
+    data['last_page_url'] = lastPageUrl;
+    data['path'] = path;
+    data['per_page'] = perPage;
+    data['to'] = to;
+    data['total'] = total;
     return data;
   }
 }
@@ -149,26 +149,26 @@ class BookingModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['readable_id'] = this.readableId;
-    data['customer_id'] = this.customerId;
-    data['provider_id'] = this.providerId;
-    data['zone_id'] = this.zoneId;
-    data['booking_status'] = this.bookingStatus;
-    data['is_paid'] = this.isPaid;
-    data['payment_method'] = this.paymentMethod;
-    data['transaction_id'] = this.transactionId;
-    data['total_booking_amount'] = this.totalBookingAmount;
-    data['total_tax_amount'] = this.totalTaxAmount;
-    data['total_discount_amount'] = this.totalDiscountAmount;
-    data['service_schedule'] = this.serviceSchedule;
-    data['service_address_id'] = this.serviceAddressId;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['category_id'] = this.categoryId;
-    data['sub_category_id'] = this.subCategoryId;
-    data['serviceman_id'] = this.servicemanId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['readable_id'] = readableId;
+    data['customer_id'] = customerId;
+    data['provider_id'] = providerId;
+    data['zone_id'] = zoneId;
+    data['booking_status'] = bookingStatus;
+    data['is_paid'] = isPaid;
+    data['payment_method'] = paymentMethod;
+    data['transaction_id'] = transactionId;
+    data['total_booking_amount'] = totalBookingAmount;
+    data['total_tax_amount'] = totalTaxAmount;
+    data['total_discount_amount'] = totalDiscountAmount;
+    data['service_schedule'] = serviceSchedule;
+    data['service_address_id'] = serviceAddressId;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['category_id'] = categoryId;
+    data['sub_category_id'] = subCategoryId;
+    data['serviceman_id'] = servicemanId;
     return data;
   }
 }

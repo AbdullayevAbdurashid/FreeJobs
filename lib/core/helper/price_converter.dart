@@ -21,17 +21,17 @@ class PriceConverter {
         price = price! - ((discount / 100) * price);
       }
     }
-    bool _isRightSide = Get.find<SplashController>().configModel.content?.currencySymbolPosition == 'right' && Get.find<LocalizationController>().isLtr == true;
+    bool isRightSide = Get.find<SplashController>().configModel.content?.currencySymbolPosition == 'right' && Get.find<LocalizationController>().isLtr == true;
     return isShowLongPrice == true ?
-    '${_isRightSide ? '' : getCurrency()}'
+    '${isRightSide ? '' : getCurrency()}'
         '${(price!).toStringAsFixed(int.parse(Get.find<SplashController>().configModel.content!.currencyDecimalPoint!))
         .replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}'
-        '${_isRightSide ? getCurrency() : ''}':
+        '${isRightSide ? getCurrency() : ''}':
 
-    longToShortPrice('${_isRightSide ? '' : getCurrency()}'
+    longToShortPrice('${isRightSide ? '' : getCurrency()}'
         '${(price!).toStringAsFixed(int.parse(Get.find<SplashController>().configModel.content!.currencyDecimalPoint!))
         .replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}'
-        '${_isRightSide ? getCurrency() : ''}');
+        '${isRightSide ? getCurrency() : ''}');
 
   }
 
@@ -62,67 +62,67 @@ class PriceConverter {
     return '$discount${discountType == 'percent' ? '%' : getCurrency()} ${'off'.tr}';  }
 
 
-  static Discount _getDiscount(List<ServiceDiscount>? serviceDiscountList, num? _discountAmount, String? _discountAmountType) {
-    ServiceDiscount? serviceDiscount = (serviceDiscountList != null && serviceDiscountList.length > 0) ?serviceDiscountList.first : null;
+  static Discount _getDiscount(List<ServiceDiscount>? serviceDiscountList, num? discountAmount, String? discountAmountType) {
+    ServiceDiscount? serviceDiscount = (serviceDiscountList != null && serviceDiscountList.isNotEmpty) ?serviceDiscountList.first : null;
     if(serviceDiscount != null){
-      num? _getDiscount = serviceDiscount.discount?.discountAmount;
-      if(_getDiscount! > serviceDiscount.discount!.maxDiscountAmount! && serviceDiscount.discount!.discountType == 'percent') {
-        _getDiscount = serviceDiscount.discount!.maxDiscountAmount!;
+      num? getDiscount = serviceDiscount.discount?.discountAmount;
+      if(getDiscount! > serviceDiscount.discount!.maxDiscountAmount! && serviceDiscount.discount!.discountType == 'percent') {
+        getDiscount = serviceDiscount.discount!.maxDiscountAmount!;
       }
-      _discountAmount = (_discountAmount! + _getDiscount);
-      _discountAmountType = serviceDiscount.discount!.discountAmountType!;
+      discountAmount = (discountAmount! + getDiscount);
+      discountAmountType = serviceDiscount.discount!.discountAmountType!;
     }
-    return Discount(discountAmount: _discountAmount, discountAmountType: _discountAmountType);
+    return Discount(discountAmount: discountAmount, discountAmountType: discountAmountType);
   }
 
  static Discount discountCalculation(Service service, {bool addCampaign = false}) {
-    num? _discountAmount = 0;
-    String? _discountAmountType;
+    num? discountAmount = 0;
+    String? discountAmountType;
 
     if(service.serviceDiscount != null && service.serviceDiscount!.isNotEmpty) {
 
-      Discount _discount =  _getDiscount(service.serviceDiscount, _discountAmount, _discountAmountType);
-      _discountAmount = _discount.discountAmount;
+      Discount discount =  _getDiscount(service.serviceDiscount, discountAmount, discountAmountType);
+      discountAmount = discount.discountAmount;
 
-      _discountAmountType = _discount.discountAmountType;
+      discountAmountType = discount.discountAmountType;
 
 
     }else if(service.campaignDiscount != null && service.campaignDiscount!.isNotEmpty && addCampaign) {
 
-      Discount _discount =  _getDiscount(service.campaignDiscount, _discountAmount, _discountAmountType);
-      _discountAmount = _discount.discountAmount;
-      _discountAmountType = _discount.discountAmountType;
+      Discount discount =  _getDiscount(service.campaignDiscount, discountAmount, discountAmountType);
+      discountAmount = discount.discountAmount;
+      discountAmountType = discount.discountAmountType;
     } else{
       if(service.category?.categoryDiscount != null && service.category!.categoryDiscount!.isNotEmpty) {
-        Discount _discount =  _getDiscount(service.category?.categoryDiscount, _discountAmount, _discountAmountType);
-        _discountAmount = _discount.discountAmount;
-        _discountAmountType = _discount.discountAmountType;
+        Discount discount =  _getDiscount(service.category?.categoryDiscount, discountAmount, discountAmountType);
+        discountAmount = discount.discountAmount;
+        discountAmountType = discount.discountAmountType;
 
       }else if(service.category?.campaignDiscount != null && service.category!.campaignDiscount!.isNotEmpty && addCampaign){
 
-        Discount _discount =  _getDiscount(service.category?.campaignDiscount, _discountAmount, _discountAmountType);
-        _discountAmount = _discount.discountAmount;
-        _discountAmountType = _discount.discountAmountType;
+        Discount discount =  _getDiscount(service.category?.campaignDiscount, discountAmount, discountAmountType);
+        discountAmount = discount.discountAmount;
+        discountAmountType = discount.discountAmountType;
 
       }
     }
 
-    return Discount(discountAmount: _discountAmount, discountAmountType: _discountAmountType);
+    return Discount(discountAmount: discountAmount, discountAmountType: discountAmountType);
   }
 
   static double getDiscountToAmount(Discount discount, double amount) {
 
-    double _amount = 0;
+    double amount0 = 0;
     if(discount.discountAmountType == 'percent') {
-     _amount = (amount * discount.discountAmount!.toDouble()) / 100.0 ;
+     amount0 = (amount * discount.discountAmount!.toDouble()) / 100.0 ;
 
-     if(_amount > discount.maxDiscountAmount!.toDouble()) {
-       _amount = discount.maxDiscountAmount!.toDouble();
+     if(amount0 > discount.maxDiscountAmount!.toDouble()) {
+       amount0 = discount.maxDiscountAmount!.toDouble();
      }
     }else{
-      _amount = discount.discountAmount!.toDouble();
+      amount0 = discount.discountAmount!.toDouble();
     }
-    return _amount;
+    return amount0;
 
   }
 

@@ -42,9 +42,9 @@ class Errors {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['error_code'] = this.errorCode;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['error_code'] = errorCode;
+    data['message'] = message;
     return data;
   }
 }

@@ -39,7 +39,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
       },
       child: Scaffold(
           key: scaffoldState,
-          endDrawer:ResponsiveHelper.isDesktop(context) ? MenuDrawer():null,
+          endDrawer:ResponsiveHelper.isDesktop(context) ? const MenuDrawer():null,
           appBar: CustomAppBar(
             title: "booking_details".tr,
             centerTitle: true,
@@ -57,7 +57,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
             isScrollView: ResponsiveHelper.isMobile(context) ? false : true,
 
             child: SizedBox(
-              width: Dimensions.WEB_MAX_WIDTH,
+              width: Dimensions.webMaxWidth,
               child: RefreshIndicator(
                 onRefresh: () async {
                   Get.find<BookingDetailsTabsController>()
@@ -68,15 +68,15 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                     length: 2,
                     child: Column(
                       children: [
-                        BookingTabBar(),
+                        const BookingTabBar(),
                         if(!ResponsiveHelper.isMobile(context))
-                          Container(
+                          SizedBox(
                             height: 600,
                             child: TabBarView(
                                 controller: Get.find<BookingDetailsTabsController>().detailsTabController,
                                 children: [
                                   BookingDetailsSection(bookingID: widget.bookingID),
-                                  BookingHistory(),
+                                  const BookingHistory(),
                                 ]),
                           ),
                         if (ResponsiveHelper.isMobile(context))
@@ -90,7 +90,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                     controller: Get.find<BookingDetailsTabsController>().detailsTabController,
                                     children: [
                                       BookingDetailsSection(bookingID: widget.bookingID),
-                                      BookingHistory(),
+                                      const BookingHistory(),
                                     ]),
                               );
                             }
@@ -117,10 +117,9 @@ class BookingTabBar extends StatelessWidget {
       builder: (bookingDetailsTabsController) {
         return Container(
           height: 45,
-          width: Dimensions.WEB_MAX_WIDTH,
+          width: Dimensions.webMaxWidth,
           color: Theme.of(context).cardColor,
-          padding: const EdgeInsets.symmetric(
-              horizontal: Dimensions.PADDING_SIZE_DEFAULT),
+          padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
           child: DecoratedBox(
             decoration: BoxDecoration(
               color: Colors.white.withOpacity(0.0),
@@ -132,9 +131,10 @@ class BookingTabBar extends StatelessWidget {
             child: Center(
               child: TabBar(
                 unselectedLabelColor: Colors.grey,
+                indicatorColor: Theme.of(context).colorScheme.primary,
                 labelColor: Get.isDarkMode
                     ? Colors.white
-                    : Theme.of(context).primaryColor,
+                    : Theme.of(context).colorScheme.primary,
                 controller: bookingDetailsTabsController.detailsTabController,
                 labelStyle: const TextStyle(fontWeight: FontWeight.bold),
                 tabs: [
@@ -145,11 +145,11 @@ class BookingTabBar extends StatelessWidget {
                   switch (index) {
                     case 0:
                       bookingDetailsTabsController.updateBookingStatusTabs(
-                          BookingDetailsTabs.BookingDetails);
+                          BookingDetailsTabs.bookingDetails);
                       break;
                     case 1:
                       bookingDetailsTabsController
-                          .updateBookingStatusTabs(BookingDetailsTabs.Status);
+                          .updateBookingStatusTabs(BookingDetailsTabs.status);
                       break;
                   }
                 },

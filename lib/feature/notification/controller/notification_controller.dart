@@ -19,11 +19,6 @@ class NotificationController extends GetxController implements GetxService{
   int get offset => _offset;
   final ScrollController scrollController = ScrollController();
 
-  @override
-  void onInit(){
-    super.onInit();
-
-  }
 
 
   Future<void> getNotifications(int offset, {bool reload = true})async{
@@ -38,23 +33,23 @@ class NotificationController extends GetxController implements GetxService{
     if(response.statusCode == 200){
       allNotificationList =[];
       _notificationModel =  NotificationModel.fromJson(response.body);
-      notificationModel!.content!.data!.forEach((data) {
+      for (var data in notificationModel!.content!.data!) {
         if(!dateList.contains(DateConverter.dateStringMonthYear(DateTime.tryParse(data.createdAt!)))) {
           dateList.add(DateConverter.dateStringMonthYear(DateTime.tryParse(data.createdAt!)));
         }
-      });
+      }
 
-      notificationModel!.content!.data!.forEach((data){
+      for (var data in notificationModel!.content!.data!) {
         allNotificationList.add(data);
-      });
+      }
 
       for(int i=0;i< dateList.length;i++){
         notificationList.add([]);
-        allNotificationList.forEach((element) {
+        for (var element in allNotificationList) {
           if(dateList[i]== DateConverter.dateStringMonthYear(DateTime.tryParse(element.createdAt!))){
             notificationList[i].add(element);
           }
-        });
+        }
       }
       _isLoading =false;
     } else{

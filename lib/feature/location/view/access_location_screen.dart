@@ -5,50 +5,59 @@ import 'package:demandium/components/footer_base_view.dart';
 import 'package:demandium/components/web_shadow_wrap.dart';
 import 'package:demandium/core/core_export.dart';
 
-class AccessLocationScreen extends StatelessWidget {
+class AccessLocationScreen extends StatefulWidget {
   final bool? fromSignUp;
   final bool? fromHome;
   final String? route;
-  AccessLocationScreen({@required this.fromSignUp, @required this.fromHome, @required this.route});
+  const AccessLocationScreen({super.key, @required this.fromSignUp, @required this.fromHome, @required this.route});
 
   @override
-  Widget build(BuildContext context) {
-    if(!fromHome! && Get.find<LocationController>().getUserAddress() != null) {
-      print(Get.find<LocationController>().getUserAddress());
-      Future.delayed(Duration(milliseconds: 500), () {
-        Get.dialog(CustomLoader(), barrierDismissible: false);
+  State<AccessLocationScreen> createState() => _AccessLocationScreenState();
+}
+
+class _AccessLocationScreenState extends State<AccessLocationScreen> {
+  bool isLoggedIn = false;
+  @override
+  void initState() {
+    super.initState();
+
+    if(widget.fromHome! && Get.find<LocationController>().getUserAddress() != null) {
+      Future.delayed(const Duration(milliseconds: 500), () {
         Get.find<LocationController>().autoNavigate(
-          Get.find<LocationController>().getUserAddress()!, fromSignUp!, route!, route != null,
+          Get.find<LocationController>().getUserAddress()!, widget.fromSignUp!, widget.route!, widget.route != null,
         );
       });
     }
-    bool _isLoggedIn = Get.find<AuthController>().isLoggedIn();
-    if(_isLoggedIn) {
+    isLoggedIn = Get.find<AuthController>().isLoggedIn();
+    if(isLoggedIn) {
       Get.find<LocationController>().getAddressList();
     }
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      endDrawer:ResponsiveHelper.isDesktop(context) ? MenuDrawer():null,
-      appBar: CustomAppBar(title: 'set_location'.tr, isBackButtonExist: fromHome),
+      endDrawer:ResponsiveHelper.isDesktop(context) ? const MenuDrawer():null,
+      appBar: CustomAppBar(title: 'set_location'.tr, isBackButtonExist: false,),
       body: SafeArea(child: Center(
         child: GetBuilder<LocationController>(builder: (locationController) {
-          return (ResponsiveHelper.isDesktop(context)) ? WebLandingPage(fromSignUp: fromSignUp, fromHome: fromHome, route: route) :
+          return (ResponsiveHelper.isDesktop(context)) &&  !widget.fromHome! ? WebLandingPage(fromSignUp: widget.fromSignUp,  route: widget.route) :
           Column(
             children: [
               Expanded(
                 child: FooterBaseView(
-                  isCenter: (! _isLoggedIn || locationController.addressList == null || locationController.addressList!.length == 0),
+                  isCenter: (! isLoggedIn || locationController.addressList == null || locationController.addressList!.isEmpty),
                   child: SizedBox(
-                    width:Dimensions.WEB_MAX_WIDTH,
+                    width:Dimensions.webMaxWidth,
                     child: WebShadowWrap(
-                      child: _isLoggedIn ? Padding(
-                        padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_LARGE),
+                      child: isLoggedIn ? Padding(
+                        padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            locationController.addressList != null ? locationController.addressList!.length > 0 ?
+                            locationController.addressList != null ? locationController.addressList!.isNotEmpty ?
                             ListView.builder(
-                              physics: NeverScrollableScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               itemCount: locationController.addressList!.length,
                               itemBuilder: (context, index) {
@@ -56,25 +65,25 @@ class AccessLocationScreen extends StatelessWidget {
                                   address: locationController.addressList![index],
                                   fromAddress: false,
                                   onTap: () async {
-                                    Get.dialog(CustomLoader(), barrierDismissible: false);
-                                    AddressModel _address = locationController.addressList![index];
-                                    await locationController.setAddressIndex(_address,fromAddressScreen: false);
-                                    locationController.saveAddressAndNavigate(_address, fromSignUp!, route != null ? route:null, route != null);
+                                    Get.dialog(const CustomLoader(), barrierDismissible: false);
+                                    AddressModel address = locationController.addressList![index];
+                                    await locationController.setAddressIndex(address,fromAddressScreen: false);
+                                    locationController.saveAddressAndNavigate(address, widget.fromSignUp!, widget.route, widget.route != null);
                                   },
                                 )));
                               },
                             ):
-                            NoDataScreen(text: 'no_saved_address_found'.tr,type: NoDataType.ADDRESS,) :
-                            Center(child: CircularProgressIndicator()),
-                            SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_LARGE,),
+                            NoDataScreen(text: 'no_saved_address_found'.tr,type: NoDataType.address,) :
+                            const Center(child: CircularProgressIndicator()),
+                            const SizedBox(height: Dimensions.paddingSizeExtraLarge,),
                             if(ResponsiveHelper.isDesktop(context))
-                              BottomButton(locationController: locationController, fromSignUp: fromSignUp!, route: route),
+                              BottomButton(locationController: locationController, fromSignUp: widget.fromSignUp!, route: widget.route),
                           ],
                         ),
                       ):
 
                       Center(child: SingleChildScrollView(
-                        physics: BouncingScrollPhysics(),
+                        physics: const BouncingScrollPhysics(),
                         child: Center(child: SizedBox(
                             width: 700,
                             child: Column(
@@ -82,7 +91,7 @@ class AccessLocationScreen extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Image.asset(Images.mapLocation, height: 240),
-                                  SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+                                  const SizedBox(height: Dimensions.paddingSizeSmall),
                                   Text(
                                     'find_services_near_you'.tr,
                                     textAlign: TextAlign.center,
@@ -91,7 +100,7 @@ class AccessLocationScreen extends StatelessWidget {
                                         color:Get.isDarkMode ? Theme.of(context).primaryColorLight : Theme.of(context).colorScheme.primary),
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.all(Dimensions.PADDING_SIZE_LARGE),
+                                    padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
                                     child: Text(
                                       'please_select_you_location_to_start_exploring_available_services_near_you'.tr,
                                       textAlign: TextAlign.center,
@@ -99,9 +108,9 @@ class AccessLocationScreen extends StatelessWidget {
                                           fontSize: Dimensions.fontSizeSmall,
                                           color:Get.isDarkMode ? Theme.of(context).primaryColorLight : Theme.of(context).colorScheme.primary
                                       ),),),
-                                  SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
+                                  const SizedBox(height: Dimensions.paddingSizeLarge),
                                   if(ResponsiveHelper.isDesktop(context))
-                                    BottomButton(locationController: locationController, fromSignUp: fromSignUp!, route: route??''),
+                                    BottomButton(locationController: locationController, fromSignUp: widget.fromSignUp!, route: widget.route??''),
                                 ]))),
                       )),
                     ),
@@ -110,8 +119,8 @@ class AccessLocationScreen extends StatelessWidget {
               ),
               if(!ResponsiveHelper.isDesktop(context))
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT),
-                  child: BottomButton(locationController: Get.find<LocationController>(), fromSignUp: fromSignUp!, route: route),
+                  padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
+                  child: BottomButton(locationController: Get.find<LocationController>(), fromSignUp: widget.fromSignUp!, route: widget.route),
                 ),
             ],
           );
@@ -127,7 +136,7 @@ class BottomButton extends StatelessWidget {
   final LocationController locationController;
   final bool fromSignUp;
   final String? route;
-  BottomButton({required this.locationController, required this.fromSignUp, required this.route});
+  const BottomButton({super.key, required this.locationController, required this.fromSignUp, required this.route});
 
   @override
   Widget build(BuildContext context) {
@@ -141,12 +150,12 @@ class BottomButton extends StatelessWidget {
             return;
           }
           _checkPermission(() async {
-            Get.dialog(CustomLoader(), barrierDismissible: false);
-            AddressModel _address = await Get.find<LocationController>().getCurrentLocation(true);
-            ZoneResponseModel _response = await locationController.getZone(_address.latitude!, _address.longitude!, false);
-            if(_response.isSuccess) {
+            Get.dialog(const CustomLoader(), barrierDismissible: false);
+            AddressModel address = await Get.find<LocationController>().getCurrentLocation(true);
+            ZoneResponseModel response = await locationController.getZone(address.latitude!, address.longitude!, false);
+            if(response.isSuccess) {
 
-              locationController.saveAddressAndNavigate(_address, fromSignUp, route != null ? route! : '', route != null);
+              locationController.saveAddressAndNavigate(address, fromSignUp, route != null ? route! : '', route != null);
             }else {
               Get.back();
               Get.toNamed(RouteHelper.getPickMapRoute(route == null ? RouteHelper.accessLocation : route!, route != null, 'false'), );
@@ -156,11 +165,11 @@ class BottomButton extends StatelessWidget {
         },
         icon: Icons.my_location,
       ),
-      SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+      const SizedBox(height: Dimensions.paddingSizeSmall),
 
       TextButton(
         style: TextButton.styleFrom(
-            minimumSize: Size(Dimensions.WEB_MAX_WIDTH, 40),
+            minimumSize: Size(Dimensions.webMaxWidth,ResponsiveHelper.isDesktop(context)?50 :40),
             padding: EdgeInsets.zero,
             backgroundColor: Get.isDarkMode? Colors.grey.withOpacity(0.2):Theme.of(context).primaryColorLight
         ),
@@ -175,7 +184,7 @@ class BottomButton extends StatelessWidget {
         },
         child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           Padding(
-            padding: EdgeInsets.only(right: Dimensions.PADDING_SIZE_EXTRA_SMALL,left: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+            padding: const EdgeInsets.only(right: Dimensions.paddingSizeExtraSmall,left: Dimensions.paddingSizeExtraSmall),
             child: Icon(Icons.location_pin, color: Get.isDarkMode? Colors.white: Theme.of(context).primaryColor),
           ),
           Text('set_from_map'.tr, textAlign: TextAlign.center, style: ubuntuMedium.copyWith(
@@ -184,7 +193,7 @@ class BottomButton extends StatelessWidget {
           )),
         ]),
       ),
-      SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+      const SizedBox(height: Dimensions.paddingSizeSmall),
     ])));
   }
 
@@ -196,7 +205,7 @@ class BottomButton extends StatelessWidget {
     if(permission == LocationPermission.denied) {
       customSnackBar('you_have_to_allow'.tr);
     }else if(permission == LocationPermission.deniedForever) {
-      Get.dialog(PermissionDialog());
+      Get.dialog(const PermissionDialog());
     }else {
       onTap();
     }

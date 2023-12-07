@@ -43,8 +43,8 @@ class FooterBaseView extends StatelessWidget {
           ),
           child: child,
         ),
-        SizedBox(height: bottomPadding!? Dimensions.PADDING_SIZE_EXTRA_LARGE:0,),
-        FooterView(),
+        SizedBox(height: bottomPadding!? Dimensions.paddingSizeExtraLarge:0,),
+        const FooterView(),
       ],
     ) : child;
   }

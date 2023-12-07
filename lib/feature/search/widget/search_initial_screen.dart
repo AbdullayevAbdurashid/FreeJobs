@@ -8,17 +8,17 @@ class SearchSuggestion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: Dimensions.WEB_MAX_WIDTH,
+    return const SizedBox(
+      width: Dimensions.webMaxWidth,
       child: Padding(
-        padding:  EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
+        padding:  EdgeInsets.all(Dimensions.paddingSizeDefault),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             RecentSearch(),
-            SizedBox(height: Dimensions.PADDING_SIZE_LARGE,),
+            SizedBox(height: Dimensions.paddingSizeLarge,),
             SuggestedSearch(),
-            SizedBox(height: Dimensions.PADDING_SIZE_LARGE,),
+            SizedBox(height: Dimensions.paddingSizeLarge,),
             RecommendedSearch()
           ],
         ),

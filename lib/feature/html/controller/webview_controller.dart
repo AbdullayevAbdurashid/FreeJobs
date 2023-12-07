@@ -7,7 +7,7 @@ class HtmlViewController extends GetxController{
   final HtmlRepository htmlRepository;
   HtmlViewController({required this.htmlRepository});
 
-  bool _isLoading = false;
+  final bool _isLoading = false;
   get isLoading=> _isLoading;
   String ? _htmlPage;
   String? get htmlPage => _htmlPage;

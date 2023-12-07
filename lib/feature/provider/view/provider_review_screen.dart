@@ -14,7 +14,7 @@ class ProviderReviewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(title: 'provider_review'.tr),
-      endDrawer:ResponsiveHelper.isDesktop(context) ? MenuDrawer():null,
+      endDrawer:ResponsiveHelper.isDesktop(context) ? const MenuDrawer():null,
       body: GetBuilder<ProviderBookingController>(
 
         initState: (_){
@@ -26,7 +26,7 @@ class ProviderReviewScreen extends StatelessWidget {
         return FooterBaseView(
           isScrollView: true,
           child: SizedBox(
-            width: Dimensions.WEB_MAX_WIDTH,
+            width: Dimensions.webMaxWidth,
             child: providerBookingController.providerDetailsContent!=null ?
             Column(children: [
               Container(
@@ -35,7 +35,7 @@ class ProviderReviewScreen extends StatelessWidget {
               ),
               Column(children: [
                 Image.asset(Images.reviewIcon,width: 60,),
-                Padding(padding: const EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                Padding(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall),
                   child: Directionality(
                     textDirection: TextDirection.ltr,
                      child: Text(providerBookingController.providerDetailsContent!.provider!.avgRating.toString(),style: ubuntuBold.copyWith(fontSize: Dimensions.fontSizeOverLarge,color: Theme.of(context).colorScheme.primary),)),
@@ -50,7 +50,7 @@ class ProviderReviewScreen extends StatelessWidget {
                           fontSize: Dimensions.fontSizeSmall
                       ),
                     ),
-                    SizedBox(width: Dimensions.PADDING_SIZE_SMALL,),
+                    const SizedBox(width: Dimensions.paddingSizeSmall,),
                     Text(
                       "${providerBookingController.providerDetailsContent!.provider!.ratingCount} ${'reviews'.tr}",
                       style: ubuntuMedium.copyWith(
@@ -60,21 +60,21 @@ class ProviderReviewScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                providerBookingController.providerDetailsContent!.provider!.reviews!=null && providerBookingController.providerDetailsContent!.provider!.reviews!.length>0?
-                Padding(padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
+                providerBookingController.providerDetailsContent!.provider!.reviews!=null && providerBookingController.providerDetailsContent!.provider!.reviews!.isNotEmpty?
+                Padding(padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
                   child: ListView.builder(
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: providerBookingController.providerDetailsContent!.provider!.reviews!.length,
                     itemBuilder: (context, index){
                       return ServiceReviewItem(reviewData: providerBookingController.providerDetailsContent!.provider!.reviews![index],
                       );
                     },
                   ),
-                ):SizedBox(height: Get.height*.4,child: Center(child: EmptyReviewWidget())),
+                ):SizedBox(height: Get.height*.4,child: const Center(child: EmptyReviewWidget())),
               ])
             ],
-            ):Center(child: CircularProgressIndicator()),
+            ):const Center(child: CircularProgressIndicator()),
           ),
         );
       }),

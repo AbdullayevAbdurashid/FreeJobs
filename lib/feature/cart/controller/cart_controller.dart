@@ -11,7 +11,7 @@ class CartController extends GetxController implements GetxService {
   List<CartModel> _initialCartList = [];
   bool _isLoading = false;
   double _amount = 0.0;
-  bool _isOthersInfoValid = false;
+  final bool _isOthersInfoValid = false;
   double _totalPrice = 0;
   bool _isButton = false;
 
@@ -50,13 +50,23 @@ class CartController extends GetxController implements GetxService {
   }
 
   Future<List<CartModel>> getCartData() async{
-    print('Get cart data is called');
     _isLoading = false;
     _cartList = [];
     _cartList.addAll(cartRepo.getCartList());
-    _cartList.forEach((cart) {
+    for (var cart in _cartList) {
       _amount = _amount + (cart.discountedPrice * cart.quantity);
-    });
+    }
+
+    if(_cartList.isNotEmpty){
+      if(_cartList[0].provider!=null){
+        preSelectedProvider = true;
+        selectedProviderName =  _cartList[0].provider?.companyName??"";
+        selectedProviderId =  _cartList[0].provider?.id??"";
+        selectedProviderProfileImages =  _cartList[0].provider?.logo??"";
+        selectedProviderRating =  _cartList[0].provider?.avgRating.toString()??"";
+        subcategoryId = _cartList[0].subCategoryId;
+      }
+    }
 
     _isLoading = false;
     _cartTotalCost();
@@ -67,9 +77,9 @@ class CartController extends GetxController implements GetxService {
 
   _cartTotalCost() {
     _totalPrice = 0.0;
-    _cartList.forEach((cartModel) {
+    for (var cartModel in _cartList) {
       _totalPrice = _totalPrice + (cartModel.totalCost * cartModel.quantity) ;
-    });
+    }
   }
 
 
@@ -88,7 +98,7 @@ class CartController extends GetxController implements GetxService {
         _walletBalance = double.tryParse(response.body['content']['wallet_balance'].toString())!;
       }
 
-      if(_cartList.length>0){
+      if(_cartList.isNotEmpty){
         if(_cartList[0].provider!=null){
           preSelectedProvider = true;
           selectedProviderName =  _cartList[0].provider?.companyName??"";
@@ -98,21 +108,19 @@ class CartController extends GetxController implements GetxService {
           subcategoryId = _cartList[0].subCategoryId;
         }
       }
-
-
     }
     else{
      // ApiChecker.checkApi(response);
     }
 
     _totalPrice = 0.0;
-    double _couponDiscount = 0.0;
-    _cartList.forEach((cartModel) {
+    double couponDiscount = 0.0;
+    for (var cartModel in _cartList) {
       _totalPrice = _totalPrice + cartModel.totalCost;
-      _couponDiscount = _couponDiscount + cartModel.couponDiscountPrice;
-    });
+      couponDiscount = couponDiscount + cartModel.couponDiscountPrice;
+    }
 
-    if(_couponDiscount == 0) {
+    if(couponDiscount == 0) {
       Get.find<CouponController>().removeCouponData(false);
     }
 
@@ -183,11 +191,11 @@ class CartController extends GetxController implements GetxService {
   }
 
  bool _isQuantity( ) {
-    int _count = 0;
-    _initialCartList.forEach((cart) {
-      _count += cart.quantity;
-    });
-    return _count > 0;
+    int count = 0;
+    for (var cart in _initialCartList) {
+      count += cart.quantity;
+    }
+    return count > 0;
   }
 
 
@@ -223,14 +231,14 @@ class CartController extends GetxController implements GetxService {
   }
 
   void addDataToCart(){
-    if(_cartList.length > 0 && _initialCartList.first.subCategoryId != _cartList.first.subCategoryId) {
+    if(_cartList.isNotEmpty && _initialCartList.first.subCategoryId != _cartList.first.subCategoryId) {
       Get.back();
       Get.dialog(ConfirmationDialog(
         icon: Images.warning,
         title: "are_you_sure_to_reset".tr,
         description: 'you_have_service_from_other_sub_category'.tr,
         onYesPressed: () async {
-          _initialCartList.removeWhere((_cart) => _cart.quantity < 1);
+          _initialCartList.removeWhere((cart) => cart.quantity < 1);
           cartRepo.addToCartList(_initialCartList);
           _cartList = _initialCartList;
           _cartTotalCost();
@@ -249,7 +257,7 @@ class CartController extends GetxController implements GetxService {
 
   }
 
-  Future<void> addMultipleCartToServer() async {
+  Future<void> addMultipleCartToServer({bool fromServiceCenterDialog = true}) async {
     _isLoading = true;
     update();
     _replaceCartList();
@@ -266,39 +274,45 @@ class CartController extends GetxController implements GetxService {
         },
         onYesPressed: () async {
           Get.back();
-          Get.dialog(CustomLoader(), barrierDismissible: false,);
+          Get.dialog(const CustomLoader(), barrierDismissible: false,);
           await cartRepo.removeAllCartFromServer();
-          if(_initialCartList.length > 0){
+          if(_initialCartList.isNotEmpty){
             for (int index=0; index<_initialCartList.length;index++){
               await addToCartApi(_initialCartList[index]);
             }
           }
-          _isLoading = false;
-          onDemandToast("successfully_added_to_cart".tr,Colors.green);
           clearCartList();
           await getCartListFromServer();
+          _isLoading = false;
           Get.back();
+          if(fromServiceCenterDialog){
+            onDemandToast("successfully_added_to_cart".tr,Colors.green);
+          }
         },
       ));
-    }else{
+    }
+    else{
       await cartRepo.removeAllCartFromServer();
-      if(_cartList.length > 0){
+      if(_cartList.isNotEmpty){
         for (int index=0; index<_cartList.length;index++){
           await addToCartApi(_cartList[index]);
         }
       }
-      _isLoading = false;
-      onDemandToast("successfully_added_to_cart".tr,Colors.green);
+
       clearCartList();
-      Get.back();
+      if(fromServiceCenterDialog){
+        Get.back();
+        onDemandToast("successfully_added_to_cart".tr,Colors.green);
+      }
     }
+    _isLoading = false;
     update();
   }
 
   Future<void> addToCartApi(CartModel cartModel)async{
 
     if(selectedProviderId!=""){
-      await cartRepo.addToCartListToServer(CartModelBody(
+     await cartRepo.addToCartListToServer(CartModelBody(
         serviceId:cartModel.service!.id,
         categoryId: cartModel.categoryId,
         variantKey: cartModel.variantKey,
@@ -307,7 +321,7 @@ class CartController extends GetxController implements GetxService {
         providerId: selectedProviderId,
       ));
     }else{
-      await cartRepo.addToCartListToServer(CartModelBody(
+       await cartRepo.addToCartListToServer(CartModelBody(
         serviceId:cartModel.service!.id,
         categoryId: cartModel.categoryId,
         variantKey: cartModel.variantKey,
@@ -315,7 +329,6 @@ class CartController extends GetxController implements GetxService {
         subCategoryId: cartModel.subCategoryId,
       ));
     }
-
   }
 
 
@@ -328,29 +341,29 @@ class CartController extends GetxController implements GetxService {
   }
 
   int isAvailableInCart(CartModel cartModel, Service service) {
-    int _index = -1;
-    _cartList.forEach((cart) {
+    int index = -1;
+    for (var cart in _cartList) {
       if(cart.service != null){
         if(cart.service!.id!.contains(service.id!)) {
           service.variationsAppFormat?.zoneWiseVariations?.forEach((variation) {
             if(variation.variantKey == cart.variantKey && variation.price == cart.serviceCost) {
 
               if(cart.variantKey == cartModel.variantKey) {
-                _index = _cartList.indexOf(cart);
+                index = _cartList.indexOf(cart);
               }
             }
           });
 
         }
       }
-    });
-    return _index;
+    }
+    return index;
   }
 
   setInitialCartList(Service service) {
     _initialCartList = [];
     service.variationsAppFormat?.zoneWiseVariations?.forEach((variation) {
-      CartModel _cartModel = CartModel(
+      CartModel cartModel = CartModel(
           service.id!,
           service.id!,
           service.categoryId!,
@@ -359,26 +372,26 @@ class CartController extends GetxController implements GetxService {
           variation.price!,
           0,
           0, 0, 0,
-          service.tax,
-          variation.price!,
+          service.tax??0,
+          variation.price??0,
           service
       );
-      int _index =  isAvailableInCart(_cartModel, service);
-      if(_index != -1) {
-        _cartModel.copyWith(id: _cartList[_index].id, quantity: _cartList[_index].quantity);
+      int index =  isAvailableInCart(cartModel, service);
+      if(index != -1) {
+        cartModel.copyWith(id: _cartList[index].id, quantity: _cartList[index].quantity);
       }
-      _initialCartList.add(_cartModel);
+      _initialCartList.add(cartModel);
     });
     _isButton = false;
 
   }
 
   List<CartModel> _replaceCartList() {
-    _initialCartList.removeWhere((_cart) => _cart.quantity < 0);
+    _initialCartList.removeWhere((cart) => cart.quantity < 0);
 
-    _initialCartList.forEach((_initCart) {
-      _cartList.removeWhere((cart) => cart.id.contains(_initCart.id) && cart.variantKey.contains(_initCart.variantKey));
-    });
+    for (var initCart in _initialCartList) {
+      _cartList.removeWhere((cart) => cart.id.contains(initCart.id) && cart.variantKey.contains(initCart.variantKey));
+    }
     _cartList.addAll(_initialCartList);
     _cartList.removeWhere((element) => element.quantity == 0);
     return _cartList;
@@ -391,17 +404,15 @@ class CartController extends GetxController implements GetxService {
         if(reload){
           _providerList = [];
         }
-        List<dynamic> _list =  response.body['content'];
-        _list.forEach((element) {
+        List<dynamic> list =  response.body['content'];
+        for (var element in list) {
           providerList!.add(ProviderData.fromJson(element));
-        });
+        }
 
         if(selectedProviderId!="" && _providerList!=null && _providerList!.isNotEmpty){
-          print('inside');
 
           for(int i=0;i<_providerList!.length;i++){
             if(selectedProviderId==_providerList![i].id){
-              print("$selectedProviderId::::${providerList![i].id}");
               selectedProviderIndex =i;
             }
           }
@@ -437,8 +448,8 @@ class CartController extends GetxController implements GetxService {
     update();
   }
 
-  void setSubCategoryId(String _subcategoryId){
-    subcategoryId = _subcategoryId;
+  void setSubCategoryId(String subcategoryId){
+    subcategoryId = subcategoryId;
     update();
   }
 }

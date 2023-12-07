@@ -11,15 +11,15 @@ class CustomButton extends StatelessWidget {
   final double? radius;
   final IconData? icon;
   final String? assetIcon;
-  CustomButton({this.onPressed, @required this.buttonText, this.transparent = false, this.margin, this.width, this.height,
+  const CustomButton({super.key, this.onPressed, @required this.buttonText, this.transparent = false, this.margin, this.width, this.height,
     this.fontSize, this.radius = 5, this.icon, this.assetIcon});
 
   @override
   Widget build(BuildContext context) {
-    final ButtonStyle _flatButtonStyle = TextButton.styleFrom(
+    final ButtonStyle flatButtonStyle = TextButton.styleFrom(
       backgroundColor: onPressed != null ? Theme.of(context).colorScheme.primary : transparent!
           ? Colors.transparent : Theme.of(context).disabledColor,
-      minimumSize: Size(width != null ? width! : Dimensions.WEB_MAX_WIDTH, height != null ? height! : 50),
+      minimumSize: Size(width != null ? width! : Dimensions.webMaxWidth, height != null ? height! : 50),
       padding: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(radius!),
@@ -28,28 +28,28 @@ class CustomButton extends StatelessWidget {
 
     return Center(
         child: SizedBox(
-            width: width != null ? width : Dimensions.WEB_MAX_WIDTH,
+            width: width ?? Dimensions.webMaxWidth,
             child: Padding(
-              padding: margin == null ? EdgeInsets.all(0) : margin!,
+              padding: margin == null ? const EdgeInsets.all(0) : margin!,
               child: TextButton(
                 onPressed: onPressed,
-                style: _flatButtonStyle,
+                style: flatButtonStyle,
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       icon != null ? Padding(
-                        padding: EdgeInsets.only(right: Dimensions.PADDING_SIZE_EXTRA_SMALL, left: Dimensions.PADDING_SIZE_EXTRA_SMALL,),
+                        padding: const EdgeInsets.only(right: Dimensions.paddingSizeExtraSmall, left: Dimensions.paddingSizeExtraSmall,),
                         child: Icon(icon, color: transparent! ? Theme.of(context).primaryColor : Colors.white,size: 18,),)
-                          : assetIcon!=null?Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL),
+                          : assetIcon!=null?Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
                             child: Image.asset(assetIcon!,height: 16,width: 16,),
                           )
-                          :SizedBox(),
+                          :const SizedBox(),
                       Text(
                           buttonText ??'',
                           textAlign: TextAlign.center,
                           style: ubuntuMedium.copyWith(
                             color: transparent! ? Theme.of(context).primaryColor : Colors.white,
-                            fontSize: fontSize != null ? fontSize : Dimensions.fontSizeDefault,
+                            fontSize: fontSize ?? Dimensions.fontSizeDefault,
           )),
         ]),
       ),

@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:demandium/core/core_export.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class UserController extends GetxController implements GetxService {
@@ -15,21 +14,20 @@ class UserController extends GetxController implements GetxService {
    String phone='';
    String referCode='';
    XFile? _pickedFile ;
-   FilePickerResult? _selectedFile;
    bool _isLoading = false;
 
   UserInfoModel get userInfoModel => _userInfoModel;
   XFile? get pickedFile => _pickedFile;
   bool get isLoading => _isLoading;
-  int _year = 0;
+  final int _year = 0;
   int get year => _year;
 
-  int _month = 0;
+  final int _month = 0;
   int get month => _month;
 
-  int _day = 0;
+  final int _day = 0;
   int get day => _day;
-  final now = new DateTime.now();
+  final now = DateTime.now();
   String _createdAccountAgo ='';
   String get createdAccountAgo => _createdAccountAgo;
 
@@ -48,7 +46,6 @@ class UserController extends GetxController implements GetxService {
       phone = _userInfoModel.phone??'';
       referCode = _userInfoModel.referCode??'';
        final difference= now.difference(DateConverter.isoUtcStringToLocalDate(response.body['content']['created_at']));
-       print(_createdAccountAgo);
       _createdAccountAgo =  timeago.format(now.subtract(difference));
     } else {
       ApiChecker.checkApi(response);
@@ -60,22 +57,22 @@ class UserController extends GetxController implements GetxService {
   Future<ResponseModel> changePassword(UserInfoModel updatedUserModel) async {
     _isLoading = true;
     update();
-    ResponseModel _responseModel;
+    ResponseModel responseModel;
     Response response = await userRepo.changePassword(updatedUserModel);
     if (response.statusCode == 200) {
       String message = response.body["message"];
-      _responseModel = ResponseModel(true, message);
+      responseModel = ResponseModel(true, message);
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
         content: Text(response.body['message']),
         behavior: SnackBarBehavior.floating,
         backgroundColor: Colors.green,
       ));
     } else {
-      _responseModel = ResponseModel(false, response.statusText);
+      responseModel = ResponseModel(false, response.statusText);
     }
     _isLoading = false;
     update();
-    return _responseModel;
+    return responseModel;
   }
 
   void pickImage() async {
@@ -83,15 +80,6 @@ class UserController extends GetxController implements GetxService {
     update();
   }
 
-
-  void pickFile() async {
-    _selectedFile = (await FilePicker.platform.pickFiles())!;
-    print(_selectedFile!.files.single.name);
-    update();
-  }
-
-  void initData() {
-  }
 
   Future removeUser() async {
     _isLoading = true;

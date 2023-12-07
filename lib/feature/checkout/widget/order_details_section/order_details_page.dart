@@ -9,12 +9,12 @@ class OrderDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(children: [
-        ServiceSchedule(),
-        ServiceInformation(),
-        ShowVoucher(),
+        const ServiceSchedule(),
+        const ServiceInformation(),
+        const ShowVoucher(),
         if( Get.find<CartController>().preSelectedProvider)
-          ProviderDetailsCard(),
-        CartSummery()
+          const ProviderDetailsCard(),
+        const CartSummery()
     ]));
   }
 }

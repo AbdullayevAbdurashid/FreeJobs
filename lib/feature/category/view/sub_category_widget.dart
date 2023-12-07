@@ -3,55 +3,55 @@ import 'package:demandium/core/core_export.dart';
 
 class SubCategoryWidget extends GetView<ServiceController> {
   final CategoryModel? categoryModel;
-  SubCategoryWidget({required this.categoryModel,});
+  const SubCategoryWidget({super.key, required this.categoryModel,});
 
   @override
   Widget build(BuildContext context) {
-    bool _desktop = ResponsiveHelper.isDesktop(context);
+    bool desktop = ResponsiveHelper.isDesktop(context);
 
     return InkWell(
       onTap: () {
         Get.find<ServiceController>().cleanSubCategory();
-        Get.toNamed(RouteHelper.allServiceScreenRoute("${categoryModel!.id!.toString()}"));
+        Get.toNamed(RouteHelper.allServiceScreenRoute(categoryModel!.id!.toString()));
       },
 
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal:ResponsiveHelper.isDesktop(context)?0: Dimensions.PADDING_SIZE_DEFAULT),
-        padding: EdgeInsets.all(
-            Dimensions.PADDING_SIZE_DEFAULT),
+        margin: EdgeInsets.symmetric(horizontal:ResponsiveHelper.isDesktop(context)?0: Dimensions.paddingSizeDefault),
+        padding: const EdgeInsets.all(
+            Dimensions.paddingSizeDefault),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+            borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
             color: Theme.of(context).cardColor,
             boxShadow: Get.isDarkMode ? null: cardShadow
         ),
         child: Row(children: [
           ClipRRect(
-            borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+            borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
             child: CustomImage(
               image: '${Get.find<SplashController>().configModel.content!.imageBaseUrl!}/category/${categoryModel!.image}',
-              height: _desktop ? 120 : 78, width: _desktop ? 120 : 78, fit: BoxFit.cover,
+              height: desktop ? 120 : 78, width: desktop ? 120 : 78, fit: BoxFit.cover,
             ),
           ),
-          SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
+          const SizedBox(width: Dimensions.paddingSizeSmall),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+              padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall),
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
                 Row(children: [
                   Expanded(child: Text(
                     categoryModel!.name!,
                     style: ubuntuBold.copyWith(fontSize: Dimensions.fontSizeDefault),
-                    maxLines: _desktop ? 1 : 1, overflow: TextOverflow.ellipsis,
+                    maxLines: desktop ? 1 : 1, overflow: TextOverflow.ellipsis,
                   )),
                 ]),
-                SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                const SizedBox(height: Dimensions.paddingSizeExtraSmall),
                 Text(
                   categoryModel!.description ?? '', maxLines: 2, overflow: TextOverflow.ellipsis,
                   style: ubuntuRegular.copyWith(
                       fontSize: Dimensions.fontSizeSmall,
                       color: Theme.of(context).textTheme.bodyLarge!.color),
                 ),
-                SizedBox(height: Dimensions.PADDING_SIZE_SMALL,),
+                const SizedBox(height: Dimensions.paddingSizeSmall,),
                 Text(
                   "${categoryModel!.serviceCount} ${'services'.tr} ",
                   style: ubuntuRegular.copyWith(

@@ -7,14 +7,14 @@ import 'package:printing/printing.dart';
 class BookingInfo extends StatelessWidget {
   final BookingDetailsContent bookingDetailsContent;
   final BookingDetailsTabsController bookingDetailsTabController;
-  BookingInfo({Key? key, required this.bookingDetailsContent, required this.bookingDetailsTabController}) : super(key: key);
+  const BookingInfo({Key? key, required this.bookingDetailsContent, required this.bookingDetailsTabController}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
       color: Theme.of(context).cardColor,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal:Dimensions.PADDING_SIZE_DEFAULT),
+        padding: const EdgeInsets.symmetric(horizontal:Dimensions.paddingSizeDefault),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -30,10 +30,10 @@ class BookingInfo extends StatelessWidget {
                           color: Theme.of(context).textTheme.bodyLarge!.color,decoration: TextDecoration.none),),
 
                     Padding(
-                      padding: const EdgeInsets.only(top: Dimensions.PADDING_SIZE_DEFAULT),
+                      padding: const EdgeInsets.only(top: Dimensions.paddingSizeDefault),
                       child: ElevatedButton(
                         onPressed: () async {
-                          Get.dialog(CustomLoader());
+                          Get.dialog(const CustomLoader());
                           var pdfFile = await InvoiceController.generateUint8List(bookingDetailsContent,
                               bookingDetailsTabController.invoiceItems,
                               bookingDetailsTabController
@@ -45,15 +45,15 @@ class BookingInfo extends StatelessWidget {
                           );
                           Get.back();
                         },
+                        style: ElevatedButton.styleFrom(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
+                          backgroundColor: Theme.of(context).colorScheme.primary,
+                        ),
 
                         child: Container(
-                          padding: EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_SMALL-2,horizontal: Dimensions.PADDING_SIZE_SMALL),
+                          padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall-2,horizontal: Dimensions.paddingSizeSmall),
                           child: Center(child: Text("invoice".tr, style: ubuntuMedium.copyWith(
                               color: Theme.of(context).primaryColorLight,
                               fontSize: Dimensions.fontSizeDefault),)),
-                        ),
-                        style: ElevatedButton.styleFrom(padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT),
-                          backgroundColor: Theme.of(context).colorScheme.primary,
                         ),
                       ),
                     ),
@@ -62,7 +62,7 @@ class BookingInfo extends StatelessWidget {
                 Row(
                   children: [
                     Container(
-                      padding: EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_SMALL-2,horizontal: Dimensions.PADDING_SIZE_SMALL),
+                      padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall-2,horizontal: Dimensions.paddingSizeSmall),
                       decoration: BoxDecoration(borderRadius: BorderRadius.circular(50), color: Theme.of(context).hoverColor),
                       child: Text(""
                           "${bookingDetailsContent.bookingStatus!}".tr,
@@ -80,34 +80,34 @@ class BookingInfo extends StatelessWidget {
                 ),
               ],
             ),
-            Gaps.verticalGapOf(Dimensions.PADDING_SIZE_DEFAULT),
+            Gaps.verticalGapOf(Dimensions.paddingSizeDefault),
             BookingItem(
               img: Images.iconCalendar,
               title: "${'booking_date'.tr} : ",
-              date: "${DateConverter.dateMonthYearTimeTwentyFourFormat(DateConverter.isoUtcStringToLocalDate(bookingDetailsContent.createdAt!))}",),
-            Gaps.verticalGapOf(Dimensions.PADDING_SIZE_EXTRA_SMALL),
+              date: DateConverter.dateMonthYearTimeTwentyFourFormat(DateConverter.isoUtcStringToLocalDate(bookingDetailsContent.createdAt!)),),
+            Gaps.verticalGapOf(Dimensions.paddingSizeExtraSmall),
             BookingItem(
                 img: Images.iconCalendar,
                 title: "${'service_schedule_date'.tr} : ",
-                date:   "${DateConverter.dateMonthYearTimeTwentyFourFormat(DateTime.tryParse(bookingDetailsContent.serviceSchedule!)!)}"),
-            Gaps.verticalGapOf(Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                date:   DateConverter.dateMonthYearTimeTwentyFourFormat(DateTime.tryParse(bookingDetailsContent.serviceSchedule!)!)),
+            Gaps.verticalGapOf(Dimensions.paddingSizeExtraSmall),
             BookingItem(
               img: Images.iconLocation,
               title: '${'address'.tr} : ${bookingDetailsContent.serviceAddress != null?
               bookingDetailsContent.serviceAddress!.address! : 'no_address_found'.tr}',
               date: '',
             ),
-            Gaps.verticalGapOf(Dimensions.PADDING_SIZE_DEFAULT),
+            Gaps.verticalGapOf(Dimensions.paddingSizeDefault),
             Text(
                 "payment_method".tr,
                 style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).textTheme.bodyLarge!.color)),
-            Gaps.verticalGapOf(Dimensions.PADDING_SIZE_EXTRA_SMALL),
+            Gaps.verticalGapOf(Dimensions.paddingSizeExtraSmall),
 
 
 
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('${bookingDetailsContent.paymentMethod!}'.tr,
+                Text(bookingDetailsContent.paymentMethod!.tr,
                     style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.5))),
                 RichText(text: TextSpan(
                       text: "${'payment_status'.tr} : ",
@@ -122,29 +122,29 @@ class BookingInfo extends StatelessWidget {
                 ),
               ],
             ),
-            Gaps.verticalGapOf(Dimensions.PADDING_SIZE_EXTRA_SMALL),
+            Gaps.verticalGapOf(Dimensions.paddingSizeExtraSmall),
 
 
             if(bookingDetailsContent.transactionId != "cash-payment")
             Text("${'transaction_id'.tr} : ${bookingDetailsContent.transactionId}",
               style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall,color: Theme.of(context).hintColor),),
-            Gaps.verticalGapOf(Dimensions.PADDING_SIZE_EXTRA_SMALL),
+            Gaps.verticalGapOf(Dimensions.paddingSizeExtraSmall),
             Row(
               children: [
                 Text("${'amount'.tr}:",
                   style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault,
                       color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.8)),),
-                SizedBox(width: Dimensions.PADDING_SIZE_SMALL,),
+                const SizedBox(width: Dimensions.paddingSizeSmall,),
                 Directionality(
                   textDirection: TextDirection.ltr,
-                  child: Text("${PriceConverter.convertPrice(bookingDetailsContent.totalBookingAmount!.toDouble())}",
+                  child: Text(PriceConverter.convertPrice(bookingDetailsContent.totalBookingAmount!.toDouble()),
                     style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault,
                         color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.8)),),
                 ),
               ],
             ),
 
-            Gaps.verticalGapOf(Dimensions.PADDING_SIZE_DEFAULT),
+            Gaps.verticalGapOf(Dimensions.paddingSizeDefault),
           ],
         ),
       ),

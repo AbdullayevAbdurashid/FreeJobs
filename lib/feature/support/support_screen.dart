@@ -10,13 +10,13 @@ class ContactUsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      endDrawer:ResponsiveHelper.isDesktop(context) ? MenuDrawer():null,
+      endDrawer:ResponsiveHelper.isDesktop(context) ? const MenuDrawer():null,
       appBar: CustomAppBar(title: 'contact_us'.tr,),
       body: Center(
         child: FooterBaseView(
           child: WebShadowWrap(
             child: Padding(
-              padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_EXTRA_LARGE),
+              padding: const EdgeInsets.all(Dimensions.paddingSizeExtraLarge),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -25,7 +25,7 @@ class ContactUsPage extends StatelessWidget {
                   Align(
                       alignment: Alignment.center,
                       child: Image.asset(Images.helpAndSupport,width: 172,height: 129,)),
-                  SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_LARGE,),
+                  const SizedBox(height: Dimensions.paddingSizeExtraLarge,),
 
                   (ResponsiveHelper.isDesktop(context))?
                   Row(
@@ -34,18 +34,18 @@ class ContactUsPage extends StatelessWidget {
                     children: [
                       contactWithEmailOrPhone(
                         'contact_us_through_email'.tr,
-                        "${'you_can_send_us_email_through'.tr}",
+                        'you_can_send_us_email_through'.tr,
                         "typically_the_support_team_send_you_any_feedback".tr,
                         context,
-                        '${Get.find<SplashController>().configModel.content!.businessEmail.toString()}',
+                        Get.find<SplashController>().configModel.content!.businessEmail.toString(),
                       ),
-                      SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_LARGE,),
+                      const SizedBox(width: Dimensions.paddingSizeExtraLarge,),
                       contactWithEmailOrPhone(
                         'contact_us_through_phone'.tr,
                         'contact_us_through_our_customer_care_number'.tr,
                         "talk_with_our_customer".tr,
                         context,
-                        "${Get.find<SplashController>().configModel.content!.businessPhone.toString()}",
+                        Get.find<SplashController>().configModel.content!.businessPhone.toString(),
                       ),
                     ],
                   ):Column(
@@ -53,22 +53,22 @@ class ContactUsPage extends StatelessWidget {
                     children: [
                       contactWithEmailOrPhone(
                         'contact_us_through_email'.tr,
-                        "${'you_can_send_us_email_through'.tr}",
+                        'you_can_send_us_email_through'.tr,
                         "typically_the_support_team_send_you_any_feedback".tr,
                         context,
-                        '${Get.find<SplashController>().configModel.content!.businessEmail.toString()}',
+                        Get.find<SplashController>().configModel.content!.businessEmail.toString(),
                       ),
-                      SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_LARGE,),
+                      const SizedBox(height: Dimensions.paddingSizeExtraLarge,),
                       contactWithEmailOrPhone(
                         'contact_us_through_phone'.tr,
                         'contact_us_through_our_customer_care_number'.tr,
                         "talk_with_our_customer".tr,
                         context,
-                        "${Get.find<SplashController>().configModel.content!.businessPhone.toString()}",
+                        Get.find<SplashController>().configModel.content!.businessPhone.toString(),
                       )
                     ],
                   ),
-                  SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_LARGE,),
+                  const SizedBox(height: Dimensions.paddingSizeExtraLarge,),
                   //email and call section
                   ResponsiveHelper.isDesktop(context)
                       ? Column(
@@ -80,7 +80,7 @@ class ContactUsPage extends StatelessWidget {
                           Icons.email,
                           email
                       ),
-                      SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,),
+                      const SizedBox(height: Dimensions.paddingSizeDefault,),
                       _emailCallButton(
                           context,
                           'call'.tr,
@@ -108,8 +108,8 @@ class ContactUsPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Gaps.verticalGapOf(Dimensions.PADDING_SIZE_EXTRA_LARGE),
-                  Gaps.verticalGapOf(Dimensions.PADDING_SIZE_SMALL),
+                  Gaps.verticalGapOf(Dimensions.paddingSizeExtraLarge),
+                  Gaps.verticalGapOf(Dimensions.paddingSizeSmall),
                 ],
               ),
             ),
@@ -125,16 +125,16 @@ class ContactUsPage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Text(title,style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeLarge),),
-        SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_LARGE,),
+        const SizedBox(height: Dimensions.paddingSizeExtraLarge,),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL),
+          padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(subTitle,style: ubuntuRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6)),),
-              SizedBox(height: Dimensions.PADDING_SIZE_MINI,),
+              const SizedBox(height: Dimensions.paddingSizeMini,),
               Text(emailOrPhone,style: ubuntuMedium.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color!),),
-              SizedBox(height: Dimensions.PADDING_SIZE_SMALL,),
+              const SizedBox(height: Dimensions.paddingSizeSmall,),
               Text(message,style: ubuntuRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6)),),
             ],
           ),
@@ -146,7 +146,7 @@ class ContactUsPage extends StatelessWidget {
   _emailCallButton(context,String title,IconData iconData,Uri uri, {bool isCall = false}){
     return  CustomButton(
         width: ResponsiveHelper.isDesktop(context)?270:ResponsiveHelper.isTab(context)?150 :120,
-        radius: Dimensions.RADIUS_EXTRA_LARGE,
+        radius: Dimensions.radiusExtraLarge,
         buttonText: title,
         icon: iconData,
         onPressed: () async{

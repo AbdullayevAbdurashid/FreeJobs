@@ -20,7 +20,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      endDrawer:ResponsiveHelper.isDesktop(context) ? MenuDrawer():null,
+      endDrawer:ResponsiveHelper.isDesktop(context) ? const MenuDrawer():null,
       appBar: CustomAppBar(title: 'categories'.tr),
       body: SafeArea(
           child: Scrollbar(
@@ -43,32 +43,32 @@ class _CategoryScreenState extends State<CategoryScreen> {
   }
 
   Widget _buildBody(List<CategoryModel>? categoryList){
-     if(categoryList != null && categoryList.length == 0){
+     if(categoryList != null && categoryList.isEmpty){
       return FooterBaseView(
           isCenter: true,
           child: NoDataScreen(
-              type: NoDataType.CATEGORY_SUBCATEGORY,
+              type: NoDataType.categorySubcategory,
               text: 'no_category_found'.tr));
     }else{
       if(categoryList != null){
         return FooterBaseView(
           child: SizedBox(
-            width: Dimensions.WEB_MAX_WIDTH,
+            width: Dimensions.webMaxWidth,
             child: SingleChildScrollView(
               controller: Get.find<CategoryController>().scrollController,
               child: Column(
                 children: [
                   GridView.builder(
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: ResponsiveHelper.isDesktop(context) ? 6 : ResponsiveHelper.isTab(context) ? 4 : 3,
                       childAspectRatio: (1 / 1),
-                      mainAxisSpacing: Dimensions.PADDING_SIZE_SMALL,
-                      crossAxisSpacing: Dimensions.PADDING_SIZE_SMALL,
+                      mainAxisSpacing: Dimensions.paddingSizeSmall,
+                      crossAxisSpacing: Dimensions.paddingSizeSmall,
                       mainAxisExtent: 120,
                     ),
-                    padding: EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
+                    padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
                     itemCount: categoryList.length,
                     itemBuilder: (context, index) {
                       return InkWell(
@@ -84,20 +84,20 @@ class _CategoryScreenState extends State<CategoryScreen> {
                         child: Container(
                           decoration: BoxDecoration(
                               color: Theme.of(context).cardColor,
-                              borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                              borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                               boxShadow:Get.isDarkMode ? null: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200]!, blurRadius: 5, spreadRadius: 1)]),
                           alignment: Alignment.center,
                           child: Column(mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 ClipRRect(
-                                  borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                                  borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                                   child: CustomImage(height: 50, width: 50, fit: BoxFit.cover,
                                     image: '${Get.find<SplashController>().configModel.content!.imageBaseUrl}/category/${categoryList[index].image}',
                                   ),
                                 ),
-                                SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                                const SizedBox(height: Dimensions.paddingSizeExtraSmall),
                                 Padding(
-                                  padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
+                                  padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
                                   child: Text(categoryList[index].name!,
                                     textAlign: TextAlign.center,
                                     style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
@@ -116,7 +116,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
           ),
         );
       }else{
-        return Center(child: CircularProgressIndicator());
+        return const Center(child: CircularProgressIndicator());
       }
     }
   }

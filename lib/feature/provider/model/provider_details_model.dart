@@ -8,14 +8,14 @@ class ProviderDetails {
   ProviderDetails({this.content});
 
   ProviderDetails.fromJson(Map<String, dynamic> json) {
-    content = json['content'] != null ? new ProviderDetailsContent.fromJson(json['content']) : null;
+    content = json['content'] != null ? ProviderDetailsContent.fromJson(json['content']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
 
-    if (this.content != null) {
-      data['content'] = this.content!.toJson();
+    if (content != null) {
+      data['content'] = content!.toJson();
     }
     return data;
   }
@@ -29,24 +29,24 @@ class ProviderDetailsContent {
 
   ProviderDetailsContent.fromJson(Map<String, dynamic> json) {
     provider = json['provider'] != null
-        ? new Provider.fromJson(json['provider'])
+        ? Provider.fromJson(json['provider'])
         : null;
     if (json['sub_categories'] != null) {
       subCategories = <SubCategories>[];
       json['sub_categories'].forEach((v) {
-        subCategories!.add(new SubCategories.fromJson(v));
+        subCategories!.add(SubCategories.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.provider != null) {
-      data['provider'] = this.provider!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (provider != null) {
+      data['provider'] = provider!.toJson();
     }
-    if (this.subCategories != null) {
+    if (subCategories != null) {
       data['sub_categories'] =
-          this.subCategories!.map((v) => v.toJson()).toList();
+          subCategories!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -127,44 +127,44 @@ class Provider {
     updatedAt = json['updated_at'];
     isApproved = json['is_approved'];
     zoneId = json['zone_id'];
-    owner = json['owner'] != null ? new Owner.fromJson(json['owner']) : null;
+    owner = json['owner'] != null ? Owner.fromJson(json['owner']) : null;
     if (json['reviews'] != null) {
       reviews = <ReviewData>[];
       json['reviews'].forEach((v) {
-        reviews!.add(new ReviewData.fromJson(v));
+        reviews!.add(ReviewData.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['user_id'] = this.userId;
-    data['company_name'] = this.companyName;
-    data['company_phone'] = this.companyPhone;
-    data['company_address'] = this.companyAddress;
-    data['company_email'] = this.companyEmail;
-    data['logo'] = this.logo;
-    data['contact_person_name'] = this.contactPersonName;
-    data['contact_person_phone'] = this.contactPersonPhone;
-    data['contact_person_email'] = this.contactPersonEmail;
-    data['order_count'] = this.orderCount;
-    data['service_man_count'] = this.serviceManCount;
-    data['service_capacity_per_day'] = this.serviceCapacityPerDay;
-    data['rating_count'] = this.ratingCount;
-    data['avg_rating'] = this.avgRating;
-    data['commission_status'] = this.commissionStatus;
-    data['commission_percentage'] = this.commissionPercentage;
-    data['is_active'] = this.isActive;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['is_approved'] = this.isApproved;
-    data['zone_id'] = this.zoneId;
-    if (this.owner != null) {
-      data['owner'] = this.owner!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['user_id'] = userId;
+    data['company_name'] = companyName;
+    data['company_phone'] = companyPhone;
+    data['company_address'] = companyAddress;
+    data['company_email'] = companyEmail;
+    data['logo'] = logo;
+    data['contact_person_name'] = contactPersonName;
+    data['contact_person_phone'] = contactPersonPhone;
+    data['contact_person_email'] = contactPersonEmail;
+    data['order_count'] = orderCount;
+    data['service_man_count'] = serviceManCount;
+    data['service_capacity_per_day'] = serviceCapacityPerDay;
+    data['rating_count'] = ratingCount;
+    data['avg_rating'] = avgRating;
+    data['commission_status'] = commissionStatus;
+    data['commission_percentage'] = commissionPercentage;
+    data['is_active'] = isActive;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['is_approved'] = isApproved;
+    data['zone_id'] = zoneId;
+    if (owner != null) {
+      data['owner'] = owner!.toJson();
     }
-    if (this.reviews != null) {
-      data['reviews'] = this.reviews!.map((v) => v.toJson()).toList();
+    if (reviews != null) {
+      data['reviews'] = reviews!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -209,25 +209,25 @@ class SubCategories {
     if (json['services'] != null) {
       services = <Service>[];
       json['services'].forEach((v) {
-        services!.add(new Service.fromJson(v));
+        services!.add(Service.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['parent_id'] = this.parentId;
-    data['name'] = this.name;
-    data['image'] = this.image;
-    data['position'] = this.position;
-    data['description'] = this.description;
-    data['is_active'] = this.isActive;
-    data['is_featured'] = this.isFeatured;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    if (this.services != null) {
-      data['services'] = this.services!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['parent_id'] = parentId;
+    data['name'] = name;
+    data['image'] = image;
+    data['position'] = position;
+    data['description'] = description;
+    data['is_active'] = isActive;
+    data['is_featured'] = isFeatured;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    if (services != null) {
+      data['services'] = services!.map((v) => v.toJson()).toList();
     }
     return data;
   }

@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:demandium/core/core_export.dart';
 
 class ConditionCheckBox extends StatelessWidget {
-  ConditionCheckBox();
+  const ConditionCheckBox({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class ConditionCheckBox extends StatelessWidget {
           InkWell(
             onTap: () => Get.toNamed(RouteHelper.getHtmlRoute('terms-and-condition')),
             child: Padding(
-              padding: EdgeInsets.all(Dimensions.PADDING_SIZE_EXTRA_SMALL),
+              padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
               child: Text('terms_and_conditions'.tr, style: ubuntuBold.copyWith(
                 fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).colorScheme.primary,
                 decoration: TextDecoration.underline,

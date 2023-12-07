@@ -21,12 +21,12 @@ class PredictionModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['description'] = this.description;
-    data['id'] = this.id;
-    data['distance_meters'] = this.distanceMeters;
-    data['place_id'] = this.placeId;
-    data['reference'] = this.reference;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['description'] = description;
+    data['id'] = id;
+    data['distance_meters'] = distanceMeters;
+    data['place_id'] = placeId;
+    data['reference'] = reference;
     return data;
   }
 }

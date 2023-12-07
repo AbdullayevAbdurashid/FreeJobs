@@ -18,10 +18,10 @@ class ServiceReviewItem extends StatelessWidget {
           children: [
             if(reviewData.customer != null)
             ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(Dimensions.PADDING_SIZE_EXTRA_LARGE)),
-              child: Container(
-                width: Dimensions.IMAGE_SIZE,
-                height: Dimensions.IMAGE_SIZE,
+              borderRadius: const BorderRadius.all(Radius.circular(Dimensions.paddingSizeExtraLarge)),
+              child: SizedBox(
+                width: Dimensions.imageSize,
+                height: Dimensions.imageSize,
                 child: CustomImage(image:
                 "${Get.find<SplashController>().configModel.content!.imageBaseUrl}/user/profile_image/${reviewData.customer!.profileImage}"
                   ,),
@@ -33,13 +33,13 @@ class ServiceReviewItem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       if(reviewData.customer != null)
-                      Text(reviewData.customer!.firstName! + " " + reviewData.customer!.lastName!,
+                      Text("${reviewData.customer!.firstName!} ${reviewData.customer!.lastName!}",
                         style: ubuntuBold.copyWith(fontSize: 12,color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6)),
                       ),
                       if(reviewData.customer == null)
                         Text("customer_not_available".tr,
                         style: ubuntuBold.copyWith(fontSize: 12,color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6)),),
-                      Container(
+                      SizedBox(
                         height: 20,
                         child: Row(
                           children: [
@@ -47,7 +47,7 @@ class ServiceReviewItem extends StatelessWidget {
                             Gaps.horizontalGapOf(5),
                             Text(
                               reviewData.reviewRating!.toString(),
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontWeight: FontWeight.w700,
                                   fontSize: 10,
                                   color: Colors.grey),
@@ -56,12 +56,12 @@ class ServiceReviewItem extends StatelessWidget {
                         ),
                       ),
                     ])),
-            Text("${day>1? day.toString() + "days_ago".tr :"today".tr}", style: TextStyle(fontSize: 10, color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6)),),
+            Text(day>1? day.toString() + "days_ago".tr :"today".tr, style: TextStyle(fontSize: 10, color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6)),),
           ],
         ),
         Gaps.verticalGapOf(8),
         Padding(
-            padding: const EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_DEFAULT),
+            padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault),
             child: Text(reviewData.reviewComment!,
               style: ubuntuRegular.copyWith(color: Theme.of(context).hintColor),
               textAlign: TextAlign.justify,

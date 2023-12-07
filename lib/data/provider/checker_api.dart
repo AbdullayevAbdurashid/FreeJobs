@@ -8,7 +8,7 @@ class ApiChecker {
     if(response.statusCode == 401) {
       Get.find<AuthController>().clearSharedData();
       if(Get.currentRoute!=RouteHelper.getSignInRoute('splash')){
-        Get.offAllNamed(RouteHelper.getSignInRoute('splash'));
+        Get.offAllNamed(RouteHelper.getSignInRoute(RouteHelper.main));
       }
     }else{
       customSnackBar("${response.statusCode!}".tr);

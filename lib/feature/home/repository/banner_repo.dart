@@ -6,7 +6,7 @@ class BannerRepo {
   BannerRepo({required this.apiClient});
 
   Future<Response> getBannerList() async {
-    return await apiClient.getData(AppConstants.BANNER_URI);
+    return await apiClient.getData(AppConstants.bannerUri);
   }
 
 }

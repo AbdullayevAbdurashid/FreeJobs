@@ -16,9 +16,9 @@ class WalletUsesManualDialog extends StatelessWidget {
     ];
 
     return GetBuilder<WalletController>(builder: (controller){
-      double webPadding = (Get.width-Dimensions.WEB_MAX_WIDTH)/2;
+      double webPadding = (Get.width-Dimensions.webMaxWidth)/2;
       return SizedBox(
-        width: Dimensions.WEB_MAX_WIDTH/1.5,
+        width: Dimensions.webMaxWidth/1.5,
         child: Padding(
           padding:EdgeInsets.fromLTRB(ResponsiveHelper.isDesktop(context)?webPadding:20,70,ResponsiveHelper.isDesktop(context)?webPadding:20,0),
           child: Card(
@@ -33,27 +33,27 @@ class WalletUsesManualDialog extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20)
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
+                    padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        InkWell(child: Row(mainAxisAlignment: MainAxisAlignment.end,children: [Icon(Icons.highlight_remove,size: 20,)]),
+                        InkWell(child: const Row(mainAxisAlignment: MainAxisAlignment.end,children: [Icon(Icons.highlight_remove,size: 20,)]),
                           onTap: ()=>Get.back(),
                         ),
 
                         Padding(
-                            padding: const EdgeInsets.fromLTRB(0,Dimensions.PADDING_SIZE_SMALL,0,Dimensions.PADDING_SIZE_SMALL),
+                            padding: const EdgeInsets.fromLTRB(0,Dimensions.paddingSizeSmall,0,Dimensions.paddingSizeSmall),
                             child: Text('how_to_use'.tr,style: ubuntuBold.copyWith(fontSize: Dimensions.fontSizeLarge,color: Get.isDarkMode?Colors.white70 :  Theme.of(context).primaryColor),)),
                         Column(
                           children: noteList.map((item) => Column(children: [
                             Row(crossAxisAlignment: CrossAxisAlignment.start,children: [
-                              Padding(padding: const EdgeInsets.only(left: Dimensions.PADDING_SIZE_SMALL, right: Dimensions.PADDING_SIZE_SMALL,top: 5),
+                              const Padding(padding: EdgeInsets.only(left: Dimensions.paddingSizeSmall, right: Dimensions.paddingSizeSmall,top: 5),
                                 child: Icon(Icons.circle,size: 7,),
                               ),
                               Expanded(child: Text(item,style: ubuntuRegular.copyWith(color: Theme.of(context).textTheme.bodySmall!.color),)),
                             ]),
-                            SizedBox(height: Dimensions.PADDING_SIZE_SMALL,),
+                            const SizedBox(height: Dimensions.paddingSizeSmall,),
                           ],)).toList(),
                         ),
                       ],),

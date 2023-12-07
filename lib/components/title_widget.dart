@@ -4,7 +4,7 @@ import 'package:demandium/core/core_export.dart';
 class TitleWidget extends StatelessWidget {
   final String? title;
   final Function()? onTap;
-  TitleWidget({required this.title, this.onTap});
+  const TitleWidget({super.key, required this.title, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class TitleWidget extends StatelessWidget {
                   : Theme.of(context).colorScheme.primary,
               fontSize: Dimensions.fontSizeDefault, ),
         ),
-      ) : SizedBox(),
+      ) : const SizedBox(),
     ]);
   }
 }

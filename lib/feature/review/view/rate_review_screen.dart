@@ -7,7 +7,7 @@ import 'package:demandium/core/core_export.dart';
 
 class RateReviewScreen extends StatefulWidget{
   final String id;
-  RateReviewScreen({Key? key, required this.id}) : super(key: key);
+  const RateReviewScreen({Key? key, required this.id}) : super(key: key);
 
   @override
   State<RateReviewScreen> createState() => _RateReviewScreenState();
@@ -28,17 +28,17 @@ class _RateReviewScreenState extends State<RateReviewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      endDrawer:ResponsiveHelper.isDesktop(context) ? MenuDrawer():null,
+      endDrawer:ResponsiveHelper.isDesktop(context) ? const MenuDrawer():null,
       appBar: CustomAppBar(title: 'review'.tr,),
       body: GetBuilder<BookingDetailsTabsController>(builder: (bookingController){
        if(bookingController.bookingDetailsContent!=null){
          return GetBuilder<SubmitReviewController>(builder: (submitReviewController){
            if(submitReviewController.loading){
-             return Center(child: CircularProgressIndicator(),);
+             return const Center(child: CircularProgressIndicator(),);
            }else{
              return FooterBaseView(
                child: SizedBox(
-                 width: Dimensions.WEB_MAX_WIDTH,
+                 width: Dimensions.webMaxWidth,
                  child: SingleChildScrollView(
                    child: Column(
                      children: [
@@ -49,7 +49,7 @@ class _RateReviewScreenState extends State<RateReviewScreen> {
                            decoration: BoxDecoration(
                                image: DecorationImage(fit: BoxFit.fill, image: AssetImage(Images.reviewTopBanner))
                            ),),
-                         Container(
+                         SizedBox(
                            height:ResponsiveHelper.isDesktop(context)? 280: 120.0,
                            child: Column(
                              mainAxisAlignment: MainAxisAlignment.end,
@@ -57,15 +57,15 @@ class _RateReviewScreenState extends State<RateReviewScreen> {
                                ResponsiveHelper.isDesktop(context)?Padding(
                                  padding: const EdgeInsets.all(8.0),
                                  child: ReviewBookingDetailsCard(bookingDetailsContent: bookingController.bookingDetailsContent!),
-                               ):SizedBox(),
+                               ):const SizedBox(),
                              ],
                            ),
                          )
                        ],),
 
-                       SizedBox(height: Dimensions.PADDING_SIZE_LARGE,),
+                       const SizedBox(height: Dimensions.paddingSizeLarge,),
                        !ResponsiveHelper.isDesktop(context)
-                           ?ReviewBookingDetailsCard(bookingDetailsContent: bookingController.bookingDetailsContent!):SizedBox(),
+                           ?ReviewBookingDetailsCard(bookingDetailsContent: bookingController.bookingDetailsContent!):const SizedBox(),
 
                        ListView.builder(itemBuilder: (context,index) {
 
@@ -79,18 +79,18 @@ class _RateReviewScreenState extends State<RateReviewScreen> {
                          variations = variations.replaceAll(']', '');
 
                          return Padding(
-                           padding: EdgeInsets.symmetric(horizontal: ResponsiveHelper.isDesktop(context)?0:Dimensions.PADDING_SIZE_DEFAULT),
+                           padding: EdgeInsets.symmetric(horizontal: ResponsiveHelper.isDesktop(context)?0:Dimensions.paddingSizeDefault),
                            child: submitReviewController.isEditable[submitReviewController.uniqueServiceList[index].serviceId]!
                                ? EditableReview(submitReviewController: submitReviewController, index: index, variations: variations)
                                : NonEditableReview(submitReviewController: submitReviewController, index: index, variations: variations),
                          );
                        },
                          shrinkWrap: true,
-                         physics: NeverScrollableScrollPhysics(),
+                         physics: const NeverScrollableScrollPhysics(),
                          itemCount:submitReviewController. uniqueServiceList.length,
                        ),
 
-                       SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_LARGE,)
+                       const SizedBox(height: Dimensions.paddingSizeExtraLarge,)
 
                      ],
                    ),
@@ -101,7 +101,7 @@ class _RateReviewScreenState extends State<RateReviewScreen> {
          }
          );
        }else{
-         return Center(child: CircularProgressIndicator(),);
+         return const Center(child: CircularProgressIndicator(),);
        }
       }
       ),
@@ -118,11 +118,11 @@ class ReviewBookingDetailsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL,vertical: Dimensions.PADDING_SIZE_SMALL),
-      padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT,vertical: Dimensions.PADDING_SIZE_DEFAULT),
+      margin: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall,vertical: Dimensions.paddingSizeSmall),
+      padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault,vertical: Dimensions.paddingSizeDefault),
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+        borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
         boxShadow:Get.isDarkMode ? null: cardShadow,
       ),
       child: Column(
@@ -139,7 +139,7 @@ class ReviewBookingDetailsCard extends StatelessWidget {
               Directionality(
                 textDirection: TextDirection.ltr,
                 child: Text(
-                    "${PriceConverter.convertPrice(bookingDetailsContent.totalBookingAmount!.toDouble())}",
+                    PriceConverter.convertPrice(bookingDetailsContent.totalBookingAmount!.toDouble()),
                     style: ubuntuBold.copyWith(
                         fontSize: Dimensions.fontSizeLarge,
                         color: Theme.of(context).textTheme.bodyLarge!.color
@@ -148,13 +148,13 @@ class ReviewBookingDetailsCard extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL,),
+          const SizedBox(height: Dimensions.paddingSizeExtraSmall,),
 
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                  '${DateConverter.formatDate(DateConverter.isoUtcStringToLocalDate(bookingDetailsContent.createdAt!))}',
+                  DateConverter.formatDate(DateConverter.isoUtcStringToLocalDate(bookingDetailsContent.createdAt!)),
                   style: ubuntuRegular.copyWith(
                       fontSize: Dimensions.fontSizeDefault,
                       color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.6)
@@ -163,7 +163,7 @@ class ReviewBookingDetailsCard extends StatelessWidget {
               Text("${bookingDetailsContent.bookingStatus}".tr, style: ubuntuMedium.copyWith(color: Colors.green),),
             ],
           ),
-          SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL,)
+          const SizedBox(height: Dimensions.paddingSizeExtraSmall,)
         ],
 
       ),
@@ -182,7 +182,7 @@ class EditableReview extends StatelessWidget {
     return  Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,),
+        const SizedBox(height: Dimensions.paddingSizeDefault,),
         Row(
           children: [
             Text(
@@ -193,7 +193,7 @@ class EditableReview extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL,),
+        const SizedBox(height: Dimensions.paddingSizeExtraSmall,),
         Text(
           variations,
           style: ubuntuRegular.copyWith(
@@ -204,16 +204,16 @@ class EditableReview extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(),
+            const SizedBox(),
             SelectRating(revivedId: submitReviewController.uniqueServiceList[index].serviceId.toString(),),
-            SizedBox()
+            const SizedBox()
           ],
         ),
-        SizedBox(height: Dimensions.PADDING_SIZE_SMALL,),
+        const SizedBox(height: Dimensions.paddingSizeSmall,),
         Container(
-          padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT),
+          padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(5.0)),
+              borderRadius: const BorderRadius.all(Radius.circular(5.0)),
               color: Theme.of(context).hoverColor),
           child: Center(
             child: TextFormField(maxLines: 4,
@@ -226,10 +226,10 @@ class EditableReview extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,),
+        const SizedBox(height: Dimensions.paddingSizeDefault,),
         GetBuilder<SubmitReviewController>(builder: (submitReviewController){
           return submitReviewController.isLoading && submitReviewController.selectedIndex==index
-              ?Center(child: CircularProgressIndicator(),):
+              ?const Center(child: CircularProgressIndicator(),):
           CustomButton(
             height: 40,
             width: ResponsiveHelper.isDesktop(context)?200:ResponsiveHelper.isTab(context)?150:120,
@@ -276,7 +276,7 @@ class NonEditableReview extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,),
+              const SizedBox(height: Dimensions.paddingSizeDefault,),
               Row(
                 children: [
                   Text(
@@ -286,16 +286,16 @@ class NonEditableReview extends StatelessWidget {
                     ),
                   ),
 
-                  SizedBox(width: Dimensions.PADDING_SIZE_SMALL,),
+                  const SizedBox(width: Dimensions.paddingSizeSmall,),
 
                   Image.asset(Images.accepted,width: 15,),
                 ],
               ),
-              SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL,),
+              const SizedBox(height: Dimensions.paddingSizeExtraSmall,),
               Padding(
                 padding: Get.find<LocalizationController>().isLtr
-                    ? EdgeInsets.only(right: Dimensions.PADDING_SIZE_EXTRA_LARGE*2)
-                    : EdgeInsets.only(right: 0),
+                    ? const EdgeInsets.only(right: Dimensions.paddingSizeExtraLarge*2)
+                    : const EdgeInsets.only(right: 0),
                 child: Text(
                   variations,
                   style: ubuntuRegular.copyWith(
@@ -307,24 +307,24 @@ class NonEditableReview extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SizedBox(),
+                  const SizedBox(),
                   SelectRating(revivedId: submitReviewController.uniqueServiceList[index].serviceId.toString(),clickable: false,),
-                  SizedBox()
+                  const SizedBox()
                 ],
               ),
-              SizedBox(height: Dimensions.PADDING_SIZE_SMALL,),
+              const SizedBox(height: Dimensions.paddingSizeSmall,),
               Container(
                 width: double.maxFinite,
-                padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT,vertical: Dimensions.PADDING_SIZE_DEFAULT),
+                padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault,vertical: Dimensions.paddingSizeDefault),
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                    borderRadius: const BorderRadius.all(Radius.circular(5.0)),
                     color: Theme.of(context).hoverColor),
                 child: Text(
                     submitReviewController.reviewComments[submitReviewController.uniqueServiceList[index].serviceId]??"",
                   style: ubuntuRegular.copyWith(),
                 ),
               ),
-              SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_MORE_LARGE,),
+              const SizedBox(height: Dimensions.paddingSizeExtraMoreLarge,),
             ],
           ),
           Get.find<LocalizationController>().isLtr?

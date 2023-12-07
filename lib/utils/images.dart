@@ -155,6 +155,13 @@ class Images {
   static String get providerImage => 'provider_image'.png;
   static String get walletMenu => 'wallet_menu'.png;
   static String get shareIcon => 'share_icon'.png;
+  static String get homeCreatePostMan => 'home_create_post_man'.png;
+  static String get bottomCreatePostMan => 'bottom_create_post_man'.png;
+  static String get messageIcon => 'message_icon'.png;
+  static String get customPostIcon => 'custom_post_icon'.png;
+  static String get rightMark => 'right_mark'.png;
+  static String get personIcon => 'person_icon'.png;
+  static String get ignore => 'ignore'.png;
 
 
   static String get all => 'bookings_all'.png;

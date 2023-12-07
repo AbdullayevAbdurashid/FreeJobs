@@ -27,21 +27,21 @@ class CouponModel {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     discount = json['discount'] != null
-        ? new Discount.fromJson(json['discount'])
+        ? Discount.fromJson(json['discount'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['coupon_type'] = this.couponType;
-    data['coupon_code'] = this.couponCode;
-    data['discount_id'] = this.discountId;
-    data['is_active'] = this.isActive;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    if (this.discount != null) {
-      data['discount'] = this.discount!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['coupon_type'] = couponType;
+    data['coupon_code'] = couponCode;
+    data['discount_id'] = discountId;
+    data['is_active'] = isActive;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    if (discount != null) {
+      data['discount'] = discount!.toJson();
     }
     return data;
   }
@@ -97,21 +97,21 @@ class Discount {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['discount_title'] = this.discountTitle;
-    data['discount_type'] = this.discountType;
-    data['discount_amount'] = this.discountAmount;
-    data['discount_amount_type'] = this.discountAmountType;
-    data['min_purchase'] = this.minPurchase;
-    data['max_discount_amount'] = this.maxDiscountAmount;
-    data['limit_per_user'] = this.limitPerUser;
-    data['promotion_type'] = this.promotionType;
-    data['is_active'] = this.isActive;
-    data['start_date'] = this.startDate;
-    data['end_date'] = this.endDate;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['discount_title'] = discountTitle;
+    data['discount_type'] = discountType;
+    data['discount_amount'] = discountAmount;
+    data['discount_amount_type'] = discountAmountType;
+    data['min_purchase'] = minPurchase;
+    data['max_discount_amount'] = maxDiscountAmount;
+    data['limit_per_user'] = limitPerUser;
+    data['promotion_type'] = promotionType;
+    data['is_active'] = isActive;
+    data['start_date'] = startDate;
+    data['end_date'] = endDate;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }

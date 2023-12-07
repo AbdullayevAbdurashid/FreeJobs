@@ -3,7 +3,7 @@ import 'package:demandium/feature/profile/controller/edit_profile_tab_controller
 import 'package:demandium/core/core_export.dart';
 
 class EditProfileAccountInfo extends StatefulWidget {
-  EditProfileAccountInfo({Key? key}) : super(key: key);
+  const EditProfileAccountInfo({Key? key}) : super(key: key);
 
   @override
   State<EditProfileAccountInfo> createState() => _EditProfileAccountInfoState();
@@ -24,7 +24,7 @@ class _EditProfileAccountInfoState extends State<EditProfileAccountInfo> {
 
     return Scrollbar(
       child: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Form(
           key: accountInfoKey,
           child: Padding(
@@ -60,7 +60,7 @@ class _EditProfileAccountInfoState extends State<EditProfileAccountInfo> {
                   ),
                   SizedBox(height: context.height*0.16,),
                   editProfileTabController.isLoading
-                      ? Center(child: CircularProgressIndicator())
+                      ? const Center(child: CircularProgressIndicator())
                         :CustomButton(buttonText: 'change_password'.tr,onPressed: (){
                       if(accountInfoKey.currentState!.validate()){
                         Get.find<EditProfileTabController>().updateAccountInfo();

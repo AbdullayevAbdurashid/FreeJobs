@@ -11,17 +11,17 @@ class ServiceManInfo extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT),
+          padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
           child: Text("service_man_info".tr, style: ubuntuMedium.copyWith(
               fontSize: Dimensions.fontSizeDefault,
               color:Get.isDarkMode ? Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6):Theme.of(context).primaryColor))),
-        Gaps.verticalGapOf(Dimensions.PADDING_SIZE_DEFAULT),
+        Gaps.verticalGapOf(Dimensions.paddingSizeDefault),
         CustomerInfoCard(
-          name: user.firstName! + " " +user.lastName!,
+          name: "${user.firstName!} ${user.lastName!}",
           phone: user.phone!,
           image: user.profileImage!,
         ),
-        Gaps.verticalGapOf(Dimensions.PADDING_SIZE_DEFAULT),
+        Gaps.verticalGapOf(Dimensions.paddingSizeDefault),
       ],
     );
   }

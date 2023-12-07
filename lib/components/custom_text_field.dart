@@ -1,3 +1,4 @@
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:get/get.dart';
 import 'package:demandium/core/core_export.dart';
 
@@ -22,9 +23,10 @@ class CustomTextField extends StatefulWidget {
   final String? suffixIconUrl;
   final Function(CountryCode countryCode)? onCountryChanged;
   final String? Function(String? )? onValidate;
+  final bool contentPadding;
 
-  CustomTextField(
-      {this.hintText = '',
+  const CustomTextField(
+      {super.key, this.hintText = '',
         this.controller,
         this.focusNode,
         this.nextFocus,
@@ -44,13 +46,14 @@ class CustomTextField extends StatefulWidget {
         this.onChanged,
         this.onValidate,
         this.title,
+        this.contentPadding= true
       });
 
   @override
-  _CustomTextFieldState createState() => _CustomTextFieldState();
+  CustomTextFieldState createState() => CustomTextFieldState();
 }
 
-class _CustomTextFieldState extends State<CustomTextField> {
+class CustomTextFieldState extends State<CustomTextField> {
   bool _obscureText = true;
 
   @override
@@ -76,14 +79,14 @@ class _CustomTextFieldState extends State<CustomTextField> {
       inputFormatters: widget.inputType == TextInputType.phone ? <TextInputFormatter>[FilteringTextInputFormatter.allow(RegExp('[0-9+]'))] : null,
       decoration: InputDecoration(
         isDense: true,
-        contentPadding: EdgeInsets.all(Get.find<LocalizationController>().isLtr ? Dimensions.PADDING_SIZE_DEFAULT : Dimensions.PADDING_SIZE_LARGE),
+        contentPadding: !widget.contentPadding? null :EdgeInsets.all(Get.find<LocalizationController>().isLtr ? Dimensions.paddingSizeDefault : Dimensions.paddingSizeLarge),
         focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).colorScheme.tertiary)),
         hintText: widget.hintText,
         hintStyle: ubuntuRegular.copyWith(
             fontSize: Dimensions.fontSizeDefault,
             color: Theme.of(context).hintColor.withOpacity(Get.isDarkMode ? .5:1)),
         prefixIcon:widget.title != null ? SizedBox(
-            width: Dimensions.TAB_MINIMUM_SIZE * 0.2,
+            width: Dimensions.tabMinimumSize * 0.2,
             child: Align(
               alignment:Get.find<LocalizationController>().isLtr ?  Alignment.centerLeft : Alignment.centerRight,
               child: Text(

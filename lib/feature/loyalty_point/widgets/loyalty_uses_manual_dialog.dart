@@ -1,5 +1,6 @@
 import 'package:demandium/core/core_export.dart';
 import 'package:demandium/feature/loyalty_point/controller/loyalty_point_controller.dart';
+import 'package:demandium/feature/loyalty_point/repository/loyalty_point_repo.dart';
 import 'package:get/get.dart';
 
 class LoyaltyPointUsesManualDialog extends StatelessWidget {
@@ -7,8 +8,11 @@ class LoyaltyPointUsesManualDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    Get.lazyPut(() => LoyaltyPointController(loyaltyPointRepo: LoyaltyPointRepo(apiClient: Get.find())));
+
     return GetBuilder<LoyaltyPointController>(builder: (controller){
-      double webPadding = (Get.width-Dimensions.WEB_MAX_WIDTH)/2;
+      double webPadding = (Get.width-Dimensions.webMaxWidth)/2;
 
       double minimumConvertAblePoint = double.tryParse(controller.loyaltyPointModel?.content?.minLoyaltyPointToTransfer??"0")??0;
       return Padding(
@@ -25,34 +29,34 @@ class LoyaltyPointUsesManualDialog extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20)
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
+                  padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      InkWell(child: Row(mainAxisAlignment: MainAxisAlignment.end,children: [Icon(Icons.highlight_remove,size: 20,)]),
+                      InkWell(child: const Row(mainAxisAlignment: MainAxisAlignment.end,children: [Icon(Icons.highlight_remove,size: 20,)]),
                         onTap: ()=>Get.back(),
                       ),
 
                       Padding(
-                          padding: const EdgeInsets.fromLTRB(0,Dimensions.PADDING_SIZE_EXTRA_SMALL,0,Dimensions.PADDING_SIZE_SMALL),
+                          padding: const EdgeInsets.fromLTRB(0,Dimensions.paddingSizeExtraSmall,0,Dimensions.paddingSizeSmall),
                           child: Text('how_to_use'.tr,style: ubuntuBold.copyWith(fontSize: Dimensions.fontSizeLarge,color:Get.isDarkMode?Colors.white70 : Theme.of(context).primaryColor),)),
 
                       Row(crossAxisAlignment: CrossAxisAlignment.start,children: [
-                        Padding(padding: const EdgeInsets.only(left: Dimensions.PADDING_SIZE_SMALL, right: Dimensions.PADDING_SIZE_SMALL,top: 3),
+                        const Padding(padding: EdgeInsets.only(left: Dimensions.paddingSizeSmall, right: Dimensions.paddingSizeSmall,top: 3),
                           child: Icon(Icons.circle,size: 7,),
                         ),
                         Expanded(child: Text('convert_point_hint_text'.tr)),
                       ]),
-                      SizedBox(height: Dimensions.PADDING_SIZE_SMALL,),
+                      const SizedBox(height: Dimensions.paddingSizeSmall,),
 
                       Row(crossAxisAlignment: CrossAxisAlignment.start,children: [
-                        Padding(padding: const EdgeInsets.only(left: Dimensions.PADDING_SIZE_SMALL, right: Dimensions.PADDING_SIZE_SMALL,top: 3),
+                        const Padding(padding: EdgeInsets.only(left: Dimensions.paddingSizeSmall, right: Dimensions.paddingSizeSmall,top: 3),
                           child: Icon(Icons.circle,size: 7,),
                         ),
                         Expanded(child: Text('${'minimum'.tr} $minimumConvertAblePoint ${'points_required_to_convert_point'.tr}'.tr)),
                       ]),
-                      SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_LARGE,),
+                      const SizedBox(height: Dimensions.paddingSizeExtraLarge,),
                     ],),
                 ),
               ),

@@ -20,15 +20,15 @@ class SignUpBody {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['first_name'] = this.fName;
-    data['last_name'] = this.lName;
-    data['phone'] = this.phone;
-    data['email'] = this.email;
-    data['password'] = this.password;
-    data['confirm_password'] = this.confirmPassword;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['first_name'] = fName;
+    data['last_name'] = lName;
+    data['phone'] = phone;
+    data['email'] = email;
+    data['password'] = password;
+    data['confirm_password'] = confirmPassword;
     if(referCode!=null){
-      data['referral_code'] = this.referCode;
+      data['referral_code'] = referCode;
     }
     return data;
   }

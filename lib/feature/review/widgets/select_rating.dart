@@ -11,7 +11,7 @@ class SelectRating extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<SubmitReviewController>(
         builder: (submitReviewController) {
-      return Container(
+      return SizedBox(
         height: 50.0,
         child: ListView.builder(
             itemCount: 5,
@@ -19,7 +19,7 @@ class SelectRating extends StatelessWidget {
             itemBuilder: (context, index) {
               return starWidget(submitReviewController,index);
             },shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics()
+            physics: const NeverScrollableScrollPhysics()
           ,),
       );
     });
@@ -27,7 +27,7 @@ class SelectRating extends StatelessWidget {
 
   Widget starWidget(SubmitReviewController submitReviewController,int index) {
     return IconButton(
-      padding: EdgeInsets.symmetric(vertical: 10,horizontal: 0),
+      padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 0),
       onPressed: clickable? () {
         submitReviewController.selectReview(index+1,revivedId);
       }:null,

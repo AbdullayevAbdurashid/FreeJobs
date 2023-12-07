@@ -6,11 +6,11 @@ class CategoryModel {
   String? name;
   String? image;
   int? position;
-  var description;
+  String? description;
   bool? isActive;
   String? createdAt;
   String? updatedAt;
-  var serviceCount;
+  int? serviceCount;
   GlobalKey? globalKey;
 
   CategoryModel(
@@ -37,22 +37,22 @@ class CategoryModel {
     isActive = int.tryParse(json['is_active'].toString()) == 1 ? true : false;
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    serviceCount = json['services_count'];
+    serviceCount = int.tryParse(json['services_count'].toString());
     globalKey = GlobalKey(debugLabel: json['id']);
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['parent_id'] = this.parentId;
-    data['name'] = this.name;
-    data['image'] = this.image;
-    data['position'] = this.position;
-    data['description'] = this.description;
-    data['is_active'] = this.isActive;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['services_count'] = this.serviceCount;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['parent_id'] = parentId;
+    data['name'] = name;
+    data['image'] = image;
+    data['position'] = position;
+    data['description'] = description;
+    data['is_active'] = isActive;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['services_count'] = serviceCount;
     return data;
   }
 }

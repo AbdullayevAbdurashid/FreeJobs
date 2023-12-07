@@ -1,11 +1,11 @@
 class Customer {
   String? id;
-  var roleId;
+  String? roleId;
   String? firstName;
   String? lastName;
   String? email;
   String? phone;
-  var identificationNumber;
+  String? identificationNumber;
   String? identificationType;
   String? gender;
   String? profileImage;
@@ -54,23 +54,23 @@ class Customer {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['role_id'] = this.roleId;
-    data['first_name'] = this.firstName;
-    data['last_name'] = this.lastName;
-    data['email'] = this.email;
-    data['phone'] = this.phone;
-    data['identification_number'] = this.identificationNumber;
-    data['identification_type'] = this.identificationType;
-    data['gender'] = this.gender;
-    data['profile_image'] = this.profileImage;
-    data['is_phone_verified'] = this.isPhoneVerified;
-    data['is_email_verified'] = this.isEmailVerified;
-    data['is_active'] = this.isActive;
-    data['user_type'] = this.userType;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['role_id'] = roleId;
+    data['first_name'] = firstName;
+    data['last_name'] = lastName;
+    data['email'] = email;
+    data['phone'] = phone;
+    data['identification_number'] = identificationNumber;
+    data['identification_type'] = identificationType;
+    data['gender'] = gender;
+    data['profile_image'] = profileImage;
+    data['is_phone_verified'] = isPhoneVerified;
+    data['is_email_verified'] = isEmailVerified;
+    data['is_active'] = isActive;
+    data['user_type'] = userType;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }

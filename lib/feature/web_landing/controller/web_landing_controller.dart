@@ -19,14 +19,14 @@ class WebLandingController extends GetxController implements GetxService {
   List<SocialMedia>? get socialMedia=> _socialMedia;
   Map<String, dynamic>? get textContent=> _textContent;
 
-  Future<void> getWebLandingContent() async {
-    if(_webLandingContent == null){
+  Future<void> getWebLandingContent({bool reload = true}) async {
+    if(_webLandingContent == null || reload ){
       Response response = await webLandingRepo.getWebLandingContents();
       if(response.statusCode == 200){
         _webLandingContent = WebLandingContent.fromJson(response.body['content']);
 
-        if(_webLandingContent!.socialMedia!=null){
-          _socialMedia = _webLandingContent!.socialMedia;
+        if(_webLandingContent?.socialMedia!=null){
+          _socialMedia = _webLandingContent?.socialMedia;
         }
       }else{
         ApiChecker.checkApi(response);

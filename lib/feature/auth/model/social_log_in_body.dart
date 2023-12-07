@@ -16,12 +16,12 @@ class SocialLogInBody {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['email'] = this.email;
-    data['token'] = this.token;
-    data['unique_id'] = this.uniqueId;
-    data['medium'] = this.medium;
-    data['phone'] = this.phone;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['email'] = email;
+    data['token'] = token;
+    data['unique_id'] = uniqueId;
+    data['medium'] = medium;
+    data['phone'] = phone;
     return data;
   }
 }

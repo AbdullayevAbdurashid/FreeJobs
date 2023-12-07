@@ -5,14 +5,14 @@ class ProviderModel {
   ProviderModel.fromJson(Map<String, dynamic> json) {
 
     content =
-    json['content'] != null ? new Content.fromJson(json['content']) : null;
+    json['content'] != null ? Content.fromJson(json['content']) : null;
 
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.content != null) {
-      data['content'] = this.content!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (content != null) {
+      data['content'] = content!.toJson();
     }
     return data;
   }
@@ -47,7 +47,7 @@ class Content {
     if (json['data'] != null) {
       data = <ProviderData>[];
       json['data'].forEach((v) {
-        data!.add(new ProviderData.fromJson(v));
+        data!.add(ProviderData.fromJson(v));
       });
     }
     firstPageUrl = json['first_page_url'];
@@ -61,19 +61,19 @@ class Content {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['current_page'] = this.currentPage;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['current_page'] = currentPage;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
-    data['first_page_url'] = this.firstPageUrl;
-    data['from'] = this.from;
-    data['last_page'] = this.lastPage;
-    data['last_page_url'] = this.lastPageUrl;
-    data['path'] = this.path;
-    data['per_page'] = this.perPage;
-    data['to'] = this.to;
-    data['total'] = this.total;
+    data['first_page_url'] = firstPageUrl;
+    data['from'] = from;
+    data['last_page'] = lastPage;
+    data['last_page_url'] = lastPageUrl;
+    data['path'] = path;
+    data['per_page'] = perPage;
+    data['to'] = to;
+    data['total'] = total;
     return data;
   }
 }
@@ -153,45 +153,45 @@ class ProviderData {
     updatedAt = json['updated_at'];
     isApproved = json['is_approved'];
     zoneId = json['zone_id'];
-    owner = json['owner'] != null ? new Owner.fromJson(json['owner']) : null;
+    owner = json['owner'] != null ? Owner.fromJson(json['owner']) : null;
     if (json['subscribed_services'] != null) {
       subscribedServices = <SubscribedServices>[];
       json['subscribed_services'].forEach((v) {
-        subscribedServices!.add(new SubscribedServices.fromJson(v));
+        subscribedServices!.add(SubscribedServices.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['user_id'] = this.userId;
-    data['company_name'] = this.companyName;
-    data['company_phone'] = this.companyPhone;
-    data['company_address'] = this.companyAddress;
-    data['company_email'] = this.companyEmail;
-    data['logo'] = this.logo;
-    data['contact_person_name'] = this.contactPersonName;
-    data['contact_person_phone'] = this.contactPersonPhone;
-    data['contact_person_email'] = this.contactPersonEmail;
-    data['order_count'] = this.orderCount;
-    data['service_man_count'] = this.serviceManCount;
-    data['service_capacity_per_day'] = this.serviceCapacityPerDay;
-    data['rating_count'] = this.ratingCount;
-    data['avg_rating'] = this.avgRating;
-    data['commission_status'] = this.commissionStatus;
-    data['commission_percentage'] = this.commissionPercentage;
-    data['is_active'] = this.isActive;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['is_approved'] = this.isApproved;
-    data['zone_id'] = this.zoneId;
-    if (this.owner != null) {
-      data['owner'] = this.owner!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['user_id'] = userId;
+    data['company_name'] = companyName;
+    data['company_phone'] = companyPhone;
+    data['company_address'] = companyAddress;
+    data['company_email'] = companyEmail;
+    data['logo'] = logo;
+    data['contact_person_name'] = contactPersonName;
+    data['contact_person_phone'] = contactPersonPhone;
+    data['contact_person_email'] = contactPersonEmail;
+    data['order_count'] = orderCount;
+    data['service_man_count'] = serviceManCount;
+    data['service_capacity_per_day'] = serviceCapacityPerDay;
+    data['rating_count'] = ratingCount;
+    data['avg_rating'] = avgRating;
+    data['commission_status'] = commissionStatus;
+    data['commission_percentage'] = commissionPercentage;
+    data['is_active'] = isActive;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['is_approved'] = isApproved;
+    data['zone_id'] = zoneId;
+    if (owner != null) {
+      data['owner'] = owner!.toJson();
     }
-    if (this.subscribedServices != null) {
+    if (subscribedServices != null) {
       data['subscribed_services'] =
-          this.subscribedServices!.map((v) => v.toJson()).toList();
+          subscribedServices!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -263,26 +263,26 @@ class Owner {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['first_name'] = this.firstName;
-    data['last_name'] = this.lastName;
-    data['email'] = this.email;
-    data['phone'] = this.phone;
-    data['identification_number'] = this.identificationNumber;
-    data['identification_type'] = this.identificationType;
-    data['identification_image'] = this.identificationImage;
-    data['gender'] = this.gender;
-    data['profile_image'] = this.profileImage;
-    data['fcm_token'] = this.fcmToken;
-    data['is_phone_verified'] = this.isPhoneVerified;
-    data['is_email_verified'] = this.isEmailVerified;
-    data['is_active'] = this.isActive;
-    data['user_type'] = this.userType;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['wallet_balance'] = this.walletBalance;
-    data['loyalty_point'] = this.loyaltyPoint;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['first_name'] = firstName;
+    data['last_name'] = lastName;
+    data['email'] = email;
+    data['phone'] = phone;
+    data['identification_number'] = identificationNumber;
+    data['identification_type'] = identificationType;
+    data['identification_image'] = identificationImage;
+    data['gender'] = gender;
+    data['profile_image'] = profileImage;
+    data['fcm_token'] = fcmToken;
+    data['is_phone_verified'] = isPhoneVerified;
+    data['is_email_verified'] = isEmailVerified;
+    data['is_active'] = isActive;
+    data['user_type'] = userType;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['wallet_balance'] = walletBalance;
+    data['loyalty_point'] = loyaltyPoint;
     return data;
   }
 }
@@ -316,21 +316,21 @@ class SubscribedServices {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     subCategory = json['sub_category'] != null
-        ? new SubCategory.fromJson(json['sub_category'])
+        ? SubCategory.fromJson(json['sub_category'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['provider_id'] = this.providerId;
-    data['category_id'] = this.categoryId;
-    data['sub_category_id'] = this.subCategoryId;
-    data['is_subscribed'] = this.isSubscribed;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    if (this.subCategory != null) {
-      data['sub_category'] = this.subCategory!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['provider_id'] = providerId;
+    data['category_id'] = categoryId;
+    data['sub_category_id'] = subCategoryId;
+    data['is_subscribed'] = isSubscribed;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    if (subCategory != null) {
+      data['sub_category'] = subCategory!.toJson();
     }
     return data;
   }
@@ -374,17 +374,17 @@ class SubCategory {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['parent_id'] = this.parentId;
-    data['name'] = this.name;
-    data['image'] = this.image;
-    data['position'] = this.position;
-    data['description'] = this.description;
-    data['is_active'] = this.isActive;
-    data['is_featured'] = this.isFeatured;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['parent_id'] = parentId;
+    data['name'] = name;
+    data['image'] = image;
+    data['position'] = position;
+    data['description'] = description;
+    data['is_active'] = isActive;
+    data['is_featured'] = isFeatured;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }
@@ -403,10 +403,10 @@ class Links {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['url'] = this.url;
-    data['label'] = this.label;
-    data['active'] = this.active;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['url'] = url;
+    data['label'] = label;
+    data['active'] = active;
     return data;
   }
 }

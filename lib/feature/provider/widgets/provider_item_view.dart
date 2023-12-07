@@ -23,29 +23,29 @@ class ProviderItemView extends StatelessWidget {
     return GestureDetector(
       onTap: ()=>Get.toNamed(RouteHelper.getProviderDetails(providerData.id!,subcategories)),
       child: Padding(padding:EdgeInsets.symmetric(
-          horizontal: ResponsiveHelper.isDesktop(context) && fromHomePage?5:Dimensions.PADDING_SIZE_SMALL,
-          vertical: fromHomePage?0:Dimensions.PADDING_SIZE_EIGHT),
+          horizontal: ResponsiveHelper.isDesktop(context) && fromHomePage?5:Dimensions.paddingSizeSmall,
+          vertical: fromHomePage?0:Dimensions.paddingSizeEight),
         child: Container(
-          decoration: BoxDecoration(color: Theme.of(context).cardColor , borderRadius: BorderRadius.circular(Dimensions.RADIUS_DEFAULT),
+          decoration: BoxDecoration(color: Theme.of(context).cardColor , borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
             border: Border.all(color: Theme.of(context).hintColor.withOpacity(0.3)),
           ),
-          padding: EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
+          padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
           child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween,children: [
             Row(children: [
 
-              ClipRRect(borderRadius: BorderRadius.circular(Dimensions.RADIUS_EXTRA_MORE_LARGE),
+              ClipRRect(borderRadius: BorderRadius.circular(Dimensions.radiusExtraMoreLarge),
                 child: CustomImage(height: 40, width: 40, fit: BoxFit.cover,
                     image: "${Get.find<SplashController>().configModel.content!.imageBaseUrl}/provider/logo/${providerData.logo}"),
               ),
 
-              SizedBox(width: Dimensions.PADDING_SIZE_SMALL,),
+              const SizedBox(width: Dimensions.paddingSizeSmall,),
 
               Expanded(
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start,mainAxisAlignment: MainAxisAlignment.start,children: [
                   Text(providerData.companyName??"", style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeLarge),
                     maxLines: 1, overflow: TextOverflow.ellipsis),
-                  if(subcategories.length>0)
-                  Padding(padding: const EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                  if(subcategories.isNotEmpty)
+                  Padding(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall),
                     child: Text(subcategories,
                       style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall,color: Theme.of(context).secondaryHeaderColor),
                       maxLines: 2,
@@ -72,10 +72,14 @@ class ProviderItemView extends StatelessWidget {
             ],),
 
             Row(children: [
-              Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+              Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall),
                 child: Image.asset(Images.iconLocation, height:12,),),
 
-              Text(providerData.companyAddress??"",style: ubuntuMedium.copyWith(color:Get.isDarkMode? Theme.of(context).secondaryHeaderColor:Theme.of(context).primaryColorDark,fontSize: Dimensions.fontSizeSmall)),
+              Flexible(
+                child: Text(providerData.companyAddress??"",
+                    style: ubuntuMedium.copyWith(color:Get.isDarkMode? Theme.of(context).secondaryHeaderColor:Theme.of(context).primaryColorDark,fontSize: Dimensions.fontSizeSmall,
+                    ),overflow: TextOverflow.ellipsis,),
+              ),
 
             ],)
           ]),

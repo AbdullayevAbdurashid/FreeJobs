@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:demandium/core/push_notification_dialog.dart';
 import 'package:demandium/data/model/notification_body.dart';
+import 'package:demandium/feature/create_post/controller/create_post_controller.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
@@ -10,19 +11,34 @@ import 'package:demandium/core/core_export.dart';
 class NotificationHelper {
 
   static Future<void> initialize(FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin) async {
-    var androidInitialize = new AndroidInitializationSettings('notification_icon');
-    var iOSInitialize = new IOSInitializationSettings();
-    var initializationsSettings = new InitializationSettings(android: androidInitialize, iOS: iOSInitialize);
-    flutterLocalNotificationsPlugin.initialize(initializationsSettings, onSelectNotification: (String? payload) async {
-      print("Payload: $payload");
+    var androidInitialize = const AndroidInitializationSettings('notification_icon');
+    var iOSInitialize = const DarwinInitializationSettings();
+    var initializationsSettings = InitializationSettings(android: androidInitialize, iOS: iOSInitialize);
+    flutterLocalNotificationsPlugin.initialize(initializationsSettings, onDidReceiveNotificationResponse: (payload) async {
+      if (kDebugMode) {
+        print("Payload: $payload");
+      }
 
       try{
-        if(payload!=null && payload!=''){
-          NotificationBody notificationBody = NotificationBody.fromJson(jsonDecode(payload));
-          print("Type: ${notificationBody.type}");
-          if(notificationBody.type=='general'){
-            Get.toNamed(RouteHelper.getNotificationRoute());
-          }else if(notificationBody.type=='booking' && notificationBody.bookingId!=null && notificationBody.bookingId!=''){
+        if(payload.payload!=null && payload.payload!=''){
+          NotificationBody notificationBody = NotificationBody.fromJson(jsonDecode(payload.payload!));
+          if (kDebugMode) {
+            print("Type: ${notificationBody.type}");
+          }
+          if(notificationBody.type=="chatting"){
+            Get.toNamed(RouteHelper.getChatScreenRoute(
+                notificationBody.channelId??"",
+                notificationBody.userName??"",
+                notificationBody.userProfileImage??"",
+                notificationBody.userPhone??"",
+                "",
+              notificationBody.userType??"",
+            ));
+          }
+          else if(notificationBody.type=='bidding'){
+            Get.toNamed(RouteHelper.getMyPostScreen());
+          }
+          else if(notificationBody.type=='booking' && notificationBody.bookingId!=null && notificationBody.bookingId!=''){
             Get.toNamed(RouteHelper.getBookingDetailsScreen(notificationBody.bookingId.toString(),'fromNotification'));
           } else if(notificationBody.type=='privacy_policy' && notificationBody.title!=null && notificationBody.title!=''){
             Get.toNamed(RouteHelper.getHtmlRoute("privacy-policy"));
@@ -32,92 +48,155 @@ class NotificationHelper {
               Get.toNamed(RouteHelper.getNotificationRoute());
           }
         }
-      }catch (e) {}
+      }catch (e) {
+        if (kDebugMode) {
+          print("");
+        }
+      }
       return;
     });
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       printLog("onMessage: ${message.notification!.title}/${message.notification!.body}/${message.notification!.titleLocKey} || ${message.data}");
-      NotificationHelper.showNotification(message, flutterLocalNotificationsPlugin, false);
 
-      if(Get.find<AuthController>().isLoggedIn()) {
-        Get.find<NotificationController>().getNotifications(1);
-        if(ResponsiveHelper.isWeb()){
-            Get.dialog(PushNotificationDialog(
-                title: message.notification!.title,
-                body: "message.notification!.body",
-                bookingID: message.data['booking_id'].toString()));
-        }else{
-          //NotificationHelper.showNotification(message, flutterLocalNotificationsPlugin, false);
+      if(!ResponsiveHelper.isWeb()){
+        if(message.data['type']=='bidding'){
+
+          if((message.data['post_id']!="" && message.data['post_id']!=null) && (message.data['provider_id']!="" && message.data['provider_id']!=null)){
+            Get.find<CreatePostController>().providerBidDetailsForNotification(message.data['post_id'],message.data['provider_id']);
+          }else{
+            NotificationHelper.showNotification(message, flutterLocalNotificationsPlugin, false);
+          }
+
+          if(Get.currentRoute==RouteHelper.myPost){
+            Get.find<CreatePostController>().getMyPostList(1);
+          }
+        }
+        else if(message.data['type']=='chatting'){
+
+          if(Get.currentRoute.contains(RouteHelper.chatScreen) && (message.data['channel_id']!="" && message.data['channel_id']!=null)){
+            Get.find<ConversationController>().cleanOldData();
+            Get.find<ConversationController>().setChannelId(message.data['channel_id']);
+            Get.find<ConversationController>().getConversation(message.data['channel_id'], 1,isInitial:true);
+          } else{
+            NotificationHelper.showNotification(message, flutterLocalNotificationsPlugin, false);
+          }
+        }
+        else{
+          NotificationHelper.showNotification(message, flutterLocalNotificationsPlugin, false);
+        }
+      }
+      else{
+        if(Get.find<AuthController>().isLoggedIn()) {
+          NotificationBody notificationBody = NotificationBody.fromJson(message.data);
+
+          if(message.data["type"]=="chatting" && (message.data['channel_id']!="" && message.data['channel_id']!=null) && Get.currentRoute.contains(RouteHelper.chatScreen)){
+            Get.find<ConversationController>().cleanOldData();
+            Get.find<ConversationController>().setChannelId(message.data['channel_id']);
+            Get.find<ConversationController>().getConversation(message.data['channel_id'], 1,isInitial:true);
+          } else if(message.data["type"]=="bidding" && message.data["provider_id"]==""){
+
+          }
+          else{
+
+            Future.delayed(const Duration(milliseconds: 1700),(){
+              Get.dialog(PushNotificationDialog(
+                  title: message.notification!.title,
+                  notificationBody: notificationBody
+              ));
+            });
+
+          }
+
+          if(message.data["type"]=="bidding" &&Get.currentRoute==RouteHelper.myPost && (message.data['post_id']!="" && message.data['post_id']!=null)){
+            Get.find<CreatePostController>().getMyPostList(1,reload: true);
+          }
         }
       }
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage? message) {
-      print("callOnMessageOpenApp");
+      printLog("onMessageOpenApp: ${message?.notification!.title}/${message?.notification!.body}/${message?.notification!.titleLocKey} || ${message?.data}");
 
      try{
        if(message!=null && message.data.isNotEmpty) {
-         NotificationBody _notificationBody = convertNotification(message.data);
-         if(_notificationBody.type=='general'){
-           Get.toNamed(RouteHelper.getNotificationRoute());
-         }else if(_notificationBody.type=='booking'
-             && message.data['booking_id']!=null&& message.data['booking_id']!=""){
-           Get.toNamed(RouteHelper.getBookingDetailsScreen(message.data['booking_id'],'fromNotification'));
-         } else if(_notificationBody.type=='privacy_policy'){
+         NotificationBody notificationBody = convertNotification(message.data);
+         if(notificationBody.type=="chatting"){
+           Get.toNamed(RouteHelper.getChatScreenRoute(
+             notificationBody.channelId??"",
+             notificationBody.userName??"",
+             notificationBody.userProfileImage??"",
+             notificationBody.userPhone??"",
+             "",
+             notificationBody.userType??"",
+           ));
+         }
+
+         else if(notificationBody.type=='bidding'){
+           Get.toNamed(RouteHelper.getMyPostScreen());
+         }
+         else if(notificationBody.type=='booking' && notificationBody.bookingId!=null && notificationBody.bookingId!=''){
+           Get.toNamed(RouteHelper.getBookingDetailsScreen(notificationBody.bookingId.toString(),'fromNotification'));
+         }
+         else if(notificationBody.type=='privacy_policy' && notificationBody.title!=null && notificationBody.title!=''){
            Get.toNamed(RouteHelper.getHtmlRoute("privacy-policy"));
-         }else if(_notificationBody.type=='terms_and_conditions'){
+         }
+         else if(notificationBody.type=='terms_and_conditions' && notificationBody.title!=null && notificationBody.title!=''){
            Get.toNamed(RouteHelper.getHtmlRoute("terms-and-condition"));
          }else{
            Get.toNamed(RouteHelper.getNotificationRoute());
          }
        }
-     }catch (e) {}
+     }catch (e) {
+       if (kDebugMode) {
+         print("");
+       }
+     }
     });
   }
 
   static Future<void> showNotification(RemoteMessage message, FlutterLocalNotificationsPlugin fln, bool data) async {
     if(!GetPlatform.isIOS) {
-      String? _title;
-      String? _body;
-      String? _orderID;
-      String? _image;
+      String? title;
+      String? body;
+      String? orderID;
+      String? image;
       String playLoad = jsonEncode(message.data);
 
 
 
       if(data) {
 
-        _title = message.data['title']?.replaceAll('_', ' ').toString().capitalize;
-        _body = message.data['body'].replaceAll('_', ' ').toString();
-        _orderID = message.data['booking_id'].toString();
-        _image = (message.data['image'] != null && message.data['image'].isNotEmpty)
+        title = message.data['title']?.replaceAll('_', ' ').toString().capitalize;
+        body = message.data['body'].replaceAll('_', ' ').toString();
+        orderID = message.data['booking_id'].toString();
+        image = (message.data['image'] != null && message.data['image'].isNotEmpty)
             ? message.data['image'].startsWith('http') ? message.data['image']
-            : '${AppConstants.BASE_URL}/storage/app/public/notification/${message.data['image']}' : null;
+            : '${AppConstants.baseUrl}/storage/app/public/notification/${message.data['image']}' : null;
       }else {
-        _title = message.notification!.title?.replaceAll('_', ' ').toString().capitalize;
-        _body = message.notification!.body;
-        _orderID = message.notification!.titleLocKey;
+        title = message.notification!.title?.replaceAll('_', ' ').toString().capitalize;
+        body = message.notification!.body;
+        orderID = message.notification!.titleLocKey;
         if(GetPlatform.isAndroid) {
-          _image = (message.notification!.android!.imageUrl != null && message.notification!.android!.imageUrl!.isNotEmpty)
+          image = (message.notification!.android!.imageUrl != null && message.notification!.android!.imageUrl!.isNotEmpty)
               ? message.notification!.android!.imageUrl!.startsWith('http') ? message.notification!.android!.imageUrl
-              : '${AppConstants.BASE_URL}/storage/app/public/notification/${message.notification!.android!.imageUrl}' : null;
+              : '${AppConstants.baseUrl}/storage/app/public/notification/${message.notification!.android!.imageUrl}' : null;
         }else if(GetPlatform.isIOS) {
-          _image = (message.notification!.apple!.imageUrl != null && message.notification!.apple!.imageUrl!.isNotEmpty)
+          image = (message.notification!.apple!.imageUrl != null && message.notification!.apple!.imageUrl!.isNotEmpty)
               ? message.notification!.apple!.imageUrl!.startsWith('http') ? message.notification!.apple!.imageUrl
-              : '${AppConstants.BASE_URL}/storage/app/public/notification/${message.notification!.apple!.imageUrl}' : null;
+              : '${AppConstants.baseUrl}/storage/app/public/notification/${message.notification!.apple!.imageUrl}' : null;
         }
       }
 
-      if(_image != null && _image.isNotEmpty) {
+      if(image != null && image.isNotEmpty) {
         try{
-          await showBigPictureNotificationHiddenLargeIcon(_title!, _body!, playLoad, _image, fln);
+          await showBigPictureNotificationHiddenLargeIcon(title!, body!, playLoad, image, fln);
         }catch(e) {
-          await showBigTextNotification(_title!, '',playLoad, _orderID!,fln);
+          await showBigTextNotification(title!, '',playLoad, orderID!,fln);
         }
 
       }else {
-        await showBigTextNotification(_title!, '',playLoad, _orderID!, fln);
+        await showBigTextNotification(title!, '',playLoad, orderID!, fln);
       }
     }
   }
@@ -151,7 +230,7 @@ class NotificationHelper {
       AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
         "demandiumWithsound", 'demandium with sound', channelDescription:"description",
         playSound: true,
-        sound: RawResourceAndroidNotificationSound('notification'),
+        sound: const RawResourceAndroidNotificationSound('notification'),
         importance: Importance.max,
         styleInformation: bigTextStyleInformation, priority: Priority.max,
       );
@@ -182,7 +261,7 @@ class NotificationHelper {
       AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
         "demandiumWithsound", 'demandium with sound', channelDescription:"description",
         playSound: true,
-        sound: RawResourceAndroidNotificationSound('notification'),
+        sound: const RawResourceAndroidNotificationSound('notification'),
         largeIcon: FilePathAndroidBitmap(largeIconPath), priority: Priority.max,
         styleInformation: bigPictureStyleInformation, importance: Importance.max,
       );

@@ -5,9 +5,9 @@ class ConversationUserModel {
   String? id;
   String? channelId;
   String? userId;
-  var deletedAt;
-  var createdAt;
-  var updatedAt;
+  String?  deletedAt;
+  String?  createdAt;
+  String?  updatedAt;
   int? isRead;
   ConversationUser? user;
 
@@ -29,20 +29,20 @@ class ConversationUserModel {
     deletedAt = json['deleted_at'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    user = json['user'] != null ? new ConversationUser.fromJson(json['user']) : null;
+    user = json['user'] != null ? ConversationUser.fromJson(json['user']) : null;
     isRead= json['is_read'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['channel_id'] = this.channelId;
-    data['user_id'] = this.userId;
-    data['deleted_at'] = this.deletedAt;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    if (this.user != null) {
-      data['user'] = this.user!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['channel_id'] = channelId;
+    data['user_id'] = userId;
+    data['deleted_at'] = deletedAt;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    if (user != null) {
+      data['user'] = user!.toJson();
     }
     return data;
   }
@@ -50,25 +50,25 @@ class ConversationUserModel {
 
 class ConversationUser {
   String? id;
-  var roleId;
+  String?  roleId;
   String? firstName;
   String? lastName;
   String? email;
   String? phone;
-  var identificationNumber;
+  String?  identificationNumber;
   String? identificationType;
-  var dateOfBirth;
+  String?  dateOfBirth;
   String? gender;
   String? profileImage;
   String? fcmToken;
   int? isPhoneVerified;
   int? isEmailVerified;
-  var phoneVerifiedAt;
-  var emailVerifiedAt;
+  String?  phoneVerifiedAt;
+  String?  emailVerifiedAt;
   int? isActive;
   String? userType;
-  var rememberToken;
-  var deletedAt;
+  String?  rememberToken;
+  String?  deletedAt;
   String? createdAt;
   String? updatedAt;
   ProviderModel? provider;
@@ -128,30 +128,30 @@ class ConversationUser {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['role_id'] = this.roleId;
-    data['first_name'] = this.firstName;
-    data['last_name'] = this.lastName;
-    data['email'] = this.email;
-    data['phone'] = this.phone;
-    data['identification_number'] = this.identificationNumber;
-    data['identification_type'] = this.identificationType;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['role_id'] = roleId;
+    data['first_name'] = firstName;
+    data['last_name'] = lastName;
+    data['email'] = email;
+    data['phone'] = phone;
+    data['identification_number'] = identificationNumber;
+    data['identification_type'] = identificationType;
 
-    data['date_of_birth'] = this.dateOfBirth;
-    data['gender'] = this.gender;
-    data['profile_image'] = this.profileImage;
-    data['fcm_token'] = this.fcmToken;
-    data['is_phone_verified'] = this.isPhoneVerified;
-    data['is_email_verified'] = this.isEmailVerified;
-    data['phone_verified_at'] = this.phoneVerifiedAt;
-    data['email_verified_at'] = this.emailVerifiedAt;
-    data['is_active'] = this.isActive;
-    data['user_type'] = this.userType;
-    data['remember_token'] = this.rememberToken;
-    data['deleted_at'] = this.deletedAt;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    data['date_of_birth'] = dateOfBirth;
+    data['gender'] = gender;
+    data['profile_image'] = profileImage;
+    data['fcm_token'] = fcmToken;
+    data['is_phone_verified'] = isPhoneVerified;
+    data['is_email_verified'] = isEmailVerified;
+    data['phone_verified_at'] = phoneVerifiedAt;
+    data['email_verified_at'] = emailVerifiedAt;
+    data['is_active'] = isActive;
+    data['user_type'] = userType;
+    data['remember_token'] = rememberToken;
+    data['deleted_at'] = deletedAt;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }

@@ -67,7 +67,7 @@ class DateConverter {
   }
 
   static String dateMonthYearTime(String dateTime) {
-    return DateFormat('${_timeFormatter()}').format(DateFormat('yyyy-MM-dd HH:mm:ss').parse(dateTime));
+    return DateFormat(_timeFormatter()).format(DateFormat('yyyy-MM-dd HH:mm:ss').parse(dateTime));
     }
   static String isoStringToLocalTimeOnly(String dateTime) {
     return DateFormat('HH:mm aa').format(isoStringToLocalDate(dateTime));

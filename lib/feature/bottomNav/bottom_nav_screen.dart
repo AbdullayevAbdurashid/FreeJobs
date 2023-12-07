@@ -18,20 +18,38 @@ import 'package:get/get.dart';
 
 class BottomNavScreen extends StatefulWidget {
   final int pageIndex;
-    BottomNavScreen({required this.pageIndex});
+    const BottomNavScreen({super.key, required this.pageIndex});
 
   @override
   State<BottomNavScreen> createState() => _BottomNavScreenState();
 }
 
 class _BottomNavScreenState extends State<BottomNavScreen> {
-  final int _pageIndex = 0;
-  GlobalKey<ScaffoldMessengerState> _scaffoldKey = GlobalKey();
+  int _pageIndex = 0;
+  final GlobalKey<ScaffoldMessengerState> _scaffoldKey = GlobalKey();
   bool _canExit = GetPlatform.isWeb ? true : false;
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _pageIndex = widget.pageIndex;
+
+    if(_pageIndex==1){
+      Get.find<BottomNavController>().changePage(BnbItem.bookings);
+    }else if(_pageIndex==2){
+      Get.find<BottomNavController>().changePage(BnbItem.cart);
+    }
+    else if(_pageIndex==3){
+      Get.find<BottomNavController>().changePage(BnbItem.offers);
+    }else{
+      Get.find<BottomNavController>().changePage(BnbItem.home);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    bool _isUserLoggedIn = Get.find<AuthController>().isLoggedIn();
+    bool isUserLoggedIn = Get.find<AuthController>().isLoggedIn();
     return WillPopScope(
       onWillPop: () async {
         if (_pageIndex != 0) {
@@ -50,7 +68,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
                 textColor: Colors.white,
                 fontSize: 16.0);
             _canExit = true;
-            Timer(Duration(seconds: 2), () {
+            Timer(const Duration(seconds: 2), () {
               _canExit = false;
             });
             return false;
@@ -75,7 +93,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
                   : Theme.of(context).colorScheme.secondary,
               shape: BoxShape.circle,
               gradient: _pageIndex == 2
-                  ? LinearGradient(
+                  ? const LinearGradient(
                 colors: [Color(0xFFFBBB00), Color(0xFFFF833D)],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
@@ -90,12 +108,12 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
-        bottomNavigationBar: ResponsiveHelper.isDesktop(context) ? SizedBox() :
+        bottomNavigationBar: ResponsiveHelper.isDesktop(context) ? const SizedBox() :
         SafeArea(
           child: Container(
             height: ResponsiveHelper.isMobile(context) ?  55  : 60 + MediaQuery.of(context).padding.top,
             alignment: Alignment.center,
-            padding: EdgeInsets.all(Dimensions.PADDING_SIZE_EXTRA_SMALL),
+            padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
             color:Get.isDarkMode ? Theme.of(context).cardColor.withOpacity(.5) : Theme.of(context).primaryColor,
             child: Row(children: [
               _bnbItem(
@@ -109,9 +127,9 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
                   icon: Images.bookings,
                   bnbItem: BnbItem.bookings,
                   onTap: () {
-                    if (!_isUserLoggedIn) {
+                    if (!isUserLoggedIn) {
                       Get.toNamed(
-                          RouteHelper.getNotLoggedScreen('my_bookings'.tr));
+                          RouteHelper.getNotLoggedScreen("booking","my_bookings"));
                     } else {
                       Get.find<BottomNavController>().changePage(BnbItem.bookings);
                     }
@@ -121,7 +139,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
                   icon: '',
                   bnbItem: BnbItem.cart,
                   onTap: () {
-                    if (!_isUserLoggedIn) {
+                    if (!isUserLoggedIn) {
                       Get.toNamed(
                           RouteHelper.getSignInRoute(RouteHelper.main));
                     } else {
@@ -140,7 +158,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
                   icon: Images.menu,
                   bnbItem: BnbItem.more,
                   onTap: () {
-                    Get.bottomSheet(MenuScreen(),
+                    Get.bottomSheet(const MenuScreen(),
                         backgroundColor: Colors.transparent,
                         isScrollControlled: true);
                   },
@@ -164,7 +182,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-            icon.isEmpty ? SizedBox(width: 20, height: 20) : Image.asset(
+            icon.isEmpty ? const SizedBox(width: 20, height: 20) : Image.asset(
               icon,
               width: 18,
               height: 18,
@@ -172,7 +190,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
                   ? Colors.white
                   : Colors.white60,
             ),
-            SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+            const SizedBox(height: Dimensions.paddingSizeExtraSmall),
             Text(bnbItem != BnbItem.cart ? bnbItem.name.tr : '',
                 style: ubuntuRegular.copyWith(
                   fontSize: Dimensions.fontSizeSmall,
@@ -188,12 +206,12 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
     PriceConverter.getCurrency();
     switch (Get.find<BottomNavController>().currentPage.value) {
       case BnbItem.home:
-        return HomeScreen();
+        return const HomeScreen();
       case BnbItem.bookings:
         if (!Get.find<AuthController>().isLoggedIn()) {
           break;
         } else {
-          return BookingScreen();
+          return const BookingScreen();
         }
       case BnbItem.cart:
         if (!Get.find<AuthController>().isLoggedIn()) {
@@ -202,7 +220,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
           return Get.toNamed(RouteHelper.getCartRoute());
         }
       case BnbItem.offers:
-        return OfferScreen();
+        return const OfferScreen();
     //no page will will be return shows only menu dialog from _bnbItem tap
       case BnbItem.more:
         break;

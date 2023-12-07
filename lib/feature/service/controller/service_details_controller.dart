@@ -42,20 +42,20 @@ class ServiceDetailsController extends GetxController{
     ///if category discount not null then calculate category discount
     if(service.campaignDiscount != null){
       ///service based campaign discount
-      _serviceDiscount = service.campaignDiscount!.length > 0 ?  service.campaignDiscount!.elementAt(0).discount!.discountAmount!.toDouble(): 0.0;
-      _discountType = service.campaignDiscount!.length > 0 ?  service.campaignDiscount!.elementAt(0).discount!.discountType!:'amount';
+      _serviceDiscount = service.campaignDiscount!.isNotEmpty ?  service.campaignDiscount!.elementAt(0).discount!.discountAmount!.toDouble(): 0.0;
+      _discountType = service.campaignDiscount!.isNotEmpty ?  service.campaignDiscount!.elementAt(0).discount!.discountType!:'amount';
     }else if(service.category!.campaignDiscount != null){
       ///category based campaign discount
-      _serviceDiscount = service.category!.campaignDiscount!.length > 0 ?  service.category!.campaignDiscount!.elementAt(0).discount!.discountAmount!.toDouble(): 0.0;
-      _discountType = service.category!.campaignDiscount!.length > 0 ?  service.category!.campaignDiscount!.elementAt(0).discount!.discountAmountType! :'amount';
+      _serviceDiscount = service.category!.campaignDiscount!.isNotEmpty ?  service.category!.campaignDiscount!.elementAt(0).discount!.discountAmount!.toDouble(): 0.0;
+      _discountType = service.category!.campaignDiscount!.isNotEmpty ?  service.category!.campaignDiscount!.elementAt(0).discount!.discountAmountType! :'amount';
     }else if(service.serviceDiscount != null){
       ///service based service discount
-      _serviceDiscount = service.serviceDiscount!.length > 0 ?  service.serviceDiscount!.elementAt(0).discount!.discountAmount!.toDouble(): 0.0;
-      _discountType = service.serviceDiscount!.length > 0 ?  service.serviceDiscount!.elementAt(0).discount!.discountType!:'amount';
+      _serviceDiscount = service.serviceDiscount!.isNotEmpty ?  service.serviceDiscount!.elementAt(0).discount!.discountAmount!.toDouble(): 0.0;
+      _discountType = service.serviceDiscount!.isNotEmpty ?  service.serviceDiscount!.elementAt(0).discount!.discountType!:'amount';
     } else{
       ///category based category discount
-      _serviceDiscount = service.category!.categoryDiscount!.length > 0 ?  service.category!.categoryDiscount!.elementAt(0).discount!.discountAmount!.toDouble(): 0.0;
-      _discountType = service.category!.categoryDiscount!.length > 0 ?  service.category!.categoryDiscount!.elementAt(0).discount!.discountAmountType! :'amount';
+      _serviceDiscount = service.category!.categoryDiscount!.isNotEmpty ?  service.category!.categoryDiscount!.elementAt(0).discount!.discountAmount!.toDouble(): 0.0;
+      _discountType = service.category!.categoryDiscount!.isNotEmpty ?  service.category!.categoryDiscount!.elementAt(0).discount!.discountAmountType! :'amount';
     }
     update();
   }

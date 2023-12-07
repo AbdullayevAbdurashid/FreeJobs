@@ -4,13 +4,13 @@ class LoyaltyPointModel {
       { this.content});
 
   LoyaltyPointModel.fromJson(Map<String, dynamic> json) {
-    content = json['content'] != null ? new Content.fromJson(json['content']) : null;
+    content = json['content'] != null ? Content.fromJson(json['content']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.content != null) {
-      data['content'] = this.content!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (content != null) {
+      data['content'] = content!.toJson();
     }
     return data;
   }
@@ -33,18 +33,18 @@ class Content {
     json['loyalty_point_value_per_currency_unit'];
     minLoyaltyPointToTransfer = json['min_loyalty_point_to_transfer'];
     transactions = json['transactions'] != null
-        ? new Transactions.fromJson(json['transactions'])
+        ? Transactions.fromJson(json['transactions'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['loyalty_point'] = this.loyaltyPoint;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['loyalty_point'] = loyaltyPoint;
     data['loyalty_point_value_per_currency_unit'] =
-        this.loyaltyPointValuePerCurrencyUnit;
-    data['min_loyalty_point_to_transfer'] = this.minLoyaltyPointToTransfer;
-    if (this.transactions != null) {
-      data['transactions'] = this.transactions!.toJson();
+        loyaltyPointValuePerCurrencyUnit;
+    data['min_loyalty_point_to_transfer'] = minLoyaltyPointToTransfer;
+    if (transactions != null) {
+      data['transactions'] = transactions!.toJson();
     }
     return data;
   }
@@ -81,7 +81,7 @@ class Transactions {
     if (json['data'] != null) {
       data = <LoyaltyPointTransactionData>[];
       json['data'].forEach((v) {
-        data!.add(new LoyaltyPointTransactionData.fromJson(v));
+        data!.add(LoyaltyPointTransactionData.fromJson(v));
       });
     }
     firstPageUrl = json['first_page_url'];
@@ -91,7 +91,7 @@ class Transactions {
     if (json['links'] != null) {
       links = <Links>[];
       json['links'].forEach((v) {
-        links!.add(new Links.fromJson(v));
+        links!.add(Links.fromJson(v));
       });
     }
     path = json['path'];
@@ -101,22 +101,22 @@ class Transactions {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['current_page'] = this.currentPage;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['current_page'] = currentPage;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
-    data['first_page_url'] = this.firstPageUrl;
-    data['from'] = this.from;
-    data['last_page'] = this.lastPage;
-    data['last_page_url'] = this.lastPageUrl;
-    if (this.links != null) {
-      data['links'] = this.links!.map((v) => v.toJson()).toList();
+    data['first_page_url'] = firstPageUrl;
+    data['from'] = from;
+    data['last_page'] = lastPage;
+    data['last_page_url'] = lastPageUrl;
+    if (links != null) {
+      data['links'] = links!.map((v) => v.toJson()).toList();
     }
-    data['path'] = this.path;
-    data['per_page'] = this.perPage;
-    data['to'] = this.to;
-    data['total'] = this.total;
+    data['path'] = path;
+    data['per_page'] = perPage;
+    data['to'] = to;
+    data['total'] = total;
     return data;
   }
 }
@@ -161,30 +161,30 @@ class LoyaltyPointTransactionData {
     updatedAt = json['updated_at'];
     toUserAccount = json['to_user_account'];
     fromUser = json['from_user'] != null
-        ? new FromUser.fromJson(json['from_user'])
+        ? FromUser.fromJson(json['from_user'])
         : null;
     toUser =
-    json['to_user'] != null ? new FromUser.fromJson(json['to_user']) : null;
+    json['to_user'] != null ? FromUser.fromJson(json['to_user']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
 
-    data['trx_type'] = this.trxType;
-    data['debit'] = this.debit;
-    data['credit'] = this.credit;
-    data['balance'] = this.balance;
-    data['from_user_id'] = this.fromUserId;
-    data['to_user_id'] = this.toUserId;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['to_user_account'] = this.toUserAccount;
-    if (this.fromUser != null) {
-      data['from_user'] = this.fromUser!.toJson();
+    data['trx_type'] = trxType;
+    data['debit'] = debit;
+    data['credit'] = credit;
+    data['balance'] = balance;
+    data['from_user_id'] = fromUserId;
+    data['to_user_id'] = toUserId;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['to_user_account'] = toUserAccount;
+    if (fromUser != null) {
+      data['from_user'] = fromUser!.toJson();
     }
-    if (this.toUser != null) {
-      data['to_user'] = this.toUser!.toJson();
+    if (toUser != null) {
+      data['to_user'] = toUser!.toJson();
     }
     return data;
   }
@@ -197,7 +197,7 @@ class FromUser {
   String? email;
   String? phone;
   String? identificationType;
-  List<Null>? identificationImage;
+  List<void>? identificationImage;
   String? gender;
   String? profileImage;
   String? fcmToken;
@@ -252,24 +252,24 @@ class FromUser {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['first_name'] = this.firstName;
-    data['last_name'] = this.lastName;
-    data['email'] = this.email;
-    data['phone'] = this.phone;
-    data['identification_type'] = this.identificationType;
-    data['gender'] = this.gender;
-    data['profile_image'] = this.profileImage;
-    data['fcm_token'] = this.fcmToken;
-    data['is_phone_verified'] = this.isPhoneVerified;
-    data['is_email_verified'] = this.isEmailVerified;
-    data['is_active'] = this.isActive;
-    data['user_type'] = this.userType;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['wallet_balance'] = this.walletBalance;
-    data['loyalty_point'] = this.loyaltyPoint;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['first_name'] = firstName;
+    data['last_name'] = lastName;
+    data['email'] = email;
+    data['phone'] = phone;
+    data['identification_type'] = identificationType;
+    data['gender'] = gender;
+    data['profile_image'] = profileImage;
+    data['fcm_token'] = fcmToken;
+    data['is_phone_verified'] = isPhoneVerified;
+    data['is_email_verified'] = isEmailVerified;
+    data['is_active'] = isActive;
+    data['user_type'] = userType;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['wallet_balance'] = walletBalance;
+    data['loyalty_point'] = loyaltyPoint;
     return data;
   }
 }
@@ -288,10 +288,10 @@ class Links {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['url'] = this.url;
-    data['label'] = this.label;
-    data['active'] = this.active;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['url'] = url;
+    data['label'] = label;
+    data['active'] = active;
     return data;
   }
 }

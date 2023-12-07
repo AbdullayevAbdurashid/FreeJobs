@@ -7,24 +7,24 @@ class UserRepo {
   UserRepo({required this.apiClient});
 
   Future<Response> getUserInfo() async {
-    return await apiClient.getData(AppConstants.CUSTOMER_INFO_URI);
+    return await apiClient.getData(AppConstants.customerInfoUri);
   }
 
   Future<Response> updateProfile(UserInfoModel userInfoModel, XFile? data) async {
-    Map<String, String> _body = Map();
-    _body.addAll(<String, String>{
+    Map<String, String> body = {};
+    body.addAll(<String, String>{
       '_method': 'put',
       'first_name': userInfoModel.fName!,
       'last_name': userInfoModel.lName!,
       'email': userInfoModel.email!,
       'phone': userInfoModel.phone!,
     });
-    return await apiClient.postMultipartData(AppConstants.UPDATE_PROFILE_URI, _body,data != null ? [MultipartBody('profile_image', data)]:[]);
+    return await apiClient.postMultipartData(AppConstants.updateProfileUri, body,data != null ? [MultipartBody('profile_image', data)]:[]);
   }
 
   Future<Response> updateAccountInfo(UserInfoModel userInfoModel) async {
-    Map<String, String> _body = Map();
-    _body.addAll(<String, String>{
+    Map<String, String> body = {};
+    body.addAll(<String, String>{
       '_method': 'put',
       'first_name': userInfoModel.fName!,
       'last_name': userInfoModel.lName!,
@@ -33,16 +33,16 @@ class UserRepo {
       'password': userInfoModel.password!,
       'confirm_password': userInfoModel.confirmPassword!,
     });
-    return await apiClient.putData(AppConstants.UPDATE_PROFILE_URI, _body);
+    return await apiClient.putData(AppConstants.updateProfileUri, body);
   }
 
   Future<Response> changePassword(UserInfoModel userInfoModel) async {
-    return await apiClient.postData(AppConstants.UPDATE_PROFILE_URI, {'phone_or_email': userInfoModel.fName, 'otp': userInfoModel.lName,
+    return await apiClient.postData(AppConstants.updateProfileUri, {'phone_or_email': userInfoModel.fName, 'otp': userInfoModel.lName,
       'password': userInfoModel.email, 'confirm_password': userInfoModel.phone});
   }
 
   Future<Response> deleteUser() async {
-    return await apiClient.deleteData(AppConstants.CUSTOMER_REMOVE);
+    return await apiClient.deleteData(AppConstants.customerRemove);
   }
 
 }

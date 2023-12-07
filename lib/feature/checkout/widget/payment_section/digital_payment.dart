@@ -8,53 +8,59 @@ class DigitalPayment extends StatelessWidget {
   final String paymentGateway;
   final String? addressId;
 
-  DigitalPayment({Key? key, required this.paymentGateway, required this.addressId})
+  final bool redirectDirectlyPaymentScreen;
+
+  const DigitalPayment({Key? key, required this.paymentGateway,
+    required this.addressId,
+    this.redirectDirectlyPaymentScreen = true})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        if(Get.find<CartController>().cartList.length > 0){
-          AddressModel? _addressModel = Get.find<LocationController>().selectedAddress;
-          print(_addressModel);
+      onTap: redirectDirectlyPaymentScreen? () {
+        if(Get.find<CartController>().cartList.isNotEmpty){
+          AddressModel? addressModel = Get.find<LocationController>().selectedAddress;
 
-          String? addressID = _addressModel != null ?  _addressModel.id.toString() : addressId!;
+          String? addressID = addressModel != null ?  addressModel.id.toString() : addressId!;
 
           if(addressID != ''){
-            String _url = '';
-            String _schedule = DateConverter.dateToDateOnly(Get.find<ScheduleController>().selectedData);
-            String _userId = Get.find<UserController>().userInfoModel.id!;
+            String url = '';
+            String schedule = DateConverter.dateToDateOnly(Get.find<ScheduleController>().selectedData);
+            String userId = Get.find<UserController>().userInfoModel.id!;
             String hostname = html.window.location.hostname!;
             String protocol = html.window.location.protocol;
             String port = html.window.location.port;
-            _url = '${AppConstants.BASE_URL}/payment/${paymentGateway.replaceAll('_', '-')}/pay?access_token=${base64Url.encode(utf8.encode(_userId))}&&zone_id=${Get.find<LocationController>().getUserAddress()!.zoneId}'
-                '&&service_schedule=$_schedule&&service_address_id=$addressID';
+
+            url = '${AppConstants.baseUrl}/payment/${paymentGateway.replaceAll('_', '-')}/pay?access_token=${base64Url.encode(utf8.encode(userId))}&&zone_id=${Get.find<LocationController>().getUserAddress()!.zoneId}'
+                  '&&service_schedule=$schedule&&service_address_id=$addressID';
 
             if (GetPlatform.isWeb) {
-              _url = '$_url&&callback=$protocol//$hostname:$port${RouteHelper.checkout}';
+              url = '$url&&callback=$protocol//$hostname:$port${RouteHelper.checkout}';
 
-              printLog("url_with_digital_payment:$_url");
-              html.window.open(_url, "_self");
+              printLog("url_with_digital_payment:$url");
+              html.window.open(url, "_self");
             } else {
-              _url = '$_url&&callback=${AppConstants.BASE_URL}';
-              printLog("url_with_digital_payment_mobile:$_url");
-              Get.to(()=> PaymentScreen(url:_url));
+              url = '$url&&callback=${AppConstants.baseUrl}';
+              printLog("url_with_digital_payment_mobile:$url");
+              Get.to(()=> PaymentScreen(url:url));
             }
           }
         }else{
           Get.offAllNamed(RouteHelper.getInitialRoute());
       }
-      },
+      }: null,
       child: Card(
         color: Theme.of(context).primaryColorLight,
-        margin: const EdgeInsets.symmetric(horizontal: 20),
+        margin: const EdgeInsets.symmetric(horizontal: 7),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_SMALL,horizontal: Dimensions.PADDING_SIZE_SMALL),
-          child: Image.asset(paymentImage[paymentGateway]),
+        child: Center(
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall,horizontal: Dimensions.paddingSizeSmall),
+            child: Image.asset(paymentImage[paymentGateway],fit: BoxFit.cover,),
+          ),
         ),
       ),
     );

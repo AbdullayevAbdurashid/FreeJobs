@@ -9,11 +9,11 @@ class NotificationItem extends StatelessWidget {
     return InkWell(
       onTap: (){
         Get.bottomSheet(Dialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL)),
-          insetPadding: EdgeInsets.all(30),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimensions.radiusSmall)),
+          insetPadding: const EdgeInsets.all(30),
           clipBehavior: Clip.antiAliasWithSaveLayer,
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL, vertical: Dimensions.PADDING_SIZE_SMALL,),
+            padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall, vertical: Dimensions.paddingSizeSmall,),
             height: 500.0,
             width: Get.width,
             child: Column(
@@ -32,7 +32,7 @@ class NotificationItem extends StatelessWidget {
         ));
       },
       child: Container(
-        padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
+        padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

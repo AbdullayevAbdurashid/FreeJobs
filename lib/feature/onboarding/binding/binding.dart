@@ -6,5 +6,4 @@ class OnBoardBinding extends Bindings{
   void dependencies() async {
     Get.lazyPut(() => OnBoardController());
   }
-
 }

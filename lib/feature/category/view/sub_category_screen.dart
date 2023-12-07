@@ -28,7 +28,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        endDrawer:ResponsiveHelper.isDesktop(context) ? MenuDrawer():null,
+        endDrawer:ResponsiveHelper.isDesktop(context) ? const MenuDrawer():null,
         appBar: CustomAppBar(title: widget.categoryTitle,),
       body: GetBuilder<CategoryController>(
         initState: (state){
@@ -38,19 +38,19 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
         builder: (categoryController){
 
           return FooterBaseView(
-            isCenter: (categoryController.subCategoryList != null &&  categoryController.subCategoryList!.length == 0),
+            isCenter: (categoryController.subCategoryList != null &&  categoryController.subCategoryList!.isEmpty),
             child: SizedBox(
-              width: Dimensions.WEB_MAX_WIDTH,
+              width: Dimensions.webMaxWidth,
               child: CustomScrollView(
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 slivers: [
                   SliverToBoxAdapter(
                     child: SizedBox(height:
-                    ResponsiveHelper.isDesktop(context)?Dimensions.PADDING_SIZE_EXTRA_LARGE:0,
+                    ResponsiveHelper.isDesktop(context)?Dimensions.paddingSizeExtraLarge:0,
                     ),
                   ),
-                  SubCategoryView(isScrollable: true,),
+                  const SubCategoryView(isScrollable: true,),
                 ],
               ),
             ),

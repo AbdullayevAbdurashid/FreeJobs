@@ -11,10 +11,10 @@ class ReviewBody {
         required String rating,
         required String comment,
       }) {
-    this._bookingID = bookingID;
-    this._serviceID = serviceID;
-    this._rating = rating;
-    this._comment = comment;
+    _bookingID = bookingID;
+    _serviceID = serviceID;
+    _rating = rating;
+    _comment = comment;
   }
 
   ReviewBody.fromJson(Map<String, dynamic> json) {
@@ -25,11 +25,11 @@ class ReviewBody {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['booking_id'] = this._bookingID;
-    data['service_id'] = this._serviceID;
-    data['review_comment'] = this._comment;
-    data['review_rating'] = this._rating;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['booking_id'] = _bookingID;
+    data['service_id'] = _serviceID;
+    data['review_comment'] = _comment;
+    data['review_rating'] = _rating;
     return data;
   }
 }

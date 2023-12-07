@@ -28,9 +28,9 @@ class _EditProfileGeneralInfoState extends State<EditProfileGeneralInfo> {
 
           Scrollbar(
             child: SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT),
+                padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
                 child: Form(
                   key: updateProfileKey,
                   child: Column(
@@ -48,7 +48,7 @@ class _EditProfileGeneralInfoState extends State<EditProfileGeneralInfo> {
                             return FormValidation().isValidLength(value!);
                           }),
 
-                      SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
+                      const SizedBox(height: Dimensions.paddingSizeDefault),
                       CustomTextField(
                           title: 'last_name'.tr,
                           hintText: 'last_name'.tr,
@@ -62,7 +62,7 @@ class _EditProfileGeneralInfoState extends State<EditProfileGeneralInfo> {
                             return FormValidation().isValidLength(value!);
                           }),
 
-                      SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
+                      const SizedBox(height: Dimensions.paddingSizeLarge),
                       InkWell(
                         onTap: (){
                           customSnackBar('email_is_not_editable'.tr);
@@ -81,7 +81,7 @@ class _EditProfileGeneralInfoState extends State<EditProfileGeneralInfo> {
                               }),
                         ),
                       ),
-                      SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+                      const SizedBox(height: Dimensions.paddingSizeSmall),
                       CustomTextField(
                         title: 'phone'.tr,
                         hintText: 'enter_phone_number'.tr,
@@ -89,14 +89,14 @@ class _EditProfileGeneralInfoState extends State<EditProfileGeneralInfo> {
                         inputType: TextInputType.phone,
                         focusNode: _phoneWithCountry,
                         countryDialCode: Get.find<EditProfileTabController>().countryDialCode,
-                        onCountryChanged: (CountryCode countryCode) =>
+                        onCountryChanged: (countryCode) =>
                         Get.find<EditProfileTabController>().countryDialCode =
                         countryCode.dialCode!,
                       ),
                       SizedBox(
                         height: context.height * 0.16,
                       ),
-                      SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
+                      const SizedBox(height: Dimensions.paddingSizeDefault),
                     ],
                   ),
                 ),
@@ -104,16 +104,16 @@ class _EditProfileGeneralInfoState extends State<EditProfileGeneralInfo> {
             ),
           ),
           Positioned(
-            bottom: Dimensions.PADDING_SIZE_EXTRA_MORE_LARGE,
-            left: Dimensions.PADDING_SIZE_DEFAULT,
-            right: Dimensions.PADDING_SIZE_DEFAULT,
+            bottom: Dimensions.paddingSizeExtraMoreLarge,
+            left: Dimensions.paddingSizeDefault,
+            right: Dimensions.paddingSizeDefault,
             child:
             editProfileTabController.isLoading
-                ? Center(child: CircularProgressIndicator())
+                ? const Center(child: CircularProgressIndicator())
                 :CustomButton(
               fontSize: Dimensions.fontSizeDefault,
               width: Get.width,
-              radius: Dimensions.RADIUS_DEFAULT,
+              radius: Dimensions.radiusDefault,
               buttonText: 'update_information'.tr,
               onPressed: () {
                 if (updateProfileKey.currentState!.validate()) {
@@ -132,7 +132,7 @@ class _EditProfileGeneralInfoState extends State<EditProfileGeneralInfo> {
       return Container(
         height: 120,
         width: Get.width,
-        margin: EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_SMALL),
+        margin: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall),
         child: Center(
           child: Stack(
             alignment: AlignmentDirectional.center,
@@ -157,12 +157,10 @@ class _EditProfileGeneralInfoState extends State<EditProfileGeneralInfo> {
                       height: 100,
                       width: 100,
                       fit: BoxFit.cover,
-                      image: Get.find<SplashController>()
+                      image: "${Get.find<SplashController>()
                           .configModel
                           .content!
-                          .imageBaseUrl! +
-                          "/user/profile_image/" +
-                          '${Get.find<UserController>().userInfoModel.image!}')
+                          .imageBaseUrl!}/user/profile_image/${Get.find<UserController>().userInfoModel.image!}")
                       : kIsWeb
                       ? Image.network(editProfileTabController.pickedProfileImageFile!.path,
                       height: 100.0, width: 100.0, fit: BoxFit.cover)
@@ -176,7 +174,6 @@ class _EditProfileGeneralInfoState extends State<EditProfileGeneralInfo> {
                   color: Theme.of(Get.context!).cardColor,
                 ),
                 onTap: () {
-                  print("OnPressed");
                   Get.find<EditProfileTabController>().pickProfileImage();
 
                   },

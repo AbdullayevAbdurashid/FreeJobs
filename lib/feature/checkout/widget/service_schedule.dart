@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:demandium/core/core_export.dart';
 
 class ServiceSchedule extends GetView<ScheduleController> {
-  ServiceSchedule({Key? key}) : super(key: key);
+  const ServiceSchedule({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -11,12 +11,12 @@ class ServiceSchedule extends GetView<ScheduleController> {
       builder: (scheduleController){
         return  Column(
           children: [
-            SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,),
+            const SizedBox(height: Dimensions.paddingSizeDefault,),
             Text("service_schedule".tr, style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault)),
-            SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
+            const SizedBox(height: Dimensions.paddingSizeDefault),
             Container(
               height: 70,
-              padding:  EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT),
+              padding:  const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
               width: Get.width,
               color: Theme.of(context).hoverColor,
               child: Center(
@@ -34,13 +34,13 @@ class ServiceSchedule extends GetView<ScheduleController> {
                                 style: ubuntuMedium.copyWith(
                                     color: Theme.of(context).colorScheme.primary,
                                     fontSize: Dimensions.fontSizeOverLarge),),
-                              Text("${DateConverter.stringToLocalDateOnly(scheduleController.selectedData.toString()).substring(2)}",style: ubuntuRegular.copyWith(
+                              Text(DateConverter.stringToLocalDateOnly(scheduleController.selectedData.toString()).substring(2),style: ubuntuRegular.copyWith(
                                 color: Theme.of(context).colorScheme.primary,
                               ),),
                             ],
                           ),
                           const SizedBox(
-                            width: Dimensions.PADDING_SIZE_DEFAULT,
+                            width: Dimensions.paddingSizeDefault,
                           ),
                           Container(
                             height: 40,
@@ -48,7 +48,7 @@ class ServiceSchedule extends GetView<ScheduleController> {
                             color: Theme.of(context).colorScheme.primary,
                           ),
                           const SizedBox(
-                            width: Dimensions.PADDING_SIZE_DEFAULT,
+                            width: Dimensions.paddingSizeDefault,
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,7 +58,7 @@ class ServiceSchedule extends GetView<ScheduleController> {
                                 DateConverter.dateToWeek(scheduleController.selectedData),
                                 style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
                               ),
-                              SizedBox(height: Dimensions.PADDING_SIZE_MINI,),
+                              const SizedBox(height: Dimensions.paddingSizeMini,),
                               Text(
                                 DateConverter.dateToTimeOnly(scheduleController.selectedData),
                                 style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
@@ -77,7 +77,7 @@ class ServiceSchedule extends GetView<ScheduleController> {
                 ),
               ),
             ),
-            const SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
+            const SizedBox(height: Dimensions.paddingSizeDefault),
           ],
         );
       },

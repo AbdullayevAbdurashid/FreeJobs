@@ -37,7 +37,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldState,
-      endDrawer:ResponsiveHelper.isDesktop(context) ? MenuDrawer():null,
+      endDrawer:ResponsiveHelper.isDesktop(context) ? const MenuDrawer():null,
       appBar: CustomAppBar(centerTitle: false, title: 'service_details'.tr,showCart: true,),
       body: GetBuilder<ServiceDetailsController>(
           initState: (state) {
@@ -54,37 +54,37 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
             if(serviceController.service != null){
               if(serviceController.service!.id != null){
                 Service? service = serviceController.service;
-                Discount _discount = PriceConverter.discountCalculation(service!);
-                double _lowestPrice = 0.0;
+                Discount discount = PriceConverter.discountCalculation(service!);
+                double lowestPrice = 0.0;
                 if(service.variationsAppFormat!.zoneWiseVariations != null){
-                  _lowestPrice = service.variationsAppFormat!.zoneWiseVariations![0].price!.toDouble();
+                  lowestPrice = service.variationsAppFormat!.zoneWiseVariations![0].price!.toDouble();
                   for (var i = 0; i < service.variationsAppFormat!.zoneWiseVariations!.length; i++) {
-                    if (service.variationsAppFormat!.zoneWiseVariations![i].price! < _lowestPrice) {
-                      _lowestPrice = service.variationsAppFormat!.zoneWiseVariations![i].price!.toDouble();
+                    if (service.variationsAppFormat!.zoneWiseVariations![i].price! < lowestPrice) {
+                      lowestPrice = service.variationsAppFormat!.zoneWiseVariations![i].price!.toDouble();
                     }
                   }
                 }
                 return  FooterBaseView(
                   isScrollView:ResponsiveHelper.isMobile(context) ? false: true,
                   child: SizedBox(
-                    width: Dimensions.WEB_MAX_WIDTH,
+                    width: Dimensions.webMaxWidth,
                     child: DefaultTabController(
-                      length: Get.find<ServiceDetailsController>().service!.faqs!.length > 0 ? 3 :2,
+                      length: Get.find<ServiceDetailsController>().service!.faqs!.isNotEmpty ? 3 :2,
                       child: Column(
                         children: [
                           if(!ResponsiveHelper.isMobile(context) && !ResponsiveHelper.isTab(context))
-                          SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,),
+                          const SizedBox(height: Dimensions.paddingSizeDefault,),
                           Stack(
                             children: [
                               Column(
                                 children: [
                                   ClipRRect(
-                                    borderRadius: BorderRadius.all((!ResponsiveHelper.isMobile(context) && !ResponsiveHelper.isTab(context)) ?  Radius.circular(8): Radius.circular(0.0)),
+                                    borderRadius: BorderRadius.all((!ResponsiveHelper.isMobile(context) && !ResponsiveHelper.isTab(context)) ?  const Radius.circular(8): const Radius.circular(0.0)),
                                     child: Stack(
                                       children: [
                                         Center(
-                                          child: Container(
-                                            width: Dimensions.WEB_MAX_WIDTH,
+                                          child: SizedBox(
+                                            width: Dimensions.webMaxWidth,
                                             height: ResponsiveHelper.isDesktop(context) ? 280:150,
                                             child: CustomImage(
                                               image: '${Get.find<SplashController>().configModel.content!.imageBaseUrl!}/service/${service.coverImage}',
@@ -93,7 +93,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                                         ),
                                         Center(
                                           child: Container(
-                                            width: Dimensions.WEB_MAX_WIDTH,
+                                            width: Dimensions.webMaxWidth,
                                             height: ResponsiveHelper.isDesktop(context) ? 280:150,
                                             decoration: BoxDecoration(
                                                 color: Colors.black.withOpacity(0.6)
@@ -101,9 +101,9 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                                           ),
                                         ),
                                         Container(
-                                          width: Dimensions.WEB_MAX_WIDTH,
+                                          width: Dimensions.webMaxWidth,
                                           height: ResponsiveHelper.isDesktop(context) ? 280:150,
-                                          padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_LARGE),
+                                          padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge),
                                           child: Center(child: Text(service.name ?? '',
                                               maxLines: 2,
                                               overflow: TextOverflow.ellipsis,
@@ -112,14 +112,14 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                                       ],
                                     ),
                                   ),
-                                  SizedBox(height: 120,)
+                                  const SizedBox(height: 120,)
                                 ],
                               ),
                               Positioned(
                                 bottom: -2,
-                                  left: Dimensions.PADDING_SIZE_SMALL,
-                                  right: Dimensions.PADDING_SIZE_SMALL,
-                                  child: ServiceInformationCard(discount: _discount,service: service,lowestPrice: _lowestPrice)),
+                                  left: Dimensions.paddingSizeSmall,
+                                  right: Dimensions.paddingSizeSmall,
+                                  child: ServiceInformationCard(discount: discount,service: service,lowestPrice: lowestPrice)),
                             ],
                           ),
                           //Tab Bar
@@ -132,7 +132,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                                   child: Container(
                                     width: ResponsiveHelper.isMobile(context) ?null : Get.width / 3,
                                     color: Get.isDarkMode?Theme.of(context).scaffoldBackgroundColor:Theme.of(context).cardColor,
-                                    padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT),
+                                    padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
                                     child: DecoratedTabBar(
                                       decoration: BoxDecoration(
                                         border: Border(
@@ -143,7 +143,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                                         ),
                                       ),
                                       tabBar: TabBar(
-                                          padding: EdgeInsets.only(top: Dimensions.PADDING_SIZE_MINI),
+                                          padding: const EdgeInsets.only(top: Dimensions.paddingSizeMini),
                                           unselectedLabelColor: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.4),
                                           controller: serviceTabController.controller!,
                                           labelColor:Get.isDarkMode? Colors.white : Theme.of(context).primaryColor,
@@ -151,8 +151,8 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                                             fontSize: Dimensions.fontSizeSmall,
                                           ),
                                           indicatorColor: Theme.of(context).colorScheme.primary,
-                                          indicatorPadding: EdgeInsets.only(top: Dimensions.PADDING_SIZE_SMALL),
-                                          labelPadding: EdgeInsets.only(bottom: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                                          indicatorPadding: const EdgeInsets.only(top: Dimensions.paddingSizeSmall),
+                                          labelPadding: const EdgeInsets.only(bottom: Dimensions.paddingSizeExtraSmall),
                                           indicatorWeight: 2,
                                           onTap: (int? index) {
                                             switch (index) {
@@ -187,8 +187,8 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                                 controller: controller.controller,
                                 children: [
                                   SingleChildScrollView(child: ServiceOverview(description:service.description!)),
-                                  if(Get.find<ServiceDetailsController>().service!.faqs!.length > 0)
-                                    SingleChildScrollView(child: ServiceDetailsFaqSection()),
+                                  if(Get.find<ServiceDetailsController>().service!.faqs!.isNotEmpty)
+                                    const SingleChildScrollView(child: ServiceDetailsFaqSection()),
                                   if(controller.reviewList != null)
                                     SingleChildScrollView(
                                       child: ServiceDetailsReview(
@@ -196,7 +196,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                                         reviewList: controller.reviewList!, rating : controller.rating,),
                                     )
                                   else
-                                    EmptyReviewWidget()
+                                    const EmptyReviewWidget()
                                 ],
                               );
 
@@ -205,7 +205,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                                   child: tabBarView,
                                 );
                               }else{
-                                return Container(
+                                return SizedBox(
                                   height: 500,
                                   child: tabBarView,);
                               }
@@ -217,10 +217,10 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                   ),
                 );
               }else{
-                return NoDataScreen(text: 'no_service_available'.tr,type: NoDataType.SERVICE,);
+                return NoDataScreen(text: 'no_service_available'.tr,type: NoDataType.service,);
               }
             }else{
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             }
           }),
     );

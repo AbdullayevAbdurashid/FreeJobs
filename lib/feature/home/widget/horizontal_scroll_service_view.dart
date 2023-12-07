@@ -6,12 +6,12 @@ import 'package:demandium/core/core_export.dart';
 class HorizontalScrollServiceView extends GetView<ServiceController> {
   final String? fromPage;
   final List<Service>? serviceList;
-  HorizontalScrollServiceView({required this.fromPage,required this.serviceList});
+  const HorizontalScrollServiceView({super.key, required this.fromPage,required this.serviceList});
   @override
   Widget build(BuildContext context) {
-    ScrollController _scrollController = ScrollController();
-    if(serviceList != null && serviceList!.length == 0){
-      return SizedBox();
+    ScrollController scrollController = ScrollController();
+    if(serviceList != null && serviceList!.isEmpty){
+      return const SizedBox();
     }else{
       if(serviceList!= null){
         return Stack(
@@ -25,209 +25,207 @@ class HorizontalScrollServiceView extends GetView<ServiceController> {
                 color: Theme.of(context).primaryColor,
               ),
             ),
-            Container(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(
-                      Dimensions.PADDING_SIZE_DEFAULT,
-                      Dimensions.PADDING_SIZE_SMALL,
-                      Dimensions.PADDING_SIZE_DEFAULT,
-                      Dimensions.PADDING_SIZE_EXTRA_SMALL,
-                    ),
-                    child: TitleWidget(
-                      title: fromPage!,
-                      onTap: () => Get.toNamed(RouteHelper.allServiceScreenRoute(fromPage!)),
-                    ),
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(
+                    Dimensions.paddingSizeDefault,
+                    Dimensions.paddingSizeSmall,
+                    Dimensions.paddingSizeDefault,
+                    Dimensions.paddingSizeExtraSmall,
                   ),
-                  SizedBox(
-                    height: Get.find<LocalizationController>().isLtr ?ResponsiveHelper.isMobile(context) ? 260 :270 :  270,
-                    child:ListView.builder(
-                      controller: _scrollController,
-                      scrollDirection: Axis.horizontal,
-                      padding: EdgeInsets.only(left: Dimensions.PADDING_SIZE_DEFAULT,bottom: Dimensions.PADDING_SIZE_EXTRA_SMALL,top: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                      itemCount: serviceList!.length > 10 ? 10 : serviceList!.length,
-                      itemBuilder: (context, index){
-                        controller.getServiceDiscount(serviceList![index]);
-                        Discount _discountModel =  PriceConverter.discountCalculation(serviceList![index]);
-                        Service service = serviceList!.elementAt(index);
-                        double _lowestPrice = 0.0;
-                        if(service.variationsAppFormat!.zoneWiseVariations != null){
-                          _lowestPrice = service.variationsAppFormat!.zoneWiseVariations![0].price!.toDouble();
-                          for (var i = 0; i < service.variationsAppFormat!.zoneWiseVariations!.length; i++) {
-                            if (service.variationsAppFormat!.zoneWiseVariations![i].price! < _lowestPrice) {
-                              _lowestPrice = service.variationsAppFormat!.zoneWiseVariations![i].price!.toDouble();
-                            }
+                  child: TitleWidget(
+                    title: fromPage!,
+                    onTap: () => Get.toNamed(RouteHelper.allServiceScreenRoute(fromPage!)),
+                  ),
+                ),
+                SizedBox(
+                  height: Get.find<LocalizationController>().isLtr ?ResponsiveHelper.isMobile(context) ? 260 :270 :  270,
+                  child:ListView.builder(
+                    controller: scrollController,
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.only(left: Dimensions.paddingSizeDefault,bottom: Dimensions.paddingSizeExtraSmall,top: Dimensions.paddingSizeExtraSmall),
+                    itemCount: serviceList!.length > 10 ? 10 : serviceList!.length,
+                    itemBuilder: (context, index){
+                      controller.getServiceDiscount(serviceList![index]);
+                      Discount discountModel =  PriceConverter.discountCalculation(serviceList![index]);
+                      Service service = serviceList!.elementAt(index);
+                      double lowestPrice = 0.0;
+                      if(service.variationsAppFormat!.zoneWiseVariations != null){
+                        lowestPrice = service.variationsAppFormat!.zoneWiseVariations![0].price!.toDouble();
+                        for (var i = 0; i < service.variationsAppFormat!.zoneWiseVariations!.length; i++) {
+                          if (service.variationsAppFormat!.zoneWiseVariations![i].price! < lowestPrice) {
+                            lowestPrice = service.variationsAppFormat!.zoneWiseVariations![i].price!.toDouble();
                           }
                         }
-                        return Padding(
-                          padding: EdgeInsets.only(right: Dimensions.PADDING_SIZE_DEFAULT),
-                          child: Stack(
-                            alignment:Get.find<LocalizationController>().isLtr ?  Alignment.bottomRight : Alignment.bottomLeft,
-                            children: [
-                              Stack(
-                                children: [
-                                  Container(
-                                    width: Get.width / 2.3,
-                                    decoration: BoxDecoration(
-                                        color:  Theme.of(context).cardColor,
-                                        borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
-                                        boxShadow:Get.isDarkMode ?null: cardShadow
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
-                                      child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            //image and service name
-                                            Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Stack(
-                                                  children: [
-                                                    ClipRRect(
-                                                      borderRadius: BorderRadius.all(Radius.circular(Dimensions.RADIUS_SMALL)),
-                                                      child: CustomImage(
-                                                        image: '${Get.find<SplashController>().configModel.content!.imageBaseUrl!}/service/${service.thumbnail}',
-                                                        fit: BoxFit.cover,
-                                                        width: MediaQuery.of(context).size.width/2.5,
-                                                        height: 135,
+                      }
+                      return Padding(
+                        padding: const EdgeInsets.only(right: Dimensions.paddingSizeDefault),
+                        child: Stack(
+                          alignment:Get.find<LocalizationController>().isLtr ?  Alignment.bottomRight : Alignment.bottomLeft,
+                          children: [
+                            Stack(
+                              children: [
+                                Container(
+                                  width: Get.width / 2.3,
+                                  decoration: BoxDecoration(
+                                      color:  Theme.of(context).cardColor,
+                                      borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                                      boxShadow:Get.isDarkMode ?null: cardShadow
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                                    child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          //image and service name
+                                          Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Stack(
+                                                children: [
+                                                  ClipRRect(
+                                                    borderRadius: const BorderRadius.all(Radius.circular(Dimensions.radiusSmall)),
+                                                    child: CustomImage(
+                                                      image: '${Get.find<SplashController>().configModel.content!.imageBaseUrl!}/service/${service.thumbnail}',
+                                                      fit: BoxFit.cover,
+                                                      width: MediaQuery.of(context).size.width/2.5,
+                                                      height: 135,
+                                                    ),
+                                                  ),
+                                                  discountModel.discountAmount! > 0 ?
+                                                  Align(
+                                                    alignment: Alignment.centerLeft,
+                                                    child: Container(
+                                                      padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
+                                                      decoration: BoxDecoration(
+                                                        color: Theme.of(context).colorScheme.error,
+                                                        borderRadius: const BorderRadius.only(
+                                                          bottomRight: Radius.circular(Dimensions.radiusDefault),
+                                                          topLeft: Radius.circular(Dimensions.radiusSmall),
+                                                        ),
+                                                      ),
+                                                      child: Directionality(
+                                                        textDirection: TextDirection.rtl,
+                                                        child: Text(
+                                                          PriceConverter.percentageOrAmount('${discountModel.discountAmount}','${discountModel.discountAmountType}'),
+                                                          style: ubuntuRegular.copyWith(color: Colors.white),
+                                                        ),
                                                       ),
                                                     ),
-                                                    _discountModel.discountAmount! > 0 ?
-                                                    Align(
-                                                      alignment: Alignment.centerLeft,
-                                                      child: Container(
-                                                        padding: EdgeInsets.all(Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                                                        decoration: BoxDecoration(
-                                                          color: Theme.of(context).colorScheme.error,
-                                                          borderRadius: BorderRadius.only(
-                                                            bottomRight: Radius.circular(Dimensions.RADIUS_DEFAULT),
-                                                            topLeft: Radius.circular(Dimensions.RADIUS_SMALL),
-                                                          ),
-                                                        ),
-                                                        child: Directionality(
-                                                          textDirection: TextDirection.rtl,
-                                                          child: Text(
-                                                            PriceConverter.percentageOrAmount('${_discountModel.discountAmount}','${_discountModel.discountAmountType}'),
-                                                            style: ubuntuRegular.copyWith(color: Colors.white),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ):
-                                                    SizedBox(),
-                                                  ],
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_EIGHT),
-                                                  child: Text(
-                                                      service.name!,
-                                                      style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault),
-                                                      maxLines: 1, overflow: TextOverflow.ellipsis, textAlign: TextAlign.center),
-                                                ),
-                                              ],
-                                            ),
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                mainAxisSize: MainAxisSize.min,
-                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                  ):
+                                                  const SizedBox(),
+                                                ],
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.all(Dimensions.paddingSizeEight),
+                                                child: Text(
+                                                    service.name!,
+                                                    style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault),
+                                                    maxLines: 1, overflow: TextOverflow.ellipsis, textAlign: TextAlign.center),
+                                              ),
+                                            ],
+                                          ),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment: MainAxisAlignment.center,
 
-                                                children: [
-                                                  SizedBox(height:ResponsiveHelper.isMobile(context) ? Dimensions.PADDING_SIZE_MINI: Dimensions.PADDING_SIZE_EIGHT,),
-                                                  Text(
-                                                    'starts_from'.tr,
-                                                    style:  ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor),),
-                                                  Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children: [
-                                                      SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                                                      if(_discountModel.discountAmount! > 0)
-                                                        Directionality(
-                                                          textDirection: TextDirection.ltr,
-                                                          child: Text(
-                                                            PriceConverter.convertPrice(_lowestPrice),
-                                                            style: ubuntuRegular.copyWith(
-                                                                fontSize: Dimensions.fontSizeSmall,
-                                                                decoration: TextDecoration.lineThrough,
-                                                                color: Theme.of(context).colorScheme.error.withOpacity(.8)),
-                                                          ),
-                                                        ),
-                                                      SizedBox(height: Dimensions.PADDING_SIZE_MINI,),
-                                                      _discountModel.discountAmount! > 0?
-                                                      Directionality(
-                                                        textDirection: TextDirection.ltr,
-                                                        child: Text(PriceConverter.convertPrice(
-                                                            _lowestPrice,
-                                                            discount: _discountModel.discountAmount!.toDouble(),
-                                                            discountType: _discountModel.discountAmountType
-                                                        ),
-                                                          style: ubuntuRegular.copyWith(
-                                                              fontSize: Dimensions.PADDING_SIZE_DEFAULT,
-                                                              color: Get.isDarkMode? Theme.of(context).primaryColorLight: Theme.of(context).primaryColor),
-                                                        ),
-                                                      ):
+                                              children: [
+                                                SizedBox(height:ResponsiveHelper.isMobile(context) ? Dimensions.paddingSizeMini: Dimensions.paddingSizeEight,),
+                                                Text(
+                                                  'starts_from'.tr,
+                                                  style:  ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor),),
+                                                Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+                                                    if(discountModel.discountAmount! > 0)
                                                       Directionality(
                                                         textDirection: TextDirection.ltr,
                                                         child: Text(
-                                                          PriceConverter.convertPrice(_lowestPrice),
-                                                          style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeLarge, color: Get.isDarkMode? Theme.of(context).primaryColorLight: Theme.of(context).primaryColor),
+                                                          PriceConverter.convertPrice(lowestPrice),
+                                                          style: ubuntuRegular.copyWith(
+                                                              fontSize: Dimensions.fontSizeSmall,
+                                                              decoration: TextDecoration.lineThrough,
+                                                              color: Theme.of(context).colorScheme.error.withOpacity(.8)),
                                                         ),
                                                       ),
-                                                    ],
-                                                  )
-                                                ],
-                                              ),
+                                                    const SizedBox(height: Dimensions.paddingSizeMini,),
+                                                    discountModel.discountAmount! > 0?
+                                                    Directionality(
+                                                      textDirection: TextDirection.ltr,
+                                                      child: Text(PriceConverter.convertPrice(
+                                                          lowestPrice,
+                                                          discount: discountModel.discountAmount!.toDouble(),
+                                                          discountType: discountModel.discountAmountType
+                                                      ),
+                                                        style: ubuntuRegular.copyWith(
+                                                            fontSize: Dimensions.paddingSizeDefault,
+                                                            color: Get.isDarkMode? Theme.of(context).primaryColorLight: Theme.of(context).primaryColor),
+                                                      ),
+                                                    ):
+                                                    Directionality(
+                                                      textDirection: TextDirection.ltr,
+                                                      child: Text(
+                                                        PriceConverter.convertPrice(lowestPrice),
+                                                        style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeLarge, color: Get.isDarkMode? Theme.of(context).primaryColorLight: Theme.of(context).primaryColor),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                )
+                                              ],
                                             ),
-                                          ]),
-                                    ),),
-                                  Positioned.fill(
-                                    child: RippleButton(
-                                      onTap:() => Get.toNamed(RouteHelper.getServiceRoute(service.id!),
-                                      ),
-                                    ),)
-                                ],),
-                              Stack(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
-                                    child: Icon(
-                                        Icons.add,
-                                        color: Get.isDarkMode? Theme.of(context).primaryColorLight: Theme.of(context).primaryColor,
-                                        size: Dimensions.PADDING_SIZE_LARGE),
-                                  ),
-                                  Positioned.fill(
-                                    child: RippleButton(
-                                      onTap: () {
-                                        Get.find<CartController>().resetPreselectedProviderInfo();
-                                        showModalBottomSheet(
-                                          context: context,
-                                          useRootNavigator: true,
-                                          isScrollControlled: true,
-                                          builder: (context) => ServiceCenterDialog(service: service,),
-                                          backgroundColor: Colors.transparent
-
-                                      );},
+                                          ),
+                                        ]),
+                                  ),),
+                                Positioned.fill(
+                                  child: RippleButton(
+                                    onTap:() => Get.toNamed(RouteHelper.getServiceRoute(service.id!),
                                     ),
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    ) ,
-                  ),
-                  SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,)
-                ],
-              ),
+                                  ),)
+                              ],),
+                            Stack(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                                  child: Icon(
+                                      Icons.add,
+                                      color: Get.isDarkMode? Theme.of(context).primaryColorLight: Theme.of(context).primaryColor,
+                                      size: Dimensions.paddingSizeLarge),
+                                ),
+                                Positioned.fill(
+                                  child: RippleButton(
+                                    onTap: () {
+                                      Get.find<CartController>().resetPreselectedProviderInfo();
+                                      showModalBottomSheet(
+                                        context: context,
+                                        useRootNavigator: true,
+                                        isScrollControlled: true,
+                                        builder: (context) => ServiceCenterDialog(service: service,),
+                                        backgroundColor: Colors.transparent
+
+                                    );},
+                                  ),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ) ,
+                ),
+                const SizedBox(height: Dimensions.paddingSizeDefault,)
+              ],
             ),
           ],
         );
       }
       else{
-        return PopularServiceShimmer(enabled: true,);
+        return const PopularServiceShimmer(enabled: true,);
       }
     }
   }
@@ -251,7 +249,7 @@ class TsClip2 extends CustomClipper<Path> {
 
 class PopularServiceShimmer extends StatelessWidget {
   final bool enabled;
-  PopularServiceShimmer({required this.enabled});
+  const PopularServiceShimmer({super.key, required this.enabled});
 
   @override
   Widget build(BuildContext context) {
@@ -259,42 +257,42 @@ class PopularServiceShimmer extends StatelessWidget {
       height: 210,
       child: ListView.builder(
         shrinkWrap: true,
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         scrollDirection: Axis.horizontal,
-        padding: EdgeInsets.only(right: Dimensions.PADDING_SIZE_SMALL,left: Dimensions.PADDING_SIZE_SMALL,top: Dimensions.PADDING_SIZE_SMALL,),
+        padding: const EdgeInsets.only(right: Dimensions.paddingSizeSmall,left: Dimensions.paddingSizeSmall,top: Dimensions.paddingSizeSmall,),
         itemCount: 10,
         itemBuilder: (context, index){
           return Container(
             height: 80, width: Get.width / 2.3,
-            margin: EdgeInsets.only(right: Dimensions.PADDING_SIZE_SMALL,bottom: 10,top: 10),
-            padding: EdgeInsets.all(Dimensions.PADDING_SIZE_EXTRA_SMALL),
+            margin: const EdgeInsets.only(right: Dimensions.paddingSizeSmall,bottom: 10,top: 10),
+            padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
             decoration: BoxDecoration(
               color: Get.isDarkMode? Colors.grey[700]:Colors.white,
-              borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+              borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
               boxShadow: Get.isDarkMode?null:[BoxShadow(color: Colors.grey[300]!, blurRadius: 10, spreadRadius: 1)],
             ),
             child: Shimmer(
-              duration: Duration(seconds: 1),
-              interval: Duration(seconds: 1),
+              duration: const Duration(seconds: 1),
+              interval: const Duration(seconds: 1),
               enabled: enabled,
               child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
 
                 Container(
                   height: 70,
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                      borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                       color: Colors.grey[Get.find<ThemeController>().darkTheme ? 600 : 300]
                   ),
                 ),
 
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.all(Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                    padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
                     child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
                       Container(height: 15, width: 100, color: Colors.grey[Get.find<ThemeController>().darkTheme ? 600 : 300]),
-                      SizedBox(height: 5),
+                      const SizedBox(height: 5),
                       Container(height: 10, width: 130, color: Colors.grey[Get.find<ThemeController>().darkTheme ? 600 : 300]),
-                      SizedBox(height: 5),
+                      const SizedBox(height: 5),
                       Container(height: 10, width: 130, color: Colors.grey[Get.find<ThemeController>().darkTheme ? 600 : 300]),
 
                     ]),

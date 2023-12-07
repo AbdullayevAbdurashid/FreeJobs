@@ -10,11 +10,7 @@ class FeatheredCategoryView extends StatefulWidget {
 }
 
 class _FeatheredCategoryViewState extends State<FeatheredCategoryView> {
-  @override
-  void initState() {
-    super.initState();
-    Get.find<ServiceController>().getFeatherCategoryList(false);
-  }
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ServiceController>(builder: (serviceController){
@@ -29,16 +25,16 @@ class _FeatheredCategoryViewState extends State<FeatheredCategoryView> {
           return  Container(
             decoration: BoxDecoration(
               color: Theme.of(context).primaryColor.withOpacity(0.05),
-              borderRadius: BorderRadius.circular(Dimensions.RADIUS_DEFAULT),
+              borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
             ),
-            margin: EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-            padding: EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_SMALL,horizontal: Dimensions.PADDING_SIZE_DEFAULT),
+            margin: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall),
+            padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall,horizontal: Dimensions.paddingSizeDefault),
             child: Column(
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Padding(padding: EdgeInsets.only(bottom:ResponsiveHelper.isMobile(context)?Dimensions.PADDING_SIZE_SMALL:0,left: 7,right: 7),
+                    Padding(padding: EdgeInsets.only(bottom:ResponsiveHelper.isMobile(context)?Dimensions.paddingSizeSmall:0,left: 7,right: 7),
                       child: Text(serviceController.categoryList[categoryIndex].name??"", style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeExtraLarge)),
                     ),
                     InkWell(
@@ -71,13 +67,13 @@ class _FeatheredCategoryViewState extends State<FeatheredCategoryView> {
                     },
                   ),
                 ),
-                SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT)
+                const SizedBox(height: Dimensions.paddingSizeDefault)
               ],
             ),
           );
         },itemCount: serviceController.categoryList.length,
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           padding: EdgeInsets.zero,
         ),
       );

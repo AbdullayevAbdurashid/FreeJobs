@@ -6,14 +6,14 @@ class WalletTransactionModel {
   WalletTransactionModel({this.content});
 
   WalletTransactionModel.fromJson(Map<String, dynamic> json) {
-    content = json['content'] != null ? new Content.fromJson(json['content']) : null;
+    content = json['content'] != null ? Content.fromJson(json['content']) : null;
 
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.content != null) {
-      data['content'] = this.content!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (content != null) {
+      data['content'] = content!.toJson();
     }
     return data;
   }
@@ -28,15 +28,15 @@ class Content {
   Content.fromJson(Map<String, dynamic> json) {
     walletBalance = double.tryParse(json['wallet_balance'].toString());
     transactions = json['transactions'] != null
-        ? new Transactions.fromJson(json['transactions'])
+        ? Transactions.fromJson(json['transactions'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['wallet_balance'] = this.walletBalance;
-    if (this.transactions != null) {
-      data['transactions'] = this.transactions!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['wallet_balance'] = walletBalance;
+    if (transactions != null) {
+      data['transactions'] = transactions!.toJson();
     }
     return data;
   }

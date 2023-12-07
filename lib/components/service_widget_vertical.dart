@@ -9,7 +9,7 @@ class ServiceWidgetVertical extends StatelessWidget {
   final String fromType;
   final String fromPage;
 
-  ServiceWidgetVertical(
+  const ServiceWidgetVertical(
       {Key? key,
       required this.service,
       required this.isAvailable,
@@ -19,24 +19,24 @@ class ServiceWidgetVertical extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    num _lowestPrice = 0.0;
+    num lowestPrice = 0.0;
 
     if(fromType == 'fromCampaign'){
       if(service.variations != null){
-        _lowestPrice = service.variations![0].price!;
+        lowestPrice = service.variations![0].price!;
         for (var i = 0; i < service.variations!.length; i++) {
-          if (service.variations![i].price! < _lowestPrice) {
-            _lowestPrice = service.variations![i].price!;
+          if (service.variations![i].price! < lowestPrice) {
+            lowestPrice = service.variations![i].price!;
           }
         }
       }
     }else{
       if(service.variationsAppFormat != null){
         if(service.variationsAppFormat!.zoneWiseVariations != null){
-          _lowestPrice = service.variationsAppFormat!.zoneWiseVariations![0].price!;
+          lowestPrice = service.variationsAppFormat!.zoneWiseVariations![0].price!;
           for (var i = 0; i < service.variationsAppFormat!.zoneWiseVariations!.length; i++) {
-            if (service.variationsAppFormat!.zoneWiseVariations![i].price! < _lowestPrice) {
-              _lowestPrice = service.variationsAppFormat!.zoneWiseVariations![i].price!;
+            if (service.variationsAppFormat!.zoneWiseVariations![i].price! < lowestPrice) {
+              lowestPrice = service.variationsAppFormat!.zoneWiseVariations![i].price!;
             }
           }
         }
@@ -44,7 +44,7 @@ class ServiceWidgetVertical extends StatelessWidget {
     }
 
 
-    Discount _discountModel =  PriceConverter.discountCalculation(service);
+    Discount discountModel =  PriceConverter.discountCalculation(service);
     return Stack(
       alignment: Alignment.bottomRight,
       children: [
@@ -53,11 +53,11 @@ class ServiceWidgetVertical extends StatelessWidget {
             Container(
               decoration: BoxDecoration(
                 color: Theme.of(context).cardColor,
-                borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                 boxShadow:Get.isDarkMode ? null: cardShadow,
               ),
               child: Padding(
-                padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
+                padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -68,37 +68,37 @@ class ServiceWidgetVertical extends StatelessWidget {
                         Stack(
                           children: [
                             ClipRRect(
-                              borderRadius: BorderRadius.all(Radius.circular(Dimensions.RADIUS_SMALL)),
+                              borderRadius: const BorderRadius.all(Radius.circular(Dimensions.radiusSmall)),
                               child: CustomImage(
                                 image: '${Get.find<SplashController>().configModel.content!.imageBaseUrl!}/service/${service.thumbnail}',
                                 fit: BoxFit.cover,width: double.maxFinite,
-                                height: Dimensions.HOME_IMAGE_SIZE,
+                                height: Dimensions.homeImageSize,
                               ),
                             ),
-                            _discountModel.discountAmount! > 0 ?
+                            discountModel.discountAmount! > 0 ?
                             Align(
                               alignment: Alignment.topRight,
                               child: Container(
-                                padding: EdgeInsets.all(Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                                padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
                                 decoration: BoxDecoration(
                                   color: Theme.of(context).colorScheme.error,
-                                  borderRadius: BorderRadius.only(
-                                    bottomLeft: Radius.circular(Dimensions.RADIUS_DEFAULT),
-                                    topRight: Radius.circular(Dimensions.RADIUS_SMALL),
+                                  borderRadius: const BorderRadius.only(
+                                    bottomLeft: Radius.circular(Dimensions.radiusDefault),
+                                    topRight: Radius.circular(Dimensions.radiusSmall),
                                   ),
                                 ),
                                 child: Text(
-                                  PriceConverter.percentageOrAmount('${_discountModel.discountAmount}', '${_discountModel.discountAmountType}'),
+                                  PriceConverter.percentageOrAmount('${discountModel.discountAmount}', '${discountModel.discountAmountType}'),
                                   style: ubuntuRegular.copyWith(color: Theme.of(context).primaryColorLight),
                                 ),
                               ),
                             ) :
-                            SizedBox(),
+                            const SizedBox(),
                           ],
                         ),
-                        SizedBox(height: Dimensions.PADDING_SIZE_EIGHT,),
+                        const SizedBox(height: Dimensions.paddingSizeEight,),
                         Padding(
-                          padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                          padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
                           child: Text(
                             service.name!,
                             style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
@@ -119,34 +119,34 @@ class ServiceWidgetVertical extends StatelessWidget {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                if(_discountModel.discountAmount! > 0)
+                                if(discountModel.discountAmount! > 0)
                                   Directionality(
                                     textDirection: TextDirection.ltr,
                                     child: Text(
-                                      PriceConverter.convertPrice(_lowestPrice.toDouble()),
+                                      PriceConverter.convertPrice(lowestPrice.toDouble()),
                                       maxLines: 2,
                                       style: ubuntuRegular.copyWith(
                                           fontSize: Dimensions.fontSizeSmall,
                                           decoration: TextDecoration.lineThrough,
                                           color: Theme.of(context).colorScheme.error.withOpacity(.8)),),
                                   ),
-                                _discountModel.discountAmount! > 0?
+                                discountModel.discountAmount! > 0?
                                 Directionality(
                                   textDirection: TextDirection.ltr,
                                   child: Text(
                                     PriceConverter.convertPrice(
-                                        _lowestPrice.toDouble(),
-                                        discount: _discountModel.discountAmount!.toDouble(),
-                                        discountType: _discountModel.discountAmountType),
+                                        lowestPrice.toDouble(),
+                                        discount: discountModel.discountAmount!.toDouble(),
+                                        discountType: discountModel.discountAmountType),
                                     style: ubuntuMedium.copyWith(
-                                        fontSize: Dimensions.PADDING_SIZE_DEFAULT,
+                                        fontSize: Dimensions.paddingSizeDefault,
                                         color:  Get.isDarkMode? Theme.of(context).primaryColorLight: Theme.of(context).primaryColor),
                                   ),
                                 ):
                                 Directionality(
                                   textDirection: TextDirection.ltr,
                                   child: Text(
-                                    PriceConverter.convertPrice(_lowestPrice.toDouble()),
+                                    PriceConverter.convertPrice(lowestPrice.toDouble()),
                                     style: ubuntuMedium.copyWith(
                                         fontSize:Dimensions.fontSizeLarge,
                                         color: Get.isDarkMode? Theme.of(context).primaryColorLight: Theme.of(context).primaryColor),
@@ -176,8 +176,8 @@ class ServiceWidgetVertical extends StatelessWidget {
             child: Stack(
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
-                  child: Icon(Icons.add, color: Get.isDarkMode? Theme.of(context).primaryColorLight: Theme.of(context).primaryColor, size: Dimensions.PADDING_SIZE_LARGE),
+                  padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                  child: Icon(Icons.add, color: Get.isDarkMode? Theme.of(context).primaryColorLight: Theme.of(context).primaryColor, size: Dimensions.paddingSizeLarge),
                 ),
                 Positioned.fill(child: RippleButton(onTap: () {
                   if(fromType!="provider_details"){

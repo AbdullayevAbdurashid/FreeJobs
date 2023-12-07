@@ -7,7 +7,7 @@ class CampaignRepo {
   CampaignRepo({required this.apiClient});
 
   Future<Response?> getcampaignList() async {
-    return await apiClient.getData(AppConstants.CAMPAIGN_URI);
+    return await apiClient.getData(AppConstants.campaignUri);
   }
 
 }

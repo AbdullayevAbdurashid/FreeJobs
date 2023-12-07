@@ -3,7 +3,9 @@ import 'package:demandium/feature/home/web/web_recently_service_view.dart';
 import 'package:demandium/feature/home/web/web_recommended_service_view.dart';
 import 'package:demandium/feature/home/web/web_trending_service_view.dart';
 import 'package:demandium/feature/home/web/web_feathered_category_view.dart';
+import 'package:demandium/feature/home/widget/home_create_post_view.dart';
 import 'package:demandium/feature/home/widget/recommended_provider.dart';
+import 'package:demandium/feature/provider/controller/provider_booking_controller.dart';
 import 'package:get/get.dart';
 import 'package:demandium/components/footer_view.dart';
 import 'package:demandium/components/paginated_list_view.dart';
@@ -13,81 +15,105 @@ import 'package:demandium/feature/home/widget/category_view.dart';
 
 class WebHomeScreen extends StatelessWidget {
   final ScrollController? scrollController;
-  WebHomeScreen({required this.scrollController});
+  const WebHomeScreen({super.key, required this.scrollController});
 
   @override
   Widget build(BuildContext context) {
     Get.find<BannerController>().setCurrentIndex(0, false);
     return CustomScrollView(
       controller: scrollController,
-      physics: AlwaysScrollableScrollPhysics(),
+      physics: const AlwaysScrollableScrollPhysics(),
       slivers: [
-        SliverToBoxAdapter(child: SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_LARGE,)),
+        const SliverToBoxAdapter(child: SizedBox(height: Dimensions.paddingSizeExtraLarge,)),
         SliverToBoxAdapter(
           child: Center(
-            child: SizedBox(width: Dimensions.WEB_MAX_WIDTH,
+            child: SizedBox(width: Dimensions.webMaxWidth,
               child: WebBannerView(),
             ),
           ),
         ),
-        SliverToBoxAdapter(child: SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,),),
-        SliverToBoxAdapter(child: CategoryView(),),
-        SliverToBoxAdapter(
+        const SliverToBoxAdapter(child: SizedBox(height: Dimensions.paddingSizeDefault,),),
+        const SliverToBoxAdapter(child: CategoryView(),),
+        const SliverToBoxAdapter(
           child: Center(
-            child: SizedBox(width: Dimensions.WEB_MAX_WIDTH,
+            child: SizedBox(width: Dimensions.webMaxWidth,
               child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 WebRecommendedServiceView(),
-                SizedBox(width: Dimensions.PADDING_SIZE_LARGE,),
+                SizedBox(width: Dimensions.paddingSizeLarge,),
                 Expanded(child: WebPopularServiceView()),
               ],),
             ),
           ),
         ),
-        if(Get.find<AuthController>().isLoggedIn())
+
+        const SliverToBoxAdapter(
+          child: SizedBox(height: Dimensions.paddingSizeDefault,),
+        ),
+
         SliverToBoxAdapter(
           child: Center(
-            child: SizedBox(
-              width: Dimensions.WEB_MAX_WIDTH,
-              child: HomeRecommendProvider(),
-            ),
+            child: GetBuilder<ProviderBookingController>(builder: (providerController){
+              return SizedBox(
+                width: Dimensions.webMaxWidth,
+                child: Row(
+                  children:  [
+                    if(Get.find<SplashController>().configModel.content!.biddingStatus == 1)
+                      SizedBox(
+                        width: providerController.providerList != null && providerController.providerList!.isNotEmpty && Get.find<SplashController>().configModel.content?.directProviderBooking==1
+                            ? Dimensions.webMaxWidth/3.5 : Dimensions.webMaxWidth,
+                        height:  240,
+                        child: const HomeCreatePostView(),
+                      ),
+                    if(Get.find<SplashController>().configModel.content?.directProviderBooking==1 && Get.find<SplashController>().configModel.content!.biddingStatus == 1
+                        && providerController.providerList != null && providerController.providerList!.isNotEmpty)
+                      const SizedBox(width: Dimensions.paddingSizeLarge+5,),
+                    if(Get.find<SplashController>().configModel.content?.directProviderBooking==1)
+                      Expanded(child: ClipRRect(
+                        borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                        child: const HomeRecommendProvider(),),
+                      ),
+                  ],
+                ),
+              );
+            }),
           ),
         ),
-        SliverToBoxAdapter(child: SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,),),
-        SliverToBoxAdapter(
+        const SliverToBoxAdapter(child: SizedBox(height: Dimensions.paddingSizeDefault,),),
+        const SliverToBoxAdapter(
           child: Center(
-            child: SizedBox(width: Dimensions.WEB_MAX_WIDTH,
+            child: SizedBox(width: Dimensions.webMaxWidth,
                 child: WebTrendingServiceView()
             ),
           ),
         ),
-        SliverToBoxAdapter(child: SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,),),
+        const SliverToBoxAdapter(child: SizedBox(height: Dimensions.paddingSizeDefault,),),
 
         if(Get.find<AuthController>().isLoggedIn())
-        SliverToBoxAdapter(child: Center(
-          child: SizedBox(width: Dimensions.WEB_MAX_WIDTH,
+        const SliverToBoxAdapter(child: Center(
+          child: SizedBox(width: Dimensions.webMaxWidth,
             child: WebRecentlyServiceView(),
           ),
         )),
-        SliverToBoxAdapter(child: SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,),),
+        const SliverToBoxAdapter(child: SizedBox(height: Dimensions.paddingSizeDefault,),),
 
-        SliverToBoxAdapter(
+        const SliverToBoxAdapter(
           child: Center(
             child: SizedBox(
-              width: Dimensions.WEB_MAX_WIDTH,
+              width: Dimensions.webMaxWidth,
               child: Column(
                 children: [
-                  SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
+                  SizedBox(height: Dimensions.paddingSizeLarge),
                   WebCampaignView(),
-                  SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
+                  SizedBox(height: Dimensions.paddingSizeLarge),
                 ],
               ),
             ),
           ),
         ),
-        SliverToBoxAdapter(
+        const SliverToBoxAdapter(
           child: Center(
             child: SizedBox(
-              width: Dimensions.WEB_MAX_WIDTH,
+              width: Dimensions.webMaxWidth,
               child: WebFeatheredCategoryView(),
             ),
           ),
@@ -95,13 +121,13 @@ class WebHomeScreen extends StatelessWidget {
 
         SliverToBoxAdapter(child: Center(
           child: SizedBox(
-            width: Dimensions.WEB_MAX_WIDTH,
+            width: Dimensions.webMaxWidth,
             child: Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.fromLTRB(0, 0,
-                    Dimensions.PADDING_SIZE_DEFAULT,
-                    Dimensions.PADDING_SIZE_SMALL,
+                  padding: const EdgeInsets.fromLTRB(0, 0,
+                    Dimensions.paddingSizeDefault,
+                    Dimensions.paddingSizeSmall,
                   ),
                   child: TitleWidget(
                     title: 'all_service'.tr,
@@ -109,18 +135,19 @@ class WebHomeScreen extends StatelessWidget {
                 ),
                 GetBuilder<ServiceController>(builder: (serviceController) {
                   return PaginatedListView(
+                    showBottomSheet: true,
                     scrollController: scrollController!,
-                    totalSize:serviceController.serviceContent != null ?  serviceController.serviceContent!.total != null ? serviceController.serviceContent!.total! : null:null,
-                    offset: serviceController.serviceContent != null ? serviceController.serviceContent!.currentPage != null ? serviceController.serviceContent!.currentPage: null : null,
+                    totalSize: serviceController.serviceContent != null ? serviceController.serviceContent!.total! : null,
+                    offset: serviceController.serviceContent != null ? serviceController.serviceContent!.currentPage != null ? serviceController.serviceContent!.currentPage! : null : null,
                     onPaginate: (int offset) async => await serviceController.getAllServiceList(offset,false),
                     itemView: ServiceViewVertical(
                       service: serviceController.serviceContent != null ? serviceController.allService : null,
                       padding: EdgeInsets.symmetric(
-                        horizontal: ResponsiveHelper.isDesktop(context) ? Dimensions.PADDING_SIZE_EXTRA_SMALL : Dimensions.PADDING_SIZE_SMALL,
-                        vertical: ResponsiveHelper.isDesktop(context) ? Dimensions.PADDING_SIZE_EXTRA_SMALL : 0,
+                        horizontal: ResponsiveHelper.isDesktop(context) ? Dimensions.paddingSizeExtraSmall : Dimensions.paddingSizeSmall,
+                        vertical: ResponsiveHelper.isDesktop(context) ? Dimensions.paddingSizeExtraSmall : 0,
                       ),
                       type: 'others',
-                      noDataType: NoDataType.HOME,
+                      noDataType: NoDataType.home,
                     ),
                   );
                 }),
@@ -128,7 +155,7 @@ class WebHomeScreen extends StatelessWidget {
             ),
           ),
         ),),
-        SliverToBoxAdapter(child: FooterView(),),
+        const SliverToBoxAdapter(child: FooterView(),),
       ],
     );
   }

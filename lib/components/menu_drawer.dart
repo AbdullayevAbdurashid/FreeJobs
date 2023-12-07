@@ -21,12 +21,15 @@ class MenuDrawer extends StatefulWidget {
 class _MenuDrawerState  extends State<MenuDrawer> with SingleTickerProviderStateMixin {
 
 
-  List<Menu> _menuList = [
+  final List<Menu> _menuList = [
     Menu(icon: Images.profileIcon, title: 'profile'.tr, onTap: () {
-      Get.offNamed(RouteHelper.getProfileRoute());
+      Get.back();
+      Get.toNamed(RouteHelper.getProfileRoute());
     }),
     Menu(icon: Images.chatImage, title: 'inbox'.tr, onTap: () {
-      Get.offNamed(Get.find<AuthController>().isLoggedIn() ? RouteHelper.getInboxScreenRoute():RouteHelper.getSignInRoute(RouteHelper.main));
+      Get.back();
+      Get.toNamed(Get.find<AuthController>().isLoggedIn() ?
+      RouteHelper.getInboxScreenRoute():RouteHelper.getNotLoggedScreen(RouteHelper.chatInbox, "inbox"));
     }),
     Menu(icon: Images.translate, title: 'language'.tr, onTap: () {
       Get.back();
@@ -38,42 +41,58 @@ class _MenuDrawerState  extends State<MenuDrawer> with SingleTickerProviderState
     }),
     Menu(icon: Images.bookingsIcon, title: 'bookings'.tr, onTap: () {
       Get.back();
-      Get.offNamed(Get.find<AuthController>().isLoggedIn() ?
-      RouteHelper.getBookingScreenRoute(true) : RouteHelper.getNotLoggedScreen('my_bookings'.tr));
+      Get.toNamed(Get.find<AuthController>().isLoggedIn() ?
+      RouteHelper.getBookingScreenRoute(true) : RouteHelper.getNotLoggedScreen(RouteHelper.bookingScreen,"my_booking"));
+    }),
+
+    if(Get.find<SplashController>().configModel.content?.biddingStatus==1)
+    Menu(icon: Images.customPostIcon, title: 'my_posts'.tr, onTap: () {
+      Get.back();
+      Get.toNamed(Get.find<AuthController>().isLoggedIn() ?
+      RouteHelper.getMyPostScreen() : RouteHelper.getNotLoggedScreen(RouteHelper.myPost,"my_posts"));
     }),
 
     Menu(icon: Images.voucherIcon, title: 'vouchers'.tr, onTap: () {
-      Get.offNamed(RouteHelper.getVoucherRoute());
+      Get.back();
+      Get.toNamed(RouteHelper.getVoucherRoute());
     }),
     if(Get.find<SplashController>().configModel.content!.walletStatus != 0 && Get.find<AuthController>().isLoggedIn())
     Menu(icon: Images.walletMenu, title: 'my_wallet'.tr, onTap: () {
-      Get.offNamed(RouteHelper.getMyWalletScreen());
+      Get.back();
+      Get.toNamed(RouteHelper.getMyWalletScreen());
     }),
     if(Get.find<SplashController>().configModel.content!.loyaltyPointStatus != 0 && Get.find<AuthController>().isLoggedIn())
     Menu(icon: Images.myPoint, title: 'loyalty_point'.tr, onTap: () {
-      Get.offNamed(RouteHelper.getLoyaltyPointScreen());
+      Get.back();
+      Get.toNamed(RouteHelper.getLoyaltyPointScreen());
     }),
     Menu(icon: Images.aboutUs, title: 'about_us'.tr, onTap: () {
-      Get.offNamed(RouteHelper.getHtmlRoute('about_us'));
+      Get.back();
+      Get.toNamed(RouteHelper.getHtmlRoute('about_us'));
     }),
 
     Menu(icon: Images.termsIcon, title: 'terms_and_conditions'.tr, onTap: () {
-      Get.offNamed( RouteHelper.getHtmlRoute('terms-and-condition'));
+      Get.back();
+      Get.toNamed( RouteHelper.getHtmlRoute('terms-and-condition'));
     }),
     Menu(icon: Images.privacyPolicyIcon, title: 'privacy_policy'.tr, onTap: () {
-      Get.offNamed( RouteHelper.getHtmlRoute('privacy-policy'));
+      Get.back();
+      Get.toNamed( RouteHelper.getHtmlRoute('privacy-policy'));
     }),
 
     if(Get.find<SplashController>().configModel.content!.cancellationPolicy != "")
     Menu(icon: Images.cancellationPolicy, title: 'cancellation_policy'.tr, onTap: () {
-        Get.offNamed(RouteHelper.getHtmlRoute('cancellation_policy'));
+      Get.back();
+        Get.toNamed(RouteHelper.getHtmlRoute('cancellation_policy'));
       }),
     if(Get.find<SplashController>().configModel.content!.refundPolicy != "")
      Menu(icon: Images.refundPolicy, title: 'refund_policy'.tr, onTap: () {
-        Get.offNamed(RouteHelper.getHtmlRoute('refund_policy'));
+       Get.back();
+        Get.toNamed(RouteHelper.getHtmlRoute('refund_policy'));
       }),
     Menu(icon: Images.helpIcon, title: 'help_&_support'.tr, onTap: () {
-      Get.offNamed( RouteHelper.getSupportRoute());
+      Get.back();
+      Get.toNamed( RouteHelper.getSupportRoute());
     }),
 
      Menu(icon: Images.logout, title:Get.find<AuthController>().isLoggedIn() ? 'logout'.tr : 'sign_in'.tr, onTap: () {
@@ -141,7 +160,7 @@ class _MenuDrawerState  extends State<MenuDrawer> with SingleTickerProviderState
   _buildContent(){
     return Align(alignment:Get.find<LocalizationController>().isLtr? Alignment.topRight : Alignment.topLeft, child: Container(
       width: 300,
-      decoration: BoxDecoration(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30)), color: Theme.of(context).cardColor),
+      decoration: BoxDecoration(borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(30)), color: Theme.of(context).cardColor),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -149,10 +168,10 @@ class _MenuDrawerState  extends State<MenuDrawer> with SingleTickerProviderState
           children: [
 
             Container(
-              padding: EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_LARGE, horizontal: 25),
-              margin: EdgeInsets.only(right: 30),
+              padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeLarge, horizontal: 25),
+              margin: const EdgeInsets.only(right: 30),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(bottomRight: Radius.circular(Dimensions.RADIUS_EXTRA_LARGE)),
+                borderRadius: const BorderRadius.only(bottomRight: Radius.circular(Dimensions.radiusExtraLarge)),
                 color: Theme.of(context).primaryColor,
               ),
               alignment: Alignment.centerLeft,
@@ -161,9 +180,9 @@ class _MenuDrawerState  extends State<MenuDrawer> with SingleTickerProviderState
 
             ListView.builder(
               itemCount: _menuList.length,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              padding: EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
+              padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
               itemBuilder: (context, index) {
                 return AnimatedBuilder(
                   animation: _staggeredController!,
@@ -185,18 +204,18 @@ class _MenuDrawerState  extends State<MenuDrawer> with SingleTickerProviderState
                   child: InkWell(
                     onTap: _menuList[index].onTap,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL, vertical: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                      padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall, vertical: Dimensions.paddingSizeExtraSmall),
                       child: Row(children: [
 
                         Container(
                           height: 60, width: 60, alignment: Alignment.center,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(Dimensions.RADIUS_EXTRA_LARGE),
+                            borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge),
                             color: Theme.of(context).primaryColor,
                           ),
                           child: Image.asset(_menuList[index].icon!, height: 30, width: 30),
                         ),
-                        SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
+                        const SizedBox(width: Dimensions.paddingSizeSmall),
 
                         Expanded(child: Text(_menuList[index].title!, style: ubuntuMedium, overflow: TextOverflow.ellipsis, maxLines: 1)),
 

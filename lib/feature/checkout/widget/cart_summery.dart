@@ -9,49 +9,49 @@ class CartSummery extends GetView<CartController> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<CouponController>(
-        builder: (_couponControllers){
+        builder: (couponControllers){
         return GetBuilder<CartController>(
           builder: (cartController){
             List<CartModel> cartList = cartController.cartList;
             ///total and discount price will be calculated from all cart item price
-            double _subTotalPrice = 0;
-            double _disCount = 0;
-            double _campaignDisCount = 0;
-            double _couponDisCount = 0;
-            double _vat = 0;
-            cartController.cartList.forEach((cartModel) {
-              _subTotalPrice = _subTotalPrice + (cartModel.serviceCost * cartModel.quantity); //(without any discount and coupons)
-              _disCount = _disCount + cartModel.discountedPrice ;
-              _campaignDisCount = _campaignDisCount + cartModel.campaignDiscountPrice;
-              _couponDisCount = _couponDisCount + cartModel.couponDiscountPrice;
+            double subTotalPrice = 0;
+            double disCount = 0;
+            double campaignDisCount = 0;
+            double couponDisCount = 0;
+            double vat = 0;
+            for (var cartModel in cartController.cartList) {
+              subTotalPrice = subTotalPrice + (cartModel.serviceCost * cartModel.quantity); //(without any discount and coupons)
+              disCount = disCount + cartModel.discountedPrice ;
+              campaignDisCount = campaignDisCount + cartModel.campaignDiscountPrice;
+              couponDisCount = couponDisCount + cartModel.couponDiscountPrice;
 
-              _vat = _vat + (cartModel.taxAmount );
+              vat = vat + (cartModel.taxAmount );
 
-            });
-            double grandTotal = (_subTotalPrice  - (_couponDisCount + _disCount + _campaignDisCount)) + _vat;
+            }
+            double grandTotal = (subTotalPrice  - (couponDisCount + disCount + campaignDisCount)) + vat;
 
 
             return Column(
               children: [
-                SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
+                const SizedBox(height: Dimensions.paddingSizeDefault),
                 Text(
                   'cart_summary'.tr,
                   style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault),
                 ),
-                SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,),
+                const SizedBox(height: Dimensions.paddingSizeDefault,),
                 Container(
                   decoration: BoxDecoration(
                       color: Theme.of(context).cardColor,
                       boxShadow:Get.isDarkMode ?null: shadow
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.all( Dimensions.PADDING_SIZE_DEFAULT),
+                    padding: const EdgeInsets.all( Dimensions.paddingSizeDefault),
                     child: Column(
                       children: [
                         ListView.builder(
                           itemCount: cartList.length,
                           shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context,index){
                             double totalCost = cartList.elementAt(index).serviceCost.toDouble() * cartList.elementAt(index).quantity;
                           return Column(
@@ -59,7 +59,7 @@ class CartSummery extends GetView<CartController> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               RowText(title: cartList.elementAt(index).service!.name!, quantity: cartList.elementAt(index).quantity, price: totalCost),
-                              Container(
+                              SizedBox(
                                 width:Get.width / 2.5,
                                 child: Text(
                                   cartList.elementAt(index).variantKey,
@@ -70,7 +70,7 @@ class CartSummery extends GetView<CartController> {
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
-                              SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,)
+                              const SizedBox(height: Dimensions.paddingSizeDefault,)
                             ],
                           );
                         },
@@ -79,29 +79,29 @@ class CartSummery extends GetView<CartController> {
                           height: 1,
                           color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6),
                         ),
-                        SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                        RowText(title: 'sub_total'.tr, price: _subTotalPrice),
-                        RowText(title: 'discount'.tr, price: _disCount),
-                        RowText(title: 'campaign_discount'.tr, price: _campaignDisCount),
-                        RowText(title: 'coupon_discount'.tr, price: _couponDisCount),
-                        RowText(title: 'vat'.tr, price: _vat),
-                        SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+                        const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+                        RowText(title: 'sub_total'.tr, price: subTotalPrice),
+                        RowText(title: 'discount'.tr, price: disCount),
+                        RowText(title: 'campaign_discount'.tr, price: campaignDisCount),
+                        RowText(title: 'coupon_discount'.tr, price: couponDisCount),
+                        RowText(title: 'vat'.tr, price: vat),
+                        const SizedBox(height: Dimensions.paddingSizeSmall),
                         Divider(
                           height: 1,
                           color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6),
                         ),
-                        SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+                        const SizedBox(height: Dimensions.paddingSizeSmall),
                         RowText(title:'grand_total'.tr , price: grandTotal),
                       ],
                     ),
                   ),
                 ),
-                SizedBox(height: Dimensions.PADDING_SIZE_SMALL,),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL),
+                const SizedBox(height: Dimensions.paddingSizeSmall,),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
                   child: ConditionCheckBox(),
                 ),
-                SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,),
+                const SizedBox(height: Dimensions.paddingSizeDefault,),
               ],
             );
           }

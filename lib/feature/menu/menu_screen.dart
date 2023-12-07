@@ -4,17 +4,19 @@ import 'package:pointer_interceptor/pointer_interceptor.dart';
 import 'widget/menu_button.dart';
 
 class MenuScreen extends StatelessWidget {
+  const MenuScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
-    bool _isLoggedIn = Get.find<AuthController>().isLoggedIn();
-    double _ratio = ResponsiveHelper.isDesktop(context) ? 1.1 : ResponsiveHelper.isTab(context) ? 1.1 : 1.2;
-    final List<MenuModel> _menuList = [
+    bool isLoggedIn = Get.find<AuthController>().isLoggedIn();
+    double ratio = ResponsiveHelper.isDesktop(context) ? 1.1 : ResponsiveHelper.isTab(context) ? 1.1 : 1.2;
+    final List<MenuModel> menuList = [
       MenuModel(icon: Images.profileIcon, title: 'profile'.tr, route: RouteHelper.getProfileRoute()),
-      MenuModel(icon: Images.chatImage, title: 'inbox'.tr, route:_isLoggedIn? RouteHelper.getInboxScreenRoute() :  RouteHelper.getSignInRoute(RouteHelper.main)),
+      MenuModel(icon: Images.chatImage, title: 'inbox'.tr, route:isLoggedIn? RouteHelper.getInboxScreenRoute() :  RouteHelper.getNotLoggedScreen(RouteHelper.chatInbox,"inbox")),
       MenuModel(icon: Images.translate, title: 'language'.tr, route: RouteHelper.getLanguageScreen('fromSettingsPage')),
       MenuModel(icon: Images.settings, title: 'settings'.tr, route: RouteHelper.getSettingRoute()),
-      MenuModel(icon: Images.bookingsIcon, title: 'bookings'.tr, route:_isLoggedIn ?
-      RouteHelper.getBookingScreenRoute(true) : RouteHelper.getNotLoggedScreen('my_bookings'.tr)),
+      MenuModel(icon: Images.bookingsIcon, title: 'bookings'.tr, route:isLoggedIn ?
+      RouteHelper.getBookingScreenRoute(true) : RouteHelper.getNotLoggedScreen("booking","my_bookings")),
       MenuModel(icon: Images.voucherIcon, title: 'vouchers'.tr, route: RouteHelper.getVoucherRoute()),
       MenuModel(icon: Images.aboutUs, title: 'about_us'.tr, route: RouteHelper.getHtmlRoute('about_us')),
       if(Get.find<SplashController>().configModel.content!.termsAndConditions != "")
@@ -25,19 +27,26 @@ class MenuScreen extends StatelessWidget {
       if(Get.find<SplashController>().configModel.content!.refundPolicy != "")
         MenuModel(icon: Images.refundPolicy, title: 'refund_policy'.tr, route: RouteHelper.getHtmlRoute('refund_policy')),
       MenuModel(icon: Images.helpIcon, title: 'help_&_support'.tr, route: RouteHelper.getSupportRoute()),
+
+      if(Get.find<SplashController>().configModel.content?.biddingStatus==1)
+        MenuModel(icon: Images.customPostIcon, title: 'my_posts'.tr,
+            route: isLoggedIn ? RouteHelper.getMyPostScreen() : RouteHelper.getNotLoggedScreen(RouteHelper.myPost,"my_posts")
+        ),
+
       if(Get.find<SplashController>().configModel.content!.walletStatus != 0 && Get.find<AuthController>().isLoggedIn())
       MenuModel(icon: Images.walletMenu, title: 'my_wallet'.tr, route: RouteHelper.getMyWalletScreen()),
       if(Get.find<SplashController>().configModel.content!.loyaltyPointStatus != 0 && Get.find<AuthController>().isLoggedIn())
       MenuModel(icon: Images.myPoint, title: 'loyalty_point'.tr, route: RouteHelper.getLoyaltyPointScreen()),
+      MenuModel(icon: Images.providerImage, title: 'become_a_provider'.tr, route: RouteHelper.getProviderWebView()),
     ];
-    _menuList.add(MenuModel(icon: Images.logout, title: _isLoggedIn ? 'logout'.tr : 'sign_in'.tr, route: ''));
+    menuList.add(MenuModel(icon: Images.logout, title: isLoggedIn ? 'logout'.tr : 'sign_in'.tr, route: ''));
 
     return PointerInterceptor(
       child: Container(
-        width: Dimensions.WEB_MAX_WIDTH,
-        padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL),
+        width: Dimensions.webMaxWidth,
+        padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
           color: Theme.of(context).cardColor,
         ),
         child: Column(mainAxisSize: MainAxisSize.min, children: [
@@ -45,23 +54,23 @@ class MenuScreen extends StatelessWidget {
             onTap: () => Get.back(),
             child: Icon(Icons.keyboard_arrow_down_rounded, size: 30,color: Theme.of(context).colorScheme.primary,),
           ),
-          SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+          const SizedBox(height: Dimensions.paddingSizeExtraSmall),
 
           GridView.builder(
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: ResponsiveHelper.isDesktop(context) ? 8 : ResponsiveHelper.isTab(context) ? 6 : 4,
-              childAspectRatio: (1/_ratio),
-              crossAxisSpacing: Dimensions.PADDING_SIZE_EXTRA_SMALL, mainAxisSpacing: Dimensions.PADDING_SIZE_EXTRA_SMALL,
+              childAspectRatio: (1/ratio),
+              crossAxisSpacing: Dimensions.paddingSizeExtraSmall, mainAxisSpacing: Dimensions.paddingSizeExtraSmall,
             ),
-            itemCount: _menuList.length,
+            itemCount: menuList.length,
             itemBuilder: (context, index) {
-              return MenuButton(menu: _menuList[index], isLogout: index == _menuList.length-1);
+              return MenuButton(menu: menuList[index], isLogout: index == menuList.length-1);
             },
           ),
-          Text("${'app_version'.tr} ${AppConstants.APP_VERSION}",style: ubuntuMedium.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.5)),),
-          SizedBox(height: ResponsiveHelper.isMobile(context) ? Dimensions.PADDING_SIZE_DEFAULT : 0),
+          Text("${'app_version'.tr} ${AppConstants.appVersion}",style: ubuntuMedium.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.5)),),
+          SizedBox(height: ResponsiveHelper.isMobile(context) ? Dimensions.paddingSizeDefault : 0),
 
         ]),
       ),

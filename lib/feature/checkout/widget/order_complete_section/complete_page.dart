@@ -7,22 +7,22 @@ class CompletePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT),
+      padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: 80.0,),
+            const SizedBox(height: 80.0,),
             GetBuilder<CheckOutController>(builder: (controller) {
               return controller.cancelPayment == false
                   ? Column(
                     children: [
                       Text('you_placed_the_booking_successfully'.tr, style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeExtraLarge, color: Colors.blue),),
-                      SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_MORE_LARGE,),
-                      Image.asset(Images.orderComplete,scale: 3,),
+                      const SizedBox(height: Dimensions.paddingSizeExtraMoreLarge*1.5,),
+                      Image.asset(Images.orderComplete,scale: 3.5,),
                       if(ResponsiveHelper.isWeb())
-                        SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_MORE_LARGE,)
+                        const SizedBox(height: Dimensions.paddingSizeExtraMoreLarge,)
                     ],
                   )
                   : Text('your_bookings_is_failed_to_place'.tr, style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeExtraLarge, color: Colors.red),

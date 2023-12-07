@@ -2,22 +2,20 @@ import 'package:get/get.dart';
 import 'package:demandium/core/core_export.dart';
 
 class CategoryView extends StatelessWidget {
-  CategoryView();
+  const CategoryView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<CategoryController>(initState: (state) {
-      Get.find<CategoryController>().getCategoryList(1,false);
-    }, builder: (categoryController) {
-      if(categoryController.categoryList != null && categoryController.categoryList!.length == 0){
-        return SizedBox() ;
+    return GetBuilder<CategoryController>(builder: (categoryController) {
+      if(categoryController.categoryList != null && categoryController.categoryList!.isEmpty){
+        return const SizedBox() ;
       }else{
         if(categoryController.categoryList != null){
           return Center(
-            child: Container(
-              width: Dimensions.WEB_MAX_WIDTH,
+            child: SizedBox(
+              width: Dimensions.webMaxWidth,
               child: Padding(
-                padding: EdgeInsets.symmetric( vertical:Dimensions.PADDING_SIZE_DEFAULT),
+                padding: const EdgeInsets.symmetric( vertical:Dimensions.paddingSizeDefault),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -27,6 +25,7 @@ class CategoryView extends StatelessWidget {
                           Text('all_categories'.tr, style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeExtraLarge)),
                           InkWell(
                             onTap: () {
+
                               Get.toNamed(RouteHelper.getCategoryProductRoute(
                                   categoryController.categoryList![0].id!,
                                   categoryController.categoryList![0].name!,
@@ -41,16 +40,16 @@ class CategoryView extends StatelessWidget {
                           ),
                         ],
                       ),
-                      SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
+                      const SizedBox(height: Dimensions.paddingSizeDefault),
                       GridView.builder(
                         shrinkWrap: true,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: ResponsiveHelper.isDesktop(context) ? 8 : ResponsiveHelper.isTab(context) ? 6 : 4,
-                            crossAxisSpacing: Dimensions.PADDING_SIZE_SMALL,
-                            mainAxisSpacing: Dimensions.PADDING_SIZE_SMALL,
+                            crossAxisSpacing: Dimensions.paddingSizeSmall,
+                            mainAxisSpacing: Dimensions.paddingSizeSmall,
                             childAspectRatio: ResponsiveHelper.isDesktop(context) ? 1 : 1,
                         ),
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         itemCount: categoryController.categoryList!.length > 8 ? 8 : categoryController.categoryList!.length,
                         itemBuilder: (context, index) {
                           return InkWell(
@@ -63,17 +62,17 @@ class CategoryView extends StatelessWidget {
                             },
 
                             child: Container(
-                              padding: EdgeInsets.only(top : Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                              padding: const EdgeInsets.only(top : Dimensions.paddingSizeExtraSmall),
                               decoration: BoxDecoration(
                                 color: Theme.of(context).hoverColor,
-                                borderRadius: BorderRadius.all(Radius.circular(Dimensions.RADIUS_DEFAULT), ),
+                                borderRadius: const BorderRadius.all(Radius.circular(Dimensions.radiusDefault), ),
                               ),
                               child: Column(
                                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     ClipRRect(
-                                      borderRadius: BorderRadius.circular(Dimensions.RADIUS_DEFAULT),
+                                      borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
                                       child: CustomImage(
                                         image: '${Get.find<SplashController>().configModel.content!.imageBaseUrl}/category/${categoryController.categoryList![index].image}',
                                         fit: BoxFit.cover,
@@ -82,7 +81,7 @@ class CategoryView extends StatelessWidget {
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.all( Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                                      padding: const EdgeInsets.all( Dimensions.paddingSizeExtraSmall),
                                       child: Text(categoryController.categoryList![index].name!,
                                         style: ubuntuRegular.copyWith(fontSize: MediaQuery.of(context).size.width<300?Dimensions.fontSizeExtraSmall:Dimensions.fontSizeSmall),
                                         maxLines: MediaQuery.of(context).size.width<300?1:2,textAlign: TextAlign.center, overflow: TextOverflow.ellipsis,
@@ -111,16 +110,16 @@ class WebCategoryShimmer extends StatelessWidget {
   final CategoryController categoryController;
   final bool? fromHomeScreen;
 
-  WebCategoryShimmer({required this.categoryController, this.fromHomeScreen=true});
+  const WebCategoryShimmer({super.key, required this.categoryController, this.fromHomeScreen=true});
 
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Container(
-        width: Dimensions.WEB_MAX_WIDTH,
+      child: SizedBox(
+        width: Dimensions.webMaxWidth,
         child: Column(
           children: [
-            if(fromHomeScreen!)SizedBox(height: Dimensions.PADDING_SIZE_LARGE,),
+            if(fromHomeScreen!)const SizedBox(height: Dimensions.paddingSizeLarge,),
             if(fromHomeScreen!)Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -129,13 +128,13 @@ class WebCategoryShimmer extends StatelessWidget {
                 width: 100,
                   decoration: BoxDecoration(
                     color: Get.isDarkMode? Colors.grey[700]:Colors.white,
-                    borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                    borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                     boxShadow: Get.isDarkMode?null:[BoxShadow(color: Colors.grey[300]!, blurRadius: 10, spreadRadius: 1)],
                   ),
                 child: Center(child: Container(
                   height: ResponsiveHelper.isMobile(context)?10:ResponsiveHelper.isTab(context)?15:20,
                   color: Colors.grey[Get.find<ThemeController>().darkTheme ? 600 : 300],
-                  margin: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL),
+                  margin: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
                 ),),
               ),
                 Container(
@@ -143,47 +142,47 @@ class WebCategoryShimmer extends StatelessWidget {
                   width: 80,
                     decoration: BoxDecoration(
                       color: Get.isDarkMode? Colors.grey[700]:Colors.white,
-                      borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                      borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                       boxShadow: Get.isDarkMode?null:[BoxShadow(color: Colors.grey[300]!, blurRadius: 10, spreadRadius: 1)],
                     ),
                   child: Center(child: Container(
                     height: ResponsiveHelper.isMobile(context)?10:ResponsiveHelper.isTab(context)?15:20,
                     color: Colors.grey[Get.find<ThemeController>().darkTheme ? 600 : 300],
-                    margin: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL),
+                    margin: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
                   ),),
                 )
             ],),
-            if(fromHomeScreen! && !ResponsiveHelper.isMobile(context))SizedBox(height: Dimensions.PADDING_SIZE_SMALL,),
+            if(fromHomeScreen! && !ResponsiveHelper.isMobile(context))const SizedBox(height: Dimensions.paddingSizeSmall,),
             GridView.builder(
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: 8,
               itemBuilder: (context, index) {
                 return Container(
-                  padding: EdgeInsets.all(Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                  padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
                     decoration: BoxDecoration(
                       color: Get.isDarkMode? Colors.grey[700]:Colors.white,
-                      borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                      borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                       boxShadow: Get.isDarkMode?null:[BoxShadow(color: Colors.grey[300]!, blurRadius: 10, spreadRadius: 1)],
                     ),
-                  margin: EdgeInsets.only(top: Dimensions.PADDING_SIZE_LARGE),
+                  margin: const EdgeInsets.only(top: Dimensions.paddingSizeLarge),
                   child: Shimmer(
-                    duration: Duration(seconds: 2),
+                    duration: const Duration(seconds: 2),
                     enabled: true,
                     child: Column(mainAxisAlignment: MainAxisAlignment.center,children: [
                       Container(
                         height: ResponsiveHelper.isMobile(context)?28:ResponsiveHelper.isTab(context)?40:60,
                         width: ResponsiveHelper.isMobile(context)?28:ResponsiveHelper.isTab(context)?40:60,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                          borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                             color: Colors.grey[Get.find<ThemeController>().darkTheme ? 600 : 300]
                         ),
                       ),
-                      SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+                      const SizedBox(height: Dimensions.paddingSizeSmall),
                       Container(
                         height: ResponsiveHelper.isMobile(context)?10:ResponsiveHelper.isTab(context)?15:20,
                         color: Colors.grey[Get.find<ThemeController>().darkTheme ? 600 : 300],
-                        margin: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL),
+                        margin: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
                       ),
                     ]),
                   ),
@@ -191,8 +190,8 @@ class WebCategoryShimmer extends StatelessWidget {
               },
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: ResponsiveHelper.isDesktop(context) ? 8 : ResponsiveHelper.isTab(context) ? 6 : 4,
-                  crossAxisSpacing: Dimensions.PADDING_SIZE_DEFAULT,
-                  mainAxisSpacing: Dimensions.PADDING_SIZE_DEFAULT,
+                  crossAxisSpacing: Dimensions.paddingSizeDefault,
+                  mainAxisSpacing: Dimensions.paddingSizeDefault,
                   childAspectRatio: ResponsiveHelper.isDesktop(context) ? 1 : 0.85,
               ),
             ),

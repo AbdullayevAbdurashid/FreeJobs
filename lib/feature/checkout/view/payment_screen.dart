@@ -4,16 +4,17 @@ import 'package:demandium/core/core_export.dart';
 
 class PaymentScreen extends StatefulWidget {
   final String url;
-  PaymentScreen({required this.url,});
+  final bool fromCustomPost;
+  const PaymentScreen({super.key, required this.url,this.fromCustomPost = false,});
 
   @override
-  _PaymentScreenState createState() => _PaymentScreenState();
+  PaymentScreenState createState() => PaymentScreenState();
 }
 
-class _PaymentScreenState extends State<PaymentScreen> {
+class PaymentScreenState extends State<PaymentScreen> {
   String? selectedUrl;
   double value = 0.0;
-  bool _isLoading = true;
+  final bool _isLoading = true;
   PullToRefreshController pullToRefreshController = PullToRefreshController();
   MyInAppBrowser? browser;
 
@@ -21,11 +22,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
   void initState() {
     super.initState();
     selectedUrl = widget.url;
-    _initData();
+    _initData(widget.fromCustomPost);
   }
 
-  void _initData() async {
-    browser = MyInAppBrowser();
+  void _initData(bool fromCustomPost) async {
+    browser = MyInAppBrowser(fromCustomPost: fromCustomPost);
     if (Platform.isAndroid) {
       await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
 
@@ -40,7 +41,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
         await serviceWorkerController.setServiceWorkerClient(
             AndroidServiceWorkerClient(
               shouldInterceptRequest: (request) async {
-                print(request);
+                if (kDebugMode) {
+                  print(request);
+                }
                 return null;
               },
             ));
@@ -80,15 +83,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
       backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: CustomAppBar(title: 'payment'.tr,),
       body: Center(
-        child: Container(
-          //width: Dimensions.WEB_SCREEN_WIDTH,
-          child: Stack(
-            children: [
-              _isLoading ? Center(
-                child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor)),
-              ) : SizedBox.shrink(),
-            ],
-          ),
+        child: Stack(
+          children: [
+            _isLoading ? Center(
+              child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor)),
+            ) : const SizedBox.shrink(),
+          ],
         ),
       ),
     );
@@ -96,31 +96,42 @@ class _PaymentScreenState extends State<PaymentScreen> {
 }
 
 class MyInAppBrowser extends InAppBrowser {
+  final bool fromCustomPost;
+
+  MyInAppBrowser({required  this.fromCustomPost});
 
   bool _canRedirect = true;
 
   @override
   Future onBrowserCreated() async {
-    print("\n\nBrowser Created!\n\n");
+    if (kDebugMode) {
+      print("\n\nBrowser Created!\n\n");
+    }
   }
 
   @override
   Future onLoadStart(url) async {
-    print("\n\nStarted: $url\n\n");
+    if (kDebugMode) {
+      print("\n\nStarted: $url\n\n");
+    }
     _pageRedirect(url.toString());
   }
 
   @override
   Future onLoadStop(url) async {
     pullToRefreshController?.endRefreshing();
-    print("\n\nStopped: $url\n\n");
+    if (kDebugMode) {
+      print("\n\nStopped: $url\n\n");
+    }
     _pageRedirect(url.toString());
   }
 
   @override
   void onLoadError(url, code, message) {
     pullToRefreshController?.endRefreshing();
-    print("Can't load [$url] Error: $message");
+    if (kDebugMode) {
+      print("Can't load [$url] Error: $message");
+    }
   }
 
   @override
@@ -128,7 +139,9 @@ class MyInAppBrowser extends InAppBrowser {
     if (progress == 100) {
       pullToRefreshController?.endRefreshing();
     }
-    print("Progress: $progress");
+    if (kDebugMode) {
+      print("Progress: $progress");
+    }
   }
 
   @override
@@ -140,8 +153,8 @@ class MyInAppBrowser extends InAppBrowser {
         builder: (BuildContext context) {
           return WillPopScope(
             onWillPop: () async => false,
-            child: AlertDialog(
-              contentPadding: EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
+            child: const AlertDialog(
+              contentPadding: EdgeInsets.all(Dimensions.paddingSizeSmall),
               content: PaymentFailedDialog(),
             ),
           );
@@ -150,48 +163,62 @@ class MyInAppBrowser extends InAppBrowser {
 
     }
 
-    print("\n\nBrowser closed!\n\n");
+    if (kDebugMode) {
+      print("\n\nBrowser closed!\n\n");
+    }
   }
 
   @override
   Future<NavigationActionPolicy> shouldOverrideUrlLoading(navigationAction) async {
-    print("\n\nOverride ${navigationAction.request.url}\n\n");
+    if (kDebugMode) {
+      print("\n\nOverride ${navigationAction.request.url}\n\n");
+    }
     return NavigationActionPolicy.ALLOW;
   }
 
   @override
-  void onLoadResource(response) {
+  void onLoadResource(resource) {
    // print("Started at: " + response.startTime.toString() + "ms ---> duration: " + response.duration.toString() + "ms " + (response.url ?? '').toString());
   }
 
   @override
   void onConsoleMessage(consoleMessage) {
-    print("""
+    if (kDebugMode) {
+      print("""
     console output:
       message: ${consoleMessage.message}
       messageLevel: ${consoleMessage.messageLevel.toValue()}
    """);
+    }
   }
 
   void _pageRedirect(String url) async {
-    print("inside_page_redirect");
+    if (kDebugMode) {
+      print("inside_page_redirect");
+    }
     printLog("url:$url");
     if(_canRedirect) {
-      bool _isSuccess = url.contains('success') && url.contains(AppConstants.BASE_URL);
-      bool _isFailed = url.contains('fail') && url.contains(AppConstants.BASE_URL);
-      bool _isCancel = url.contains('cancel') && url.contains(AppConstants.BASE_URL);
+      bool isSuccess = url.contains('success') && url.contains(AppConstants.baseUrl);
+      bool isFailed = url.contains('fail') && url.contains(AppConstants.baseUrl);
+      bool isCancel = url.contains('cancel') && url.contains(AppConstants.baseUrl);
 
-      print('This_called_1::::$url');
-      if (_isSuccess || _isFailed || _isCancel) {
+      if (kDebugMode) {
+        print('This_called_1::::$url');
+      }
+      if (isSuccess || isFailed || isCancel) {
         _canRedirect = false;
         close();
       }
 
-      if (_isSuccess) {
-        Get.find<CartController>().getCartListFromServer();
-        Get.back();
-        Get.offNamed(RouteHelper.getCheckoutRoute(RouteHelper.checkout,'complete','null'));
-      } else if (_isFailed || _isCancel) {
+      if (isSuccess) {
+        if(!fromCustomPost){
+          Get.find<CartController>().getCartListFromServer();
+          Get.back();
+          Get.offNamed(RouteHelper.getCheckoutRoute(RouteHelper.checkout,'complete','null'));
+        }else{
+          Get.offNamed(RouteHelper.getOrderSuccessRoute('success'));
+        }
+      } else if (isFailed || isCancel) {
         Get.offNamed(RouteHelper.getOrderSuccessRoute('fail'));
       }
     }

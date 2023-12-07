@@ -38,10 +38,11 @@ class SuggestServiceController extends GetxController{
     if(response.statusCode == 200){
 
       serviceCategoryList = [];
-      List<dynamic> _serviceCategoryList = response.body['content']['data'];
-      _serviceCategoryList.forEach((category) =>serviceCategoryList.add(CategoryModel.fromJson(category)));
-      print("serviceCategoryList.length");
-      print(serviceCategoryList.length);
+      List<dynamic> list = response.body['content']['data'];
+      for (var category in list) {
+        serviceCategoryList.add(CategoryModel.fromJson(category));
+      }
+
     }
     else {
       ApiChecker.checkApi(response);
@@ -102,12 +103,12 @@ class SuggestServiceController extends GetxController{
     update();
   }
   void setIdentityType(String id){
-    serviceCategoryList.forEach((element) {
+    for (var element in serviceCategoryList) {
       if(element.id==id){
         selectedCategoryName =element.name!;
         selectedCategoryId =element.id!;
       }
-    });
+    }
     update();
   }
 

@@ -13,12 +13,12 @@ class ProfileCardItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+      padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall),
       child: Container(
         height: 70,
         width: Get.width,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+          borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
           color: Theme.of(context).hoverColor,
           boxShadow: Get.isDarkMode ? null: cardShadow,
         ),
@@ -27,8 +27,8 @@ class ProfileCardItem extends StatelessWidget {
           child: ListTile(
             title: Row(
               children: [
-                Image.asset(leadingIcon,width: Dimensions.PROFILE_ITEM__SIZE,),
-                SizedBox(width: Dimensions.PADDING_SIZE_DEFAULT,),
+                Image.asset(leadingIcon,width: Dimensions.profileImageSize,),
+                const SizedBox(width: Dimensions.paddingSizeDefault,),
                 Text(title),
               ],
             ),

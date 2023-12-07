@@ -9,7 +9,7 @@ class AddressLabelWidget extends StatelessWidget {
     return GetBuilder<LocationController>(
       builder: (locationController){
         return Center(
-          child: Container(
+          child: SizedBox(
             width:ResponsiveHelper.isMobile(context) ?null :ResponsiveHelper.isWeb() ? Get.width / 2 : 1.5,
             child: Column(
               children: [
@@ -17,7 +17,7 @@ class AddressLabelWidget extends StatelessWidget {
                   'label_as'.tr,
                   style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
                 ),
-                SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+                const SizedBox(height: Dimensions.paddingSizeSmall),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: AddressLabel.values.map((label) => InkWell(
@@ -26,10 +26,10 @@ class AddressLabelWidget extends StatelessWidget {
                       locationController.updateAddressLabel(addressLabel: label);
                     },
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT, vertical: Dimensions.PADDING_SIZE_SMALL),
+                      padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault, vertical: Dimensions.paddingSizeSmall),
                       decoration: BoxDecoration(
                         border: Border.all(color: label == locationController.selectedAddressLabel ? Theme.of(context).primaryColor : Theme.of(context).cardColor),
-                        borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL), color: Theme.of(context).cardColor,
+                        borderRadius: BorderRadius.circular(Dimensions.radiusSmall), color: Theme.of(context).cardColor,
                         boxShadow: cardShadow,
                       ),
                       child: Row(children: [
@@ -37,7 +37,7 @@ class AddressLabelWidget extends StatelessWidget {
                           label.index  == 0 ? Icons.home_filled : label.index == 1 ? Icons.work : Icons.location_on,
                           color: label == locationController.selectedAddressLabel ? Theme.of(context).colorScheme.primary : Theme.of(context).disabledColor,
                         ),
-                        SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                        const SizedBox(width: Dimensions.paddingSizeExtraSmall),
                         Text(
                           label.name.tr,
                           style: ubuntuRegular.copyWith(color: label == locationController.selectedAddressLabel ? Theme.of(context).textTheme.bodyLarge!.color : Theme.of(context).disabledColor),

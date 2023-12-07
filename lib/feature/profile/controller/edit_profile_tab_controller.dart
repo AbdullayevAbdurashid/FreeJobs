@@ -1,3 +1,4 @@
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:demandium/core/helper/image_size_checker.dart';
 import 'package:get/get.dart';
 import 'package:demandium/core/core_export.dart';
@@ -28,7 +29,6 @@ class EditProfileTabController extends GetxController with GetSingleTickerProvid
 
   void updateEditProfilePage(EditProfileTabControllerState editProfileTabControllerState,index){
     editProfilePageCurrentState = editProfileTabControllerState;
-    print(editProfileTabControllerState);
     controller!.animateTo(index);
     update();
   }
@@ -39,7 +39,7 @@ class EditProfileTabController extends GetxController with GetSingleTickerProvid
   var phoneController = TextEditingController();
   var passwordController = TextEditingController();
   var confirmPasswordController = TextEditingController();
-  var countryDialCode;
+  var countryDialCode = "+880";
   UserInfoModel _userInfoModel=UserInfoModel();
   UserInfoModel get userInfoModel => _userInfoModel;
 
@@ -65,7 +65,7 @@ class EditProfileTabController extends GetxController with GetSingleTickerProvid
     firstNameController.text = Get.find<UserController>().userInfoModel.fName??'';
     lastNameController.text = Get.find<UserController>().userInfoModel.lName??'';
     emailController.text = Get.find<UserController>().userInfoModel.email??'';
-    countryDialCode = CountryCode.fromCountryCode(Get.find<SplashController>().configModel.content != null ? Get.find<SplashController>().configModel.content!.countryCode!:"BD").dialCode;
+    countryDialCode = CountryCode.fromCountryCode(Get.find<SplashController>().configModel.content != null ? Get.find<SplashController>().configModel.content!.countryCode!:"BD").dialCode!;
     phoneController.text = _userInfoModel.phone != null ? Get.find<UserController>().userInfoModel.phone!.replaceAll(countryDialCode, ''):'';
     passwordController.text = '';
     confirmPasswordController.text = '';
@@ -82,11 +82,11 @@ class EditProfileTabController extends GetxController with GetSingleTickerProvid
           fName: firstNameController.value.text,
           lName: lastNameController.value.text,
           email: emailController.value.text,
-          phone: '${phoneController.value.text}');
+          phone: phoneController.value.text);
 
       _isLoading = true;
       update();
-      Response response = await userRepo.updateProfile(userInfoModel, pickedProfileImageFile != null ? pickedProfileImageFile:null);
+      Response response = await userRepo.updateProfile(userInfoModel, pickedProfileImageFile);
 
       if (response.body['response_code'] == 'default_update_200') {
         Get.back();
@@ -117,7 +117,6 @@ class EditProfileTabController extends GetxController with GetSingleTickerProvid
     _isLoading = true;
     update();
     Response response = await userRepo.updateAccountInfo(userInfoModel);
-    print(response.body);
     if (response.body['response_code'] == 'default_update_200') {
       Get.back();
       customSnackBar('password_updated_successfully'.tr,isError: false);
@@ -132,8 +131,8 @@ class EditProfileTabController extends GetxController with GetSingleTickerProvid
 
   void pickProfileImage() async {
     _pickedProfileImageFile = await ImagePicker().pickImage(source: ImageSource.gallery,imageQuality: 100);
-    double _imageSize = await ImageSize.getImageSize(_pickedProfileImageFile!);
-    if(_imageSize >AppConstants.limitOfPickedImageSizeInMB){
+    double imageSize = await ImageSize.getImageSize(_pickedProfileImageFile!);
+    if(imageSize >AppConstants.limitOfPickedImageSizeInMB){
       customSnackBar("image_size_greater_than".tr);
       _pickedProfileImageFile =null;
     }

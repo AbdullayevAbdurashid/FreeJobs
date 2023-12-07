@@ -13,39 +13,39 @@ class ProviderInfo extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-            padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT),
+            padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
             child: Text("provider_info".tr, style: ubuntuMedium.copyWith(
                 fontSize: Dimensions.fontSizeDefault,
                 color:Get.isDarkMode? Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6): Theme.of(context).primaryColor))),
-        Gaps.verticalGapOf(Dimensions.PADDING_SIZE_DEFAULT),
+        Gaps.verticalGapOf(Dimensions.paddingSizeDefault),
 
 
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_LARGE),
+          padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge),
           child: Container(
             width:double.infinity,
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(Dimensions.paddingSizeExtraSmall)),
+              color: Theme.of(context).hoverColor,
+            ),
             child: Column(
               children: [
-                Gaps.verticalGapOf(Dimensions.PADDING_SIZE_DEFAULT),
+                Gaps.verticalGapOf(Dimensions.paddingSizeDefault),
                 ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(Dimensions.PADDING_SIZE_EXTRA_LARGE)),
-                  child: Container(
-                    width: Dimensions.IMAGE_SIZE,
-                    height: Dimensions.IMAGE_SIZE,
+                  borderRadius: const BorderRadius.all(Radius.circular(Dimensions.paddingSizeExtraLarge)),
+                  child: SizedBox(
+                    width: Dimensions.imageSize,
+                    height: Dimensions.imageSize,
                     child:  CustomImage(image:"${Get.find<SplashController>().configModel.content!.imageBaseUrl}/provider/logo/${provider.logo}"),
 
                   ),
                 ),
-                Gaps.verticalGapOf(Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                Gaps.verticalGapOf(Dimensions.paddingSizeExtraSmall),
                 Text("${provider.companyName}",style:ubuntuBold.copyWith(fontSize: Dimensions.fontSizeDefault,)),
-                Gaps.verticalGapOf(Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                Gaps.verticalGapOf(Dimensions.paddingSizeExtraSmall),
                 Text("${provider.companyPhone}",style:ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeDefault,)),
-                Gaps.verticalGapOf(Dimensions.PADDING_SIZE_DEFAULT),
+                Gaps.verticalGapOf(Dimensions.paddingSizeDefault),
               ],
-            ),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(Dimensions.PADDING_SIZE_EXTRA_SMALL)),
-              color: Theme.of(context).hoverColor,
             ),
           ),
         )

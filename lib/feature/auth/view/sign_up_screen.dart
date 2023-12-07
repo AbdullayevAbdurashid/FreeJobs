@@ -1,3 +1,4 @@
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:demandium/components/menu_drawer.dart';
 import 'package:demandium/feature/auth/widgets/social_login_widget.dart';
 import 'package:get/get.dart';
@@ -6,7 +7,7 @@ import 'package:demandium/components/web_shadow_wrap.dart';
 import 'package:demandium/core/core_export.dart';
 
 class SignUpScreen extends StatefulWidget {
-   SignUpScreen({Key? key}) : super(key: key);
+   const SignUpScreen({Key? key}) : super(key: key);
 
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
@@ -38,15 +39,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        endDrawer:ResponsiveHelper.isDesktop(context) ? MenuDrawer():null,
-        appBar: ResponsiveHelper.isDesktop(context) ? WebMenuBar() : null,
+        endDrawer:ResponsiveHelper.isDesktop(context) ? const MenuDrawer():null,
+        appBar: ResponsiveHelper.isDesktop(context) ? const WebMenuBar() : null,
       body: GetBuilder<AuthController>(
         init: Get.find<AuthController>(),
         builder: (authController){
           return FooterBaseView(
             child: WebShadowWrap(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_EXTRA_LARGE),
+                padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraLarge),
                 child: Column(
                   children: [
                     Form(
@@ -54,12 +55,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       autovalidateMode: ResponsiveHelper.isDesktop(context) ?AutovalidateMode.onUserInteraction:AutovalidateMode.disabled,
                       child: Column(
                         children: [
-                          SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_MORE_LARGE),
+                          const SizedBox(height: Dimensions.paddingSizeExtraMoreLarge),
                           Image.asset(
                             Images.logo,
-                            width: Dimensions.LOGO_SIZE,
+                            width: Dimensions.logoSize,
                           ),
-                          SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_MORE_LARGE),
+                          const SizedBox(height: Dimensions.paddingSizeExtraMoreLarge),
                           if(ResponsiveHelper.isMobile(context))
                             _firstList(authController),
                           if(ResponsiveHelper.isMobile(context))
@@ -67,27 +68,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
                          if(!ResponsiveHelper.isMobile(context))
                          Row(crossAxisAlignment: CrossAxisAlignment.start,children: [
                             Expanded(child: _firstList(authController),),
-                            SizedBox(width: Dimensions.PADDING_SIZE_LARGE,),
+                            const SizedBox(width: Dimensions.paddingSizeLarge,),
                             Expanded(
                               child: _secondList(authController),
                             ),
                           ]),
                         ]),
                       ),
-                    ConditionCheckBox(),
-                    SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_LARGE),
+                    const ConditionCheckBox(),
+                    const SizedBox(height: Dimensions.paddingSizeExtraLarge),
                     !authController.isLoading! ? CustomButton(
                       buttonText: 'sign_up'.tr,
                       onPressed: authController.acceptTerms
                           ? () => _register(authController)
                           : null,
                     )
-                        : Center(child: CircularProgressIndicator()),
-                    SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
+                        : const Center(child: CircularProgressIndicator()),
+                    const SizedBox(height: Dimensions.paddingSizeDefault),
                     Get.find<SplashController>().configModel.content!.googleSocialLogin.toString() == '1' ||
                         Get.find<SplashController>().configModel.content!.facebookSocialLogin.toString() == '1' ?
-                    SocialLoginWidget():SizedBox(),
-                    SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,),
+                    const SocialLoginWidget(fromPage: RouteHelper.main,):const SizedBox(),
+                    const SizedBox(height: Dimensions.paddingSizeDefault,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -109,7 +110,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(height: Dimensions.PADDING_SIZE_SMALL,),
+                    const SizedBox(height: Dimensions.paddingSizeSmall,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -127,7 +128,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_MORE_LARGE,),
+                    const SizedBox(height: Dimensions.paddingSizeExtraMoreLarge,),
 
 
                   ],
@@ -158,7 +159,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         },
 
       ),
-      SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+      const SizedBox(height: Dimensions.paddingSizeSmall),
 
       CustomTextField(
         title: 'last_name'.tr,
@@ -172,7 +173,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           return FormValidation().isValidLastName(value!);
         },
       ),
-      SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+      const SizedBox(height: Dimensions.paddingSizeSmall),
 
       CustomTextField(
         title: 'email_address'.tr,
@@ -185,18 +186,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
           return GetUtils.isEmail(value!) ? null:'enter_valid_email_address'.tr;
         },
       ),
-      SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+      const SizedBox(height: Dimensions.paddingSizeSmall),
       Row(
         children: [
-          CodePickerWidget(
-
-            onChanged: (CountryCode countryCode) =>
+          CountryCodePicker(
+            onChanged: (countryCode) =>
             authController.countryDialCodeForSignup = countryCode.dialCode!,
             initialSelection: authController.countryDialCodeForSignup,
             favorite: [authController.countryDialCodeForSignup],
             showDropDownButton: true,
             padding: EdgeInsets.zero,
             showFlagMain: true,
+            dialogSize: Size(Dimensions.webMaxWidth/2, Get.height*0.6),
             dialogBackgroundColor: Theme.of(context).cardColor,
             barrierColor: Get.isDarkMode?Colors.black.withOpacity(0.4):null,
             textStyle: ubuntuRegular.copyWith(
@@ -214,7 +215,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           ),
         ],
       ),
-      SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+      const SizedBox(height: Dimensions.paddingSizeSmall),
     ],);
   }
 
@@ -233,7 +234,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         },
         isPassword: true,
       ),
-      SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+      const SizedBox(height: Dimensions.paddingSizeSmall),
 
       CustomTextField(
         title: 'confirm_password'.tr,
@@ -247,7 +248,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           return FormValidation().isValidPassword(value!);
         },
       ),
-      SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+      const SizedBox(height: Dimensions.paddingSizeSmall),
       CustomTextField(
         title: 'referral_code'.tr,
         hintText: 'optional'.tr,
@@ -256,7 +257,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         inputType: TextInputType.text,
         inputAction: TextInputAction.done,
       ),
-      SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+      const SizedBox(height: Dimensions.paddingSizeSmall),
     ],);
   }
 
@@ -265,7 +266,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
       if(authController.passwordController.value.text != authController.confirmPasswordController.value.text){
         customSnackBar('password_and_confirm_does_not_match'.tr);
       }else{
-        authController.registration();
+
+        String numberWithCountryCode = authController.countryDialCodeForSignup + authController.phoneController.value.text;
+        bool isValid = GetPlatform.isWeb ? true : false;
+        if(!GetPlatform.isWeb){
+          try{
+            isValid = await PhoneNumberUtil().validate(numberWithCountryCode);
+          }catch (e){
+            if (kDebugMode) {
+              print("");
+            }
+          }
+        }
+
+        if(isValid){
+          authController.registration();
+        }else{
+          customSnackBar('phone_number_with_valid_country_code'.tr);
+        }
       }
     }
   }

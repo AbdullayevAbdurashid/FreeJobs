@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:demandium/feature/web_landing/model/web_landing_model.dart';
+
 class ConfigModel {
   String? responseCode;
   String? message;
@@ -11,15 +13,15 @@ class ConfigModel {
     responseCode = json['response_code'];
     message = json['message'];
     content =
-    json['content'] != null ? new Content.fromJson(json['content']) : null;
+    json['content'] != null ? Content.fromJson(json['content']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['response_code'] = this.responseCode;
-    data['message'] = this.message;
-    if (this.content != null) {
-      data['content'] = this.content!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['response_code'] = responseCode;
+    data['message'] = message;
+    if (content != null) {
+      data['content'] = content!.toJson();
     }
     return data;
   }
@@ -65,7 +67,16 @@ class Content {
   int? walletStatus;
   int? loyaltyPointStatus;
   int? referEarnStatus;
+  int? biddingStatus;
   String? cookiesText;
+  int? phoneVerification;
+  int? emailVerification;
+  int? directProviderBooking;
+  int? cashAfterService;
+  int? digitalPayment;
+  String? forgetPasswordVerificationMethod;
+  int? resentOtpTime;
+  List<SocialMedia>? socialMedia;
 
   Content(
       {this.businessName,
@@ -104,7 +115,16 @@ class Content {
         this.walletStatus,
         this.loyaltyPointStatus,
         this.referEarnStatus,
-        this.cookiesText
+        this.biddingStatus,
+        this.cookiesText,
+        this.phoneVerification,
+        this.emailVerification,
+        this.directProviderBooking,
+        this.cashAfterService,
+        this.digitalPayment,
+        this.forgetPasswordVerificationMethod,
+        this.socialMedia,
+        this.resentOtpTime
       });
 
   Content.fromJson(Map<String, dynamic> json) {
@@ -125,107 +145,131 @@ class Content {
     refundPolicy = json['refund_policy'];
     aboutUs = json['about_us'];
     country = json['country'];
-    defaultLocation = json['default_location'] != null ? new DefaultLocation.fromJson(json['default_location']) : null;
+    defaultLocation = json['default_location'] != null ?
+    DefaultLocation.fromJson(json['default_location']) : null;
     appUrlAndroid = json['app_url_playstore'];
     appUrlIos = json['app_url_appstore'];
     smsVerification = json['sms_verification'];
     mapApiKey = json['map_api_key'] != null
-        ? new MapApiKey.fromJson(json['map_api_key'])
+        ? MapApiKey.fromJson(json['map_api_key'])
         : null;
     imageBaseUrl = json['image_base_url'];
     paginationLimit = json['pagination_limit'];
     if (json['languages'] != null) {
       languages = <Languages>[];
       json['languages'].forEach((v) {
-        languages!.add(new Languages.fromJson(v));
+        languages!.add(Languages.fromJson(v));
       });
     }
     if (json['currencies'] != null) {
       currencies = <Currencies>[];
       json['currencies'].forEach((v) {
-        currencies!.add(new Currencies.fromJson(v));
+        currencies!.add(Currencies.fromJson(v));
       });
     }
     if (json['countries'] != null) {
       countries = <Countries>[];
       json['countries'].forEach((v) {
-        countries!.add(new Countries.fromJson(v));
+        countries!.add(Countries.fromJson(v));
       });
     }
     timeZones = json['time_zones'].cast<String>();
     userLocationInfo = UserLocationInfo.fromJson(json['user_location_info']);
 
     paymentGateways = json['payment_gateways'].cast<String>();
-    adminDetails = json['admin_details'] != null ? new AdminDetails.fromJson(json['admin_details']) : null;
-    minimumVersion = json['min_versions'] != null ? new MinimumVersion.fromJson(json['min_versions']) : null;
-    footerText = json['footer_text'] != null ? json['footer_text'] : null;
-    googleSocialLogin = json['google_social_login'] != null ? json['google_social_login'] : null;
-    facebookSocialLogin = json['facebook_social_login'] != null ? json['facebook_social_login'] : null;
-    phoneNumberVisibility = json['phone_number_visibility_for_chatting'] != null ? json['phone_number_visibility_for_chatting'] : null;
-    walletStatus = json['wallet_status'] != null ? json['wallet_status'] : null;
-    loyaltyPointStatus = json['loyalty_point_status'] != null ? json['loyalty_point_status'] : null;
-    referEarnStatus = json['referral_earning_status'] != null ? json['referral_earning_status'] : null;
-    cookiesText = json['cookies_text'] != null ? json['cookies_text'] : null;
+    adminDetails = json['admin_details'] != null ? AdminDetails.fromJson(json['admin_details']) : null;
+    minimumVersion = json['min_versions'] != null ? MinimumVersion.fromJson(json['min_versions']) : null;
+    footerText = json['footer_text'];
+    googleSocialLogin = json['google_social_login'];
+    facebookSocialLogin = json['facebook_social_login'];
+    phoneNumberVisibility = json['phone_number_visibility_for_chatting'];
+    walletStatus = json['wallet_status'];
+    loyaltyPointStatus = json['loyalty_point_status'];
+    referEarnStatus = json['referral_earning_status'];
+    biddingStatus = json['bidding_status'];
+    cookiesText = json['cookies_text'];
+    phoneVerification = json['phone_verification'];
+    emailVerification = json['email_verification'];
+    directProviderBooking = json['direct_provider_booking'];
+    cashAfterService = json['cash_after_service'];
+    digitalPayment = json['digital_payment'];
+    forgetPasswordVerificationMethod = json['forget_password_verification_method'];
+    if (json['social_media'] != null) {
+      socialMedia = <SocialMedia>[];
+      json['social_media'].forEach((v) {
+        socialMedia!.add(SocialMedia.fromJson(v));
+      });
+    }
+    resentOtpTime = json['otp_resend_time'];
   }
 
-
-
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['business_name'] = this.businessName;
-    data['logo'] = this.logo;
-    data['provider_self_registration'] = this.providerSelfRegistration;
-    data['country_code'] = this.countryCode;
-    data['business_address'] = this.businessAddress;
-    data['business_phone'] = this.businessPhone;
-    data['business_email'] = this.businessEmail;
-    data['base_url'] = this.baseUrl;
-    data['currency_decimal_point'] = this.currencyDecimalPoint;
-    data['currency_symbol_position'] = this.currencySymbolPosition;
-    data['currency_code'] = this.currencyCode;
-    data['terms_and_conditions'] = this.termsAndConditions;
-    data['privacy_policy'] = this.privacyPolicy;
-    data['cancellation_policy'] = this.cancellationPolicy;
-    data['refund_policy'] = this.refundPolicy;
-    data['about_us'] = this.aboutUs;
-    data['country'] = this.country;
-    if (this.defaultLocation != null) {
-      data['default_location'] = this.defaultLocation!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['business_name'] = businessName;
+    data['logo'] = logo;
+    data['provider_self_registration'] = providerSelfRegistration;
+    data['country_code'] = countryCode;
+    data['business_address'] = businessAddress;
+    data['business_phone'] = businessPhone;
+    data['business_email'] = businessEmail;
+    data['base_url'] = baseUrl;
+    data['currency_decimal_point'] = currencyDecimalPoint;
+    data['currency_symbol_position'] = currencySymbolPosition;
+    data['currency_code'] = currencyCode;
+    data['terms_and_conditions'] = termsAndConditions;
+    data['privacy_policy'] = privacyPolicy;
+    data['cancellation_policy'] = cancellationPolicy;
+    data['refund_policy'] = refundPolicy;
+    data['about_us'] = aboutUs;
+    data['country'] = country;
+    if (defaultLocation != null) {
+      data['default_location'] = defaultLocation!.toJson();
     }
-    data['app_url_playstore'] = this.appUrlAndroid;
-    data['app_url_appstore'] = this.appUrlIos;
-    data['sms_verification'] = this.smsVerification;
-    if (this.mapApiKey != null) {
-      data['map_api_key'] = this.mapApiKey!.toJson();
+    data['app_url_playstore'] = appUrlAndroid;
+    data['app_url_appstore'] = appUrlIos;
+    data['sms_verification'] = smsVerification;
+    if (mapApiKey != null) {
+      data['map_api_key'] = mapApiKey!.toJson();
     }
-    data['image_base_url'] = this.imageBaseUrl;
-    data['pagination_limit'] = this.paginationLimit;
-    if (this.languages != null) {
-      data['languages'] = this.languages!.map((v) => v.toJson()).toList();
+    data['image_base_url'] = imageBaseUrl;
+    data['pagination_limit'] = paginationLimit;
+    if (languages != null) {
+      data['languages'] = languages!.map((v) => v.toJson()).toList();
     }
-    if (this.currencies != null) {
-      data['currencies'] = this.currencies!.map((v) => v.toJson()).toList();
+    if (socialMedia != null) {
+      data['social_media'] = socialMedia!.map((v) => v.toJson()).toList();
     }
-    if (this.countries != null) {
-      data['countries'] = this.countries!.map((v) => v.toJson()).toList();
+    if (currencies != null) {
+      data['currencies'] = currencies!.map((v) => v.toJson()).toList();
     }
-    data['time_zones'] = this.timeZones;
+    if (countries != null) {
+      data['countries'] = countries!.map((v) => v.toJson()).toList();
+    }
+    data['time_zones'] = timeZones;
 
-    data['payment_gateways'] = this.paymentGateways;
-    if (this.adminDetails != null) {
-      data['admin_details'] = this.adminDetails!.toJson();
+    data['payment_gateways'] = paymentGateways;
+    if (adminDetails != null) {
+      data['admin_details'] = adminDetails!.toJson();
     }
-    if (this.minimumVersion != null) {
-      data['min_versions'] = this.minimumVersion!.toJson();
+    if (minimumVersion != null) {
+      data['min_versions'] = minimumVersion!.toJson();
     }
-    data['footer_text'] = this.footerText;
-    data['google_social_login'] = this.googleSocialLogin;
-    data['facebook_social_login'] = this.facebookSocialLogin;
-    data['phone_number_visibility_for_chatting'] = this.phoneNumberVisibility;
-    data['wallet_status'] = this.walletStatus;
-    data['loyalty_point_status'] = this.loyaltyPointStatus;
-    data['referral_earning_status'] = this.referEarnStatus;
-    data['cookies_text'] = this.cookiesText;
+    data['footer_text'] = footerText;
+    data['google_social_login'] = googleSocialLogin;
+    data['facebook_social_login'] = facebookSocialLogin;
+    data['phone_number_visibility_for_chatting'] = phoneNumberVisibility;
+    data['wallet_status'] = walletStatus;
+    data['loyalty_point_status'] = loyaltyPointStatus;
+    data['referral_earning_status'] = referEarnStatus;
+    data['bidding_status'] = biddingStatus;
+    data['cookies_text'] = cookiesText;
+    data['phone_verification'] = phoneVerification;
+    data['email_verification'] = emailVerification;
+    data['direct_provider_booking'] = directProviderBooking;
+    data['cash_after_service'] = cashAfterService;
+    data['digital_payment'] = digitalPayment;
+    data['forget_password_verification_method'] = forgetPasswordVerificationMethod;
+    data['otp_resend_time'] = resentOtpTime;
 
     return data;
   }
@@ -238,14 +282,14 @@ class DefaultLocation {
 
   DefaultLocation.fromJson(Map<String, dynamic> json) {
     location = json['default'] != null ?
-        new Location.fromJson(json['default'])
+        Location.fromJson(json['default'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.location != null){
-      data['default'] = this.location!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (location != null){
+      data['default'] = location!.toJson();
     }
     return data;
   }
@@ -263,9 +307,9 @@ class Location {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['lat'] = this.lat;
-    data['lon'] = this.lon;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['lat'] = lat;
+    data['lon'] = lon;
     return data;
   }
 }
@@ -283,9 +327,9 @@ class MinimumVersion {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['min_version_for_android'] = this.minVersionForAndroid;
-    data['min_version_for_ios'] = this.minVersionForIos;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['min_version_for_android'] = minVersionForAndroid;
+    data['min_version_for_ios'] = minVersionForIos;
     return data;
   }
 }
@@ -316,10 +360,10 @@ class MapApiKey {
     id = json['id'];
     keyName = json['key_name'];
     liveValues = json['live_values'] != null
-        ? new LiveValues.fromJson(json['live_values'])
+        ? LiveValues.fromJson(json['live_values'])
         : null;
     testValues = json['test_values'] != null
-        ? new LiveValues.fromJson(json['test_values'])
+        ? LiveValues.fromJson(json['test_values'])
         : null;
     settingsType = json['settings_type'];
     mode = json['mode'];
@@ -329,20 +373,20 @@ class MapApiKey {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['key_name'] = this.keyName;
-    if (this.liveValues != null) {
-      data['live_values'] = this.liveValues!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['key_name'] = keyName;
+    if (liveValues != null) {
+      data['live_values'] = liveValues!.toJson();
     }
-    if (this.testValues != null) {
-      data['test_values'] = this.testValues!.toJson();
+    if (testValues != null) {
+      data['test_values'] = testValues!.toJson();
     }
-    data['settings_type'] = this.settingsType;
-    data['mode'] = this.mode;
-    data['is_active'] = this.isActive;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    data['settings_type'] = settingsType;
+    data['mode'] = mode;
+    data['is_active'] = isActive;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }
@@ -361,10 +405,10 @@ class LiveValues {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['party_name'] = this.partyName;
-    data['map_api_key_client'] = this.mapApiKeyClient;
-    data['map_api_key_server'] = this.mapApiKeyServer;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['party_name'] = partyName;
+    data['map_api_key_client'] = mapApiKeyClient;
+    data['map_api_key_server'] = mapApiKeyServer;
     return data;
   }
 }
@@ -383,10 +427,10 @@ class Languages {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['code'] = this.code;
-    data['name'] = this.name;
-    data['nativeName'] = this.nativeName;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['code'] = code;
+    data['name'] = name;
+    data['nativeName'] = nativeName;
     return data;
   }
 }
@@ -405,10 +449,10 @@ class Currencies {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['code'] = this.code;
-    data['symbol'] = this.symbol;
-    data['name'] = this.name;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['code'] = code;
+    data['symbol'] = symbol;
+    data['name'] = name;
     return data;
   }
 }
@@ -425,9 +469,9 @@ class Countries {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['code'] = this.code;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['code'] = code;
     return data;
   }
 }
@@ -457,27 +501,27 @@ class Zones {
     if (json['coordinates'] != null) {
       coordinates = <Coordinates>[];
       json['coordinates'].forEach((v) {
-        coordinates!.add(new Coordinates.fromJson(v));
+        coordinates!.add(Coordinates.fromJson(v));
       });
     }
     isActive = json['is_active'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    pivot = json['pivot'] != null ? new Pivot.fromJson(json['pivot']) : null;
+    pivot = json['pivot'] != null ? Pivot.fromJson(json['pivot']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    if (this.coordinates != null) {
-      data['coordinates'] = this.coordinates!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    if (coordinates != null) {
+      data['coordinates'] = coordinates!.map((v) => v.toJson()).toList();
     }
-    data['is_active'] = this.isActive;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    if (this.pivot != null) {
-      data['pivot'] = this.pivot!.toJson();
+    data['is_active'] = isActive;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    if (pivot != null) {
+      data['pivot'] = pivot!.toJson();
     }
     return data;
   }
@@ -495,9 +539,9 @@ class Coordinates {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['lat'] = this.lat;
-    data['lng'] = this.lng;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['lat'] = lat;
+    data['lng'] = lng;
     return data;
   }
 }
@@ -514,9 +558,9 @@ class Pivot {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['category_id'] = this.categoryId;
-    data['zone_id'] = this.zoneId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['category_id'] = categoryId;
+    data['zone_id'] = zoneId;
     return data;
   }
 }
@@ -535,10 +579,10 @@ class Links {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['url'] = this.url;
-    data['label'] = this.label;
-    data['active'] = this.active;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['url'] = url;
+    data['label'] = label;
+    data['active'] = active;
     return data;
   }
 }
@@ -599,22 +643,22 @@ class UserLocationInfo {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ip'] = this.ip;
-    data['countryName'] = this.countryName;
-    data['countryCode'] = this.countryCode;
-    data['regionCode'] = this.regionCode;
-    data['regionName'] = this.regionName;
-    data['cityName'] = this.cityName;
-    data['zipCode'] = this.zipCode;
-    data['isoCode'] = this.isoCode;
-    data['postalCode'] = this.postalCode;
-    data['latitude'] = this.latitude;
-    data['longitude'] = this.longitude;
-    data['metroCode'] = this.metroCode;
-    data['areaCode'] = this.areaCode;
-    data['timezone'] = this.timezone;
-    data['driver'] = this.driver;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ip'] = ip;
+    data['countryName'] = countryName;
+    data['countryCode'] = countryCode;
+    data['regionCode'] = regionCode;
+    data['regionName'] = regionName;
+    data['cityName'] = cityName;
+    data['zipCode'] = zipCode;
+    data['isoCode'] = isoCode;
+    data['postalCode'] = postalCode;
+    data['latitude'] = latitude;
+    data['longitude'] = longitude;
+    data['metroCode'] = metroCode;
+    data['areaCode'] = areaCode;
+    data['timezone'] = timezone;
+    data['driver'] = driver;
     return data;
   }
 }
@@ -650,11 +694,11 @@ class AdminDetails {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['first_name'] = this.firstName;
-    data['last_name'] = this.lastName;
-    data['profile_image'] = this.profileImage;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['first_name'] = firstName;
+    data['last_name'] = lastName;
+    data['profile_image'] = profileImage;
     return data;
   }
 }

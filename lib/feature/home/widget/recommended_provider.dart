@@ -10,18 +10,18 @@ class HomeRecommendProvider extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<ProviderBookingController>(
       builder: (providerBookingController){
-        if(providerBookingController.providerList != null && providerBookingController.providerList!.length == 0){
-          return SizedBox();
-        }else{
+        if(providerBookingController.providerList != null && providerBookingController.providerList!.isEmpty){
+          return const SizedBox();
+        }
+        else{
           if(providerBookingController.providerList != null){
             return Container(
               decoration: BoxDecoration(color: Get.isDarkMode?Theme.of(context).hintColor.withOpacity(0.3) :Theme.of(context).primaryColor.withOpacity(0.1),),
-              margin: EdgeInsets.only(top: Dimensions.PADDING_SIZE_SMALL),
               child: Stack(children: [
                 Image.asset(Images.homeProviderBackground,height: Get.find<LocalizationController>().isLtr? 210:230,width: Get.width,fit: BoxFit.cover,),
                 Column(children: [
                   Padding(
-                    padding: EdgeInsets.fromLTRB(Dimensions.PADDING_SIZE_DEFAULT, Dimensions.PADDING_SIZE_SMALL, Dimensions.PADDING_SIZE_DEFAULT,  Dimensions.PADDING_SIZE_SMALL,),
+                    padding: const EdgeInsets.fromLTRB(Dimensions.paddingSizeDefault, Dimensions.paddingSizeSmall, Dimensions.paddingSizeDefault,  Dimensions.paddingSizeSmall,),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -38,12 +38,12 @@ class HomeRecommendProvider extends StatelessWidget {
                   ),
                   SizedBox(height: ResponsiveHelper.isMobile(context)? 160: 170,
                     child: ListView.builder(
-                      physics: BouncingScrollPhysics(),
+                      physics: const BouncingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
-                      padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL),
+                      padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
                       itemCount: providerBookingController.providerList?.length,
                       itemBuilder: (context, index){
-                        return Padding(padding: const EdgeInsets.only(bottom: Dimensions.PADDING_SIZE_LARGE),
+                        return Padding(padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeLarge),
                           child: SizedBox(
                             width: ResponsiveHelper.isDesktop(context)? Get.width/ 4: ResponsiveHelper.isTab(context)? Get.width/ 2:  Get.width/1.16,
                             child: ProviderItemView(providerData: providerBookingController.providerList![index],),
@@ -56,7 +56,7 @@ class HomeRecommendProvider extends StatelessWidget {
               ),
             );
           }else{
-            return SizedBox();
+            return const SizedBox();
           }
         }
     });

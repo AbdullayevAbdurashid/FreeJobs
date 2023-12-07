@@ -7,7 +7,7 @@ import 'booking_screen_shimmer.dart';
 
 class BookingDetailsSection extends StatelessWidget {
   final String bookingID;
-  BookingDetailsSection({Key? key, required this.bookingID }) : super(key: key);
+  const BookingDetailsSection({Key? key, required this.bookingID }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,30 +16,30 @@ class BookingDetailsSection extends StatelessWidget {
         if(bookingDetailsTabController.bookingDetailsContent != null){
           BookingDetailsContent? bookingDetailsContent =  bookingDetailsTabController.bookingDetailsContent;
             return SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             child: Center(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(height: Dimensions.PADDING_SIZE_EIGHT,),
+                  const SizedBox(height: Dimensions.paddingSizeEight,),
                   BookingInfo(bookingDetailsContent: bookingDetailsContent!, bookingDetailsTabController: bookingDetailsTabController),
                   //Booking Summary
 
 
-                  Gaps.verticalGapOf(Dimensions.PADDING_SIZE_DEFAULT),
+                  Gaps.verticalGapOf(Dimensions.paddingSizeDefault),
                   BookingSummeryWidget(bookingDetailsContent: bookingDetailsContent),
 
 
                   if(bookingDetailsContent.provider != null)
                     ProviderInfo(provider: bookingDetailsContent.provider!),
-                  SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+                  const SizedBox(height: Dimensions.paddingSizeSmall),
 
                   if(bookingDetailsContent.serviceman != null)
                     ServiceManInfo(user: bookingDetailsContent.serviceman!.user!),
-                  SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+                  const SizedBox(height: Dimensions.paddingSizeSmall),
                   bookingDetailsTabController.isCancelling?
-                  Container(child: Center(child: CircularProgressIndicator()),):
+                  const Center(child: CircularProgressIndicator()):
                   bookingDetailsContent.bookingStatus == 'pending' || bookingDetailsContent.bookingStatus == 'accepted'?
                   Align(
                     alignment: Alignment.center,
@@ -62,8 +62,8 @@ class BookingDetailsSection extends StatelessWidget {
                       child: Container(
                           decoration: BoxDecoration(
                               color: Theme.of(context).colorScheme.error.withOpacity(.2),
-                              borderRadius: BorderRadius.all(Radius.circular(Dimensions.RADIUS_LARGE))),
-                          padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT),
+                              borderRadius: const BorderRadius.all(Radius.circular(Dimensions.radiusLarge))),
+                          padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 15),
                             child: Text('cancel'.tr,style: ubuntuRegular.copyWith(
@@ -72,14 +72,14 @@ class BookingDetailsSection extends StatelessWidget {
                           )
                       ),
                     ),
-                  ) : SizedBox(),
-                  SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_LARGE*4),
+                  ) : const SizedBox(),
+                  const SizedBox(height: Dimensions.paddingSizeExtraLarge*4),
                 ],
               ),
             ),
           );
         }else{
-          return SingleChildScrollView(child: BookingScreenShimmer());
+          return const SingleChildScrollView(child: BookingScreenShimmer());
         }
       }),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -88,18 +88,16 @@ class BookingDetailsSection extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Expanded(child: SizedBox()),
+              const Expanded(child: SizedBox()),
               Padding(
                 padding: const EdgeInsets.only(
-                    bottom: Dimensions.PADDING_SIZE_DEFAULT,left: Dimensions.PADDING_SIZE_DEFAULT,right: Dimensions.PADDING_SIZE_DEFAULT),
+                    bottom: Dimensions.paddingSizeDefault,left: Dimensions.paddingSizeDefault,right: Dimensions.paddingSizeDefault),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     FloatingActionButton(
                         hoverColor: Colors.transparent,
                         elevation: 0.0,
-                        child: new Icon(Icons.message_rounded,
-                            color: Theme.of(context).primaryColorLight),
                         backgroundColor: Theme.of(context).colorScheme.primary,
                         onPressed: () {
                           BookingDetailsContent bookingDetailsContent = bookingDetailsController.bookingDetailsContent!;
@@ -126,7 +124,9 @@ class BookingDetailsSection extends StatelessWidget {
                           } else {
                             customSnackBar('provider_or_service_man_assigned'.tr);
                           }
-                        }),
+                        },
+                        child: Icon(Icons.message_rounded,
+                            color: Theme.of(context).primaryColorLight)),
                   ],
                 ),
               ),
@@ -151,7 +151,7 @@ class BookingDetailsSection extends StatelessWidget {
             ],
           );
         }else{
-          return SizedBox();
+          return const SizedBox();
         }
       }),
     );

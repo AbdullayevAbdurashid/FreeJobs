@@ -11,10 +11,10 @@ class OfferScreen extends GetView<ServiceController> {
 
   @override
   Widget build(BuildContext context) {
-    final ScrollController _scrollController = ScrollController();
+    final ScrollController scrollController = ScrollController();
 
     return Scaffold(
-      endDrawer:ResponsiveHelper.isDesktop(context) ? MenuDrawer():null,
+      endDrawer:ResponsiveHelper.isDesktop(context) ? const MenuDrawer():null,
       appBar: CustomAppBar(
         isBackButtonExist: false,
         title: 'offers'.tr,
@@ -25,46 +25,46 @@ class OfferScreen extends GetView<ServiceController> {
         },
         builder: (serviceController){
           if( serviceController.offerBasedServiceList == null){
-            return Center(child: FooterBaseView(child: WebShadowWrap(child: Center(child: CircularProgressIndicator()))));
+            return const Center(child: FooterBaseView(child: WebShadowWrap(child: Center(child: CircularProgressIndicator()))));
           }else{
             List<Service> serviceList = serviceController.offerBasedServiceList!;
               return Stack(
                 children: [
 
                   FooterBaseView(
-                    scrollController: _scrollController,
-                    isCenter: (serviceList.length == 0),
-                    child:serviceList.length > 0 ?  Padding(
-                      padding: const EdgeInsets.only(bottom: Dimensions.PADDING_FOR_CHATTING_BUTTON),
+                    scrollController: scrollController,
+                    isCenter: (serviceList.isEmpty),
+                    child:serviceList.isNotEmpty ?  Padding(
+                      padding: const EdgeInsets.only(bottom: Dimensions.paddingForChattingButton),
                       child: SizedBox(
-                        width: Dimensions.WEB_MAX_WIDTH,
+                        width: Dimensions.webMaxWidth,
                         child: Column(
                           children: [
                             !ResponsiveHelper.isMobile(context)?Padding(
                               padding: EdgeInsets.fromLTRB(
-                                Dimensions.PADDING_SIZE_DEFAULT,
+                                Dimensions.paddingSizeDefault,
                                 Dimensions.fontSizeDefault,
-                                Dimensions.PADDING_SIZE_DEFAULT,
-                                Dimensions.PADDING_SIZE_SMALL,
+                                Dimensions.paddingSizeDefault,
+                                Dimensions.paddingSizeSmall,
                               ),
                               child: TitleWidget(
                                 title: 'current_offers'.tr,
                               ),
-                            ):SizedBox.shrink(),
-                            ResponsiveHelper.isMobile(context)?SizedBox(height: 120,):SizedBox.shrink(),
+                            ):const SizedBox.shrink(),
+                            ResponsiveHelper.isMobile(context)?const SizedBox(height: 120,):const SizedBox.shrink(),
                             PaginatedListView(
-                              scrollController: _scrollController,
+                              scrollController: scrollController,
                               totalSize: serviceController.offerBasedServiceContent != null ? serviceController.offerBasedServiceContent!.total! : null,
                               offset: serviceController.offerBasedServiceContent != null ? serviceController.offerBasedServiceContent!.currentPage != null ? serviceController.offerBasedServiceContent!.currentPage! : null : null,
                               onPaginate: (int offset) async => await serviceController.getOffersList(offset, false),
                               itemView: ServiceViewVertical(
                                 service: serviceList,
                                 padding: EdgeInsets.symmetric(
-                                  horizontal: ResponsiveHelper.isDesktop(context) ? Dimensions.PADDING_SIZE_EXTRA_SMALL : Dimensions.PADDING_SIZE_DEFAULT,
-                                  vertical: ResponsiveHelper.isDesktop(context) ? Dimensions.PADDING_SIZE_EXTRA_SMALL : 0,
+                                  horizontal: ResponsiveHelper.isDesktop(context) ? Dimensions.paddingSizeExtraSmall : Dimensions.paddingSizeDefault,
+                                  vertical: ResponsiveHelper.isDesktop(context) ? Dimensions.paddingSizeExtraSmall : 0,
                                 ),
                                 type: 'others',
-                                noDataType: NoDataType.HOME,
+                                noDataType: NoDataType.home,
                               ),
                             ),
                           ],
@@ -74,11 +74,11 @@ class OfferScreen extends GetView<ServiceController> {
                     WebShadowWrap(
                       child: NoDataScreen(
                         text: "no_offer_found".tr,
-                        type:  NoDataType.OFFERS,
+                        type:  NoDataType.offers,
                       ),
                     ),
                   ),
-                 ResponsiveHelper.isMobile(context) && serviceList.length > 0
+                 ResponsiveHelper.isMobile(context) && serviceList.isNotEmpty
                      ? Align(
                    alignment: Alignment.topCenter,
                    child: Stack(
@@ -104,7 +104,7 @@ class OfferScreen extends GetView<ServiceController> {
                      ],
                    ),
                  )
-                     :SizedBox.shrink(),
+                     :const SizedBox.shrink(),
                 ],
               );
           }

@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:demandium/core/core_export.dart';
 import 'package:get/get.dart';
 
@@ -11,107 +10,105 @@ class RecommendedSearch extends StatefulWidget {
 }
 
 class _RecommendedSearchState extends State<RecommendedSearch> {
-
   @override
   void initState() {
-   Get.find<ServiceController>().getRecommendedSearchList(reload: false);
     super.initState();
+    Get.find<ServiceController>().getRecommendedSearchList();
   }
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ServiceController>(
-        builder: (serviceController){
+      builder: (serviceController){
         return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('recommended_for_you'.tr,style: ubuntuMedium.copyWith(
-                      fontSize: Dimensions.fontSizeLarge,
-                      color: Theme.of(context).colorScheme.primary),),
-                  InkWell(
-                    onTap: (){
-                      serviceController.getRecommendedSearchList();
-                    },
-                    child: Row(
-                      children: [
-                        Text('change'.tr,style: ubuntuMedium.copyWith(
-                          fontSize: Dimensions.fontSizeLarge,
-                          color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.5),
-                        ),),
-                        SizedBox(width: Dimensions.PADDING_SIZE_SMALL,),
-                        Icon(Icons.cached,size: 16,)
-                      ],
-                    ),
-                  )
-                ],
-              ),
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('recommended_for_you'.tr,style: ubuntuMedium.copyWith(
+                    fontSize: Dimensions.fontSizeLarge,
+                    color: Theme.of(context).colorScheme.primary),),
+                InkWell(
+                  onTap: (){
+                    serviceController.getRecommendedSearchList(reload: true);
+                  },
+                  child: Row(
+                    children: [
+                      Text('change'.tr,style: ubuntuMedium.copyWith(
+                        fontSize: Dimensions.fontSizeLarge,
+                        color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.5),
+                      ),),
+                      const SizedBox(width: Dimensions.paddingSizeSmall,),
+                      const Icon(Icons.cached,size: 16,)
+                    ],
+                  ),
+                )
+              ],
+            ),
 
-              SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,),
-              if(serviceController.isLoading)
-                RecommendedSearchShimmer(),
+            const SizedBox(height: Dimensions.paddingSizeDefault,),
 
+           (serviceController.recommendedSearchList!=null)?
+            ListView.builder(
+             shrinkWrap: true,
+             physics: const NeverScrollableScrollPhysics(),
+             itemBuilder: (context,index){
+               return Padding(
+                 padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall),
+                 child: SizedBox(
+                   child: InkWell(
+                     hoverColor: Colors.transparent,
+                     onTap: (){
+                       Get.find<AllSearchController>().searchData(
+                           serviceController.recommendedSearchList?[index].name??''
+                       );
 
-             if(serviceController.recommendedSearchList.length!=0)
-               ListView.builder(
-                   shrinkWrap: true,
-                   physics: NeverScrollableScrollPhysics(),
-                   itemBuilder: (context,index){
-                     return Padding(
-                       padding: EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_SMALL),
-                       child: SizedBox(
-                         child: InkWell(
-                           hoverColor: Colors.transparent,
-                           onTap: (){
-                             Get.find<SearchController>().searchData(
-                                 serviceController.recommendedSearchList[index].name??''
-                             );
-
-                             Get.find<SearchController>().populatedSearchController(
-                                 serviceController.recommendedSearchList[index].name??''
-                             );
-                             Get.find<SearchController>().getSuggestedServicesFromServer();
-                           },
-                           child: Text(
-                             serviceController.recommendedSearchList[index].name??"",
-                             style: ubuntuRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.8)),
-                           ),
-                         ),
-                       ),
-                     );
-                   },itemCount: serviceController.recommendedSearchList.length),
-            ],
-          );
+                       Get.find<AllSearchController>().populatedSearchController(
+                           serviceController.recommendedSearchList?[index].name??''
+                       );
+                     },
+                     child: Text(
+                       serviceController.recommendedSearchList?[index].name??"",
+                       style: ubuntuRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.8)),
+                     ),
+                   ),
+                 ),
+               );
+             },itemCount: serviceController.recommendedSearchList!.length
+           ):const RecommendedSearchShimmer(),
+          ],
+        );
     });
   }
 }
 
 class RecommendedSearchShimmer extends StatelessWidget {
+  const RecommendedSearchShimmer({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: 5,
       shrinkWrap: true,
-      padding: EdgeInsets.only(top: 10),
-      physics: NeverScrollableScrollPhysics(),
+      padding: const EdgeInsets.only(top: 10),
+      physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         return Shimmer(
-          duration: Duration(seconds: 3),
-          interval: Duration(seconds: 5),
+          duration: const Duration(seconds: 3),
+          interval: const Duration(seconds: 5),
           color: Theme.of(context).colorScheme.background,
           colorOpacity: 0,
           enabled: true,
           child: Padding(
-            padding: EdgeInsets.only(bottom: Dimensions.PADDING_SIZE_DEFAULT),
+            padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeDefault),
             child: Padding(
               padding:  EdgeInsets.only(right: Random().nextDouble() * Get.width*0.4),
               child: Container(
                 height: 20,
                 width: double.maxFinite,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(Dimensions.RADIUS_DEFAULT),
+                  borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
                   color: Theme.of(context).shadowColor,
                 ),
               ),

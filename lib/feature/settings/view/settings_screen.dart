@@ -6,7 +6,7 @@ import 'package:demandium/core/core_export.dart';
 
 class SettingScreen extends StatelessWidget {
 
-   SettingScreen({Key? key}) : super(key: key);
+   const SettingScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class SettingScreen extends StatelessWidget {
         decoration: BoxDecoration(
             color: Theme.of(context).cardColor,
             boxShadow:Get.isDarkMode ? null: cardShadow,
-            borderRadius: BorderRadius.all(Radius.circular(Dimensions.RADIUS_SMALL))
+            borderRadius: const BorderRadius.all(Radius.circular(Dimensions.radiusSmall))
         ),
         child: Center(
           child: Column(
@@ -30,7 +30,7 @@ class SettingScreen extends StatelessWidget {
                   themeController.toggleTheme();
                 });
               }),
-              SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,),
+              const SizedBox(height: Dimensions.paddingSizeDefault,),
               Text(Get.isDarkMode ? "light_mode".tr:"dark_mode".tr ,style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeLarge),),
             ],
           ),
@@ -39,9 +39,9 @@ class SettingScreen extends StatelessWidget {
         decoration: BoxDecoration(
             color: Theme.of(context).cardColor,
             boxShadow:Get.isDarkMode ? null: cardShadow,
-            borderRadius: BorderRadius.all(Radius.circular(Dimensions.RADIUS_SMALL))
+            borderRadius: const BorderRadius.all(Radius.circular(Dimensions.radiusSmall))
         ),
-        padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT),
+        padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -54,7 +54,7 @@ class SettingScreen extends StatelessWidget {
                   authController.toggleNotificationSound();
                 });
               }),
-              SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,),
+              const SizedBox(height: Dimensions.paddingSizeDefault,),
               Text(
                 'notification_sound'.tr,
                 style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeLarge),
@@ -75,23 +75,23 @@ class SettingScreen extends StatelessWidget {
               decoration: BoxDecoration(
                   color: Theme.of(context).cardColor,
                   boxShadow:Get.isDarkMode ? null: cardShadow,
-                  borderRadius: BorderRadius.all(Radius.circular(Dimensions.RADIUS_SMALL))
+                  borderRadius: const BorderRadius.all(Radius.circular(Dimensions.radiusSmall))
               ),
               child: Center(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Image.asset(Images.translate,width: 40,height: 40,),
-                    SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,),
+                    const SizedBox(height: Dimensions.paddingSizeDefault,),
                     Text('language'.tr,style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeLarge),),
                   ],
                 ),
               ),),
             Padding(
-              padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
+              padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
               child: Image.asset(Images.editPen,
-                width: Dimensions.EDIT_ICON_SIZE,
-                height: Dimensions.EDIT_ICON_SIZE,
+                width: Dimensions.editIconSize,
+                height: Dimensions.editIconSize,
               ),
             ),
           ],
@@ -100,7 +100,7 @@ class SettingScreen extends StatelessWidget {
     ];
 
     return Scaffold(
-      endDrawer:ResponsiveHelper.isDesktop(context) ? MenuDrawer():null,
+      endDrawer:ResponsiveHelper.isDesktop(context) ? const MenuDrawer():null,
       appBar: CustomAppBar(
         isBackButtonExist: true,
         bgColor: Theme.of(context).primaryColor, title: 'settings'.tr,),
@@ -109,19 +109,19 @@ class SettingScreen extends StatelessWidget {
         isScrollView:true,
         //isCenter:false,
         child: SizedBox(
-          width: Dimensions.WEB_MAX_WIDTH,
+          width: Dimensions.webMaxWidth,
           child: GridView.builder(
             shrinkWrap: true,
             key: UniqueKey(),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisSpacing: Dimensions.PADDING_SIZE_LARGE ,
-              mainAxisSpacing: ResponsiveHelper.isDesktop(context) ? Dimensions.PADDING_SIZE_LARGE : Dimensions.PADDING_SIZE_LARGE ,
+              crossAxisSpacing: Dimensions.paddingSizeLarge ,
+              mainAxisSpacing: ResponsiveHelper.isDesktop(context) ? Dimensions.paddingSizeLarge : Dimensions.paddingSizeLarge ,
               childAspectRatio: 1,
               crossAxisCount: ResponsiveHelper.isDesktop(context) ? 4 : ResponsiveHelper.isTab(context) ? 3 : 2,
             ),
-            physics:  NeverScrollableScrollPhysics(),
+            physics:  const NeverScrollableScrollPhysics(),
             itemCount: settingsItems.length,
-            padding: EdgeInsets.only(top: 50 ,right: Dimensions.PADDING_SIZE_DEFAULT,left: Dimensions.PADDING_SIZE_DEFAULT,bottom: Dimensions.PADDING_SIZE_DEFAULT),
+            padding: const EdgeInsets.only(top: 50 ,right: Dimensions.paddingSizeDefault,left: Dimensions.paddingSizeDefault,bottom: Dimensions.paddingSizeDefault),
             itemBuilder: (context, index) {
               return settingsItems.elementAt(index);
             },

@@ -14,7 +14,7 @@ class ConversationScreen extends StatefulWidget {
   final String bookingID;
   final String userType;
 
-  ConversationScreen({
+  const ConversationScreen({super.key, 
     required this.name,
     required this.image,
     required this.channelID,
@@ -29,7 +29,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      endDrawer:ResponsiveHelper.isDesktop(context) ? MenuDrawer():null,
+      endDrawer:ResponsiveHelper.isDesktop(context) ? const MenuDrawer():null,
       appBar:ResponsiveHelper.isWeb() ? CustomAppBar(title:"${widget.name}\n+${widget.phone}",): AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios,color:Theme.of(context).primaryColorLight),
@@ -57,7 +57,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
               ),
             ),
           ),
-          SizedBox(width: Dimensions.PADDING_SIZE_SMALL,)
+          const SizedBox(width: Dimensions.paddingSizeSmall,)
         ],
       ),
 
@@ -76,13 +76,13 @@ class _ConversationScreenState extends State<ConversationScreen> {
                   String customerID = Get.find<UserController>().userInfoModel.id?? '';
                   return Container(
                     height:(!ResponsiveHelper.isTab(context) && !ResponsiveHelper.isMobile(context) && ResponsiveHelper.isWeb()) ? 500 : null,
-                    padding: EdgeInsets.all(Dimensions.PADDING_SIZE_EIGHT),
+                    padding: const EdgeInsets.all(Dimensions.paddingSizeEight),
                     decoration: BoxDecoration(
                       color: Theme.of(context).cardColor,
                     ),
                     child: Column(
                       children: [
-                        SizedBox(height: Dimensions.PADDING_SIZE_SMALL,),
+                        const SizedBox(height: Dimensions.paddingSizeSmall,),
                         if(ResponsiveHelper.isWeb() && !ResponsiveHelper.isMobile(context) && !ResponsiveHelper.isTab(context))
                         Text(widget.name,
                           style: ubuntuMedium.copyWith(
@@ -91,17 +91,17 @@ class _ConversationScreenState extends State<ConversationScreen> {
                           textDirection: TextDirection.ltr,
                         ),
                         if(ResponsiveHelper.isWeb() && !ResponsiveHelper.isMobile(context) && !ResponsiveHelper.isTab(context))
-                          SizedBox(height: Dimensions.PADDING_SIZE_SMALL,),
+                          const SizedBox(height: Dimensions.paddingSizeSmall,),
                         if(ResponsiveHelper.isWeb() && !ResponsiveHelper.isMobile(context) && !ResponsiveHelper.isTab(context))
-                          Text("${widget.userType=="provider"
-                              && Get.find<SplashController>().configModel.content?.phoneNumberVisibility==0?"":"+${widget.phone}"}",
+                          Text(widget.userType=="provider"
+                              && Get.find<SplashController>().configModel.content?.phoneNumberVisibility==0?"":"+${widget.phone}",
                           style: ubuntuMedium.copyWith(
                               fontSize: Dimensions.fontSizeSmall,
                               color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.5)),
                           textDirection: TextDirection.ltr,
                         ),
                         Expanded(
-                          child:conversationList.length>0 ?
+                          child:conversationList.isNotEmpty ?
                           ListView.builder(
                               itemCount:  conversationList.length,
                               reverse: true,
@@ -116,8 +116,8 @@ class _ConversationScreenState extends State<ConversationScreen> {
                         ),
                         Column(
                           children: [
-                            conversationController.pickedImageFile != null && conversationController.pickedImageFile!.length > 0 ?
-                            Container(
+                            conversationController.pickedImageFile != null && conversationController.pickedImageFile!.isNotEmpty ?
+                            SizedBox(
                               height: 90,
                               width: Get.width,
                               child: ListView.builder(
@@ -127,7 +127,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                                     Padding(padding: const EdgeInsets.only(left: 8),
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(10),
-                                        child: Container(
+                                        child: SizedBox(
                                           height: 80,
                                           width: 80,
                                           child:ResponsiveHelper.isWeb() ? Image.network(
@@ -143,7 +143,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                                     Positioned(
                                       right: 0,
                                       child: InkWell(
-                                        child: Icon(Icons.cancel_outlined, color: Colors.red),
+                                        child: const Icon(Icons.cancel_outlined, color: Colors.red),
                                         onTap: () {
                                           conversationController.pickMultipleImage(true,index: index);
                                         },
@@ -155,7 +155,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                                 itemCount: conversationController.pickedImageFile!.length,
                               ),
                             ) :
-                            SizedBox(),
+                            const SizedBox(),
                             conversationController.otherFile != null ?
                             Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -163,10 +163,10 @@ class _ConversationScreenState extends State<ConversationScreen> {
                                 alignment: Alignment.centerRight,
                                 children: [
                                   Container(
-                                      padding: EdgeInsets.symmetric(horizontal: 25),
+                                      padding: const EdgeInsets.symmetric(horizontal: 25),
                                       child: Center(child: Text(conversationController.otherFile!.names.elementAt(0).toString()))),
                                   InkWell(
-                                    child: Icon(Icons.cancel_outlined, color: Colors.red),
+                                    child: const Icon(Icons.cancel_outlined, color: Colors.red),
                                     onTap: () {
                                       conversationController.pickOtherFile(true);
                                     },
@@ -174,21 +174,21 @@ class _ConversationScreenState extends State<ConversationScreen> {
                                 ],
                               ),
                             ):
-                            SizedBox(),
+                            const SizedBox(),
                             Container(
-                              margin: EdgeInsets.only(
-                                  left: Dimensions.PADDING_SIZE_SMALL,
-                                  right: Dimensions.PADDING_SIZE_SMALL,
-                                  bottom: Dimensions.PADDING_SIZE_SMALL),
+                              margin: const EdgeInsets.only(
+                                  left: Dimensions.paddingSizeSmall,
+                                  right: Dimensions.paddingSizeSmall,
+                                  bottom: Dimensions.paddingSizeSmall),
                               decoration: BoxDecoration(
                                   border: Border.all(color: Colors.grey.withOpacity(0.5)),
                                   boxShadow: Get.isDarkMode?null:shadow,
                                   color: Theme.of(context).cardColor,
-                                  borderRadius: BorderRadius.all(Radius.circular(Dimensions.RADIUS_EXTRA_LARGE))),
+                                  borderRadius: const BorderRadius.all(Radius.circular(Dimensions.radiusExtraLarge))),
                               child: Form(
                                 key: conversationController.conversationKey,
                                 child: Row(children: [
-                                  SizedBox(width: Dimensions.PADDING_SIZE_DEFAULT),
+                                  const SizedBox(width: Dimensions.paddingSizeDefault),
                                   Expanded(
                                     child: TextField(
                                       controller: conversationController.conversationController,
@@ -206,7 +206,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                                   Row(
                                     children: [
                                       Padding(
-                                        padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL),
+                                        padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
                                         child: InkWell(
                                           child: Image.asset(
                                             Images.image,
@@ -227,9 +227,9 @@ class _ConversationScreenState extends State<ConversationScreen> {
                                         onTap: () => conversationController.pickOtherFile(false),
                                       ),
                                       conversationController.isLoading! ?
-                                      Container(padding: EdgeInsets.symmetric(horizontal: 10),
+                                      Container(padding: const EdgeInsets.symmetric(horizontal: 10),
                                           height: 20, width: 40,
-                                          child: Center(child: CircularProgressIndicator())) :
+                                          child: const Center(child: CircularProgressIndicator())) :
                                       InkWell(
                                         onTap: (){
                                           if(conversationController.conversationController.text.isEmpty
@@ -242,7 +242,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                                           }
                                           conversationController.conversationController.clear();
                                         },
-                                        child: Padding(padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL),
+                                        child: Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
                                             child:Image.asset(Images.sendMessage, width: 25, height: 25, color: Colors.lightBlueAccent)
                                         ),
                                       ),
@@ -257,9 +257,9 @@ class _ConversationScreenState extends State<ConversationScreen> {
                     ),
                   );
                 }else{
-                  return Container(
+                  return SizedBox(
                       height: ResponsiveHelper.isWeb() ? 500 : null,
-                      child: ChattingShimmer());
+                      child: const ChattingShimmer());
                 }
               }),
         ),

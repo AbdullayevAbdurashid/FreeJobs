@@ -17,7 +17,7 @@ class ProviderBookingController extends GetxController implements GetxService {
     getCategoryList();
   }
 
-  bool _isLoading = false;
+  final bool _isLoading = false;
   get isLoading => _isLoading;
 
   ProviderModel? _providerModel;
@@ -80,20 +80,20 @@ class ProviderBookingController extends GetxController implements GetxService {
         _providerDetailsContent = ProviderDetails.fromJson(response.body).content;
 
         if(_providerDetailsContent!.subCategories!=null || _providerDetailsContent!.subCategories!.isNotEmpty){
-          _providerDetailsContent!.subCategories!.forEach((subcategory) {
+          for (var subcategory in _providerDetailsContent!.subCategories!) {
             List<Service> serviceList = [];
             if(subcategory.services!.isNotEmpty){
               subcategory.services?.forEach((service) {
                   serviceList.add(service);
               });
 
-              if(serviceList.length>0){
+              if(serviceList.isNotEmpty){
                 categoryItemList.add(CategoryModelItem(
                   title: subcategory.name!, serviceList: serviceList,
                 ));
               }
             }
-          });
+          }
         }
       } else {
         ApiChecker.checkApi(response);
@@ -122,11 +122,11 @@ class ProviderBookingController extends GetxController implements GetxService {
       categoryList = [];
       categoryCheckList = [];
 
-      List<dynamic> _serviceCategoryList = response.body['content']['data'];
-      _serviceCategoryList.forEach((category) {
+      List<dynamic> serviceCategoryList = response.body['content']['data'];
+      for (var category in serviceCategoryList) {
         categoryList.add(CategoryModel.fromJson(category));
         categoryCheckList.add(false);
-      });
+      }
     }
     else {
       ApiChecker.checkApi(response);
@@ -158,7 +158,7 @@ class ProviderBookingController extends GetxController implements GetxService {
       }
     }
     update();
-    print(selectedCategoryId.toString());
+
   }
 
   resetProviderFilterData({bool shouldUpdate= false}){
@@ -166,9 +166,12 @@ class ProviderBookingController extends GetxController implements GetxService {
     selectedRatingIndex=0;
     selectedRatingIndex = 0;
 
-    categoryList.forEach((element) {
+    for (var element in categoryList) {
       categoryCheckList.add(false);
-    });
+      if (kDebugMode) {
+        print(element.name);
+      }
+    }
     if(shouldUpdate){
       update();
     }

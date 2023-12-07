@@ -9,7 +9,7 @@ class ApplyVoucher extends StatelessWidget {
     return Container(
       //height: 50,
       width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_DEFAULT),
+      padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault),
       decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
           boxShadow: cardShadow),
@@ -20,9 +20,9 @@ class ApplyVoucher extends StatelessWidget {
           },
           child: Row(
             children: [
-              const SizedBox(width: Dimensions.PADDING_SIZE_LARGE),
+              const SizedBox(width: Dimensions.paddingSizeLarge),
               Image.asset(Images.couponLogo,height: 30,),
-              const SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
+              const SizedBox(width: Dimensions.paddingSizeSmall),
               Text('apply_a_voucher'.tr,style: ubuntuMedium.copyWith(color:Get.isDarkMode? Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6):Theme.of(context).primaryColor),
               )
             ],

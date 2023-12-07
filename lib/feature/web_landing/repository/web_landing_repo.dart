@@ -8,7 +8,7 @@ class WebLandingRepo {
   WebLandingRepo({required this.apiClient});
 
   Future<Response> getWebLandingContents() async {
-    return await apiClient.getData('${AppConstants.WEB_LANDING_CONTENTS}',headers: AppConstants.configHeader);
+    return await apiClient.getData(AppConstants.webLandingContents,headers: AppConstants.configHeader);
   }
 
 }

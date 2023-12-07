@@ -1,13 +1,15 @@
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:demandium/core/core_export.dart';
 
-const kLOG_TAG = "[demandium]";
-const kLOG_ENABLE = true;
+const kLogTag = "[demandium]";
+const kLogEnable = true;
 DateTime? loginClickTime;
 
 printLog(dynamic data) {
-  if (kLOG_ENABLE) {
-    print("$kLOG_TAG${data.toString()}");
+  if (kLogEnable) {
+    if (kDebugMode) {
+      print("$kLogTag${data.toString()}");
+    }
   }
 }
 

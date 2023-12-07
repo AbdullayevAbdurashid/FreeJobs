@@ -48,21 +48,21 @@ class VoucherModel {
   }
 
   Map<String?, dynamic> toJson() {
-    final Map<String?, dynamic> data = new Map<String?, dynamic>();
-    data['id'] = this.id;
-    data['title'] = this.title;
-    data['code'] = this.code;
-    data['start_date'] = this.startDate;
-    data['expire_date'] = this.expireDate;
-    data['min_purchase'] = this.minPurchase;
-    data['max_discount'] = this.maxDiscount;
-    data['discount'] = this.discount;
-    data['discount_type'] = this.discountType;
-    data['coupon_type'] = this.couponType;
-    data['limit'] = this.limit;
+    final Map<String?, dynamic> data = <String?, dynamic>{};
+    data['id'] = id;
+    data['title'] = title;
+    data['code'] = code;
+    data['start_date'] = startDate;
+    data['expire_date'] = expireDate;
+    data['min_purchase'] = minPurchase;
+    data['max_discount'] = maxDiscount;
+    data['discount'] = discount;
+    data['discount_type'] = discountType;
+    data['coupon_type'] = couponType;
+    data['limit'] = limit;
     data['data'] = this.data;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }

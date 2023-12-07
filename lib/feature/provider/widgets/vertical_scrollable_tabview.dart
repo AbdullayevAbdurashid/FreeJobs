@@ -26,7 +26,7 @@ class VerticalScrollableTabView extends StatefulWidget {
 
   final List<Widget> _slivers;
 
-  VerticalScrollableTabView({
+  const VerticalScrollableTabView({super.key, 
     required TabController tabController,
     required List<dynamic> listItemData,
     required Widget Function(dynamic aaa, int index) eachItemChild,
@@ -41,10 +41,10 @@ class VerticalScrollableTabView extends StatefulWidget {
         _slivers = slivers;
 
   @override
-  _VerticalScrollableTabViewState createState() => _VerticalScrollableTabViewState();
+  VerticalScrollableTabViewState createState() => VerticalScrollableTabViewState();
 }
 
-class _VerticalScrollableTabViewState extends State<VerticalScrollableTabView> with SingleTickerProviderStateMixin {
+class VerticalScrollableTabViewState extends State<VerticalScrollableTabView> with SingleTickerProviderStateMixin {
 
   late AutoScrollController scrollController;
 
@@ -78,13 +78,13 @@ class _VerticalScrollableTabViewState extends State<VerticalScrollableTabView> w
       key: listViewKey,
 
       child: NotificationListener<ScrollNotification>(
+        onNotification: onScrollNotification,
         child: CustomScrollView(
           shrinkWrap: true,
           //physics: NeverScrollableScrollPhysics(),
           controller: scrollController,
           slivers: [...widget._slivers, buildVerticalSliverList()],
         ),
-        onNotification: onScrollNotification,
       ),
     );
   }

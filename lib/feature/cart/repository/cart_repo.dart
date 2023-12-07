@@ -10,54 +10,55 @@ class CartRepo{
 
   List<CartModel> getCartList() {
     List<String> carts = [];
-    if(sharedPreferences.containsKey(AppConstants.CART_LIST)) {
-      carts = sharedPreferences.getStringList(AppConstants.CART_LIST)!;
+    if(sharedPreferences.containsKey(AppConstants.cartList)) {
+      carts = sharedPreferences.getStringList(AppConstants.cartList)!;
     }
     List<CartModel> cartList = [];
-    carts.forEach((cart) => cartList.add(CartModel.fromJson(jsonDecode(cart))) );
+    for (var cart in carts) {
+      cartList.add(CartModel.fromJson(jsonDecode(cart)));
+    }
     return cartList;
   }
 
   void addToCartList(List<CartModel> cartProductList) {
     List<String> carts = [];
-    cartProductList.forEach((cartModel) => carts.add(jsonEncode(cartModel)) );
-    cartProductList.forEach((element) {
-      print(element.id);
-    });
+    for (var cartModel in cartProductList) {
+      carts.add(jsonEncode(cartModel));
+    }
 
-    sharedPreferences.setStringList(AppConstants.CART_LIST, carts);
+
+    sharedPreferences.setStringList(AppConstants.cartList, carts);
   }
 
   Future<Response> addToCartListToServer(CartModelBody cartModel) async {
-    return await apiClient.postData(AppConstants.ADD_TO_CART, cartModel.toJson());
+    return await apiClient.postData(AppConstants.addToCart, cartModel.toJson());
   }
 
   Future<Response> getCartListFromServer() async {
-    return await apiClient.getData(AppConstants.GET_CART_LIST);
+    return await apiClient.getData(AppConstants.getCartList);
   }
 
   Future<Response> removeCartFromServer(String cartID) async {
-    return await apiClient.deleteData(AppConstants.REMOVE_CART_ITEM + "$cartID");
+    return await apiClient.deleteData("${AppConstants.removeCartItem}$cartID");
   }
 
   Future<Response> removeAllCartFromServer() async {
-    return await apiClient.deleteData(AppConstants.REMOVE_ALL_CART_ITEM);
+    return await apiClient.deleteData(AppConstants.removeAllCartItem);
   }
 
   Future<Response> updateCartQuantity(String cartID, int quantity)async{
-    print("cart_id: $cartID");
-    return await apiClient.putData(AppConstants.UPDATE_CART_QUANTITY+ "$cartID", { 'quantity': quantity});
+    return await apiClient.putData("${AppConstants.updateCartQuantity}$cartID", { 'quantity': quantity});
   }
 
   Future<Response> updateProvider(String providerId)async{
-    return await apiClient.postData(AppConstants.UPDATE_CART_PROVIDER,
+    return await apiClient.postData(AppConstants.updateCartProvider,
       { 'provider_id': providerId,
         "_method":"put"
       });
   }
 
   Future<Response> getProviderBasedOnSubcategory(String subcategoryId) async {
-    return await apiClient.getData(AppConstants.GET_PROVIDER_BASED_ON_SUBCATEGORY+"?sub_category_id=$subcategoryId");
+    return await apiClient.getData("${AppConstants.getProviderBasedOnSubcategory}?sub_category_id=$subcategoryId");
   }
 
 }

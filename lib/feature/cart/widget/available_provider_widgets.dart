@@ -5,7 +5,7 @@ import 'package:demandium/core/core_export.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
 
 class AvailableProviderWidget extends StatefulWidget {
-  AvailableProviderWidget();
+  const AvailableProviderWidget({super.key});
   @override
   State<AvailableProviderWidget> createState() => _ProductBottomSheetState();
 }
@@ -21,46 +21,47 @@ class _ProductBottomSheetState extends State<AvailableProviderWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if(ResponsiveHelper.isDesktop(context))
+    if(ResponsiveHelper.isDesktop(context)) {
       return  Dialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimensions.RADIUS_EXTRA_LARGE)),
-        insetPadding: EdgeInsets.all(30),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge)),
+        insetPadding: const EdgeInsets.all(30),
         clipBehavior: Clip.antiAliasWithSaveLayer,
         child: pointerInterceptor(),
       );
+    }
     return pointerInterceptor();
   }
 
   pointerInterceptor(){
     return Padding(
-      padding: EdgeInsets.only(top: ResponsiveHelper.isWeb()? 0 :Dimensions.CART_DIALOG_PADDING),
+      padding: EdgeInsets.only(top: ResponsiveHelper.isWeb()? 0 :Dimensions.cartDialogPadding),
       child: PointerInterceptor(
         child: Container(
-          width:ResponsiveHelper.isDesktop(context)? Dimensions.WEB_MAX_WIDTH/2:Dimensions.WEB_MAX_WIDTH,
-          padding: EdgeInsets.only(top: Dimensions.PADDING_SIZE_LARGE),
+          width:ResponsiveHelper.isDesktop(context)? Dimensions.webMaxWidth/2:Dimensions.webMaxWidth,
+          padding: const EdgeInsets.only(top: Dimensions.paddingSizeLarge),
           decoration: BoxDecoration(
             color: Theme.of(context).cardColor,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(Dimensions.RADIUS_EXTRA_LARGE)),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(Dimensions.radiusExtraLarge)),
           ),
           child:  GetBuilder<CartController>(builder: (cartControllerInit) {
             List<ProviderData> providerList = cartControllerInit.providerList??[];
             return GetBuilder<ServiceController>(builder: (serviceController) {
-              if(1==1)
-              return Stack(children: [
-                Padding(padding: EdgeInsets.only(right: Dimensions.PADDING_SIZE_DEFAULT, left:  Dimensions.PADDING_SIZE_DEFAULT, top:  80,),
+              if(1==1) {
+                return Stack(children: [
+                Padding(padding: const EdgeInsets.only(right: Dimensions.paddingSizeDefault, left:  Dimensions.paddingSizeDefault, top:  80,),
                   child: SingleChildScrollView(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Padding(padding: EdgeInsets.only(top: ResponsiveHelper.isDesktop(context) ? 0 : Dimensions.PADDING_SIZE_DEFAULT,
-                            bottom:  Dimensions.PADDING_SIZE_EXTRA_MORE_LARGE,
+                        Padding(padding: EdgeInsets.only(top: ResponsiveHelper.isDesktop(context) ? 0 : Dimensions.paddingSizeDefault,
+                            bottom:  Dimensions.paddingSizeExtraMoreLarge,
                           ),
                           child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
+                                const SizedBox(height: Dimensions.paddingSizeLarge),
                                 Stack(
                                   children: [
                                     GestureDetector(
@@ -70,18 +71,18 @@ class _ProductBottomSheetState extends State<AvailableProviderWidget> {
                                         },
                                       child: Container(
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                                          borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                                           border: Border.all(color: Theme.of(context).primaryColor.withOpacity(0.5),width: 0.5),
                                           color: Theme.of(context).primaryColor.withOpacity(0.1),
                                         ),
-                                        padding: EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
-                                        margin: EdgeInsets.only(bottom: Dimensions.PADDING_SIZE_SMALL),
+                                        padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
+                                        margin: const EdgeInsets.only(bottom: Dimensions.paddingSizeSmall),
                                         child: Row(children: [
-                                          ClipRRect( borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                                          ClipRRect( borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                                             child: Image.asset(Images.providerImage,height: 50,width: 50,),
                                           ),
-                                          SizedBox(width: Dimensions.PADDING_SIZE_DEFAULT,),
-                                          Text('${'let'.tr} ${AppConstants.APP_NAME} ${'choose_for_you'.tr}'.tr,style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeLarge),),
+                                          const SizedBox(width: Dimensions.paddingSizeDefault,),
+                                          Text('${'let'.tr} ${AppConstants.appName} ${'choose_for_you'.tr}'.tr,style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeLarge),),
                                         ]),
                                       ),
                                     ),
@@ -95,16 +96,16 @@ class _ProductBottomSheetState extends State<AvailableProviderWidget> {
                                   ],
                                 ),
 
-                                SizedBox(height: Dimensions.PADDING_SIZE_SMALL,),
+                                const SizedBox(height: Dimensions.paddingSizeSmall,),
                                 ListView.builder(
                                     shrinkWrap: true,
-                                    padding: EdgeInsets.only(bottom: Dimensions.PADDING_SIZE_EXTRA_LARGE,),
-                                    physics: NeverScrollableScrollPhysics(),
+                                    padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeExtraLarge,),
+                                    physics: const NeverScrollableScrollPhysics(),
                                     itemCount: providerList.length,
                                     itemBuilder: (context, index) {
                                       return ProviderCartItemView(providerData: providerList[index],index: index,);
                                  }),
-                                SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
+                                const SizedBox(height: Dimensions.paddingSizeLarge),
                            ]),
                         ),
                       ]
@@ -112,14 +113,14 @@ class _ProductBottomSheetState extends State<AvailableProviderWidget> {
                   ),
                 ),
                 Positioned(child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT),
+                  padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
                   child: Column(mainAxisSize: MainAxisSize.min, children: [
                       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                        SizedBox(width: Dimensions.PADDING_SIZE_LARGE,),
+                        const SizedBox(width: Dimensions.paddingSizeLarge,),
                         ClipRRect(
-                          borderRadius: BorderRadius.all(Radius.circular(Dimensions.PADDING_SIZE_DEFAULT)),
+                          borderRadius: const BorderRadius.all(Radius.circular(Dimensions.paddingSizeDefault)),
                           child: Hero(tag: "provider_image",
                             child: Image.asset(Images.providerImage,width: 50,height: 50,),
                           ),
@@ -135,7 +136,7 @@ class _ProductBottomSheetState extends State<AvailableProviderWidget> {
                           ),
                           child: InkWell(
                               onTap: () => Get.back(),
-                              child: Icon(
+                              child: const Icon(
                                 Icons.close,
                                 color: Colors.black54,
 
@@ -148,14 +149,14 @@ class _ProductBottomSheetState extends State<AvailableProviderWidget> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            SizedBox(height: Dimensions.PADDING_SIZE_EIGHT,),
+                            const SizedBox(height: Dimensions.paddingSizeEight,),
                             Text(
                               "available_providers".tr,
                               style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeDefault),
                               textAlign: TextAlign.center,
                               maxLines: 2,
                             ),
-                            SizedBox(height: Dimensions.PADDING_SIZE_MINI,),
+                            const SizedBox(height: Dimensions.paddingSizeMini,),
                             Text(
                               "${providerList.length} ${'options_available'.tr}",
                               style: ubuntuRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.5)),
@@ -167,11 +168,11 @@ class _ProductBottomSheetState extends State<AvailableProviderWidget> {
                 Positioned(left:0, right: 0, bottom:  0,
                   child:  Container(height: 70, color: Theme.of(context).cardColor,),),
                 Positioned(
-                    left: Dimensions.PADDING_SIZE_DEFAULT,
-                    right: Dimensions.PADDING_SIZE_DEFAULT,
-                    bottom:  Dimensions.PADDING_SIZE_DEFAULT,
+                    left: Dimensions.paddingSizeDefault,
+                    right: Dimensions.paddingSizeDefault,
+                    bottom:  Dimensions.paddingSizeDefault,
                     child:  GetBuilder<CartController>(builder: (cartController) {
-                      return cartController.isLoading ? Center(child: CircularProgressIndicator()) :
+                      return cartController.isLoading ? const Center(child: CircularProgressIndicator()) :
                       CustomButton(
                         height: ResponsiveHelper.isDesktop(context)? 50 : 45,
                         onPressed: () {
@@ -182,6 +183,7 @@ class _ProductBottomSheetState extends State<AvailableProviderWidget> {
                       );
                     }))
               ]);
+              }
               return Stack(
                 children: [
                   Positioned(
@@ -198,10 +200,10 @@ class _ProductBottomSheetState extends State<AvailableProviderWidget> {
                       ),
                       child: InkWell(
                           onTap: () => Get.back(),
-                          child: Icon(Icons.close)),
+                          child: const Icon(Icons.close)),
                     ),
                   ),
-                  Container(
+                  SizedBox(
                       height: Get.height / 7,
                       child: Center(child: Text('no_variation_is_available'.tr,style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeLarge),)))
                 ],

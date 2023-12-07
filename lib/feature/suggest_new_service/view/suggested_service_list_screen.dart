@@ -11,19 +11,19 @@ class SuggestedServiceListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      endDrawer:ResponsiveHelper.isDesktop(context) ? MenuDrawer():null,
+      endDrawer:ResponsiveHelper.isDesktop(context) ? const MenuDrawer():null,
       appBar: CustomAppBar(title: 'service_request_list'.tr),
       body: GetBuilder<SuggestServiceController>(
         initState: (_)=>Get.find<SuggestServiceController>().getSuggestedServiceList(1,reload: true),
         builder: (suggestServiceController){
           return FooterBaseView(
             child: SizedBox(
-              width: Dimensions.WEB_MAX_WIDTH,
+              width: Dimensions.webMaxWidth,
               child:suggestServiceController.suggestedServiceModel!=null?
-              Padding(padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
+              Padding(padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start,mainAxisAlignment: MainAxisAlignment.start,children: [
-                  if(suggestServiceController.suggestedServiceList.length>0)
-                  Padding(padding: const EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                  if(suggestServiceController.suggestedServiceList.isNotEmpty)
+                  Padding(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall),
                     child: Row(
                       children: [
                         Text('${'request'.tr} ',style: ubuntuBold.copyWith(fontSize: Dimensions.fontSizeLarge),),
@@ -33,11 +33,11 @@ class SuggestedServiceListScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  suggestServiceController.suggestedServiceList.length>0?
+                  suggestServiceController.suggestedServiceList.isNotEmpty?
                   ListView.builder(
                     itemCount: suggestServiceController.suggestedServiceList.length,
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context,index){
                       return SuggestServiceItemView(suggestedService:suggestServiceController.suggestedServiceList[index]);
                     },):SizedBox(height: Get.height*0.8, child: Center(child: Text(
@@ -48,7 +48,7 @@ class SuggestedServiceListScreen extends StatelessWidget {
               ):Center(
                 child: SizedBox(
                     height: ResponsiveHelper.isDesktop(context)?100: Get.height*0.85,
-                    child: Center(child: CircularProgressIndicator())),
+                    child: const Center(child: CircularProgressIndicator())),
               ),
             ),
           );

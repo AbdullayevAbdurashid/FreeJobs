@@ -10,15 +10,15 @@ class FeatheredCategoryModel {
   FeatheredCategoryModel.fromJson(Map<String, dynamic> json) {
     responseCode = json['response_code'];
     message = json['message'];
-    content = json['content'] != null ? new FeatheredCategoryContent.fromJson(json['content']) : null;
+    content = json['content'] != null ? FeatheredCategoryContent.fromJson(json['content']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['response_code'] = this.responseCode;
-    data['message'] = this.message;
-    if (this.content != null) {
-      data['content'] = this.content!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['response_code'] = responseCode;
+    data['message'] = message;
+    if (content != null) {
+      data['content'] = content!.toJson();
     }
     return data;
   }
@@ -51,7 +51,7 @@ class FeatheredCategoryContent {
     if (json['data'] != null) {
       categoryList = <CategoryData>[];
       json['data'].forEach((v) {
-        categoryList!.add(new CategoryData.fromJson(v));
+        categoryList!.add(CategoryData.fromJson(v));
       });
     }
     firstPageUrl = json['first_page_url'];
@@ -64,18 +64,18 @@ class FeatheredCategoryContent {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['current_page'] = this.currentPage;
-    if (this.categoryList != null) {
-      data['data'] = this.categoryList!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['current_page'] = currentPage;
+    if (categoryList != null) {
+      data['data'] = categoryList!.map((v) => v.toJson()).toList();
     }
-    data['first_page_url'] = this.firstPageUrl;
-    data['from'] = this.from;
-    data['last_page'] = this.lastPage;
-    data['path'] = this.path;
-    data['per_page'] = this.perPage;
-    data['to'] = this.to;
-    data['total'] = this.total;
+    data['first_page_url'] = firstPageUrl;
+    data['from'] = from;
+    data['last_page'] = lastPage;
+    data['path'] = path;
+    data['per_page'] = perPage;
+    data['to'] = to;
+    data['total'] = total;
     return data;
   }
 }
@@ -124,35 +124,35 @@ class CategoryData {
     if (json['services_by_category'] != null) {
       servicesByCategory = <Service>[];
       json['services_by_category'].forEach((v) {
-        servicesByCategory!.add(new Service.fromJson(v));
+        servicesByCategory!.add(Service.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['parent_id'] = this.parentId;
-    data['name'] = this.name;
-    data['image'] = this.image;
-    data['position'] = this.position;
-    data['description'] = this.description;
-    data['is_active'] = this.isActive;
-    data['is_featured'] = this.isFeatured;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    if (this.servicesByCategory != null) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['parent_id'] = parentId;
+    data['name'] = name;
+    data['image'] = image;
+    data['position'] = position;
+    data['description'] = description;
+    data['is_active'] = isActive;
+    data['is_featured'] = isFeatured;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    if (servicesByCategory != null) {
       data['services_by_category'] =
-          this.servicesByCategory!.map((v) => v.toJson()).toList();
+          servicesByCategory!.map((v) => v.toJson()).toList();
     }
 
-    if (this.categoryDiscount != null) {
+    if (categoryDiscount != null) {
       data['category_discount'] =
-          this.categoryDiscount!.map((v) => v.toJson()).toList();
+          categoryDiscount!.map((v) => v.toJson()).toList();
     }
-    if (this.campaignDiscount != null) {
+    if (campaignDiscount != null) {
       data['campaign_discount'] =
-          this.campaignDiscount!.map((v) => v.toJson()).toList();
+          campaignDiscount!.map((v) => v.toJson()).toList();
     }
     return data;
   }

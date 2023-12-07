@@ -13,8 +13,8 @@ class ServiceOverview extends StatelessWidget {
     return Center(
       child: WebShadowWrap(
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL,vertical: Dimensions.PADDING_SIZE_EIGHT),
-          width: Dimensions.WEB_MAX_WIDTH,
+          padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall,vertical: Dimensions.paddingSizeEight),
+          width: Dimensions.webMaxWidth,
           constraints:  ResponsiveHelper.isDesktop(context) ? BoxConstraints(
             minHeight: !ResponsiveHelper.isDesktop(context) && Get.size.height < 600 ? Get.size.height : Get.size.height - 550,
           ) : null,

@@ -19,9 +19,8 @@ class _SuggestServiceInputFieldState extends State<SuggestServiceInputField> {
 
         TextFieldTitle(title: "service_category".tr,requiredMark: true),
         Container(width: Get.width,
-         // padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_LARGE),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(Dimensions.PADDING_SIZE_SMALL),
+              borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
               border: Border.all(color: Theme.of(context).disabledColor,width: 1)
           ),
           child: DropdownButtonHideUnderline(
@@ -31,7 +30,7 @@ class _SuggestServiceInputFieldState extends State<SuggestServiceInputField> {
                 dropdownColor: Theme.of(context).cardColor,
                 borderRadius: BorderRadius.circular(5), elevation: 2,
 
-                hint: Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_LARGE),
+                hint: Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge),
                   child: Text(suggestedServiceController.selectedCategoryName==''?
                   "select_category".tr:suggestedServiceController.selectedCategoryName,
                     style: ubuntuRegular.copyWith(
@@ -41,8 +40,8 @@ class _SuggestServiceInputFieldState extends State<SuggestServiceInputField> {
                     ),
                   ),
                 ),
-                icon: Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_LARGE),
-                  child: const Icon(Icons.keyboard_arrow_down),
+                icon: const Padding(padding: EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge),
+                  child: Icon(Icons.keyboard_arrow_down),
                 ),
                 items:suggestedServiceController.serviceCategoryList.map((CategoryModel items) {
                   return DropdownMenuItem(

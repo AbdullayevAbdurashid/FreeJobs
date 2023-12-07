@@ -27,28 +27,28 @@ class _BookingScreenState extends State<BookingScreen> {
     final ScrollController bookingScreenScrollController = ScrollController();
 
     return Scaffold(
-        endDrawer:ResponsiveHelper.isDesktop(context) ? MenuDrawer():null,
+        endDrawer:ResponsiveHelper.isDesktop(context) ? const MenuDrawer():null,
         appBar: CustomAppBar(
             isBackButtonExist: widget.isFromMenu? true : false,
             onBackPressed: () => Get.back(),
             title: "my_bookings".tr),
         body: GetBuilder<ServiceBookingController>(
           builder: (serviceBookingController){
-            List<BookingModel>? _bookingList = serviceBookingController.bookingList;
+            List<BookingModel>? bookingList = serviceBookingController.bookingList;
             return _buildBody(
               sliversItems:serviceBookingController.bookingList != null? [
                 if(ResponsiveHelper.isDesktop(context))
-                  SliverToBoxAdapter(child: SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_LARGE,),),
+                  const SliverToBoxAdapter(child: SizedBox(height: Dimensions.paddingSizeExtraLarge,),),
                 SliverPersistentHeader(
                   delegate: ServiceRequestSectionMenu(),
                   pinned: true,
                   floating: false,
                 ),
                 if(ResponsiveHelper.isDesktop(context))
-                  SliverToBoxAdapter(child: SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_LARGE,),),
+                  const SliverToBoxAdapter(child: SizedBox(height: Dimensions.paddingSizeExtraLarge,),),
                 if(ResponsiveHelper.isMobile(context))
-                  SliverToBoxAdapter(child: SizedBox(height: Dimensions.PADDING_SIZE_SMALL,),),
-                if(_bookingList!.length > 0)
+                  const SliverToBoxAdapter(child: SizedBox(height: Dimensions.paddingSizeSmall,),),
+                if(bookingList!.isNotEmpty)
                   SliverToBoxAdapter(
                       child: PaginatedListView(
                         scrollController:  bookingScreenScrollController,
@@ -60,26 +60,25 @@ class _BookingScreenState extends State<BookingScreen> {
                         ),
 
                         offset: serviceBookingController.bookingContent != null ?
-                        serviceBookingController.bookingContent!.currentPage != null ?
-                        serviceBookingController.bookingContent!.currentPage  :null:null,
+                        serviceBookingController.bookingContent!.currentPage:null,
                         itemView: ListView.builder(
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          itemCount: _bookingList.length,
+                          itemCount: bookingList.length,
                           itemBuilder: (context, index) {
-                            return  BookingItemCard(bookingModel: _bookingList.elementAt(index),);
+                            return  BookingItemCard(bookingModel: bookingList.elementAt(index),);
                           },
                         ),
                       )),
-                if(_bookingList.length > 0)
-                  SliverToBoxAdapter(child: SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_MORE_LARGE,),),
-                if(_bookingList.length == 0)
+                if(bookingList.isNotEmpty)
+                  const SliverToBoxAdapter(child: SizedBox(height: Dimensions.paddingSizeExtraMoreLarge,),),
+                if(bookingList.isEmpty)
                   SliverToBoxAdapter(
                       child: Center(
                         child: SizedBox(height: Get.height * 0.7,
                           child: NoDataScreen(
                               text: 'no_booking_request_available'.tr,
-                              type: NoDataType.BOOKING
+                              type: NoDataType.bookings
                           ),
                         ),
                       )
@@ -90,7 +89,7 @@ class _BookingScreenState extends State<BookingScreen> {
                   pinned: true,
                   floating: false,
                 ),
-                SliverToBoxAdapter(child: BookingScreenShimmer())],
+                const SliverToBoxAdapter(child: BookingScreenShimmer())],
               controller: bookingScreenScrollController,
             );
           },
@@ -102,10 +101,10 @@ class _BookingScreenState extends State<BookingScreen> {
         // isCenter: true,
         scrollController: controller,
         child: SizedBox(
-          width: Dimensions.WEB_MAX_WIDTH,
+          width: Dimensions.webMaxWidth,
           child: CustomScrollView(
             shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             controller: controller,
             slivers: sliversItems,
           ),

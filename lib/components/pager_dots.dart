@@ -11,8 +11,8 @@ class PagerDot extends StatelessWidget {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 200),
       margin: const EdgeInsets.only(right: 8),
-      height: Dimensions.PADDING_SIZE_DEFAULT,
-      width: Dimensions.PADDING_SIZE_DEFAULT,
+      height: Dimensions.paddingSizeDefault,
+      width: Dimensions.paddingSizeDefault,
       decoration: BoxDecoration(
         color: currentIndex == index ? Theme.of(context).colorScheme.primary : const Color(0xFFD8D8D8),
         borderRadius: BorderRadius.circular(10),

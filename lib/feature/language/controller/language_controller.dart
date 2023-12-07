@@ -21,17 +21,17 @@ class LanguageController extends GetxController {
     } else {
       _selectIndex = -1;
       _languages = [];
-      AppConstants.languages.forEach((product) async {
+      for (var product in AppConstants.languages) {
         if (product.languageName!.toLowerCase().contains(query.toLowerCase())) {
           _languages.add(product);
         }
-      });
+      }
       update();
     }
   }
 
   void initializeAllLanguages(BuildContext context) {
-    if (_languages.length == 0) {
+    if (_languages.isEmpty) {
       _languages.clear();
       _languages = AppConstants.languages;
     }

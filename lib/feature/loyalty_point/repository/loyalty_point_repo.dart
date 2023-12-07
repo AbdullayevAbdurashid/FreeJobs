@@ -7,10 +7,10 @@ class LoyaltyPointRepo{
   LoyaltyPointRepo({required this.apiClient});
 
   Future<Response> convertLoyaltyPoint(String point) async {
-    return await apiClient.postData(AppConstants.CONVERT_LOYALTY_POINT_TO_WALLET,{"point":point});
+    return await apiClient.postData(AppConstants.convertLoyaltyPointUri,{"point":point});
   }
 
   Future<Response> getLoyaltyPointData(int offset) async {
-    return await apiClient.getData(AppConstants.LOYALTY_POINT_TRANSACTION_DATA+"?limit=10&offset=$offset");
+    return await apiClient.getData("${AppConstants.loyaltyPointTransactionData}?limit=10&offset=$offset");
   }
 }
